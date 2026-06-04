@@ -4,7 +4,12 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, router } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
+
+onMounted(() => {
+    router.replace(`/?drawer=reset-password&token=${props.token}&email=${encodeURIComponent(props.email)}`);
+});
 
 const props = defineProps({
     email: {
