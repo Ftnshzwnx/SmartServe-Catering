@@ -54,7 +54,7 @@ const { t, setLanguage, currentLanguage } = useLocalization();
             <div class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <img src="/img/logo.png" class="h-14 w-auto object-contain" alt="SmartServe Logo" />
+                    <img src="/img/logo.png" class="h-16 w-auto object-contain" alt="SmartServe Logo" />
                 </div>
 
                 <!-- Navigation Links / Auth Actions -->

@@ -153,7 +153,7 @@ function getTranslatedStatus(status) {
                     <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 border-b border-[#EBEFEF] pb-8">
                         <div>
                             <div class="flex items-center mb-2">
-                                <img src="/img/logo.png" class="h-14 w-auto object-contain" alt="SmartServe Logo" />
+                                <img src="/img/logo.png" class="h-16 w-auto object-contain" alt="SmartServe Logo" />
                             </div>
                             <p class="text-[11px] text-[#8C8275] leading-relaxed font-light">
                                 Gong Badak, Kuala Terengganu, Terengganu<br>
