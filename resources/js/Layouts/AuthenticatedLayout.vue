@@ -24,11 +24,8 @@ const { t, setLanguage, currentLanguage } = useLocalization();
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
-                                <Link :href="route('dashboard')" class="flex items-center gap-2.5">
-                                    <span class="w-8 h-8 rounded-full bg-[#4A6B5D] flex items-center justify-center text-white text-xs font-bold">SS</span>
-                                    <span class="text-base font-bold tracking-wider text-[#2D3330] uppercase">
-                                        Smart<span class="text-[#4A6B5D]">Serve</span>
-                                    </span>
+                                <Link :href="route('dashboard')" class="flex items-center">
+                                    <img src="/img/logo.png" class="h-11 w-auto object-contain" alt="SmartServe Logo" />
                                 </Link>
                             </div>
 

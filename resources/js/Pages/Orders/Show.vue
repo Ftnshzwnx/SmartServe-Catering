@@ -152,11 +152,8 @@ function getTranslatedStatus(status) {
                     <!-- Invoice Header Brand -->
                     <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 border-b border-[#EBEFEF] pb-8">
                         <div>
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="w-6 h-6 rounded-full bg-[#4A6B5D] flex items-center justify-center text-white text-[10px] font-bold font-sans-modern">SS</span>
-                                <span class="text-lg font-bold tracking-wider text-[#2D3330] uppercase">
-                                    Smart<span class="text-[#4A6B5D]">Serve</span>
-                                </span>
+                            <div class="flex items-center mb-2">
+                                <img src="/img/logo.png" class="h-14 w-auto object-contain" alt="SmartServe Logo" />
                             </div>
                             <p class="text-[11px] text-[#8C8275] leading-relaxed font-light">
                                 Gong Badak, Kuala Terengganu, Terengganu<br>

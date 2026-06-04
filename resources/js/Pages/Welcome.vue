@@ -53,11 +53,8 @@ const { t, setLanguage, currentLanguage } = useLocalization();
         <nav class="sticky top-0 z-50 w-full border-b border-[#E6E1DA] glass-nav transition-all duration-300 font-sans-modern">
             <div class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
                 <!-- Logo -->
-                <div class="flex items-center gap-3">
-                    <span class="w-8 h-8 rounded-full bg-[#4A6B5D] flex items-center justify-center text-white text-xs font-bold font-sans-modern">SS</span>
-                    <span class="text-xl font-bold tracking-wider text-[#2D3330] uppercase">
-                        Smart<span class="text-[#4A6B5D]">Serve</span>
-                    </span>
+                <div class="flex items-center">
+                    <img src="/img/logo.png" class="h-14 w-auto object-contain" alt="SmartServe Logo" />
                 </div>
 
                 <!-- Navigation Links / Auth Actions -->
