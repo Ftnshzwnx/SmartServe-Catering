@@ -6,6 +6,7 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import Checkbox from '@/Components/Checkbox.vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 
 defineProps({
     canLogin: {
@@ -153,7 +154,9 @@ watch(() => window.location.search, () => {
             <div class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <img src="/img/logo.png" class="h-16 w-auto object-contain" alt="SmartServe Logo" />
+                    <Link href="/" class="flex items-center">
+                        <ApplicationLogo />
+                    </Link>
                 </div>
 
                 <!-- Navigation Links / Auth Actions -->

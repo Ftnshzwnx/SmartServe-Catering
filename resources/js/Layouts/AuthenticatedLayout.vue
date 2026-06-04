@@ -25,7 +25,7 @@ const { t, setLanguage, currentLanguage } = useLocalization();
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('dashboard')" class="flex items-center">
-                                    <img src="/img/logo.png" class="h-12 w-auto object-contain" alt="SmartServe Logo" />
+                                    <ApplicationLogo />
                                 </Link>
                             </div>
 
