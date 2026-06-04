@@ -57,7 +57,7 @@ function getCategoryIcon(name) {
                 <!-- Cart Link in Header -->
                 <Link 
                     :href="route('cart.index')" 
-                    class="relative flex items-center justify-center w-10 h-10 rounded-none border border-[#E6E1DA] bg-white hover:border-[#4A6B5D] hover:text-[#4A6B5D] transition-colors"
+                    class="relative flex items-center justify-center w-10 h-10 rounded-lg border border-[#E6E1DA] bg-white hover:border-[#4A6B5D] hover:text-[#4A6B5D] transition-colors"
                 >
                     <i class="fas fa-shopping-basket"></i>
                     <span v-if="cartCount > 0" class="absolute -top-1.5 -right-1.5 bg-[#8C3A3A] text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border border-white">
@@ -77,11 +77,11 @@ function getCategoryIcon(name) {
                     <div 
                         v-for="pkg in packages" 
                         :key="pkg.package_name"
-                        class="bg-white p-8 rounded-none border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-76 text-left menu-card"
+                        class="bg-white p-8 rounded-lg border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-76 text-left menu-card"
                     >
                         <div>
                             <!-- Dynamic Icon based on package name instead of image -->
-                            <div class="w-14 h-14 rounded-none flex items-center justify-center text-xl mb-6 border" :class="getCategoryIcon(pkg.package_name)">
+                            <div class="w-14 h-14 rounded-xl flex items-center justify-center text-xl mb-6 border" :class="getCategoryIcon(pkg.package_name)">
                                 <i class="fas" :class="getCategoryIcon(pkg.package_name).split(' ')[0]"></i>
                             </div>
                             
@@ -89,7 +89,7 @@ function getCategoryIcon(name) {
                                 {{ pkg.package_name }}
                             </h4>
                             
-                            <span class="inline-flex items-center px-3 py-1 rounded-none text-xs font-semibold bg-[#EBEFEF] text-[#4A6B5D] border border-[#D1DEDB]">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#EBEFEF] text-[#4A6B5D] border border-[#D1DEDB]">
                                 {{ t('starting_from') }} RM {{ parseFloat(pkg.price).toFixed(2) }} / {{ t('pax') }}
                             </span>
                         </div>
@@ -97,7 +97,7 @@ function getCategoryIcon(name) {
                         <div class="mt-6">
                             <Link 
                                 :href="route('menu.show', { category: pkg.package_name })"
-                                class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3.5 px-6 rounded-none text-xs uppercase tracking-widest transition-all duration-200"
+                                class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3.5 px-6 rounded-lg text-xs uppercase tracking-widest transition-all duration-200"
                             >
                                 <i class="fas fa-search-plus text-[10px]"></i> {{ t('view_packages') }}
                             </Link>
@@ -106,7 +106,7 @@ function getCategoryIcon(name) {
                 </div>
 
                 <!-- Empty State -->
-                <div v-else class="py-16 bg-white rounded-none border border-[#E6E1DA] shadow-sm max-w-xl mx-auto">
+                <div v-else class="py-16 bg-white rounded-lg border border-[#E6E1DA] shadow-sm max-w-xl mx-auto">
                     <i class="fas fa-utensils fa-2x text-[#8C8275] mb-4"></i>
                     <h5 class="text-[#2D3330] font-serif-luxury text-xl mb-1">{{ t('no_packages_available') }}</h5>
                     <p class="text-xs text-[#8C8275]">{{ t('contact_admin_menu') }}</p>

@@ -188,7 +188,7 @@ watch(() => window.location.search, () => {
                         <Link
                             v-if="$page.props.auth.user"
                             :href="route('dashboard')"
-                            class="bg-[#4A6B5D] text-white hover:bg-[#3D574B] px-6 py-2.5 rounded-none text-xs font-semibold uppercase tracking-widest transition-all duration-200"
+                            class="bg-[#4A6B5D] text-white hover:bg-[#3D574B] px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-200"
                         >
                             {{ t('dashboard') }}
                         </Link>
@@ -204,7 +204,7 @@ watch(() => window.location.search, () => {
                             <button
                                 v-if="canRegister"
                                 @click="openDrawer('register')"
-                                class="bg-[#4A6B5D] text-white hover:bg-[#3D574B] px-6 py-2.5 rounded-none text-xs font-semibold uppercase tracking-widest transition-all duration-200 cursor-pointer"
+                                class="bg-[#4A6B5D] text-white hover:bg-[#3D574B] px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-200 cursor-pointer"
                             >
                                 {{ t('register') }}
                             </button>
@@ -240,20 +240,20 @@ watch(() => window.location.search, () => {
                             <button
                                 v-if="!$page.props.auth.user"
                                 @click="openDrawer('login')"
-                                class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-8 py-4 rounded-none text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md cursor-pointer"
+                                class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-8 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md cursor-pointer"
                             >
                                 {{ t('begin_experience') }}
                             </button>
                             <Link
                                 v-else
                                 :href="route('dashboard')"
-                                class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-8 py-4 rounded-none text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md"
+                                class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-8 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md"
                             >
                                 {{ t('begin_experience') }}
                             </Link>
                             <a
                                 href="#about"
-                                class="bg-transparent hover:bg-[#FAF7F2] border border-[#D1C8BD] text-[#2D3330] text-center px-8 py-4 rounded-none text-xs font-semibold uppercase tracking-widest transition-all duration-200"
+                                class="bg-transparent hover:bg-[#FAF7F2] border border-[#D1C8BD] text-[#2D3330] text-center px-8 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200"
                             >
                                 {{ t('read_story') }}
                             </a>
@@ -476,7 +476,7 @@ watch(() => window.location.search, () => {
                 >
                     <div 
                         v-if="currentDrawer"
-                        class="w-full max-w-md bg-[#FAF7F2] h-full shadow-2xl border-l border-[#E6E1DA] p-8 md:p-10 flex flex-col justify-between overflow-y-auto relative z-50 text-[#2D3330]"
+                        class="w-full max-w-md bg-[#FAF7F2] h-full shadow-2xl border-l border-[#E6E1DA] rounded-l-3xl p-8 md:p-10 flex flex-col justify-between overflow-y-auto relative z-50 text-[#2D3330]"
                     >
                         <!-- Close button top left/right -->
                         <button 
@@ -507,7 +507,7 @@ watch(() => window.location.search, () => {
                                     <TextInput
                                         id="login-email"
                                         type="email"
-                                        class="mt-1.5 block w-full rounded-none border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
                                         v-model="loginForm.email"
                                         required
                                         autofocus
@@ -530,7 +530,7 @@ watch(() => window.location.search, () => {
                                     <TextInput
                                         id="login-password"
                                         type="password"
-                                        class="mt-1.5 block w-full rounded-none border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
                                         v-model="loginForm.password"
                                         required
                                         autocomplete="current-password"
@@ -539,13 +539,13 @@ watch(() => window.location.search, () => {
                                 </div>
 
                                 <div class="flex items-center">
-                                    <Checkbox name="remember" v-model:checked="loginForm.remember" class="rounded-none text-[#4A6B5D] focus:ring-0" />
+                                    <Checkbox name="remember" v-model:checked="loginForm.remember" class="rounded text-[#4A6B5D] focus:ring-0" />
                                     <span class="ms-2 text-xs text-[#8C8275]">Remember my session</span>
                                 </div>
 
                                 <button
                                     type="submit"
-                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-none text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
+                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
                                     :disabled="loginForm.processing"
                                 >
                                     {{ loginForm.processing ? 'Signing In...' : t('sign_in') }}
@@ -566,7 +566,7 @@ watch(() => window.location.search, () => {
                                     <TextInput
                                         id="reg-name"
                                         type="text"
-                                        class="mt-1.5 block w-full rounded-none border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
                                         v-model="registerForm.name"
                                         required
                                         autofocus
@@ -580,7 +580,7 @@ watch(() => window.location.search, () => {
                                     <TextInput
                                         id="reg-email"
                                         type="email"
-                                        class="mt-1.5 block w-full rounded-none border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
                                         v-model="registerForm.email"
                                         required
                                         autocomplete="username"
@@ -593,7 +593,7 @@ watch(() => window.location.search, () => {
                                     <TextInput
                                         id="reg-password"
                                         type="password"
-                                        class="mt-1.5 block w-full rounded-none border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
                                         v-model="registerForm.password"
                                         required
                                         autocomplete="new-password"
@@ -606,7 +606,7 @@ watch(() => window.location.search, () => {
                                     <TextInput
                                         id="reg-password-confirm"
                                         type="password"
-                                        class="mt-1.5 block w-full rounded-none border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
                                         v-model="registerForm.password_confirmation"
                                         required
                                         autocomplete="new-password"
@@ -616,7 +616,7 @@ watch(() => window.location.search, () => {
 
                                 <button
                                     type="submit"
-                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-none text-xs font-semibold uppercase tracking-widest transition-colors duration-200 mt-2 cursor-pointer"
+                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 mt-2 cursor-pointer"
                                     :disabled="registerForm.processing"
                                 >
                                     {{ registerForm.processing ? 'Registering...' : t('register') }}
@@ -645,7 +645,7 @@ watch(() => window.location.search, () => {
                                     <TextInput
                                         id="forgot-email"
                                         type="email"
-                                        class="mt-1.5 block w-full rounded-none border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
                                         v-model="forgotPasswordForm.email"
                                         required
                                         autofocus
@@ -656,7 +656,7 @@ watch(() => window.location.search, () => {
 
                                 <button
                                     type="submit"
-                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-none text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
+                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
                                     :disabled="forgotPasswordForm.processing"
                                 >
                                     {{ forgotPasswordForm.processing ? 'Sending Link...' : 'Email Reset Link' }}
@@ -677,7 +677,7 @@ watch(() => window.location.search, () => {
                                     <TextInput
                                         id="reset-email"
                                         type="email"
-                                        class="mt-1.5 block w-full rounded-none border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
                                         v-model="resetPasswordForm.email"
                                         required
                                         autocomplete="username"
@@ -690,7 +690,7 @@ watch(() => window.location.search, () => {
                                     <TextInput
                                         id="reset-password"
                                         type="password"
-                                        class="mt-1.5 block w-full rounded-none border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
                                         v-model="resetPasswordForm.password"
                                         required
                                         autocomplete="new-password"
@@ -703,7 +703,7 @@ watch(() => window.location.search, () => {
                                     <TextInput
                                         id="reset-password-confirm"
                                         type="password"
-                                        class="mt-1.5 block w-full rounded-none border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
                                         v-model="resetPasswordForm.password_confirmation"
                                         required
                                         autocomplete="new-password"
@@ -713,7 +713,7 @@ watch(() => window.location.search, () => {
 
                                 <button
                                     type="submit"
-                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-none text-xs font-semibold uppercase tracking-widest transition-colors duration-200 mt-2 cursor-pointer"
+                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 mt-2 cursor-pointer"
                                     :disabled="resetPasswordForm.processing"
                                 >
                                     {{ resetPasswordForm.processing ? 'Resetting...' : 'Reset Password' }}

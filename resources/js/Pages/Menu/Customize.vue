@@ -107,14 +107,14 @@ function handleAddToCart() {
         .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
         .section-card {
             background: #ffffff;
-            border-radius: 0px;
+            border-radius: 16px;
             padding: 30px;
             border: 1px solid #E6E1DA;
             box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.01);
         }
         .addon-card {
             border: 1px solid #E6E1DA;
-            border-radius: 0px;
+            border-radius: 16px;
             padding: 16px 20px;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -133,7 +133,7 @@ function handleAddToCart() {
         .addon-check {
             width: 20px;
             height: 20px;
-            border-radius: 0px;
+            border-radius: 16px;
             border: 1px solid #cbd5e1;
             display: flex;
             align-items: center;
@@ -149,7 +149,7 @@ function handleAddToCart() {
         .pax-btn {
             width: 44px;
             height: 44px;
-            border-radius: 0px;
+            border-radius: 16px;
             border: 1px solid #E6E1DA;
             background: #ffffff;
             font-size: 0.9rem;
@@ -168,7 +168,7 @@ function handleAddToCart() {
         .price-summary {
             background: #FAF6F0;
             border: 1px solid #E6E1DA;
-            border-radius: 0px;
+            border-radius: 16px;
             padding: 25px;
         }
         .price-row {
@@ -227,7 +227,7 @@ function handleAddToCart() {
                 <!-- Cart Link in Header -->
                 <Link 
                     :href="route('cart.index')" 
-                    class="relative flex items-center justify-center w-10 h-10 rounded-none border border-[#E6E1DA] bg-white hover:border-[#4A6B5D] hover:text-[#4A6B5D] transition-colors"
+                    class="relative flex items-center justify-center w-10 h-10 rounded-lg border border-[#E6E1DA] bg-white hover:border-[#4A6B5D] hover:text-[#4A6B5D] transition-colors"
                 >
                     <i class="fas fa-shopping-basket"></i>
                     <span v-if="cartCount > 0" class="absolute -top-1.5 -right-1.5 bg-[#8C3A3A] text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border border-white">
@@ -240,7 +240,7 @@ function handleAddToCart() {
         <div class="py-12 bg-[#FAF7F2] min-h-[calc(100vh-80px)] font-sans-modern">
             <div class="max-w-6xl mx-auto px-6">
                 <!-- Header Card -->
-                <div class="bg-[#2D3330] text-[#FAF7F2] p-8 rounded-none mb-8 border border-[#E6E1DA]">
+                <div class="bg-[#2D3330] text-[#FAF7F2] p-8 rounded-2xl mb-8 border border-[#E6E1DA]">
                     <span class="text-[#4A6B5D] text-[10px] font-bold uppercase tracking-widest block mb-1">{{ t('catering_packages') }}</span>
                     <h3 class="text-3xl font-normal font-serif-luxury uppercase tracking-wide">{{ package.package_name }}</h3>
                     <p class="text-[#E6E1DA] text-xs font-light mt-2 tracking-wide">{{ t('base_pkg_price') }}: RM {{ basePrice.toFixed(2) }} / {{ t('pax') }} &nbsp;·&nbsp; {{ t('min_requirement') }}: {{ minPax }} {{ t('pax') }}</p>
@@ -263,7 +263,7 @@ function handleAddToCart() {
                                     type="number" 
                                     v-model="quantity" 
                                     :min="package.min_order"
-                                    class="w-32 text-center font-bold text-lg border border-[#E6E1DA] rounded-none p-3 focus:outline-none focus:border-[#4A6B5D] focus:ring-0 transition-colors bg-white text-[#2D3330]"
+                                    class="w-32 text-center font-bold text-lg border border-[#E6E1DA] rounded-lg p-3 focus:outline-none focus:border-[#4A6B5D] focus:ring-0 transition-colors bg-white text-[#2D3330]"
                                 />
                                 <button type="button" class="pax-btn font-light" @click="changeQty(1)">+</button>
                                 <button type="button" class="pax-btn font-light" @click="changeQty(10)">+10</button>
@@ -357,7 +357,7 @@ function handleAddToCart() {
                             <!-- List Selected Add-ons Summary -->
                             <div v-if="selectedAddonIds.length > 0" class="space-y-2">
                                 <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('selected_extra_items') }}:</span>
-                                <div class="p-4 bg-[#FAF6F0] rounded-none border border-[#E6E1DA] space-y-1.5">
+                                <div class="p-4 bg-[#FAF6F0] rounded-lg border border-[#E6E1DA] space-y-1.5">
                                     <div 
                                         v-for="addon in package.addons.filter(a => isAddonSelected(a.id))" 
                                         :key="addon.id"
@@ -372,14 +372,14 @@ function handleAddToCart() {
                             <!-- Submit Action -->
                             <button 
                                 @click="handleAddToCart"
-                                class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3.5 px-6 rounded-none text-xs uppercase tracking-widest transition-colors shadow-sm"
+                                class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3.5 px-6 rounded-lg text-xs uppercase tracking-widest transition-colors shadow-sm"
                                 :disabled="form.processing"
                             >
                                 <i class="fas fa-cart-plus text-[10px]"></i> {{ t('add_to_cart') }}
                             </button>
                             <Link 
                                 :href="route('menu.show', { category: package.package_name })"
-                                class="w-full inline-flex items-center justify-center bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold py-2.5 px-6 rounded-none text-xs uppercase tracking-widest transition-colors text-center"
+                                class="w-full inline-flex items-center justify-center bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold py-2.5 px-6 rounded-lg text-xs uppercase tracking-widest transition-colors text-center"
                             >
                                 <i class="fas fa-arrow-left mr-2"></i> {{ t('cancel') }}
                             </Link>

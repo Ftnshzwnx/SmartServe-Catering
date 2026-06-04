@@ -102,7 +102,7 @@ function handleAddToCart(packageId) {
                 <!-- Cart Link in Header -->
                 <Link 
                     :href="route('cart.index')" 
-                    class="relative flex items-center justify-center w-10 h-10 rounded-none border border-[#E6E1DA] bg-white hover:border-[#4A6B5D] hover:text-[#4A6B5D] transition-colors"
+                    class="relative flex items-center justify-center w-10 h-10 rounded-lg border border-[#E6E1DA] bg-white hover:border-[#4A6B5D] hover:text-[#4A6B5D] transition-colors"
                 >
                     <i class="fas fa-shopping-basket"></i>
                     <span v-if="cartCount > 0" class="absolute -top-1.5 -right-1.5 bg-[#8C3A3A] text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border border-white">
@@ -120,7 +120,7 @@ function handleAddToCart(packageId) {
                     <div 
                         v-for="pkg in variations" 
                         :key="pkg.id || pkg.package_id"
-                        class="bg-white p-8 rounded-none border border-[#E6E1DA] shadow-sm package-card"
+                        class="bg-white p-8 rounded-lg border border-[#E6E1DA] shadow-sm package-card"
                     >
                         <div class="grid lg:grid-cols-12 gap-8 items-start">
                             
@@ -131,7 +131,7 @@ function handleAddToCart(packageId) {
                                         {{ pkg.package_name }}
                                     </h3>
                                     <!-- Price Badge -->
-                                    <span class="text-sm font-semibold text-[#4A6B5D] bg-[#EBEFEF] border border-[#D1DEDB] px-4 py-2 rounded-none">
+                                    <span class="text-sm font-semibold text-[#4A6B5D] bg-[#EBEFEF] border border-[#D1DEDB] px-4 py-2 rounded-full">
                                         RM {{ parseFloat(pkg.price).toFixed(2) }} <span class="text-xs text-[#8C8275] font-normal">/ {{ t('pax') }}</span>
                                     </span>
                                 </div>
@@ -153,7 +153,7 @@ function handleAddToCart(packageId) {
                             </div>
 
                             <!-- Right Calculator Section (5 cols) -->
-                            <div class="lg:col-span-5 bg-[#FAF6F0] p-6 rounded-none border border-[#E6E1DA] flex flex-col justify-between gap-6 self-stretch">
+                            <div class="lg:col-span-5 bg-[#FAF6F0] p-6 rounded-lg border border-[#E6E1DA] flex flex-col justify-between gap-6 self-stretch">
                                 <div class="space-y-4">
                                     <div class="flex items-center justify-between text-xs tracking-wide">
                                         <span class="font-semibold text-[#8C8275] uppercase">{{ t('min_requirement') }}:</span>
@@ -167,7 +167,7 @@ function handleAddToCart(packageId) {
                                             type="number" 
                                             v-model="quantities[pkg.id || pkg.package_id]" 
                                             :min="pkg.min_order"
-                                            class="w-full text-center font-bold text-lg border border-[#E6E1DA] rounded-none p-3 focus:outline-none focus:border-[#4A6B5D] focus:ring-0 transition-colors bg-white text-[#2D3330]"
+                                            class="w-full text-center font-bold text-lg border border-[#E6E1DA] rounded-lg p-3 focus:outline-none focus:border-[#4A6B5D] focus:ring-0 transition-colors bg-white text-[#2D3330]"
                                         />
                                     </div>
                                     
@@ -184,14 +184,14 @@ function handleAddToCart(packageId) {
                                 <div class="flex flex-col gap-2">
                                     <Link 
                                         :href="route('cart.customize', { package_id: pkg.id || pkg.package_id })"
-                                        class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3.5 px-6 rounded-none text-xs uppercase tracking-widest transition-colors shadow-sm text-center"
+                                        class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3.5 px-6 rounded-lg text-xs uppercase tracking-widest transition-colors shadow-sm text-center"
                                     >
                                         <i class="fas fa-sliders-h text-[10px]"></i> {{ t('customize_order') }}
                                     </Link>
                                     
                                     <button 
                                         @click="handleAddToCart(pkg.id || pkg.package_id)"
-                                        class="w-full inline-flex items-center justify-center gap-2 bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold py-3 px-6 rounded-none text-xs uppercase tracking-widest transition-colors"
+                                        class="w-full inline-flex items-center justify-center gap-2 bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold py-3 px-6 rounded-lg text-xs uppercase tracking-widest transition-colors"
                                         :disabled="form.processing"
                                     >
                                         <i class="fas fa-cart-plus text-[10px]"></i> {{ t('direct_add_cart') }}
@@ -204,7 +204,7 @@ function handleAddToCart(packageId) {
                 </div>
 
                 <!-- Empty State -->
-                <div v-else class="py-16 bg-white rounded-none border border-[#E6E1DA] text-center max-w-xl mx-auto shadow-sm">
+                <div v-else class="py-16 bg-white rounded-lg border border-[#E6E1DA] text-center max-w-xl mx-auto shadow-sm">
                     <i class="fas fa-utensils fa-2x text-[#8C8275] mb-4"></i>
                     <h5 class="text-[#2D3330] font-serif-luxury text-xl mb-2">{{ t('no_packages_found_cat') }}</h5>
                     <Link :href="route('menu.index')" class="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-[#4A6B5D] hover:text-[#3D574B] uppercase tracking-widest">

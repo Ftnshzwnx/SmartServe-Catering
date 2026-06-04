@@ -119,14 +119,14 @@ function proceedToCheckout() {
         .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
         .cart-card {
             background: #ffffff;
-            border-radius: 0px;
+            border-radius: 16px;
             padding: 30px;
             border: 1px solid #E6E1DA;
             box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.01);
         }
         .qty-input {
             width: 80px;
-            border-radius: 0px;
+            border-radius: 16px;
             border: 1px solid #E6E1DA;
             text-align: center;
             padding: 6px;
@@ -141,7 +141,7 @@ function proceedToCheckout() {
         }
         .summary-card {
             background: #ffffff;
-            border-radius: 0px;
+            border-radius: 16px;
             padding: 30px;
             border: 1px solid #E6E1DA;
             box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.01);
@@ -190,7 +190,7 @@ function proceedToCheckout() {
                                                 <input 
                                                     type="checkbox" 
                                                     v-model="selectAll"
-                                                    class="border-[#E6E1DA] text-[#4A6B5D] focus:ring-[#4A6B5D] w-4 h-4 cursor-pointer rounded-none"
+                                                    class="border-[#E6E1DA] text-[#4A6B5D] focus:ring-[#4A6B5D] w-4 h-4 cursor-pointer rounded"
                                                 />
                                             </th>
                                             <th class="py-4 pl-4">{{ t('package') }}</th>
@@ -208,7 +208,7 @@ function proceedToCheckout() {
                                                     type="checkbox" 
                                                     :value="item.id" 
                                                     v-model="selectedCartIds"
-                                                    class="border-[#E6E1DA] text-[#4A6B5D] focus:ring-[#4A6B5D] w-4 h-4 cursor-pointer rounded-none"
+                                                    class="border-[#E6E1DA] text-[#4A6B5D] focus:ring-[#4A6B5D] w-4 h-4 cursor-pointer rounded"
                                                 />
                                             </td>
 
@@ -224,7 +224,7 @@ function proceedToCheckout() {
                                                             <span 
                                                                 v-for="addon in item.selected_addons" 
                                                                 :key="addon"
-                                                                class="inline-flex items-center gap-1 bg-[#FAF6F0] border border-[#E6E1DA] text-[9px] text-[#4A6B5D] font-medium px-2 py-0.5 rounded-none"
+                                                                class="inline-flex items-center gap-1 bg-[#FAF6F0] border border-[#E6E1DA] text-[9px] text-[#4A6B5D] font-medium px-2 py-0.5 rounded-full"
                                                             >
                                                                 <i class="fas fa-plus text-[6px]"></i> {{ addon }}
                                                             </span>
@@ -261,7 +261,7 @@ function proceedToCheckout() {
                                             <td class="py-6 text-center">
                                                 <button 
                                                     @click="removeCartItem(item.id)" 
-                                                    class="text-red-500 hover:text-red-700 transition-colors w-8 h-8 rounded-none hover:bg-red-50/50 flex items-center justify-center"
+                                                    class="text-red-500 hover:text-red-700 transition-colors w-8 h-8 rounded-lg hover:bg-red-50/50 flex items-center justify-center"
                                                 >
                                                     <i class="fas fa-trash-alt text-sm"></i>
                                                 </button>
@@ -298,7 +298,7 @@ function proceedToCheckout() {
 
                             <button 
                                 @click="proceedToCheckout"
-                                class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3.5 px-6 rounded-none text-xs uppercase tracking-widest transition-colors shadow-sm"
+                                class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3.5 px-6 rounded-lg text-xs uppercase tracking-widest transition-colors shadow-sm"
                                 :disabled="selectedCartIds.length === 0"
                                 :class="{ 'opacity-50 cursor-not-allowed': selectedCartIds.length === 0 }"
                             >
@@ -320,14 +320,14 @@ function proceedToCheckout() {
 
                 <!-- Empty State -->
                 <div v-else class="cart-card text-center py-20 flex flex-col items-center">
-                    <div class="w-16 h-16 rounded-none bg-[#FAF6F0] text-[#8C8275] flex items-center justify-center text-xl mb-6 border border-[#E6E1DA]">
+                    <div class="w-16 h-16 rounded-xl bg-[#FAF6F0] text-[#8C8275] flex items-center justify-center text-xl mb-6 border border-[#E6E1DA]">
                         <i class="fas fa-shopping-basket"></i>
                     </div>
                     <h4 class="text-[#2D3330] font-normal font-serif-luxury text-2xl uppercase tracking-wider mb-2">{{ t('cart_empty') }}</h4>
                     <p class="text-[#8C8275] text-xs max-w-sm mt-1 mb-8 font-light leading-relaxed">{{ t('cart_empty_desc') }}</p>
                     <Link 
                         :href="route('menu.index')"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-8 py-3.5 rounded-none text-xs uppercase tracking-widest transition-colors"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-8 py-3.5 rounded-lg text-xs uppercase tracking-widest transition-colors"
                     >
                         {{ t('browse_packages_btn') }}
                     </Link>

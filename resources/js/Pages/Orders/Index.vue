@@ -148,7 +148,7 @@ function handleReceiptSelect(event, orderId, type) {
         .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
         .order-card {
             background: #ffffff;
-            border-radius: 0px;
+            border-radius: 16px;
             padding: 28px;
             border: 1px solid #E6E1DA;
             box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.01);
@@ -162,7 +162,7 @@ function handleReceiptSelect(event, orderId, type) {
             padding: 8px 16px;
             font-size: 0.75rem;
             font-weight: 600;
-            border-radius: 0px;
+            border-radius: 16px;
             border: 1px solid transparent;
             text-transform: uppercase;
             letter-spacing: 0.1em;
@@ -177,7 +177,7 @@ function handleReceiptSelect(event, orderId, type) {
         .progress-dot {
             width: 10px;
             height: 10px;
-            border-radius: 0px;
+            border-radius: 16px;
             z-index: 10;
         }
         .toast-notification {
@@ -283,7 +283,7 @@ function handleReceiptSelect(event, orderId, type) {
                             </div>
                             <div>
                                 <span class="text-[9px] font-bold block mb-1">{{ t('status_label') }}</span>
-                                <span class="inline-flex items-center px-3 py-1 text-[10px] font-semibold border rounded-none uppercase tracking-widest" :class="getStatusBadge(order.status)">
+                                <span class="inline-flex items-center px-3 py-1 text-[10px] font-semibold border rounded-full uppercase tracking-widest" :class="getStatusBadge(order.status)">
                                     {{ getTranslatedStatus(order.status) }}
                                 </span>
                             </div>
@@ -352,7 +352,7 @@ function handleReceiptSelect(event, orderId, type) {
                             <div class="flex items-center gap-2">
                                 <Link 
                                     :href="route('orders.show', { id: order.id })" 
-                                    class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold px-4 py-2.5 rounded-none text-xs uppercase tracking-widest transition-colors"
+                                    class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors"
                                 >
                                     <i class="fas fa-search-plus mr-1 text-[10px]"></i> {{ t('view_invoice') }}
                                 </Link>
@@ -369,7 +369,7 @@ function handleReceiptSelect(event, orderId, type) {
                                     <button 
                                         type="button"
                                         @click="triggerFileSelect(order.id)"
-                                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-4 py-2.5 rounded-none text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5"
+                                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5"
                                         :disabled="processingReupload[order.id]"
                                     >
                                         <i class="fas fa-cloud-upload-alt"></i> 
@@ -382,7 +382,7 @@ function handleReceiptSelect(event, orderId, type) {
                                 <button 
                                     v-if="canCancel(order)"
                                     @click="handleCancelOrder(order.id)"
-                                    class="bg-white hover:bg-red-50 border border-red-200 text-red-500 font-semibold px-4 py-2.5 rounded-none text-xs uppercase tracking-widest transition-colors"
+                                    class="bg-white hover:bg-red-50 border border-red-200 text-red-500 font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors"
                                 >
                                     <i class="fas fa-times-circle mr-1 text-[10px]"></i> {{ t('cancel_event_btn') }}
                                 </button>
@@ -393,15 +393,15 @@ function handleReceiptSelect(event, orderId, type) {
                 </div>
 
                 <!-- Empty State -->
-                <div v-else class="bg-white rounded-none border border-[#E6E1DA] p-20 text-center shadow-sm max-w-xl mx-auto">
-                    <div class="w-16 h-16 rounded-none bg-[#FAF6F0] text-[#8C8275] flex items-center justify-center text-xl mx-auto mb-6 border border-[#E6E1DA]">
+                <div v-else class="bg-white rounded-2xl border border-[#E6E1DA] p-20 text-center shadow-sm max-w-xl mx-auto">
+                    <div class="w-16 h-16 rounded-xl bg-[#FAF6F0] text-[#8C8275] flex items-center justify-center text-xl mx-auto mb-6 border border-[#E6E1DA]">
                         <i class="fas fa-receipt"></i>
                     </div>
                     <h4 class="text-[#2D3330] font-normal font-serif-luxury text-2xl uppercase tracking-wider mb-2">{{ t('no_bookings_found') }}</h4>
                     <p class="text-[#8C8275] text-xs mt-1 mb-8 font-light leading-relaxed">{{ t('no_bookings_found_desc') }}</p>
                     <Link 
                         :href="route('menu.index')"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-8 py-3.5 rounded-none text-xs uppercase tracking-widest transition-colors"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-8 py-3.5 rounded-lg text-xs uppercase tracking-widest transition-colors"
                     >
                         {{ t('browse_packages_btn') }}
                     </Link>

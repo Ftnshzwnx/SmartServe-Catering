@@ -86,7 +86,7 @@ function getTranslatedStatus(status) {
         .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
         .receipt-container {
             background: #ffffff;
-            border-radius: 0px;
+            border-radius: 20px;
             border: 1px solid #E6E1DA;
             box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.01);
             padding: 40px;
@@ -130,13 +130,13 @@ function getTranslatedStatus(status) {
                 <div class="flex items-center gap-2">
                     <button 
                         @click="printReceipt" 
-                        class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold px-4 py-2.5 rounded-none text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5"
+                        class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5"
                     >
                         <i class="fas fa-print text-[10px]"></i> {{ t('print_invoice') }}
                     </button>
                     <Link 
                         :href="route('orders.index')" 
-                        class="bg-[#2D3330] hover:bg-[#1C201E] text-white font-semibold px-4 py-2.5 rounded-none text-xs uppercase tracking-widest transition-colors"
+                        class="bg-[#2D3330] hover:bg-[#1C201E] text-white font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors"
                     >
                         {{ t('back_to_bookings') }}
                     </Link>
@@ -228,7 +228,7 @@ function getTranslatedStatus(status) {
                         <div>
                             <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block mb-2">{{ t('payment_trans_status') }}</span>
                             
-                            <div class="inline-flex items-center px-3 py-1 text-[10px] font-semibold border rounded-none uppercase tracking-widest mb-3" :class="getStatusBadge(order.status)">
+                            <div class="inline-flex items-center px-3 py-1 text-[10px] font-semibold border rounded-full uppercase tracking-widest mb-3" :class="getStatusBadge(order.status)">
                                 {{ t('status_label') }}: {{ getTranslatedStatus(order.status) }}
                             </div>
                             <p class="text-xs text-[#5C6460] leading-relaxed font-light">

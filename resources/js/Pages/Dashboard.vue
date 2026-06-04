@@ -49,7 +49,7 @@ const { t } = useLocalization();
             <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-10">
                 
                 <!-- Welcome Banner -->
-                <div class="banner-gradient rounded-none p-8 lg:p-12 text-white relative overflow-hidden shadow-md">
+                <div class="banner-gradient rounded-3xl p-8 lg:p-12 text-white relative overflow-hidden shadow-md">
                     <!-- Subtle oatmeal circle background element -->
                     <div class="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-white/5 blur-2xl"></div>
                     
@@ -65,7 +65,7 @@ const { t } = useLocalization();
                         <div>
                             <Link 
                                 :href="route('menu.index')"
-                                class="inline-flex items-center gap-2 bg-[#FAF7F2] hover:bg-[#FAF7F2]/90 text-[#4A6B5D] text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-none shadow-sm transition-all duration-200"
+                                class="inline-flex items-center gap-2 bg-[#FAF7F2] hover:bg-[#FAF7F2]/90 text-[#4A6B5D] text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-xl shadow-sm transition-all duration-200"
                             >
                                 <i class="fas fa-utensils"></i> {{ t('order_now') }}
                             </Link>
@@ -76,23 +76,23 @@ const { t } = useLocalization();
                 <!-- Stats Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Stat Card 1 -->
-                    <div class="bg-white p-6 rounded-none border border-[#E6E1DA] shadow-sm flex items-center justify-between">
+                    <div class="bg-white p-6 rounded-2xl border border-[#E6E1DA] shadow-sm flex items-center justify-between">
                         <div>
                             <span class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('shopping_cart') }}</span>
                             <span class="text-2xl font-normal text-[#2D3330] font-serif-luxury">{{ cartCount }} {{ t('packages') }}</span>
                         </div>
-                        <div class="w-12 h-12 rounded-none bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg">
+                        <div class="w-12 h-12 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg">
                             <i class="fas fa-shopping-basket"></i>
                         </div>
                     </div>
 
                     <!-- Stat Card 2 -->
-                    <div class="bg-white p-6 rounded-none border border-[#E6E1DA] shadow-sm flex items-center justify-between">
+                    <div class="bg-white p-6 rounded-2xl border border-[#E6E1DA] shadow-sm flex items-center justify-between">
                         <div>
                             <span class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('total_bookings') }}</span>
                             <span class="text-2xl font-normal text-[#2D3330] font-serif-luxury">{{ ordersCount }} {{ t('orders') }}</span>
                         </div>
-                        <div class="w-12 h-12 rounded-none bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg">
+                        <div class="w-12 h-12 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg">
                             <i class="fas fa-receipt"></i>
                         </div>
                     </div>
@@ -103,9 +103,9 @@ const { t } = useLocalization();
                     <h4 class="text-xs font-bold text-[#8C8275] uppercase tracking-widest mb-6">{{ t('quick_actions') }}</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         <!-- Action 1 -->
-                        <div class="bg-white p-6 rounded-none border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-56 action-card">
+                        <div class="bg-white p-6 rounded-2xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-56 action-card">
                             <div>
-                                <div class="w-10 h-10 rounded-none bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base mb-4">
+                                <div class="w-10 h-10 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base mb-4">
                                     <i class="fas fa-utensils"></i>
                                 </div>
                                 <h5 class="font-normal text-[#2D3330] text-lg font-serif-luxury tracking-wide mb-1">{{ t('our_menu') }}</h5>
@@ -117,9 +117,9 @@ const { t } = useLocalization();
                         </div>
 
                         <!-- Action 2 -->
-                        <div class="bg-white p-6 rounded-none border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-56 action-card">
+                        <div class="bg-white p-6 rounded-2xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-56 action-card">
                             <div>
-                                <div class="w-10 h-10 rounded-none bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base mb-4">
+                                <div class="w-10 h-10 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base mb-4">
                                     <i class="fas fa-calculator"></i>
                                 </div>
                                 <h5 class="font-normal text-[#2D3330] text-lg font-serif-luxury tracking-wide mb-1">{{ t('budget_planner') }}</h5>
@@ -131,9 +131,9 @@ const { t } = useLocalization();
                         </div>
 
                         <!-- Action 3 -->
-                        <div class="bg-white p-6 rounded-none border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-56 action-card">
+                        <div class="bg-white p-6 rounded-2xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-56 action-card">
                             <div>
-                                <div class="w-10 h-10 rounded-none bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base mb-4">
+                                <div class="w-10 h-10 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base mb-4">
                                     <i class="fas fa-truck"></i>
                                 </div>
                                 <h5 class="font-normal text-[#2D3330] text-lg font-serif-luxury tracking-wide mb-1">{{ t('my_orders') }}</h5>
@@ -145,9 +145,9 @@ const { t } = useLocalization();
                         </div>
 
                         <!-- Action 4 -->
-                        <div class="bg-white p-6 rounded-none border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-56 action-card">
+                        <div class="bg-white p-6 rounded-2xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-56 action-card">
                             <div>
-                                <div class="w-10 h-10 rounded-none bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base mb-4">
+                                <div class="w-10 h-10 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base mb-4">
                                     <i class="fas fa-user-edit"></i>
                                 </div>
                                 <h5 class="font-normal text-[#2D3330] text-lg font-serif-luxury tracking-wide mb-1">{{ t('edit_profile') }}</h5>

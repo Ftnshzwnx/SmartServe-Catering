@@ -100,14 +100,14 @@ function submitCheckout() {
         .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
         .checkout-card {
             background: #ffffff;
-            border-radius: 0px;
+            border-radius: 16px;
             padding: 30px;
             border: 1px solid #E6E1DA;
             box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.01);
         }
         .form-input {
             width: 100%;
-            border-radius: 0px;
+            border-radius: 16px;
             border: 1px solid #E6E1DA;
             padding: 12px 16px;
             font-size: 0.9rem;
@@ -122,7 +122,7 @@ function submitCheckout() {
         }
         .qr-placeholder {
             border: 1px solid #E6E1DA;
-            border-radius: 0px;
+            border-radius: 16px;
             background: #FAF6F0;
         }
     </component>
@@ -299,7 +299,7 @@ function submitCheckout() {
                                 <div class="border-t border-[#E6E1DA] pt-6">
                                     <button 
                                         type="submit" 
-                                        class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-4 px-6 rounded-none text-xs uppercase tracking-widest transition-colors shadow-sm"
+                                        class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-4 px-6 rounded-lg text-xs uppercase tracking-widest transition-colors shadow-sm"
                                         :disabled="form.processing"
                                     >
                                         <i class="fas fa-shield-alt text-[10px]"></i> {{ t('confirm_booking_submit') }}
