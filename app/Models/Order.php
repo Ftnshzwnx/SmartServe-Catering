@@ -12,6 +12,8 @@ class Order extends Model
         'user_id',
         'package_name',
         'delivery_address',
+        'delivery_zone',
+        'delivery_fee',
         'total_price',
         'package_image',
         'payment_proof',
@@ -22,6 +24,20 @@ class Order extends Model
         'cancelled_by',
         'cancelled_at',
         'admin_note',
+        'notes',
+        'promo_code_id',
+        'discount_amount',
+        'refund_bank_name',
+        'refund_account_number',
+        'refund_account_name',
+        'reschedule_date',
+        'reschedule_time',
+        'reschedule_status',
+        'is_custom_proposal',
+    ];
+
+    protected $casts = [
+        'is_custom_proposal' => 'boolean',
     ];
 
     public function user(): BelongsTo
@@ -32,5 +48,15 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class, 'order_id');
+    }
+
+    public function promoCode(): BelongsTo
+    {
+        return $this->belongsTo(PromoCode::class, 'promo_code_id');
+    }
+
+    public function review(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Review::class, 'order_id');
     }
 }

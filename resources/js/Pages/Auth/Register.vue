@@ -8,7 +8,7 @@ import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 
 onMounted(() => {
-    router.replace('/?drawer=register');
+    window.location.replace('/?drawer=register');
 });
 
 const form = useForm({

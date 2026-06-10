@@ -51,8 +51,29 @@ class EmailVerificationTest extends TestCase
             ['id' => $user->id, 'hash' => sha1('wrong-email')]
         );
 
-        $this->actingAs($user)->get($verificationUrl);
+        $response = $this->actingAs($user)->get($verificationUrl);
 
+        $response->assertStatus(403);
         $this->assertFalse($user->fresh()->hasVerifiedEmail());
+    }
+
+    public function test_email_can_be_verified_by_guest_and_logs_them_in(): void
+    {
+        $user = User::factory()->unverified()->create();
+
+        Event::fake();
+
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            ['id' => $user->id, 'hash' => sha1($user->email)]
+        );
+
+        $response = $this->get($verificationUrl);
+
+        Event::assertDispatched(Verified::class);
+        $this->assertTrue($user->fresh()->hasVerifiedEmail());
+        $this->assertAuthenticatedAs($user);
+        $response->assertRedirect(route('dashboard', absolute: false).'?verified=1');
     }
 }

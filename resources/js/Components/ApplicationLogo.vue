@@ -1,3 +1,12 @@
+<script setup>
+defineProps({
+    collapsed: {
+        type: Boolean,
+        default: false,
+    },
+});
+</script>
+
 <template>
     <div class="flex items-center gap-3.5 select-none font-sans-modern">
         <!-- Crisp Vector SVG Icon -->
@@ -25,11 +34,11 @@
         </svg>
 
         <!-- Brand Text -->
-        <div class="flex flex-col text-left">
-            <span class="text-xl font-normal font-serif-luxury text-[#2D3330] uppercase tracking-wider leading-none">
+        <div v-if="!collapsed" class="flex flex-col text-left">
+            <span class="text-xl font-normal font-serif-luxury text-current uppercase tracking-wider leading-none">
                 Smart<span class="text-[#4A6B5D] italic font-semibold">Serve</span>
             </span>
-            <span class="text-[9px] font-bold tracking-[0.25em] text-[#8C8275] uppercase mt-1 leading-none">
+            <span class="text-[9px] font-bold tracking-[0.25em] text-current opacity-70 uppercase mt-1 leading-none">
                 Catering
             </span>
         </div>

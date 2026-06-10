@@ -13,10 +13,27 @@ class Package extends Model
         'min_order',
         'image',
         'description',
+        'dish_limits',
     ];
 
-    public function addons(): HasMany
+    protected $casts = [
+        'dish_limits' => 'array',
+    ];
+
+    protected $appends = ['addons'];
+
+    protected static $globalActiveAddons = null;
+
+    public function getAddonsAttribute()
     {
-        return $this->hasMany(PackageAddon::class, 'package_id');
+        if (self::$globalActiveAddons === null) {
+            self::$globalActiveAddons = Addon::where('active', true)->orderBy('addon_name')->get();
+        }
+        return self::$globalActiveAddons;
+    }
+
+    public function dishes(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Dish::class, 'package_dish')->withTimestamps();
     }
 }

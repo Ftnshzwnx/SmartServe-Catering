@@ -13,6 +13,15 @@ class OrderItem extends Model
         'quantity',
         'price',
         'subtotal',
+        'selected_dishes',
+        'selected_addons',
+        'addon_cost',
+    ];
+
+    protected $casts = [
+        'selected_dishes' => 'array',
+        'selected_addons' => 'array',
+        'addon_cost' => 'float',
     ];
 
     public function order(): BelongsTo

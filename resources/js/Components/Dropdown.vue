@@ -33,9 +33,13 @@ const widthClass = computed(() => {
 
 const alignmentClasses = computed(() => {
     if (props.align === 'left') {
-        return 'ltr:origin-top-left rtl:origin-top-right start-0';
+        return 'origin-top-left start-0';
     } else if (props.align === 'right') {
-        return 'ltr:origin-top-right rtl:origin-top-left end-0';
+        return 'origin-top-right end-0';
+    } else if (props.align === 'top-left') {
+        return 'origin-bottom-left start-0';
+    } else if (props.align === 'top-right') {
+        return 'origin-bottom-right end-0';
     } else {
         return 'origin-top';
     }
@@ -67,8 +71,12 @@ const open = ref(false);
         >
             <div
                 v-show="open"
-                class="absolute z-50 mt-2 rounded-md shadow-lg"
-                :class="[widthClass, alignmentClasses]"
+                class="absolute z-50 rounded-md shadow-lg"
+                :class="[
+                    widthClass, 
+                    alignmentClasses,
+                    align.startsWith('top') ? 'mb-2 bottom-full' : 'mt-2'
+                ]"
                 style="display: none"
                 @click="open = false"
             >

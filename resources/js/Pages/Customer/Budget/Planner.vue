@@ -1,0 +1,933 @@
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head, Link, router } from '@inertiajs/vue3';
+import { ref, computed, watch } from 'vue';
+import { useLocalization } from '@/Composables/useLocalization';
+
+const props = defineProps({
+    packages: {
+        type: Array,
+        required: true,
+    },
+    cartCount: {
+        type: Number,
+        default: 0,
+    },
+    results: {
+        type: Array,
+        default: () => [],
+    },
+    searched: {
+        type: Boolean,
+        default: false,
+    },
+    input: {
+        type: Object,
+        default: () => ({ mode: 'guest', budget: '', guest_count: '' }),
+    },
+    dishes: {
+        type: Array,
+        default: () => [],
+    },
+});
+
+const { t, currentLanguage } = useLocalization();
+
+const showCustomForm = ref(false);
+const customForm = ref({
+    budget: '',
+    guest_count: '',
+    delivery_date: '',
+    delivery_time: '',
+    address: '',
+    dishes: [],
+    notes: '',
+});
+const formErrors = ref({});
+const isSubmitting = ref(false);
+
+const dishesByCategory = computed(() => {
+    if (!props.dishes) return {};
+    const groups = {};
+    props.dishes.forEach(dish => {
+        if (!groups[dish.category]) {
+            groups[dish.category] = [];
+        }
+        groups[dish.category].push(dish);
+    });
+    return groups;
+});
+
+const submitCustomProposal = () => {
+    formErrors.value = {};
+    const lang = (currentLanguage.value || currentLanguage);
+    
+    if (!customForm.value.budget || customForm.value.budget < 100) {
+        formErrors.value.budget = lang === 'en' ? 'Minimum budget is RM100.' : 'Bajet minimum ialah RM100.';
+    }
+    if (!customForm.value.guest_count || customForm.value.guest_count < 20) {
+        formErrors.value.guest_count = lang === 'en' ? 'Minimum guest count is 20 pax.' : 'Bilangan tetamu minimum ialah 20 pax.';
+    }
+    if (!customForm.value.delivery_date) {
+        formErrors.value.delivery_date = lang === 'en' ? 'Delivery date is required.' : 'Tarikh penghantaran diperlukan.';
+    }
+    if (!customForm.value.delivery_time) {
+        formErrors.value.delivery_time = lang === 'en' ? 'Delivery time is required.' : 'Waktu penghantaran diperlukan.';
+    }
+    if (!customForm.value.address) {
+        formErrors.value.address = lang === 'en' ? 'Address is required.' : 'Alamat diperlukan.';
+    }
+    if (customForm.value.dishes.length === 0) {
+        formErrors.value.dishes = lang === 'en' ? 'Please select at least one wishlist dish.' : 'Sila pilih sekurang-kurangnya satu hidangan wishlist.';
+    }
+
+    if (Object.keys(formErrors.value).length > 0) return;
+
+    isSubmitting.value = true;
+    router.post(route('orders.custom-proposal.store'), customForm.value, {
+        onError: (errors) => {
+            formErrors.value = errors;
+            isSubmitting.value = false;
+        },
+        onFinish: () => {
+            isSubmitting.value = false;
+        }
+    });
+};
+
+// Active tab selection for search mode
+const searchMode = ref(props.input.mode || 'guest');
+const targetBudget = ref(props.input.budget ? parseFloat(props.input.budget) : 5000);
+const guestCount = ref(props.input.guest_count ? parseInt(props.input.guest_count) : 150);
+
+// Default package selection to the first available package
+const selectedPackageId = ref(props.packages[0]?.id || null);
+const selectedAddonIds = ref([]);
+
+// Watch package selection to reset selected addons
+watch(selectedPackageId, () => {
+    selectedAddonIds.value = [];
+});
+
+const selectedPackage = computed(() => {
+    return props.packages.find(pkg => pkg.id === selectedPackageId.value) || props.packages[0] || null;
+});
+
+// Calculate total cost per pax for selected package + addons
+const totalCostPerPax = computed(() => {
+    if (!selectedPackage.value) return 0;
+    const base = parseFloat(selectedPackage.value.price);
+    const addons = selectedPackage.value.addons || [];
+    const addonsCost = addons
+        .filter(addon => selectedAddonIds.value.includes(addon.id))
+        .reduce((sum, addon) => sum + parseFloat(addon.price_per_pax), 0);
+    return base + addonsCost;
+});
+
+// Compute Pax based on search mode
+const computedPax = computed(() => {
+    if (!selectedPackage.value) return 0;
+    const minOrder = parseInt(selectedPackage.value.min_order);
+    
+    if (searchMode.value === 'budget') {
+        if (targetBudget.value <= 0) return 0;
+        const costPerPax = totalCostPerPax.value;
+        if (costPerPax <= 0) return minOrder;
+        const calculated = Math.floor(targetBudget.value / costPerPax);
+        return Math.max(calculated, 0); 
+    } else {
+        return Math.max(guestCount.value || 0, 0);
+    }
+});
+
+// Actual guest count to check against minimum requirements
+const finalPaxCount = computed(() => {
+    if (!selectedPackage.value) return 0;
+    const minOrder = parseInt(selectedPackage.value.min_order);
+    if (searchMode.value === 'budget') {
+        return computedPax.value;
+    } else {
+        // In guest mode, we automatically adjust to min order if user enters lower guest count
+        return Math.max(computedPax.value, minOrder);
+    }
+});
+
+// Computed Totals based on final pax count
+const baseCostTotal = computed(() => {
+    if (!selectedPackage.value) return 0;
+    return parseFloat(selectedPackage.value.price) * finalPaxCount.value;
+});
+
+const addonsCostTotal = computed(() => {
+    if (!selectedPackage.value) return 0;
+    const addons = selectedPackage.value.addons || [];
+    const addonsCostPerPax = addons
+        .filter(addon => selectedAddonIds.value.includes(addon.id))
+        .reduce((sum, addon) => sum + parseFloat(addon.price_per_pax), 0);
+    return addonsCostPerPax * finalPaxCount.value;
+});
+
+const grandTotal = computed(() => {
+    return baseCostTotal.value + addonsCostTotal.value;
+});
+
+const depositAmount = computed(() => {
+    return grandTotal.value * 0.3;
+});
+
+const balanceAmount = computed(() => {
+    return grandTotal.value * 0.7;
+});
+
+// Budget validations and differences
+const budgetDifference = computed(() => {
+    if (searchMode.value !== 'budget') return 0;
+    return targetBudget.value - grandTotal.value;
+});
+
+const isBudgetInsufficient = computed(() => {
+    if (!selectedPackage.value) return false;
+    const minOrder = parseInt(selectedPackage.value.min_order);
+    if (searchMode.value === 'budget') {
+        const minRequiredTotal = totalCostPerPax.value * minOrder;
+        return targetBudget.value < minRequiredTotal;
+    }
+    return false;
+});
+
+const isGuestCountBelowMin = computed(() => {
+    if (!selectedPackage.value || searchMode.value === 'budget') return false;
+    const minOrder = parseInt(selectedPackage.value.min_order);
+    return guestCount.value > 0 && guestCount.value < minOrder;
+});
+
+const toggleAddon = (addonId) => {
+    const idx = selectedAddonIds.value.indexOf(addonId);
+    if (idx > -1) {
+        selectedAddonIds.value.splice(idx, 1);
+    } else {
+        selectedAddonIds.value.push(addonId);
+    }
+};
+
+const selectPackage = (pkgId) => {
+    selectedPackageId.value = pkgId;
+};
+
+// Book redirect URL
+const bookRedirectUrl = computed(() => {
+    if (!selectedPackage.value) return '#';
+    const paxParam = finalPaxCount.value;
+    const addonsParam = selectedAddonIds.value.join(',');
+    let url = route('cart.customize', { package_id: selectedPackage.value.id }) + `?pax=${paxParam}`;
+    if (addonsParam) {
+        url += `&addons=${addonsParam}`;
+    }
+    return url;
+});
+</script>
+
+<template>
+    <Head :title="t('budget_planner')" />
+
+    <component :is="'style'">
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        .font-serif-luxury { font-family: 'Cormorant Garamond', serif; }
+        .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        .mode-tab {
+            padding: 12px 24px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 16px;
+            border: 1px solid #E6E1DA;
+            background: white;
+            color: #8C8275;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .mode-tab.active {
+            background: #4A6B5D;
+            color: white;
+            border-color: #4A6B5D;
+            box-shadow: 0 4px 12px rgba(74, 107, 93, 0.15);
+        }
+        
+        .simulator-container {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid #E6E1DA;
+        }
+        
+        .package-select-card {
+            border: 1px solid #E6E1DA;
+            border-radius: 20px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .package-select-card:hover {
+            border-color: #4A6B5D;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -8px rgba(74, 107, 93, 0.12);
+        }
+        .package-select-card.active {
+            border-color: #4A6B5D;
+            background-color: #FAF9F6;
+        }
+        
+        .active-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: #4A6B5D;
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            box-shadow: 0 2px 5px rgba(74, 107, 93, 0.2);
+        }
+
+        .addon-item-card {
+            border: 1px solid #E6E1DA;
+            border-radius: 16px;
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+        }
+        .addon-item-card:hover {
+            border-color: #4A6B5D;
+        }
+        .addon-item-card.selected {
+            border-color: #4A6B5D;
+            background-color: #FAF9F6;
+        }
+        
+        .addon-checkbox {
+            width: 18px;
+            height: 18px;
+            border-radius: 6px;
+            border: 1px solid #C6C1B9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            background: white;
+            color: transparent;
+            font-size: 9px;
+            flex-shrink: 0;
+        }
+        .addon-item-card.selected .addon-checkbox {
+            background: #4A6B5D;
+            border-color: #4A6B5D;
+            color: white;
+        }
+
+        /* Invoice styling */
+        .receipt-card {
+            background: #FFFFFF;
+            border: 1px solid #E6E1DA;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px -6px rgba(15, 23, 42, 0.03);
+        }
+        .receipt-header {
+            background: #4A6B5D;
+            color: #FAF7F2;
+            padding: 20px 24px;
+        }
+        .receipt-body {
+            padding: 24px;
+        }
+        .receipt-divider {
+            border-top: 1px dashed #E6E1DA;
+            margin: 16px 0;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #5C6460;
+            padding: 4px 0;
+        }
+        .receipt-row.total {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #2D3330;
+        }
+        
+        .alert-banner {
+            border-radius: 16px;
+            padding: 16px;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            display: flex;
+            gap: 12px;
+        }
+        .alert-banner.success {
+            background: rgba(74, 107, 93, 0.08);
+            border: 1px solid rgba(74, 107, 93, 0.2);
+            color: #2D3330;
+        }
+        .alert-banner.warning {
+            background: rgba(197, 168, 128, 0.1);
+            border: 1px solid rgba(197, 168, 128, 0.3);
+            color: #2D3330;
+        }
+        .alert-banner.danger {
+            background: rgba(220, 38, 38, 0.05);
+            border: 1px solid rgba(220, 38, 38, 0.15);
+            color: #2D3330;
+        }
+    </component>
+
+    <AuthenticatedLayout
+        header-title="Budget Planner"
+        header-desc="Estimate your catering costs live before placing a booking."
+    >
+
+        <div class="font-sans-modern">
+            <div class="max-w-7xl mx-auto px-6">
+                
+                <!-- Gourmet Hero Banner Card -->
+                <div class="bg-[#2D3330] text-[#FAF7F2] rounded-3xl p-8 md:p-10 border border-[#E6E1DA] shadow-sm flex flex-col md:flex-row justify-between items-center gap-6 mb-10 overflow-hidden relative">
+                    <!-- Oatmeal blur decorative circle -->
+                    <div class="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-white/5 blur-2xl"></div>
+                    
+                    <div class="space-y-3 relative z-10 max-w-2xl">
+                        <span class="text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#FAF9F6]/20 px-3 py-1 rounded-full uppercase tracking-widest inline-block select-none">{{ t('budget_planner') }}</span>
+                        <h3 class="text-3xl lg:text-4xl font-light font-serif-luxury tracking-wide">
+                            {{ t('live_estimate') }}
+                        </h3>
+                        <p class="text-xs text-[#E6E1DA]/80 font-light leading-relaxed">
+                            {{ t('budget_planner_desc') }}
+                        </p>
+                    </div>
+
+                    <!-- Right side illustration image thumbnail -->
+                    <div class="hidden md:block w-36 h-36 rounded-2xl overflow-hidden shrink-0 border border-[#FAF7F2]/10 shadow-lg relative z-10">
+                        <img src="/img/catering_dish.png" class="w-full h-full object-cover" alt="Gourmet dish" />
+                    </div>
+                </div>
+
+                <!-- Custom Proposal Toggle Banner -->
+                <div class="bg-[#FAF9F6] border border-[#E6E1DA] rounded-3xl p-6 flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+                    <div class="space-y-1">
+                        <h4 class="font-serif-luxury text-xl font-normal text-[#2D3330]">
+                            {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Prefer a Custom Budget Menu?' : 'Inginkan Menu Ikut Bajet Sendiri?' }}
+                        </h4>
+                        <p class="text-xs text-[#8C8275] font-light">
+                            {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Tell us your budget, guest count, and pick your preferred wishlist dishes. Our chef will customize a proposal just for you!' : 'Nyatakan bajet, bilangan tetamu, dan pilih lauk-pauk kegemaran anda. Chef kami akan menyediakan cadangan khas untuk anda!' }}
+                        </p>
+                    </div>
+                    <button 
+                        type="button"
+                        @click="showCustomForm = !showCustomForm"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer"
+                    >
+                        {{ showCustomForm 
+                            ? ((currentLanguage.value || currentLanguage) === 'en' ? 'Back to Budget Calculator' : 'Kembali ke Kalkulator Pakej') 
+                            : ((currentLanguage.value || currentLanguage) === 'en' ? 'Request Custom Proposal' : 'Minta Menu Khas') 
+                        }}
+                    </button>
+                </div>
+
+                <div v-if="!showCustomForm" class="grid lg:grid-cols-12 gap-8 items-start">
+                    
+                    <!-- Left Column: Inputs & Selector (8 cols) -->
+                    <div class="lg:col-span-8 space-y-8">
+                        
+                        <!-- Step 1: Mode Switch and Input -->
+                        <div class="simulator-container space-y-6">
+                            <h4 class="text-xs font-bold text-[#8C8275] uppercase tracking-widest border-b border-[#E6E1DA] pb-3 flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-[10px]">1</span>
+                                {{ t('step_planning_mode') }}
+                            </h4>
+                            
+                            <div class="flex flex-wrap gap-3">
+                                <button 
+                                    type="button" 
+                                    class="mode-tab flex items-center gap-2"
+                                    :class="{ 'active': searchMode === 'guest' }"
+                                    @click="searchMode = 'guest'"
+                                >
+                                    <i class="fas fa-users text-xs"></i> {{ t('calc_by_guest') }}
+                                </button>
+                                <button 
+                                    type="button" 
+                                    class="mode-tab flex items-center gap-2"
+                                    :class="{ 'active': searchMode === 'budget' }"
+                                    @click="searchMode = 'budget'"
+                                >
+                                    <i class="fas fa-wallet text-xs"></i> {{ t('calc_by_budget') }}
+                                </button>
+                            </div>
+
+                            <div class="max-w-md">
+                                <!-- Target Budget Input -->
+                                <div v-if="searchMode === 'budget'" class="space-y-2 animate-fade-in">
+                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
+                                        {{ t('enter_target_budget') }}
+                                    </label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-bold text-[#8C8275]">RM</span>
+                                        <input 
+                                            type="number" 
+                                            v-model="targetBudget" 
+                                            min="1"
+                                            class="w-full pl-12 pr-4 py-3 border border-[#E6E1DA] rounded-xl focus:outline-none focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF7F2]/40 text-xs font-semibold"
+                                        />
+                                    </div>
+                                </div>
+
+                                <!-- Guest Count Input -->
+                                <div v-if="searchMode === 'guest'" class="space-y-2 animate-fade-in">
+                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
+                                        {{ t('enter_guest_count') }}
+                                    </label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[#8C8275]"><i class="fas fa-users text-xs"></i></span>
+                                        <input 
+                                            type="number" 
+                                            v-model="guestCount" 
+                                            min="1"
+                                            class="w-full pl-12 pr-4 py-3 border border-[#E6E1DA] rounded-xl focus:outline-none focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF7F2]/40 text-xs font-semibold"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Select Package -->
+                        <div class="simulator-container space-y-6">
+                            <h4 class="text-xs font-bold text-[#8C8275] uppercase tracking-widest border-b border-[#E6E1DA] pb-3 flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-[10px]">2</span>
+                                {{ t('step_base_package') }}
+                            </h4>
+
+                            <div class="grid grid-cols-1 gap-4" :class="packages.length > 1 ? 'md:grid-cols-2' : 'grid-cols-1 max-w-md w-full'">
+                                <div 
+                                    v-for="pkg in packages" 
+                                    :key="pkg.id"
+                                    class="package-select-card"
+                                    :class="{ 'active': selectedPackageId === pkg.id }"
+                                    @click="selectPackage(pkg.id)"
+                                >
+                                    <div v-if="selectedPackageId === pkg.id" class="active-badge">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <h5 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide mb-1">
+                                        {{ pkg.package_name }}
+                                    </h5>
+                                    <div class="text-xs text-[#4A6B5D] font-bold mb-3">
+                                        RM {{ parseFloat(pkg.price).toFixed(2) }} / {{ t('pax') }}
+                                    </div>
+                                    <p class="text-[10px] text-[#8C8275] uppercase tracking-wider mb-3">
+                                        {{ t('min_requirement') }}: {{ pkg.min_order }} {{ t('pax') }}
+                                    </p>
+                                    <div class="text-[11px] text-[#5C6460] font-light line-clamp-3 border-t border-[#E6E1DA] pt-3 leading-relaxed">
+                                        {{ pkg.description }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Add-on Extra Dishes -->
+                        <div class="simulator-container space-y-6">
+                            <h4 class="text-xs font-bold text-[#8C8275] uppercase tracking-widest border-b border-[#E6E1DA] pb-3 flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-[10px]">3</span>
+                                {{ t('step_addons') }}
+                            </h4>
+
+                            <div v-if="selectedPackage && selectedPackage.addons && selectedPackage.addons.length > 0">
+                                <p class="text-[10px] text-[#8C8275] uppercase tracking-wider mb-4">{{ t('addons_desc') }}</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div 
+                                        v-for="addon in selectedPackage.addons" 
+                                        :key="addon.id"
+                                        class="addon-item-card"
+                                        :class="{ 'selected': selectedAddonIds.includes(addon.id) }"
+                                        @click="toggleAddon(addon.id)"
+                                    >
+                                        <div class="addon-checkbox">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <div class="flex-grow">
+                                            <span class="font-bold text-xs text-[#2D3330] uppercase block">{{ addon.addon_name }}</span>
+                                            <span class="text-xs text-[#4A6B5D] font-semibold">+RM {{ parseFloat(addon.price_per_pax).toFixed(2) }} / {{ t('pax') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-else class="p-6 border border-dashed border-[#E6E1DA] rounded-2xl text-center text-[#8C8275] text-xs font-light">
+                                <i class="fas fa-info-circle mr-1.5 text-xs text-[#C5A880]"></i>
+                                {{ currentLanguage === 'en' ? 'This package does not offer extra add-ons.' : 'Tiada add-on ditawarkan untuk pakej ini.' }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Column: Visual Invoice & Guidelines (4 cols) -->
+                    <div class="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
+                        
+                        <!-- Visual Invoice Simulator -->
+                        <div class="receipt-card">
+                            <div class="receipt-header">
+                                <span class="text-[9px] font-bold uppercase tracking-widest block opacity-80">{{ t('live_estimate') }}</span>
+                                <h4 class="text-lg font-normal font-serif-luxury uppercase tracking-wide mt-1">
+                                    {{ selectedPackage ? selectedPackage.package_name : '-' }}
+                                </h4>
+                            </div>
+
+                            <div class="receipt-body space-y-4 font-sans-modern">
+                                <!-- Price per pax info -->
+                                <div class="receipt-row">
+                                    <span>{{ t('base_pkg_price') }}</span>
+                                    <span>RM {{ selectedPackage ? parseFloat(selectedPackage.price).toFixed(2) : '0.00' }} / pax</span>
+                                </div>
+
+                                <div v-if="selectedAddonIds.length > 0" class="receipt-row text-[#4A6B5D] font-semibold">
+                                    <span>{{ t('addon_extra') }}</span>
+                                    <span>+RM {{ (totalCostPerPax - (selectedPackage ? parseFloat(selectedPackage.price) : 0)).toFixed(2) }} / pax</span>
+                                </div>
+
+                                <div class="receipt-row">
+                                    <span>{{ t('combined_cost_pax') }}</span>
+                                    <span>RM {{ totalCostPerPax.toFixed(2) }} / pax</span>
+                                </div>
+
+                                <div class="receipt-divider"></div>
+
+                                <!-- Guests Pax count -->
+                                <div class="receipt-row">
+                                    <span>{{ t('pax_recommended') }}</span>
+                                    <span class="font-bold text-xs text-[#2D3330]">{{ finalPaxCount }} pax</span>
+                                </div>
+
+                                <!-- Base package subtotal -->
+                                <div class="receipt-row">
+                                    <span>{{ t('base_cost') }}</span>
+                                    <span>RM {{ baseCostTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+                                </div>
+
+                                <!-- Add-ons subtotal -->
+                                <div v-if="addonsCostTotal > 0" class="receipt-row">
+                                    <span>{{ t('selected_extra_items') }}</span>
+                                    <span>RM {{ addonsCostTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+                                </div>
+
+                                <div class="receipt-divider"></div>
+
+                                <!-- Grand Total -->
+                                <div class="receipt-row total">
+                                    <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('grand_total') }}</span>
+                                    <span class="font-serif-luxury text-2xl font-light">
+                                        RM {{ grandTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+                                    </span>
+                                </div>
+
+                                <!-- Deposit breakdown -->
+                                <div class="receipt-row text-[#8C3A3A] font-semibold">
+                                    <span>{{ t('deposit_required') }}</span>
+                                    <span>RM {{ depositAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+                                </div>
+
+                                <div class="receipt-row text-[#8C8275]">
+                                    <span>{{ t('balance_due') }}</span>
+                                    <span>RM {{ balanceAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+                                </div>
+
+                                <!-- Warning indicators for Budget Mode -->
+                                <div v-if="searchMode === 'budget'" class="pt-3">
+                                    <div v-if="isBudgetInsufficient" class="alert-banner danger">
+                                        <i class="fas fa-exclamation-circle text-red-600 mt-0.5 text-sm"></i>
+                                        <div>
+                                            <span class="font-bold block">{{ t('insufficient_budget') }}</span>
+                                            <span class="text-[#8C8275] text-[10px] block mt-0.5">{{ t('insufficient_budget_desc') }}</span>
+                                        </div>
+                                    </div>
+                                    <div v-else-if="budgetDifference < 0" class="alert-banner warning">
+                                        <i class="fas fa-exclamation-triangle text-[#C5A880] mt-0.5 text-sm"></i>
+                                        <div>
+                                            <span class="font-bold block">{{ t('budget_exceeded') }}</span>
+                                            <span class="font-bold text-sm block mt-1 text-[#8C3A3A]">
+                                                RM {{ Math.abs(budgetDifference).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div v-else class="alert-banner success">
+                                        <i class="fas fa-check-circle text-[#4A6B5D] mt-0.5 text-sm"></i>
+                                        <div>
+                                            <span class="font-bold block">{{ t('within_budget') }}</span>
+                                            <span class="text-[10px] block mt-0.5">
+                                                {{ t('leftover_budget') }}: <strong>RM {{ budgetDifference.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</strong>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Warning for Guest count below minimum -->
+                                <div v-if="searchMode === 'guest' && isGuestCountBelowMin" class="pt-3">
+                                    <div class="alert-banner warning">
+                                        <i class="fas fa-info-circle text-[#C5A880] mt-0.5 text-sm"></i>
+                                        <div>
+                                            <span class="font-bold block">{{ t('auto_adjusted_min') }}</span>
+                                            <span class="text-[#8C8275] text-[10px] block mt-0.5">
+                                                Your guest count is below the minimum order of {{ selectedPackage?.min_order }} pax.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-4">
+                                    <Link 
+                                        v-if="!isBudgetInsufficient && finalPaxCount > 0"
+                                        :href="bookRedirectUrl"
+                                        class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3.5 px-6 rounded-xl text-xs uppercase tracking-widest transition-colors shadow-sm text-center cursor-pointer"
+                                    >
+                                        {{ t('book_customize_plan') }} <i class="fas fa-arrow-right text-[10px]"></i>
+                                    </Link>
+                                    <button 
+                                        v-else
+                                        disabled
+                                        class="w-full inline-flex items-center justify-center gap-2 bg-[#E6E1DA] text-[#8C8275] font-semibold py-3.5 px-6 rounded-xl text-xs uppercase tracking-widest cursor-not-allowed text-center"
+                                    >
+                                        {{ t('book_customize_plan') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Catering Guidelines Card -->
+                        <div class="simulator-container space-y-4">
+                            <h4 class="text-xs font-bold text-[#2D3330] uppercase tracking-wider flex items-center gap-2">
+                                <i class="far fa-compass text-[#4A6B5D] text-sm"></i> {{ t('catering_guidelines') }}
+                            </h4>
+                            
+                            <div class="space-y-3.5 text-xs">
+                                <div>
+                                    <span class="font-bold text-[#2D3330] block mb-1">{{ t('guide_pax_title') }}</span>
+                                    <p class="text-[#8C8275] font-light leading-relaxed">{{ t('guide_pax_desc') }}</p>
+                                </div>
+                                <div class="border-t border-[#FAF6F0] pt-3.5">
+                                    <span class="font-bold text-[#2D3330] block mb-1">{{ t('guide_halal_title') }}</span>
+                                    <p class="text-[#8C8275] font-light leading-relaxed">{{ t('guide_halal_desc') }}</p>
+                                </div>
+                                <div class="border-t border-[#FAF6F0] pt-3.5">
+                                    <span class="font-bold text-[#2D3330] block mb-1">{{ t('guide_changes_title') }}</span>
+                                    <p class="text-[#8C8275] font-light leading-relaxed">{{ t('guide_changes_desc') }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Custom Menu Request Form -->
+                <div v-else class="simulator-container space-y-8 animate-fade-in mb-10">
+                    <div>
+                        <!-- Back Link -->
+                        <div class="mb-4">
+                            <button 
+                                type="button"
+                                @click="showCustomForm = false"
+                                class="inline-flex items-center gap-2 text-xs text-[#8C8275] hover:text-[#4A6B5D] font-medium transition-colors cursor-pointer"
+                            >
+                                <i class="fas fa-arrow-left text-[10px]"></i> 
+                                {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Back to Budget Calculator' : 'Kembali ke Kalkulator Pakej' }}
+                            </button>
+                        </div>
+
+                        <h3 class="font-serif-luxury text-2xl text-[#2D3330] font-normal uppercase tracking-wide">
+                            {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Request Custom Menu Proposal' : 'Minta Cadangan Menu Khas' }}
+                        </h3>
+                        <p class="text-xs text-[#8C8275] font-light mt-1">
+                            {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Fill up the form below and build your wishlist menu. The owner will adjust it to fit your budget.' : 'Isi borang di bawah dan pilih senarai lauk idaman anda. Pemilik katering akan menyesuaikannya mengikut bajet anda.' }}
+                        </p>
+                    </div>
+
+                    <form @submit.prevent="submitCustomProposal" class="space-y-6">
+                        <!-- 2 Column Grid for Form Fields -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            
+                            <!-- Target Budget -->
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
+                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Target Budget (RM)' : 'Bajet Sasaran (RM)' }} *
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-bold text-[#8C8275]">RM</span>
+                                    <input 
+                                        type="number" 
+                                        v-model="customForm.budget" 
+                                        min="100"
+                                        placeholder="e.g. 3000"
+                                        class="w-full pl-12 pr-4 py-3 border border-[#E6E1DA] rounded-xl focus:outline-none focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF9F6]/40 text-xs font-semibold text-[#2D3330]"
+                                        required
+                                    />
+                                </div>
+                                <p v-if="formErrors.budget" class="text-xs text-red-600 font-semibold">{{ formErrors.budget }}</p>
+                            </div>
+
+                            <!-- Guest Count -->
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
+                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Guest Count (Pax)' : 'Bilangan Tetamu (Pax)' }} *
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[#8C8275]"><i class="fas fa-users text-xs"></i></span>
+                                    <input 
+                                        type="number" 
+                                        v-model="customForm.guest_count" 
+                                        min="20"
+                                        placeholder="e.g. 150"
+                                        class="w-full pl-12 pr-4 py-3 border border-[#E6E1DA] rounded-xl focus:outline-none focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF9F6]/40 text-xs font-semibold text-[#2D3330]"
+                                        required
+                                    />
+                                </div>
+                                <p v-if="formErrors.guest_count" class="text-xs text-red-600 font-semibold">{{ formErrors.guest_count }}</p>
+                            </div>
+
+                            <!-- Delivery Date -->
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
+                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Event Date' : 'Tarikh Acara' }} *
+                                </label>
+                                <input 
+                                    type="date" 
+                                    v-model="customForm.delivery_date" 
+                                    class="w-full px-4 py-3 border border-[#E6E1DA] rounded-xl focus:outline-none focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF9F6]/40 text-xs font-semibold text-[#2D3330]"
+                                    required
+                                />
+                                <p v-if="formErrors.delivery_date" class="text-xs text-red-600 font-semibold">{{ formErrors.delivery_date }}</p>
+                                <p class="text-[10px] text-[#8C8275] mt-1">{{ (currentLanguage.value || currentLanguage) === 'en' ? 'Must be booked at least 7 days in advance.' : 'Mesti ditempah sekurang-kurangnya 7 hari sebelum acara.' }}</p>
+                            </div>
+
+                            <!-- Delivery Time -->
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
+                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Delivery/Event Time' : 'Waktu Penghantaran/Acara' }} *
+                                </label>
+                                <input 
+                                    type="time" 
+                                    v-model="customForm.delivery_time" 
+                                    class="w-full px-4 py-3 border border-[#E6E1DA] rounded-xl focus:outline-none focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF9F6]/40 text-xs font-semibold text-[#2D3330]"
+                                    required
+                                />
+                                <p v-if="formErrors.delivery_time" class="text-xs text-red-600 font-semibold">{{ formErrors.delivery_time }}</p>
+                            </div>
+                            
+                            <!-- Delivery Address -->
+                            <div class="md:col-span-2 space-y-2">
+                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
+                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Delivery Venue / Address' : 'Alamat / Lokasi Penghantaran' }} *
+                                </label>
+                                <textarea 
+                                    v-model="customForm.address"
+                                    rows="3"
+                                    placeholder="Provide full details of the venue..."
+                                    class="w-full px-4 py-3 border border-[#E6E1DA] rounded-xl focus:outline-none focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF9F6]/40 text-xs font-semibold text-[#2D3330]"
+                                    required
+                                ></textarea>
+                                <p v-if="formErrors.address" class="text-xs text-red-600 font-semibold">{{ formErrors.address }}</p>
+                            </div>
+
+                            <!-- Special Notes -->
+                            <div class="md:col-span-2 space-y-2">
+                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
+                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Additional Notes / Request Details' : 'Nota Tambahan / Butiran Permintaan' }}
+                                </label>
+                                <textarea 
+                                    v-model="customForm.notes"
+                                    rows="3"
+                                    placeholder="E.g., allergies, special service requests, tent rental needs..."
+                                    class="w-full px-4 py-3 border border-[#E6E1DA] rounded-xl focus:outline-none focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF9F6]/40 text-xs font-semibold text-[#2D3330]"
+                                ></textarea>
+                                <p v-if="formErrors.notes" class="text-xs text-red-600 font-semibold">{{ formErrors.notes }}</p>
+                            </div>
+
+                        </div>
+
+                        <!-- Wishlist Dishes Categories -->
+                        <div class="space-y-4 border-t border-[#E6E1DA] pt-6">
+                            <div>
+                                <h4 class="font-serif-luxury text-xl text-[#2D3330] font-normal uppercase tracking-wide">
+                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Select Wishlist Dishes' : 'Pilih Lauk-Pauk Wishlist' }} *
+                                </h4>
+                                <p class="text-xs text-[#8C8275] font-light mt-0.5">
+                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Pick the dishes you wish to include in your menu. The caterer will finalize the options.' : 'Tandakan hidangan yang anda inginkan. Pemilik katering akan menyusun semula menu akhir.' }}
+                                </p>
+                                <p v-if="formErrors.dishes" class="text-xs text-red-600 font-semibold mt-1">{{ formErrors.dishes }}</p>
+                            </div>
+
+                            <div class="space-y-6">
+                                <div v-for="(dishesList, category) in dishesByCategory" :key="category" class="space-y-2.5">
+                                    <h5 class="text-xs font-bold text-[#4A6B5D] uppercase tracking-wider bg-[#FAF9F6] border border-[#E6E1DA] px-3 py-1.5 rounded-lg inline-block">
+                                        {{ category }}
+                                    </h5>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                                        <label 
+                                            v-for="dish in dishesList" 
+                                            :key="dish.id"
+                                            class="addon-item-card cursor-pointer"
+                                            :class="{ 'selected': customForm.dishes.includes(dish.id) }"
+                                        >
+                                            <input 
+                                                type="checkbox" 
+                                                :value="dish.id" 
+                                                v-model="customForm.dishes"
+                                                class="hidden"
+                                            />
+                                            <div class="addon-checkbox">
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <div>
+                                                <span class="font-semibold text-xs text-[#2D3330] uppercase block">{{ dish.name }}</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Panel -->
+                        <div class="border-t border-[#E6E1DA] pt-6 flex justify-end gap-3">
+                            <button 
+                                type="button"
+                                @click="showCustomForm = false"
+                                class="px-6 py-3 border border-[#E6E1DA] text-[#8C8275] rounded-xl text-xs uppercase tracking-widest font-semibold hover:bg-[#FAF9F6] transition-colors cursor-pointer"
+                            >
+                                {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Cancel' : 'Batal' }}
+                            </button>
+                            <button 
+                                type="submit"
+                                :disabled="isSubmitting"
+                                class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:bg-[#E6E1DA] text-white px-6 py-3 rounded-xl text-xs uppercase tracking-widest font-semibold transition-colors cursor-pointer flex items-center gap-2"
+                            >
+                                <span v-if="isSubmitting"><i class="fas fa-spinner fa-spin mr-1"></i> {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Submitting...' : 'Menghantar...' }}</span>
+                                <span v-else>{{ (currentLanguage.value || currentLanguage) === 'en' ? 'Submit Proposal Request' : 'Hantar Permintaan Cadangan' }}</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </AuthenticatedLayout>
+</template>

@@ -16,10 +16,12 @@ class Cart extends Model
         'total_price',
         'selected_addons',
         'addon_cost',
+        'selected_dishes',
     ];
 
     protected $casts = [
         'selected_addons' => 'array',
+        'selected_dishes' => 'array',
     ];
 
     public function user(): BelongsTo

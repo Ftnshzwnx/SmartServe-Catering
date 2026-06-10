@@ -47,6 +47,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
+        if ($request->has('timeout') || $request->input('timeout')) {
+            return redirect('/?drawer=login&timeout=1');
+        }
+
         return redirect('/');
     }
 }

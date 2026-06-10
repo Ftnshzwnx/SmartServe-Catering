@@ -10,4 +10,13 @@ class Setting extends Model
         'setting_key',
         'setting_value',
     ];
+
+    /**
+     * Helper to get setting value by key with a default.
+     */
+    public static function getVal(string $key, $default = null)
+    {
+        $setting = self::where('setting_key', $key)->first();
+        return $setting ? $setting->setting_value : $default;
+    }
 }

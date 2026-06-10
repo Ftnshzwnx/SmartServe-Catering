@@ -1,287 +1,676 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { ref } from 'vue';
+import { Head, Link, useForm, router } from '@inertiajs/vue3';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
+import { useToast } from '@/Composables/useToast';
+import { useConfirm } from '@/Composables/useConfirm';
 
 const props = defineProps({
     metrics: {
         type: Object,
         required: true,
     },
-    monthlySales: {
+    pendingVerification: {
         type: Array,
         required: true,
     },
-    recentOrders: {
+    upcomingEvents: {
+        type: Array,
+        required: true,
+    },
+    recentReviews: {
         type: Array,
         required: true,
     },
 });
 
-function getMonthName(monthNumber) {
-    const months = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-    ];
-    return months[monthNumber - 1] || 'Month ' + monthNumber;
+const { toast } = useToast();
+const { confirm, prompt } = useConfirm();
+
+const showDetailsModal = ref(false);
+const selectedOrderDetails = ref(null);
+
+function openDetailsModal(order) {
+    selectedOrderDetails.value = order;
+    showDetailsModal.value = true;
 }
 
-// Find max revenue for scaling simple visual bar charts
-const maxRevenue = computed(() => {
-    if (props.monthlySales.length === 0) return 1;
-    return Math.max(...props.monthlySales.map(s => parseFloat(s.revenue || 0)), 1);
+function closeDetailsModal() {
+    showDetailsModal.value = false;
+    selectedOrderDetails.value = null;
+}
+
+const verifyForm = useForm({
+    action: '',
+    admin_note: '',
 });
 
-function getBarHeightPercentage(revenue) {
-    return (parseFloat(revenue) / maxRevenue.value) * 100 + '%';
+async function handleVerify(orderId, actionType) {
+    if (actionType === 'reject') {
+        const note = await prompt('Please enter the rejection reason / notes for the customer:', 'Reject Payment');
+        if (note === null) return;
+        if (!note.trim()) {
+            toast('Rejection note is required to reject payment verification.', 'error');
+            return;
+        }
+        verifyForm.admin_note = note;
+    } else {
+        verifyForm.admin_note = '';
+        if (!(await confirm('Are you sure you want to approve this payment receipt?', 'Approve Payment'))) return;
+    }
+
+    verifyForm.action = actionType;
+    verifyForm.post(route('admin.orders.verify', { id: orderId }), {
+        onSuccess: () => {
+            toast('Order status has been updated and customer notified.');
+            closeDetailsModal();
+        }
+    });
+}
+
+async function handleDeliver(orderId) {
+    if (!(await confirm('Are you sure you want to mark this order as Delivered? This will notify the customer via email and request the 70% balance payment.', 'Mark as Delivered'))) return;
+    
+    router.post(route('admin.orders.deliver', { id: orderId }), {}, {
+        onSuccess: () => {
+            toast('Order status has been updated to Delivered and customer notified.');
+            closeDetailsModal();
+        }
+    });
 }
 
 function getStatusBadge(status) {
     switch (status) {
         case 'Pending':
-            return 'bg-amber-100 text-amber-800 border-amber-200';
+            return 'bg-amber-50 text-amber-800 border-amber-200';
         case 'Confirmed':
-            return 'bg-blue-100 text-blue-800 border-blue-200';
+            return 'bg-emerald-50 text-[#4A6B5D] border-emerald-200';
         case 'Payment Submitted':
-            return 'bg-indigo-100 text-indigo-800 border-indigo-200';
+            return 'bg-indigo-50 text-indigo-800 border-indigo-200';
         case 'Delivered':
-            return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+            return 'bg-teal-50 text-teal-800 border-teal-200';
         case 'Completed':
-            return 'bg-green-100 text-green-800 border-green-200';
+            return 'bg-green-50 text-green-800 border-green-200';
         case 'Deposit Rejected':
         case 'Balance Rejected':
-            return 'bg-rose-100 text-rose-800 border-rose-200';
+            return 'bg-rose-50 text-rose-800 border-rose-200';
         case 'Cancelled':
             return 'bg-slate-100 text-slate-800 border-slate-200';
         default:
             return 'bg-slate-100 text-slate-800 border-slate-200';
     }
 }
+
+function getGroupedDishes(item) {
+    const dishesList = [];
+    if (item.selected_dishes && item.selected_dishes.length > 0) {
+        item.selected_dishes.forEach(d => {
+            if (typeof d === 'object' && d !== null) {
+                dishesList.push({
+                    name: d.name,
+                    category: d.category || 'Others',
+                    isDefault: false
+                });
+            } else {
+                const matchedDish = item.package?.dishes?.find(pd => pd.name === d);
+                dishesList.push({
+                    name: d,
+                    category: matchedDish ? matchedDish.category : 'Others',
+                    isDefault: false
+                });
+            }
+        });
+    } else if (item.package) {
+        const defaultNames = item.package.description 
+            ? item.package.description.split('\n').map(name => name.trim()).filter(Boolean)
+            : [];
+            
+        if (defaultNames.length > 0) {
+            defaultNames.forEach(name => {
+                const matchedDish = item.package.dishes?.find(pd => pd.name === name);
+                dishesList.push({
+                    name: name,
+                    category: matchedDish ? matchedDish.category : 'Others',
+                    isDefault: true
+                });
+            });
+        } else if (item.package.dishes && item.package.dishes.length > 0) {
+            item.package.dishes.forEach(d => {
+                dishesList.push({
+                    name: d.name,
+                    category: d.category || 'Others',
+                    isDefault: true
+                });
+            });
+        }
+    }
+
+    // Group by category
+    const grouped = {};
+    dishesList.forEach(dish => {
+        const cat = dish.category;
+        if (!grouped[cat]) {
+            grouped[cat] = [];
+        }
+        grouped[cat].push(dish);
+    });
+    return grouped;
+}
 </script>
 
 <template>
-    <Head title="Admin Dashboard Overview" />
-
-    <component :is="'style'">
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
-        .font-title { font-family: 'Outfit', sans-serif; }
-        .font-body { font-family: 'Inter', sans-serif; }
-        .sidebar {
-            width: 260px;
-            background: #0f172a;
-        }
-        .main-content {
-            width: calc(100% - 260px);
-        }
-        .metric-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 24px;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.01);
-        }
-        .chart-container {
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 28px;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-        }
-        .bar-fill {
-            background: linear-gradient(180deg, #c5a880 0%, #b89047 100%);
-            border-radius: 6px 6px 0 0;
-            transition: height 0.5s ease;
-        }
-        .sidebar-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 18px;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #94a3b8;
-            transition: all 0.2s ease;
-        }
-        .sidebar-link:hover, .sidebar-link.active {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.08);
-        }
-        .sidebar-link.active {
-            border-left: 3px solid #c5a880;
-        }
-    </component>
-
-    <div class="min-h-screen bg-[#f8fafc] flex font-body">
-        
-        <!-- Admin Navigation Sidebar -->
-        <aside class="sidebar min-h-screen p-6 flex flex-col justify-between shrink-0 shadow-lg text-slate-300">
-            <div class="space-y-8">
-                <!-- Branding logo -->
-                <div class="flex items-center gap-2 border-b border-slate-800 pb-6">
-                    <i class="fas fa-concierge-bell text-xl text-[#c5a880]"></i>
-                    <span class="text-xl font-extrabold tracking-tight text-white font-title">
-                        Smart<span class="text-[#c5a880]">Serve</span> Admin
-                    </span>
-                </div>
-
-                <!-- Nav list links -->
-                <nav class="space-y-2">
-                    <Link :href="route('admin.dashboard')" class="sidebar-link active">
-                        <i class="fas fa-chart-line text-sm w-5"></i> Dashboard
-                    </Link>
-                    <Link :href="route('admin.orders')" class="sidebar-link">
-                        <i class="fas fa-receipt text-sm w-5"></i> Manage Orders
-                    </Link>
-                    <Link :href="route('admin.packages')" class="sidebar-link">
-                        <i class="fas fa-utensils text-sm w-5"></i> Catering Menus
-                    </Link>
-                    <Link :href="route('admin.settings')" class="sidebar-link">
-                        <i class="fas fa-cogs text-sm w-5"></i> Settings
-                    </Link>
-                </nav>
-            </div>
-
-            <div class="border-t border-slate-800 pt-6">
-                <!-- Log out -->
-                <Link 
-                    :href="route('logout')" 
-                    method="post" 
-                    as="button" 
-                    class="w-full flex items-center gap-2 px-4 py-2.5 rounded-xl hover:bg-red-500/10 hover:text-red-400 text-xs font-bold text-slate-400 transition-colors"
-                >
-                    <i class="fas fa-sign-out-alt"></i> Log Out
-                </Link>
-            </div>
-        </aside>
-
-        <!-- Main Dashboard Content -->
-        <main class="main-content p-10 space-y-10">
-            <!-- Upper greeting bar -->
-            <div class="flex justify-between items-center border-b border-slate-200 pb-6">
+    <AdminLayout
+        title="Admin Dashboard Overview"
+        header-title="Admin Dashboard"
+        header-desc="Review operational alerts, approve bookings, and monitor daily catering events."
+    >
+        <!-- Metrics Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Revenue -->
+            <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in">
                 <div>
-                    <h1 class="text-3xl font-bold font-title text-slate-800">Admin Dashboard</h1>
-                    <p class="text-xs text-slate-400 mt-1">Review metrics, verify receipts and manage business settings.</p>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">Total Revenue</span>
+                    <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">RM {{ parseFloat(metrics.totalRevenue || 0).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
                 </div>
-                <div class="flex items-center gap-3">
-                    <Link 
-                        :href="route('admin.orders', { status: 'Pending' })" 
-                        class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-sm transition-colors"
-                    >
-                        Pending Actions
-                        <span v-if="metrics.pendingOrders > 0" class="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center font-bold text-[10px]">
-                            {{ metrics.pendingOrders }}
-                        </span>
-                    </Link>
+                <div class="w-12 h-12 bg-emerald-50 text-[#4A6B5D] rounded-xl border border-emerald-100 flex items-center justify-center text-lg">
+                    <i class="fas fa-coins"></i>
                 </div>
             </div>
 
-            <!-- Metrics Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Revenue -->
-                <div class="metric-card flex items-center justify-between">
-                    <div>
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1">Total Revenue</span>
-                        <span class="text-2xl font-extrabold text-[#0f172a] font-title">RM {{ parseFloat(metrics.totalRevenue || 0).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
-                    </div>
-                    <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-lg">
-                        <i class="fas fa-coins"></i>
-                    </div>
+            <!-- Total Orders -->
+            <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 50ms;">
+                <div>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">Total Bookings</span>
+                    <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ metrics.totalOrders }}</span>
                 </div>
-
-                <!-- Total Orders -->
-                <div class="metric-card flex items-center justify-between">
-                    <div>
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1">Total Bookings</span>
-                        <span class="text-2xl font-extrabold text-[#0f172a] font-title">{{ metrics.totalOrders }}</span>
-                    </div>
-                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-lg">
-                        <i class="fas fa-receipt"></i>
-                    </div>
-                </div>
-
-                <!-- Pending Verification -->
-                <div class="metric-card flex items-center justify-between">
-                    <div>
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1">Pending Verify</span>
-                        <span class="text-2xl font-extrabold text-[#0f172a] font-title">{{ metrics.pendingPayment }}</span>
-                    </div>
-                    <div class="w-12 h-12 bg-amber-50 text-[#c5a880] rounded-xl flex items-center justify-center text-lg">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                </div>
-
-                <!-- Completed -->
-                <div class="metric-card flex items-center justify-between">
-                    <div>
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1">Completed Events</span>
-                        <span class="text-2xl font-extrabold text-[#0f172a] font-title">{{ metrics.completedOrders }}</span>
-                    </div>
-                    <div class="w-12 h-12 bg-green-50 text-green-600 rounded-xl flex items-center justify-center text-lg">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl border border-blue-100 flex items-center justify-center text-lg">
+                    <i class="fas fa-receipt"></i>
                 </div>
             </div>
 
-            <!-- Visual Bar Chart for Sales (pure css) & Recent Table -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <!-- Sales chart visualizer (7 cols) -->
-                <div class="lg:col-span-7 chart-container space-y-6">
+            <!-- Pending Verification -->
+            <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 100ms;">
+                <div>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">Pending Verify</span>
+                    <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ metrics.pendingPayment }}</span>
+                </div>
+                <div class="w-12 h-12 bg-amber-50 text-[#C5A880] rounded-xl border border-amber-100 flex items-center justify-center text-lg">
+                    <i class="fas fa-clock"></i>
+                </div>
+            </div>
+
+            <!-- Completed -->
+            <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 150ms;">
+                <div>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">Completed Events</span>
+                    <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ metrics.completedOrders }}</span>
+                </div>
+                <div class="w-12 h-12 bg-green-50 text-green-600 rounded-xl border border-green-100 flex items-center justify-center text-lg">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Split Layout Panel -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- LEFT COLUMN: Operational Actions & Upcoming Events (8 cols) -->
+            <div class="lg:col-span-8 space-y-8">
+                
+                <!-- Section 1: Bookings Requiring Receipt Verification -->
+                <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
                     <div class="flex justify-between items-center">
-                        <h2 class="text-lg font-bold text-slate-800 font-title">Monthly Sales Performance (RM)</h2>
-                        <span class="text-xs text-slate-400">Current Year</span>
+                        <div>
+                            <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Pending Verifications</h2>
+                            <p class="text-[10px] text-amber-600 font-bold mt-0.5"><i class="fas fa-exclamation-circle mr-1"></i> Receipts submitted by customers waiting for validation.</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <Link :href="route('admin.orders')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">View Orders</Link>
+                            <span class="text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 px-2.5 py-0.5 rounded-full">
+                                {{ pendingVerification.length }} action{{ pendingVerification.length !== 1 ? 's' : '' }} required
+                            </span>
+                        </div>
                     </div>
 
-                    <div v-if="monthlySales.length > 0" class="h-64 flex items-end justify-between gap-4 border-b border-slate-100 pb-4">
+                    <div v-if="pendingVerification.length > 0" class="divide-y divide-[#E6E1DA]">
                         <div 
-                            v-for="sale in monthlySales" 
-                            :key="sale.month" 
-                            class="flex-grow flex flex-col items-center gap-2 group relative"
+                            v-for="order in pendingVerification" 
+                            :key="order.id"
+                            class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 first:pt-0 last:pb-0"
                         >
-                            <!-- Tooltip value -->
-                            <div class="absolute bottom-full mb-1 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-[10px] font-bold px-2 py-1 rounded shadow pointer-events-none">
-                                RM {{ parseFloat(sale.revenue).toLocaleString() }}
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-2">
+                                    <button 
+                                        @click="openDetailsModal(order)"
+                                        class="font-extrabold text-xs text-[#4A6B5D] hover:text-[#3D574B] hover:underline cursor-pointer"
+                                        title="View Booking Details"
+                                    >
+                                        #SSC-{{ order.id }}
+                                    </button>
+                                    <span class="inline-flex text-[9px] font-bold px-2 py-0.5 rounded-full border" :class="getStatusBadge(order.status)">
+                                        {{ order.status === 'Pending' ? 'Deposit Submitted' : 'Balance Submitted' }}
+                                    </span>
+                                </div>
+                                <p class="text-xs font-semibold text-[#2D3330]">
+                                    {{ order.user?.full_name || order.user?.name || 'Customer' }} - {{ order.package_name }}
+                                </p>
+                                <p class="text-[10px] text-[#8C8275] font-semibold">
+                                    Event Date: {{ order.delivery_date }} ({{ order.delivery_time }})
+                                </p>
                             </div>
-                            <!-- Simple bar -->
-                            <div 
-                                class="bar-fill w-full"
-                                :style="{ height: getBarHeightPercentage(sale.revenue) }"
-                            ></div>
-                            <span class="text-[10px] font-bold text-slate-400">{{ getMonthName(sale.month).substring(0, 3) }}</span>
+
+                            <div class="flex items-center gap-2 shrink-0">
+                                <!-- View Receipt slip -->
+                                <a 
+                                    :href="'/' + order.payment_proof" 
+                                    target="_blank"
+                                    class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold px-3 py-2 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center gap-1"
+                                >
+                                    <i class="fas fa-file-invoice text-[9px]"></i> View Slip
+                                </a>
+                                <!-- Quick Approve -->
+                                <button
+                                    @click="handleVerify(order.id, 'approve')"
+                                    class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
+                                >
+                                    <i class="fas fa-check text-[9px]"></i> Approve
+                                </button>
+                                <!-- Quick Reject -->
+                                <button
+                                    @click="handleVerify(order.id, 'reject')"
+                                    class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-3 py-2 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
+                                >
+                                    <i class="fas fa-times text-[9px]"></i> Reject
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div v-else class="h-64 flex flex-col items-center justify-center text-slate-300 border border-dashed border-slate-200 rounded-xl">
-                        <i class="fas fa-chart-bar text-3xl mb-2"></i>
-                        <span class="text-xs font-bold">No completed sales data available this year.</span>
+                    
+                    <div v-else class="py-10 text-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl flex flex-col items-center justify-center">
+                        <div class="w-10 h-10 bg-emerald-50 text-[#4A6B5D] rounded-full flex items-center justify-center text-sm mb-3">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h5 class="text-xs font-bold text-[#2D3330]">All Caught Up!</h5>
+                        <p class="text-[10px] text-[#8C8275] mt-1">There are no pending receipts requiring verification.</p>
                     </div>
                 </div>
 
-                <!-- Recent Orders list (5 cols) -->
-                <div class="lg:col-span-5 chart-container space-y-6">
+                <!-- Section 2: Upcoming Bookings / Deliveries (next 7 days) -->
+                <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
                     <div class="flex justify-between items-center">
-                        <h2 class="text-lg font-bold text-slate-800 font-title">Recent Bookings</h2>
-                        <Link :href="route('admin.orders')" class="text-xs font-bold text-[#c5a880] hover:underline">View All</Link>
+                        <div>
+                            <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Upcoming Event Gigs</h2>
+                            <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">Catering bookings scheduled for delivery or pickup.</p>
+                        </div>
+                        <Link :href="route('admin.orders')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">View Calendar</Link>
                     </div>
 
-                    <div v-if="recentOrders.length > 0" class="divide-y divide-slate-100">
-                        <div v-for="order in recentOrders" :key="order.id" class="py-3.5 flex justify-between items-center gap-4 first:pt-0">
-                            <div>
-                                <span class="font-bold text-xs text-slate-700 block font-title">#SSC-{{ order.id }} - {{ order.user?.full_name || order.user?.name || 'Customer' }}</span>
-                                <span class="text-[10px] text-slate-400 block mt-0.5">{{ order.delivery_date }}</span>
-                            </div>
-                            <div class="text-right">
-                                <span class="font-bold text-xs text-[#0f172a] block">RM {{ parseFloat(order.total_price).toFixed(2) }}</span>
-                                <span class="inline-flex text-[9px] font-bold px-2 py-0.5 rounded-full border mt-1" :class="getStatusBadge(order.status)">
-                                    {{ order.status }}
-                                </span>
-                            </div>
-                        </div>
+                    <div v-if="upcomingEvents.length > 0" class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
+                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">ID</th>
+                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Customer</th>
+                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Package Details</th>
+                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Event Date</th>
+                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
+                                <tr v-for="order in upcomingEvents" :key="order.id" class="hover:bg-[#FAFAF9] transition-colors">
+                                    <td class="px-5 py-3.5">
+                                        <button 
+                                            @click="openDetailsModal(order)"
+                                            class="font-extrabold text-[#4A6B5D] font-serif-luxury hover:text-[#3D574B] hover:underline cursor-pointer"
+                                            title="View Booking Details"
+                                        >
+                                            #SSC-{{ order.id }}
+                                        </button>
+                                    </td>
+                                    <td class="px-5 py-3.5 font-bold text-[#2D3330]">{{ order.user?.full_name || order.user?.name || 'Customer' }}</td>
+                                    <td class="px-5 py-3.5 max-w-[150px] truncate" :title="order.package_name">{{ order.package_name }}</td>
+                                    <td class="px-5 py-3.5 font-medium">{{ order.delivery_date }} ({{ order.delivery_time }})</td>
+                                    <td class="px-5 py-3.5 text-center">
+                                        <span class="inline-flex text-[9px] font-bold px-2 py-0.5 rounded-full border" :class="getStatusBadge(order.status)">
+                                            {{ order.status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div v-else class="py-12 text-center text-slate-300">
-                        <i class="fas fa-receipt text-3xl mb-2"></i>
-                        <h5 class="text-xs font-bold">No bookings registered.</h5>
+                    
+                    <div v-else class="py-12 text-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl">
+                        <i class="fas fa-truck text-3xl mb-2 text-slate-300"></i>
+                        <h5 class="text-xs font-bold text-[#2D3330]">No upcoming events.</h5>
+                        <p class="text-[10px] text-[#8C8275] mt-1">There are no confirmed event packages scheduled soon.</p>
                     </div>
                 </div>
             </div>
 
-        </main>
-    </div>
+            <!-- RIGHT COLUMN: Quick Links & Recent Feedback Reviews (4 cols) -->
+            <div class="lg:col-span-4 space-y-8">
+                
+                <!-- Quick Navigation Links Panel -->
+                <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
+                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Quick Operations</h2>
+                    
+                    <div class="grid grid-cols-1 gap-2.5">
+                        <Link 
+                            :href="route('admin.orders')" 
+                            class="flex items-center justify-between p-3 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
+                        >
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xs shrink-0 border border-blue-100">
+                                    <i class="fas fa-receipt"></i>
+                                </div>
+                                <span class="text-xs font-bold text-[#5C6460]">Manage Bookings</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
+                        </Link>
+                        
+                        <Link 
+                            :href="route('admin.packages')" 
+                            class="flex items-center justify-between p-3 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
+                        >
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-emerald-50 text-[#4A6B5D] flex items-center justify-center text-xs shrink-0 border border-emerald-100">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <span class="text-xs font-bold text-[#5C6460]">Catering Packages</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
+                        </Link>
+
+                        <Link 
+                            :href="route('admin.calendar')" 
+                            class="flex items-center justify-between p-3 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
+                        >
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xs shrink-0 border border-purple-100">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                                <span class="text-xs font-bold text-[#5C6460]">Booking Calendar</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
+                        </Link>
+
+                        <Link 
+                            :href="route('admin.reports')" 
+                            class="flex items-center justify-between p-3 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
+                        >
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-amber-50 text-[#C5A880] flex items-center justify-center text-xs shrink-0 border border-amber-100">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <span class="text-xs font-bold text-[#5C6460]">Reports & Analytics</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
+                        </Link>
+
+                        <Link 
+                            :href="route('admin.settings')" 
+                            class="flex items-center justify-between p-3 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
+                        >
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xs shrink-0 border border-slate-200">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <span class="text-xs font-bold text-[#5C6460]">System Settings</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
+                        </Link>
+                    </div>
+                </div>
+
+                <!-- Recent Feedback Reviews summary panel -->
+                <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Customer Reviews</h2>
+                        <Link :href="route('admin.reviews')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">Reply All</Link>
+                    </div>
+
+                    <div v-if="recentReviews.length > 0" class="space-y-4">
+                        <div 
+                            v-for="review in recentReviews" 
+                            :key="review.id" 
+                            class="text-xs bg-[#FAF7F2] p-4 rounded-2xl border border-[#E6E1DA] space-y-2"
+                        >
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="font-bold text-[#2D3330] truncate max-w-[130px]">
+                                    {{ review.user?.full_name || review.user?.name || 'Customer' }}
+                                </span>
+                                <!-- Stars -->
+                                <div class="flex text-amber-400 text-[9px] shrink-0">
+                                    <i v-for="star in 5" :key="star" class="fas fa-star" :class="star <= review.rating ? '' : 'text-gray-300'"></i>
+                                </div>
+                            </div>
+                            <p class="text-[#5C6460] font-medium leading-relaxed italic text-[11px]">
+                                "{{ review.review_text || 'No comment provided.' }}"
+                            </p>
+                            <span class="text-[9px] font-bold text-[#8C8275] block uppercase tracking-wider">
+                                Order #SSC-{{ review.order_id }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div v-else class="py-8 text-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl">
+                        <i class="far fa-star text-2xl mb-2 text-slate-300"></i>
+                        <h5 class="text-xs font-bold text-[#2D3330]">No reviews yet.</h5>
+                        <p class="text-[10px] text-[#8C8275]">Client ratings will appear here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Order Viewer Modal -->
+        <div v-if="showDetailsModal && selectedOrderDetails" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4 overflow-y-auto">
+            <div class="bg-white rounded-3xl border border-[#E6E1DA] w-full max-w-2xl shadow-xl overflow-hidden flex flex-col my-8 animate-fade-in">
+                <!-- Modal Header -->
+                <div class="bg-[#FAF7F2] px-6 py-4 border-b border-[#E6E1DA] flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="font-extrabold text-sm text-[#4A6B5D] font-serif-luxury uppercase tracking-wide">
+                            Booking #SSC-{{ selectedOrderDetails.id }}
+                        </span>
+                        <span class="inline-flex text-[9px] font-bold px-2 py-0.5 rounded-full border" :class="getStatusBadge(selectedOrderDetails.status)">
+                            {{ selectedOrderDetails.status === 'Pending' ? 'Deposit Submitted' : (selectedOrderDetails.status === 'Payment Submitted' ? 'Balance Submitted' : selectedOrderDetails.status) }}
+                        </span>
+                    </div>
+                    <button @click="closeDetailsModal" class="text-[#8C8275] hover:text-[#2D3330] transition-colors cursor-pointer">
+                        <i class="fas fa-times text-sm"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-6 md:p-8 space-y-6 overflow-y-auto max-h-[60vh] text-xs">
+                    <!-- Customer and Event Info Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6 border-b border-[#E6E1DA]">
+                        <div class="space-y-2.5">
+                            <h4 class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                <i class="fas fa-user text-[#C5A880]"></i> Customer Information
+                            </h4>
+                            <div class="space-y-1">
+                                <p class="font-bold text-[#2D3330] text-sm">{{ selectedOrderDetails.user?.full_name || selectedOrderDetails.user?.name || 'Customer' }}</p>
+                                <p class="text-[#5C6460] font-semibold"><i class="far fa-envelope mr-1.5 text-gray-400"></i>{{ selectedOrderDetails.user?.email }}</p>
+                                <p class="text-[#5C6460] font-semibold"><i class="fas fa-phone-alt mr-1.5 text-gray-400"></i>{{ selectedOrderDetails.user?.phone || 'No phone number' }}</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2.5">
+                            <h4 class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                <i class="fas fa-calendar-alt text-[#C5A880]"></i> Event Details
+                            </h4>
+                            <div class="space-y-1">
+                                <p class="font-bold text-[#2D3330]"><span class="text-[#8C8275] font-semibold">Date:</span> {{ selectedOrderDetails.delivery_date }}</p>
+                                <p class="font-bold text-[#2D3330]"><span class="text-[#8C8275] font-semibold">Time:</span> {{ selectedOrderDetails.delivery_time }}</p>
+                                <p class="font-bold text-[#2D3330]"><span class="text-[#8C8275] font-semibold">Delivery Option:</span> {{ selectedOrderDetails.delivery_zone || 'Standard' }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Venue Address -->
+                    <div class="pb-6 border-b border-[#E6E1DA] space-y-2">
+                        <h4 class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                            <i class="fas fa-map-marker-alt text-[#C5A880]"></i> Delivery / Event Venue Address
+                        </h4>
+                        <p class="text-[#2D3330] font-bold leading-relaxed bg-[#FAF7F2] p-3.5 rounded-2xl border border-[#E6E1DA]">
+                            {{ selectedOrderDetails.delivery_address || 'No address specified.' }}
+                        </p>
+                    </div>
+
+                    <!-- Menu & Packages Items -->
+                    <div class="pb-6 border-b border-[#E6E1DA] space-y-3">
+                        <h4 class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                            <i class="fas fa-utensils text-[#C5A880]"></i> Selected Packages & Dishes
+                        </h4>
+                        <div class="space-y-4">
+                            <div v-for="item in selectedOrderDetails.items" :key="item.id" class="space-y-3">
+                                <div class="flex justify-between items-center bg-[#FAF7F2]/50 px-3 py-2 rounded-xl border border-[#E6E1DA]/60">
+                                    <span class="font-bold text-[#2D3330] text-sm">{{ item.package?.package_name || selectedOrderDetails.package_name }}</span>
+                                    <span class="text-xs text-[#4A6B5D] font-extrabold">{{ item.quantity }} Pax</span>
+                                </div>
+                                
+                                <!-- Dishes grouped by category -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-2">
+                                    <div 
+                                        v-for="(dishes, category) in getGroupedDishes(item)" 
+                                        :key="category" 
+                                        class="bg-[#FAF7F2] border border-[#E6E1DA] p-3 rounded-2xl space-y-1.5"
+                                    >
+                                        <span class="text-[9px] font-extrabold text-[#4A6B5D] uppercase tracking-widest block border-b border-[#E6E1DA] pb-1">{{ category }}</span>
+                                        <ul class="space-y-1">
+                                            <li v-for="dish in dishes" :key="dish.name" class="text-[10px] font-bold text-[#5C6460] flex items-center gap-1.5">
+                                                <i class="fas fa-check text-[7px] text-[#4A6B5D]"></i> 
+                                                <span>{{ dish.name }}</span>
+                                                <span v-if="dish.isDefault" class="text-[8px] text-[#8C8275] italic font-normal">(Default)</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div v-if="Object.keys(getGroupedDishes(item)).length === 0" class="col-span-2 text-[10px] text-[#8C8275] italic">
+                                        No dishes defined.
+                                    </div>
+                                </div>
+
+                                <!-- Selected Addons -->
+                                <div v-if="item.selected_addons && item.selected_addons.length > 0" class="mt-2 pl-2 space-y-1.5">
+                                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">Add-ons:</span>
+                                    <div class="flex flex-wrap gap-1.5">
+                                        <span v-for="addon in item.selected_addons" :key="addon" class="bg-amber-50 border border-amber-200 text-[9px] text-amber-800 font-bold px-2.5 py-1 rounded-lg flex items-center gap-1.5">
+                                            <i class="fas fa-plus text-[8px] text-[#C5A880]"></i> {{ addon }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Notes -->
+                    <div v-if="selectedOrderDetails.notes" class="pb-6 border-b border-[#E6E1DA] space-y-2">
+                        <h4 class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                            <i class="fas fa-comment-dots text-[#C5A880]"></i> Customer Notes
+                        </h4>
+                        <p class="text-[#5C6460] font-medium leading-relaxed italic bg-amber-50/40 p-3.5 rounded-2xl border border-amber-100">
+                            "{{ selectedOrderDetails.notes }}"
+                        </p>
+                    </div>
+
+                    <!-- Billing Summary -->
+                    <div class="space-y-2.5">
+                        <h4 class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                            <i class="fas fa-file-invoice-dollar text-[#C5A880]"></i> Billing Breakdown
+                        </h4>
+                        <div class="bg-[#FAF7F2] p-4 rounded-2xl border border-[#E6E1DA] space-y-2">
+                            <div class="flex justify-between font-semibold text-[#5C6460]">
+                                <span>Subtotal</span>
+                                <span>RM {{ (parseFloat(selectedOrderDetails.total_price) - parseFloat(selectedOrderDetails.delivery_fee || 0) + parseFloat(selectedOrderDetails.discount_amount || 0)).toFixed(2) }}</span>
+                            </div>
+                            <div v-if="parseFloat(selectedOrderDetails.delivery_fee) > 0" class="flex justify-between font-semibold text-[#5C6460]">
+                                <span>Delivery Fee ({{ selectedOrderDetails.delivery_zone }})</span>
+                                <span>RM {{ parseFloat(selectedOrderDetails.delivery_fee).toFixed(2) }}</span>
+                            </div>
+                            <div v-if="parseFloat(selectedOrderDetails.discount_amount) > 0" class="flex justify-between font-semibold text-emerald-700">
+                                <span>Discount</span>
+                                <span>- RM {{ parseFloat(selectedOrderDetails.discount_amount).toFixed(2) }}</span>
+                            </div>
+                            <div class="flex justify-between border-t border-[#E6E1DA] pt-2 mt-2">
+                                <span class="font-bold text-[#2D3330] text-sm">Grand Total</span>
+                                <span class="font-black text-[#2D3330] text-base">RM {{ parseFloat(selectedOrderDetails.total_price).toFixed(2) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="bg-[#FAF7F2] px-6 py-4 border-t border-[#E6E1DA] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <button
+                        @click="closeDetailsModal"
+                        class="bg-white hover:bg-gray-50 border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors cursor-pointer text-center"
+                    >
+                        Close
+                    </button>
+                    
+                    <div class="flex items-center gap-2.5 justify-end">
+                        <!-- Download Kitchen Slip PDF -->
+                        <a 
+                            :href="route('orders.invoice.pdf', selectedOrderDetails.id)" 
+                            class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5"
+                        >
+                            <i class="fas fa-file-pdf text-[9px]"></i> Kitchen Slip
+                        </a>
+
+                        <!-- View Receipt slip -->
+                        <a 
+                            v-if="selectedOrderDetails.payment_proof"
+                            :href="'/' + selectedOrderDetails.payment_proof" 
+                            target="_blank"
+                            class="bg-white hover:bg-gray-50 border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5"
+                        >
+                            <i class="fas fa-file-invoice text-[9px]"></i> View Slip
+                        </a>
+                        
+                        <!-- Actions inside modal if order is pending/needs verification -->
+                        <template v-if="selectedOrderDetails.status === 'Pending' || selectedOrderDetails.status === 'Payment Submitted'">
+                            <button
+                                @click="handleVerify(selectedOrderDetails.id, 'approve')"
+                                class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                            >
+                                <i class="fas fa-check text-[9px]"></i> Approve
+                            </button>
+                            <button
+                                @click="handleVerify(selectedOrderDetails.id, 'reject')"
+                                class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                            >
+                                <i class="fas fa-times text-[9px]"></i> Reject
+                            </button>
+                        </template>
+
+                        <!-- Actions inside modal if order is confirmed -->
+                        <template v-if="selectedOrderDetails.status === 'Confirmed'">
+                            <button
+                                @click="handleDeliver(selectedOrderDetails.id)"
+                                class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                            >
+                                <i class="fas fa-truck text-[9px]"></i> Mark as Delivered
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </AdminLayout>
 </template>
+
+<style scoped>
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>

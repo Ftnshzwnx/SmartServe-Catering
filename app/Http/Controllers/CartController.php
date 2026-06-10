@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Package;
-use App\Models\PackageAddon;
+use App\Models\Addon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -21,7 +21,7 @@ class CartController extends Controller
 
         $cartCount = $cartItems->count();
 
-        return Inertia::render('Cart/Index', [
+        return Inertia::render('Customer/Cart/Index', [
             'cartItems' => $cartItems,
             'cartCount' => $cartCount,
         ]);
@@ -79,11 +79,29 @@ class CartController extends Controller
         $user = $request->user();
         $cartCount = Cart::where('user_id', $user->id)->count();
 
-        $pkg = Package::with('addons')->findOrFail($packageId);
+        $pkg = Package::with('dishes')->findOrFail($packageId);
         
-        return Inertia::render('Menu/Customize', [
+        $cartId = $request->query('cart_id') ?? $request->input('cart_id');
+        $cartItem = null;
+        
+        if ($cartId) {
+            $cartItem = Cart::where('user_id', $user->id)->find($cartId);
+            \Illuminate\Support\Facades\Log::info('Customize cart item query', [
+                'cart_id_input' => $cartId,
+                'user_id' => $user ? $user->id : 'guest',
+                'cartItem_found' => $cartItem ? $cartItem->toArray() : null,
+            ]);
+        } else {
+            \Illuminate\Support\Facades\Log::info('Customize cart item query: no cart_id in request');
+        }
+
+        $categories = \App\Models\DishCategory::orderBy('name')->pluck('name')->toArray();
+
+        return Inertia::render('Customer/Menu/Customize', [
             'package' => $pkg,
             'cartCount' => $cartCount,
+            'cartItem' => $cartItem,
+            'categories' => $categories,
         ]);
     }
 
@@ -93,18 +111,40 @@ class CartController extends Controller
             'package_id' => 'required|exists:packages,id',
             'quantity' => 'required|integer|min:1',
             'addons' => 'nullable|array',
-            'addons.*' => 'exists:package_addons,id',
+            'addons.*' => 'exists:addons,id',
+            'dishes' => 'nullable|array',
+            'dishes.*' => 'exists:dishes,id',
+            'cart_id' => 'nullable|exists:carts,id',
         ]);
 
         $user = $request->user();
         $packageId = $request->input('package_id');
         $quantity = $request->input('quantity');
         $addonIds = $request->input('addons', []);
+        $dishIds = $request->input('dishes', []);
+        $cartId = $request->input('cart_id');
 
-        $pkg = Package::findOrFail($packageId);
+        $pkg = Package::with('dishes')->findOrFail($packageId);
         $minOrder = (int)$pkg->min_order;
         if ($quantity < $minOrder) {
             $quantity = $minOrder;
+        }
+
+        // Validate dish limits
+        $selectedDishes = \App\Models\Dish::whereIn('id', $dishIds)->where('active', true)->get();
+        $selectedGrouped = $selectedDishes->groupBy('category');
+
+        $limits = $pkg->dish_limits ?? [];
+        foreach ($limits as $category => $limit) {
+            $limit = (int)$limit;
+            if ($limit > 0) {
+                $count = isset($selectedGrouped[$category]) ? $selectedGrouped[$category]->count() : 0;
+                if ($count !== $limit) {
+                    return redirect()->back()->withErrors([
+                        'dishes' => "Sila pilih tepat {$limit} hidangan untuk kategori '{$category}'."
+                    ])->withInput();
+                }
+            }
         }
 
         // Calculate addon cost
@@ -112,8 +152,8 @@ class CartController extends Controller
         $selectedAddonNames = [];
 
         if (!empty($addonIds)) {
-            $addons = PackageAddon::whereIn('id', $addonIds)
-                ->where('package_id', $packageId)
+            $addons = Addon::whereIn('id', $addonIds)
+                ->where('active', true)
                 ->get();
 
             foreach ($addons as $addon) {
@@ -125,6 +165,23 @@ class CartController extends Controller
         $pricePerPax = (float)$pkg->price + $addonCostPerPax;
         $totalPrice = $pricePerPax * $quantity;
 
+        $selectedDishesNames = $selectedDishes->pluck('name')->toArray();
+
+        if ($cartId) {
+            $cartItem = Cart::where('user_id', $user->id)->findOrFail($cartId);
+            $cartItem->update([
+                'package_id' => $packageId,
+                'package_name' => $pkg->package_name,
+                'quantity' => $quantity,
+                'price' => $pricePerPax,
+                'total_price' => $totalPrice,
+                'selected_addons' => $selectedAddonNames,
+                'addon_cost' => $addonCostPerPax,
+                'selected_dishes' => $selectedDishesNames,
+            ]);
+            return redirect()->route('cart.index')->with('success', 'Cart item updated successfully!');
+        }
+
         Cart::create([
             'user_id' => $user->id,
             'package_id' => $packageId,
@@ -134,6 +191,7 @@ class CartController extends Controller
             'total_price' => $totalPrice,
             'selected_addons' => $selectedAddonNames,
             'addon_cost' => $addonCostPerPax,
+            'selected_dishes' => $selectedDishesNames,
         ]);
 
         return redirect()->route('cart.index')->with('success', 'Customized package added to cart!');

@@ -18,9 +18,13 @@ class BudgetPlannerController extends Controller
         // Get all packages for selection
         $packages = Package::orderBy('price', 'asc')->get();
 
-        return Inertia::render('Budget/Planner', [
+        // Get active dishes for custom proposal wishlist
+        $dishes = \App\Models\Dish::where('active', true)->orderBy('category')->orderBy('name')->get();
+
+        return Inertia::render('Customer/Budget/Planner', [
             'packages' => $packages,
             'cartCount' => $cartCount,
+            'dishes' => $dishes,
         ]);
     }
 
@@ -80,12 +84,14 @@ class BudgetPlannerController extends Controller
 
         $user = $request->user();
         $cartCount = Cart::where('user_id', $user->id)->count();
+        $dishes = \App\Models\Dish::where('active', true)->orderBy('category')->orderBy('name')->get();
 
-        return Inertia::render('Budget/Planner', [
+        return Inertia::render('Customer/Budget/Planner', [
             'packages' => $packages,
             'cartCount' => $cartCount,
             'results' => $results,
             'searched' => true,
+            'dishes' => $dishes,
             'input' => [
                 'mode' => $mode,
                 'budget' => $budget,

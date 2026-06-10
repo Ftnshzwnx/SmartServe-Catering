@@ -8,7 +8,7 @@ import { Head, useForm, router } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 
 onMounted(() => {
-    router.replace('/?drawer=forgot-password');
+    window.location.replace('/?drawer=forgot-password');
 });
 
 defineProps({

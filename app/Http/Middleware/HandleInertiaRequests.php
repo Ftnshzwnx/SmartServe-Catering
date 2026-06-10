@@ -34,6 +34,20 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'flash' => [
+                'success' => $request->session()->get('success'),
+                'error' => $request->session()->get('error'),
+                'status' => $request->session()->get('status'),
+            ],
+            'settings' => array_merge([
+                'business_name' => 'SmartServe Catering',
+                'deposit_percentage' => '30',
+                'cancellation_policy_days' => '7',
+                'grace_period_days' => '2',
+                'qr_code_path' => 'admin/uploads/qr_default.png',
+            ], \Illuminate\Support\Facades\Schema::hasTable('settings')
+                ? \App\Models\Setting::all()->pluck('setting_value', 'setting_key')->toArray()
+                : []),
         ];
     }
 }

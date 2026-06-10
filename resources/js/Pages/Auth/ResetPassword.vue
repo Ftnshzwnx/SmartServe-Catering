@@ -8,7 +8,7 @@ import { Head, useForm, router } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 
 onMounted(() => {
-    router.replace(`/?drawer=reset-password&token=${props.token}&email=${encodeURIComponent(props.email)}`);
+    window.location.replace(`/?drawer=reset-password&token=${props.token}&email=${encodeURIComponent(props.email)}`);
 });
 
 const props = defineProps({

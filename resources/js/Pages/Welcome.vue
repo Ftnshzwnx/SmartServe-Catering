@@ -1,237 +1,63 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { inject, computed } from 'vue';
+import { Head, Link } from '@inertiajs/vue3';
+import FrontLayout from '@/Layouts/FrontLayout.vue';
 import { useLocalization } from '@/Composables/useLocalization';
-import TextInput from '@/Components/TextInput.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import InputError from '@/Components/InputError.vue';
-import Checkbox from '@/Components/Checkbox.vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 
-defineProps({
-    canLogin: {
-        type: Boolean,
-    },
-    canRegister: {
-        type: Boolean,
-    },
+const props = defineProps({
+    canLogin: { type: Boolean },
+    canRegister: { type: Boolean },
+    reviews: { type: Array, default: () => [] },
 });
 
-const { t, setLanguage, currentLanguage } = useLocalization();
+const { t } = useLocalization();
 
-const currentDrawer = ref(null); // 'login', 'register', 'forgot-password', 'reset-password'
+// Inject openDrawer from FrontLayout
+const openDrawer = inject('openDrawer', () => {});
 
-const openDrawer = (type) => {
-    currentDrawer.value = type;
-    const url = new URL(window.location.href);
-    url.searchParams.set('drawer', type);
-    window.history.pushState({}, '', url);
-};
-
-const closeDrawer = () => {
-    currentDrawer.value = null;
-    const url = new URL(window.location.href);
-    url.searchParams.delete('drawer');
-    url.searchParams.delete('token');
-    url.searchParams.delete('email');
-    window.history.pushState({}, '', url);
-};
-
-// Forms state
-const loginForm = useForm({
-    email: '',
-    password: '',
-    remember: false,
-});
-
-const submitLogin = () => {
-    loginForm.post(route('login'), {
-        onFinish: () => loginForm.reset('password'),
-    });
-};
-
-const registerForm = useForm({
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-});
-
-const submitRegister = () => {
-    registerForm.post(route('register'), {
-        onFinish: () => registerForm.reset('password', 'password_confirmation'),
-    });
-};
-
-const forgotPasswordForm = useForm({
-    email: '',
-});
-
-const forgotPasswordStatus = ref('');
-
-const submitForgotPassword = () => {
-    forgotPasswordForm.post(route('password.email'), {
-        onSuccess: (page) => {
-            forgotPasswordStatus.value = page.props.flash?.status || 'Password reset link sent!';
-        }
-    });
-};
-
-const resetPasswordForm = useForm({
-    token: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-});
-
-const submitResetPassword = () => {
-    resetPasswordForm.post(route('password.store'), {
-        onFinish: () => resetPasswordForm.reset('password', 'password_confirmation'),
-        onSuccess: () => {
-            closeDrawer();
-            alert('Password reset successfully! You can now log in.');
-        }
-    });
-};
-
-onMounted(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const drawerParam = urlParams.get('drawer');
-    if (drawerParam) {
-        currentDrawer.value = drawerParam;
-        
-        if (drawerParam === 'reset-password') {
-            resetPasswordForm.token = urlParams.get('token') || '';
-            resetPasswordForm.email = urlParams.get('email') || '';
-        }
+// Infinite scrolling marquee setup
+const marqueeReviews = computed(() => {
+    if (!props.reviews || props.reviews.length === 0) return [];
+    
+    // We want enough reviews so the scroll loop is smooth. Let's repeat the array until we have at least 10 items.
+    let list = [...props.reviews];
+    while (list.length < 10) {
+        list = [...list, ...props.reviews];
     }
+    // For infinite scroll, we duplicate the list so the end of first half transitions seamlessly into start of second half.
+    return [...list, ...list];
 });
 
-// Watch history changes
-watch(() => window.location.search, () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    currentDrawer.value = urlParams.get('drawer');
+const marqueeDuration = computed(() => {
+    const itemsCount = marqueeReviews.value.length / 2;
+    // 10 seconds per card for a very smooth slow motion
+    return `${itemsCount * 10}s`;
 });
 </script>
 
 <template>
-    <Head title="Premium Catering Services" />
+    <Head title="SmartServe Catering — Premium Catering Terengganu" />
 
-    <div class="min-h-screen bg-[#FAF7F2] text-[#2D3330] font-sans selection:bg-[#4A6B5D] selection:text-white">
-        <!-- Google Fonts loading directly via CSS import -->
-        <component :is="'style'">
-            @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-            .font-serif-luxury { font-family: 'Cormorant Garamond', serif; }
-            .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
-            
-            .glass-nav {
-                background: rgba(250, 247, 242, 0.85);
-                backdrop-filter: blur(12px);
-                -webkit-backdrop-filter: blur(12px);
-            }
-            .image-frame {
-                position: relative;
-            }
-            .image-frame::after {
-                content: '';
-                position: absolute;
-                top: 12px;
-                left: 12px;
-                right: -12px;
-                bottom: -12px;
-                border: 1px solid #D1C8BD;
-                z-index: 0;
-                pointer-events: none;
-                transition: transform 0.3s ease;
-            }
-            .image-frame:hover::after {
-                transform: translate(-4px, -4px);
-            }
-        </component>
-
-        <!-- Elegant Sticky Navbar -->
-        <nav class="sticky top-0 z-50 w-full border-b border-[#E6E1DA] glass-nav transition-all duration-300 font-sans-modern">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
-                <!-- Logo -->
-                <div class="flex items-center">
-                    <Link href="/" class="flex items-center">
-                        <ApplicationLogo />
-                    </Link>
-                </div>
-
-                <!-- Navigation Links / Auth Actions -->
-                <div class="flex items-center gap-6 lg:gap-8">
-                    <a href="#about" class="text-xs font-semibold uppercase tracking-widest text-[#5C6460] hover:text-[#4A6B5D] transition-colors duration-200 hidden md:block">{{ t('our_story') }}</a>
-                    <a href="#philosophy" class="text-xs font-semibold uppercase tracking-widest text-[#5C6460] hover:text-[#4A6B5D] transition-colors duration-200 hidden md:block">{{ t('philosophy') }}</a>
-                    <a href="#policies" class="text-xs font-semibold uppercase tracking-widest text-[#5C6460] hover:text-[#4A6B5D] transition-colors duration-200 hidden md:block">{{ t('policies') }}</a>
-                    
-                    <!-- Language Toggle -->
-                    <div class="flex items-center gap-1.5 border-l border-[#E6E1DA] pl-6 h-6 ml-2 font-sans-modern">
-                        <button 
-                            @click="setLanguage('en')" 
-                            class="text-[10px] font-bold uppercase tracking-wider transition-colors"
-                            :class="currentLanguage === 'en' ? 'text-[#4A6B5D]' : 'text-[#8C8275] hover:text-[#2D3330]'"
-                        >
-                            EN
-                        </button>
-                        <span class="text-[#E6E1DA] text-xs">|</span>
-                        <button 
-                            @click="setLanguage('my')" 
-                            class="text-[10px] font-bold uppercase tracking-wider transition-colors"
-                            :class="currentLanguage === 'my' ? 'text-[#4A6B5D]' : 'text-[#8C8275] hover:text-[#2D3330]'"
-                        >
-                            BM
-                        </button>
-                    </div>
-
-                    <div v-if="canLogin" class="flex items-center gap-4 border-l border-[#E6E1DA] pl-6 h-6">
-                        <Link
-                            v-if="$page.props.auth.user"
-                            :href="route('dashboard')"
-                            class="bg-[#4A6B5D] text-white hover:bg-[#3D574B] px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-200"
-                        >
-                            {{ t('dashboard') }}
-                        </Link>
-
-                        <template v-else>
-                            <button
-                                @click="openDrawer('login')"
-                                class="text-xs font-semibold uppercase tracking-widest text-[#2D3330] hover:text-[#4A6B5D] transition-colors duration-200 py-2 cursor-pointer"
-                            >
-                                {{ t('sign_in') }}
-                            </button>
-
-                            <button
-                                v-if="canRegister"
-                                @click="openDrawer('register')"
-                                class="bg-[#4A6B5D] text-white hover:bg-[#3D574B] px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-200 cursor-pointer"
-                            >
-                                {{ t('register') }}
-                            </button>
-                        </template>
-                    </div>
-                </div>
-            </div>
-        </nav>
+    <FrontLayout :canLogin="canLogin" :canRegister="canRegister">
 
         <!-- Asymmetrical Hero Section -->
         <header class="relative overflow-hidden py-16 lg:py-28 font-sans-modern">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-                    
+
                     <!-- Left Column: Copy -->
                     <div class="lg:col-span-7 space-y-8 text-left z-10">
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBEFEF] text-[#4A6B5D] text-xs font-semibold tracking-wide">
                             <span class="w-1.5 h-1.5 rounded-full bg-[#4A6B5D] animate-pulse"></span>
                             {{ t('hero_subtitle') }}
                         </div>
-                        
+
                         <h1 class="text-5xl lg:text-7xl font-light tracking-tight text-[#1C201E] leading-[1.1] font-serif-luxury">
                             {{ t('hero_title_1') }} <br />
                             <span class="italic text-[#4A6B5D]">{{ t('hero_title_2') }}</span><br />
                             {{ t('hero_title_3') }}
                         </h1>
-                        
+
                         <p class="text-base lg:text-lg text-[#5C6460] leading-relaxed max-w-xl font-light">
                             {{ t('hero_desc') }}
                         </p>
@@ -251,21 +77,21 @@ watch(() => window.location.search, () => {
                             >
                                 {{ t('begin_experience') }}
                             </Link>
-                            <a
-                                href="#about"
+                            <Link
+                                href="/about"
                                 class="bg-transparent hover:bg-[#FAF7F2] border border-[#D1C8BD] text-[#2D3330] text-center px-8 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200"
                             >
                                 {{ t('read_story') }}
-                            </a>
+                            </Link>
                         </div>
                     </div>
 
                     <!-- Right Column: Framed Hero Image -->
                     <div class="lg:col-span-5 flex justify-center lg:justify-end">
                         <div class="image-frame w-full max-w-[420px] aspect-[4/5] bg-[#EADED9] overflow-hidden shadow-lg z-10">
-                            <img 
-                                src="/img/hero_catering.png" 
-                                alt="Minimalist Luxury Buffet Catering Design" 
+                            <img
+                                src="/img/hero_catering.png"
+                                alt="Minimalist Luxury Buffet Catering Design"
                                 class="w-full h-full object-cover grayscale-[10%] hover:scale-105 transition-transform duration-700 ease-out"
                             />
                         </div>
@@ -275,459 +101,439 @@ watch(() => window.location.search, () => {
             </div>
         </header>
 
-        <!-- Our Story Section -->
-        <section id="about" class="py-24 bg-white border-y border-[#E6E1DA] font-sans-modern">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8">
-                <div class="grid lg:grid-cols-3 gap-12 items-baseline">
-                    
-                    <!-- Intro Header -->
-                    <div class="lg:col-span-1">
-                        <span class="text-[#4A6B5D] font-bold text-xs uppercase tracking-widest block mb-4">{{ t('service_standard') }}</span>
-                        <h2 class="text-3xl lg:text-4xl font-normal text-[#1C201E] font-serif-luxury leading-snug">
-                            {{ t('service_standard_desc') }}
-                        </h2>
-                    </div>
-
-                    <!-- Core Value 1 -->
-                    <div class="space-y-4">
-                        <span class="text-xs font-semibold text-[#8C8275] tracking-widest uppercase block">{{ t('story_title_1') }}</span>
-                        <h3 class="text-lg font-semibold text-[#1C201E]">{{ t('story_header_1') }}</h3>
-                        <p class="text-sm text-[#5C6460] leading-relaxed font-light">
-                            {{ t('story_desc_1') }}
-                        </p>
-                    </div>
-
-                    <!-- Core Value 2 -->
-                    <div class="space-y-4">
-                        <span class="text-xs font-semibold text-[#8C8275] tracking-widest uppercase block">{{ t('story_title_2') }}</span>
-                        <h3 class="text-lg font-semibold text-[#1C201E]">{{ t('story_header_2') }}</h3>
-                        <p class="text-sm text-[#5C6460] leading-relaxed font-light">
-                            {{ t('story_desc_2') }}
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- Culinary Philosophy Section -->
-        <section id="philosophy" class="py-24 bg-[#FAF7F2] font-sans-modern">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8">
-                <div class="grid lg:grid-cols-12 gap-12 items-center">
-                    
-                    <!-- Left: Gourmet Platter Image -->
-                    <div class="lg:col-span-5 order-2 lg:order-1 flex justify-center">
-                        <div class="image-frame w-full max-w-[360px] aspect-square bg-[#EADED9] overflow-hidden shadow-lg">
-                            <img 
-                                src="/img/catering_dish.png" 
-                                alt="Modern Gourmet Presentation of Traditional Malaysian Dishes" 
-                                class="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-out"
-                            />
-                        </div>
-                    </div>
-
-                    <!-- Right: Narrative -->
-                    <div class="lg:col-span-7 order-1 lg:order-2 space-y-6">
-                        <span class="text-xs font-semibold text-[#4A6B5D] tracking-widest uppercase block">{{ t('philosophy_tag') }}</span>
+        <!-- About Teaser Section -->
+        <section class="py-24 bg-white border-y border-[#E6E1DA] font-sans-modern">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-16">
+                <!-- Two-Column Header -->
+                <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                    <div class="lg:col-span-5 space-y-4">
+                        <span class="text-[#4A6B5D] font-bold text-xs uppercase tracking-widest block">{{ t('about_subtitle') }}</span>
                         <h2 class="text-4xl lg:text-5xl font-light text-[#1C201E] font-serif-luxury leading-tight">
-                            {{ t('philosophy_title_1') }} <br /><span class="italic text-[#4A6B5D]">{{ t('philosophy_title_2') }}</span>
+                            {{ t('about_title_1') }} <br />
+                            <span class="italic text-[#4A6B5D]">{{ t('about_title_2') }}</span>
                         </h2>
-                        <p class="text-[#5C6460] font-light leading-relaxed">
-                            {{ t('philosophy_desc_1') }}
-                        </p>
-                        <p class="text-[#5C6460] font-light leading-relaxed">
-                            {{ t('philosophy_desc_2') }}
-                        </p>
-                        <div class="pt-2">
-                            <Link 
-                                :href="route('login')" 
-                                class="text-xs font-semibold tracking-widest uppercase text-[#4A6B5D] hover:text-[#3D574B] inline-flex items-center gap-2 group transition-colors"
-                            >
-                                {{ t('browse_packages') }} 
-                                <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
-                            </Link>
-                        </div>
                     </div>
-
+                    <div class="lg:col-span-7 space-y-6 text-[#5C6460] font-light leading-relaxed text-sm md:text-base">
+                        <p>{{ t('about_desc_1') }}</p>
+                        <p>{{ t('about_desc_2') }}</p>
+                        <Link href="/about" class="inline-flex items-center gap-2 text-xs font-semibold text-[#4A6B5D] uppercase tracking-widest hover:gap-3 transition-all duration-200">
+                            {{ t('read_more') }} <i class="fas fa-arrow-right text-[10px]"></i>
+                        </Link>
+                    </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Policy Section -->
-        <section id="policies" class="py-24 bg-white border-t border-[#E6E1DA] font-sans-modern">
-            <div class="max-w-4xl mx-auto px-6">
-                <div class="bg-[#FAF7F2] border border-[#E6E1DA] p-8 lg:p-12 space-y-8 shadow-sm">
-                    <div class="flex items-center gap-3 border-b border-[#E6E1DA] pb-6">
-                        <span class="w-2 h-2 rounded-full bg-[#8C3A3A]"></span>
-                        <h3 class="text-xl font-normal font-serif-luxury uppercase tracking-wider text-[#1C201E]">{{ t('booking_policies') }}</h3>
+                <!-- Milestone Counter Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 py-12 border-y border-[#E6E1DA]/60">
+                    <div class="text-center space-y-2">
+                        <div class="text-4xl lg:text-5xl font-light text-[#4A6B5D] font-serif-luxury">500+</div>
+                        <div class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest">{{ t('stats_events') }}</div>
                     </div>
-                    
-                    <div class="space-y-8 font-sans-modern">
-                        <!-- Policy Item 1 -->
-                        <div class="flex gap-4">
-                            <span class="text-[#4A6B5D] font-bold text-xs uppercase tracking-widest mt-1">{{ t('policy_title_1') }}</span>
-                            <div>
-                                <h4 class="text-sm font-semibold text-[#1C201E] uppercase tracking-wider mb-1">{{ t('policy_header_1') }}</h4>
-                                <p class="text-[#5C6460] text-sm leading-relaxed font-light">
-                                    {{ t('policy_desc_1') }}
-                                </p>
-                            </div>
-                        </div>
+                    <div class="text-center space-y-2">
+                        <div class="text-4xl lg:text-5xl font-light text-[#4A6B5D] font-serif-luxury">10,000+</div>
+                        <div class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest">{{ t('stats_guests') }}</div>
+                    </div>
+                    <div class="text-center space-y-2">
+                        <div class="text-4xl lg:text-5xl font-light text-[#4A6B5D] font-serif-luxury">100%</div>
+                        <div class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest">{{ t('stats_halal') }}</div>
+                    </div>
+                    <div class="text-center space-y-2">
+                        <div class="text-4xl lg:text-5xl font-light text-[#4A6B5D] font-serif-luxury">15+</div>
+                        <div class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest">{{ t('stats_recipes') }}</div>
+                    </div>
+                </div>
 
-                        <!-- Policy Item 2 -->
-                        <div class="flex gap-4">
-                            <span class="text-[#4A6B5D] font-bold text-xs uppercase tracking-widest mt-1">{{ t('policy_title_2') }}</span>
-                            <div>
-                                <h4 class="text-sm font-semibold text-[#1C201E] uppercase tracking-wider mb-1">{{ t('policy_header_2') }}</h4>
-                                <p class="text-[#5C6460] text-sm leading-relaxed font-light">
-                                    {{ t('policy_desc_2') }}
-                                </p>
-                            </div>
+                <!-- Brand Values Cards -->
+                <div class="space-y-8">
+                    <div class="text-center">
+                        <span class="text-xs font-semibold text-[#8C8275] tracking-widest uppercase block mb-2">{{ t('values_title') }}</span>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="bg-[#FAF7F2] border border-[#E6E1DA] rounded-2xl p-6 space-y-3 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                            <div class="w-10 h-10 rounded-full bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-sm font-bold">01</div>
+                            <h3 class="text-lg font-semibold text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ t('value_1_title') }}</h3>
+                            <p class="text-xs text-[#5C6460] leading-relaxed font-light">{{ t('value_1_desc') }}</p>
                         </div>
-
-                        <!-- Terms Summary -->
-                        <div class="pt-4 border-t border-[#E6E1DA] text-[11px] text-[#8C8275] tracking-wide font-light">
-                            By placing deposit transactions via our integrated checkout flow, customers formally agree to the Terms of Service and Event Booking Guidelines.
+                        <div class="bg-[#FAF7F2] border border-[#E6E1DA] rounded-2xl p-6 space-y-3 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                            <div class="w-10 h-10 rounded-full bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-sm font-bold">02</div>
+                            <h3 class="text-lg font-semibold text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ t('value_2_title') }}</h3>
+                            <p class="text-xs text-[#5C6460] leading-relaxed font-light">{{ t('value_2_desc') }}</p>
+                        </div>
+                        <div class="bg-[#FAF7F2] border border-[#E6E1DA] rounded-2xl p-6 space-y-3 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                            <div class="w-10 h-10 rounded-full bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-sm font-bold">03</div>
+                            <h3 class="text-lg font-semibold text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ t('value_3_title') }}</h3>
+                            <p class="text-xs text-[#5C6460] leading-relaxed font-light">{{ t('value_3_desc') }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="bg-[#242A27] text-[#D1C8BD] py-16 font-sans-modern border-t border-[#2D3330]">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 grid md:grid-cols-3 gap-12">
-                
-                <!-- Brand Info -->
-                <div class="space-y-4">
-                    <div class="flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-full bg-[#4A6B5D] flex items-center justify-center text-white text-xs font-bold font-sans-modern">SS</span>
-                        <span class="text-lg font-bold tracking-wider text-white uppercase">
-                            Smart<span class="text-[#4A6B5D]">Serve</span>
-                        </span>
-                    </div>
-                    <p class="text-xs text-[#8E9993] leading-relaxed max-w-sm font-light">
-                        Serving Kuala Terengganu with modern event culinary services. Bringing local recipes to life with design and dining elegance.
-                    </p>
-                    <div class="flex gap-4 pt-2">
-                        <a class="text-[#8E9993] hover:text-white transition-colors" href="#"><i class="fab fa-facebook-f text-sm"></i></a>
-                        <a class="text-[#8E9993] hover:text-white transition-colors" href="#"><i class="fab fa-instagram text-sm"></i></a>
-                        <a class="text-[#8E9993] hover:text-white transition-colors" href="https://wa.me/60123456789" target="_blank"><i class="fab fa-whatsapp text-sm"></i></a>
-                    </div>
-                </div>
-
-                <!-- Navigation Links -->
-                <div class="space-y-4">
-                    <h4 class="text-white text-xs font-bold uppercase tracking-widest">Explore</h4>
-                    <ul class="space-y-2.5 text-xs text-[#8E9993]">
-                        <li><Link :href="route('login')" class="hover:text-white transition-colors uppercase tracking-widest font-light">{{ t('menu') }}</Link></li>
-                        <li><a href="#about" class="hover:text-white transition-colors uppercase tracking-widest font-light">{{ t('our_story') }}</a></li>
-                        <li><Link :href="route('login')" class="hover:text-white transition-colors uppercase tracking-widest font-light">{{ t('dashboard') }}</Link></li>
-                    </ul>
-                </div>
-
-                <!-- Contact Details -->
-                <div class="space-y-4">
-                    <h4 class="text-white text-xs font-bold uppercase tracking-widest">Connect</h4>
-                    <ul class="space-y-3 text-xs text-[#8E9993] font-light">
-                        <li class="flex items-start gap-2.5">
-                            <i class="fa fa-map-marker-alt text-[#4A6B5D] mt-0.5"></i> 
-                            <span>Gong Badak, Kuala Terengganu, Malaysia</span>
-                        </li>
-                        <li class="flex items-center gap-2.5">
-                            <i class="fa fa-phone-alt text-[#4A6B5D]"></i> 
-                            <span>+60 12-345 6789</span>
-                        </li>
-                        <li class="flex items-center gap-2.5">
-                            <i class="fa fa-envelope text-[#4A6B5D]"></i> 
-                            <span>info@smartservecatering.com</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 mt-16 pt-8 border-t border-[#2D3330] text-center text-[10px] text-[#8E9993] tracking-widest uppercase font-light">
-                &copy; {{ new Date().getFullYear() }} {{ t('copyright') }}
-            </div>
-        </footer>
-
-        <!-- Drawer Component overlay -->
-        <Transition
-            enter-active-class="transition duration-300 ease-out"
-            enter-from-class="opacity-0"
-            enter-to-class="opacity-100"
-            leave-active-class="transition duration-200 ease-in"
-            leave-from-class="opacity-100"
-            leave-to-class="opacity-0"
-        >
-            <div 
-                v-if="currentDrawer" 
-                class="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-xs font-sans-modern"
-                @click.self="closeDrawer"
-            >
-                <!-- Drawer Panel -->
-                <Transition
-                    enter-active-class="transition duration-300 ease-out transform"
-                    enter-from-class="translate-x-full"
-                    enter-to-class="translate-x-0"
-                    leave-active-class="transition duration-200 ease-in transform"
-                    leave-from-class="translate-x-0"
-                    leave-to-class="translate-x-full"
-                >
-                    <div 
-                        v-if="currentDrawer"
-                        class="w-full max-w-md bg-[#FAF7F2] h-full shadow-2xl border-l border-[#E6E1DA] rounded-l-3xl p-8 md:p-10 flex flex-col justify-between overflow-y-auto relative z-50 text-[#2D3330]"
-                    >
-                        <!-- Close button top left/right -->
-                        <button 
-                            @click="closeDrawer"
-                            class="absolute top-6 right-6 text-[#8C8275] hover:text-[#2D3330] transition-colors text-lg cursor-pointer"
+        <!-- Packages CTA Section -->
+        <section class="py-20 bg-[#FAF7F2] border-b border-[#E6E1DA] font-sans-modern">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-5">
+                        <span class="text-xs font-semibold text-[#4A6B5D] tracking-widest uppercase block">{{ t('premium_selection') }}</span>
+                        <h2 class="text-4xl lg:text-5xl font-light text-[#1C201E] font-serif-luxury leading-tight">
+                            {{ t('packages_title') }}
+                        </h2>
+                        <p class="text-sm text-[#5C6460] font-light leading-relaxed max-w-md">
+                            {{ t('packages_subtitle') }}
+                        </p>
+                        <Link
+                            href="/packages"
+                            class="inline-flex items-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-8 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md"
                         >
-                            <i class="fas fa-times"></i>
-                        </button>
-
-                        <div class="space-y-8 my-auto">
-                            <!-- Logo Brand -->
-                            <div class="flex flex-col items-center text-center">
-                                <img src="/img/logo.png" class="h-16 w-auto object-contain mb-4" alt="SmartServe Logo" />
-                                <h3 class="text-2xl font-normal font-serif-luxury uppercase tracking-wider text-[#2D3330]">
-                                    <template v-if="currentDrawer === 'login'">{{ t('sign_in') }}</template>
-                                    <template v-else-if="currentDrawer === 'register'">{{ t('register') }}</template>
-                                    <template v-else-if="currentDrawer === 'forgot-password'">Reset Password</template>
-                                    <template v-else-if="currentDrawer === 'reset-password'">Set New Password</template>
-                                </h3>
+                            {{ t('view_all_packages') }} <i class="fas fa-arrow-right text-[10px]"></i>
+                        </Link>
+                    </div>
+                    <!-- Mini preview cards -->
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="bg-white border border-[#E6E1DA] rounded-2xl overflow-hidden shadow-xs hover:-translate-y-1 transition-transform duration-300">
+                            <div class="aspect-square bg-[#EADED9] overflow-hidden">
+                                <img src="/img/hero_catering.png" alt="Wedding Package" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                             </div>
-
-                            <!-- Drawer forms -->
-                            
-                            <!-- 1. LOGIN FORM -->
-                            <form v-if="currentDrawer === 'login'" @submit.prevent="submitLogin" class="space-y-5">
-                                <div>
-                                    <InputLabel for="login-email" value="Email Address" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                    <TextInput
-                                        id="login-email"
-                                        type="email"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
-                                        v-model="loginForm.email"
-                                        required
-                                        autofocus
-                                        autocomplete="username"
-                                    />
-                                    <InputError class="mt-1" :message="loginForm.errors.email" />
-                                </div>
-
-                                <div>
-                                    <div class="flex justify-between items-center">
-                                        <InputLabel for="login-password" value="Password" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                        <button 
-                                            type="button" 
-                                            @click="openDrawer('forgot-password')"
-                                            class="text-xs text-[#8C8275] hover:text-[#4A6B5D] transition-colors cursor-pointer"
-                                        >
-                                            Forgot Password?
-                                        </button>
-                                    </div>
-                                    <TextInput
-                                        id="login-password"
-                                        type="password"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
-                                        v-model="loginForm.password"
-                                        required
-                                        autocomplete="current-password"
-                                    />
-                                    <InputError class="mt-1" :message="loginForm.errors.password" />
-                                </div>
-
-                                <div class="flex items-center">
-                                    <Checkbox name="remember" v-model:checked="loginForm.remember" class="rounded text-[#4A6B5D] focus:ring-0" />
-                                    <span class="ms-2 text-xs text-[#8C8275]">Remember my session</span>
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
-                                    :disabled="loginForm.processing"
-                                >
-                                    {{ loginForm.processing ? 'Signing In...' : t('sign_in') }}
-                                </button>
-
-                                <div class="text-center text-xs text-[#8C8275] pt-2">
-                                    Don't have an account? 
-                                    <button type="button" @click="openDrawer('register')" class="text-[#4A6B5D] font-bold hover:underline cursor-pointer">
-                                        {{ t('register') }}
-                                    </button>
-                                </div>
-                            </form>
-
-                            <!-- 2. REGISTER FORM -->
-                            <form v-else-if="currentDrawer === 'register'" @submit.prevent="submitRegister" class="space-y-4">
-                                <div>
-                                    <InputLabel for="reg-name" value="Your Name" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                    <TextInput
-                                        id="reg-name"
-                                        type="text"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
-                                        v-model="registerForm.name"
-                                        required
-                                        autofocus
-                                        autocomplete="name"
-                                    />
-                                    <InputError class="mt-1" :message="registerForm.errors.name" />
-                                </div>
-
-                                <div>
-                                    <InputLabel for="reg-email" value="Email Address" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                    <TextInput
-                                        id="reg-email"
-                                        type="email"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
-                                        v-model="registerForm.email"
-                                        required
-                                        autocomplete="username"
-                                    />
-                                    <InputError class="mt-1" :message="registerForm.errors.email" />
-                                </div>
-
-                                <div>
-                                    <InputLabel for="reg-password" value="Password" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                    <TextInput
-                                        id="reg-password"
-                                        type="password"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
-                                        v-model="registerForm.password"
-                                        required
-                                        autocomplete="new-password"
-                                    />
-                                    <InputError class="mt-1" :message="registerForm.errors.password" />
-                                </div>
-
-                                <div>
-                                    <InputLabel for="reg-password-confirm" value="Confirm Password" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                    <TextInput
-                                        id="reg-password-confirm"
-                                        type="password"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
-                                        v-model="registerForm.password_confirmation"
-                                        required
-                                        autocomplete="new-password"
-                                    />
-                                    <InputError class="mt-1" :message="registerForm.errors.password_confirmation" />
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 mt-2 cursor-pointer"
-                                    :disabled="registerForm.processing"
-                                >
-                                    {{ registerForm.processing ? 'Registering...' : t('register') }}
-                                </button>
-
-                                <div class="text-center text-xs text-[#8C8275] pt-2">
-                                    Already registered? 
-                                    <button type="button" @click="openDrawer('login')" class="text-[#4A6B5D] font-bold hover:underline cursor-pointer">
-                                        {{ t('sign_in') }}
-                                    </button>
-                                </div>
-                            </form>
-
-                            <!-- 3. FORGOT PASSWORD FORM -->
-                            <form v-else-if="currentDrawer === 'forgot-password'" @submit.prevent="submitForgotPassword" class="space-y-5">
-                                <p class="text-xs text-[#8C8275] leading-relaxed font-light">
-                                    Forgot your password? No problem. Just let us know your email address and we will email you a password reset link to choose a new one.
-                                </p>
-
-                                <div v-if="forgotPasswordStatus" class="p-3 bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs font-medium">
-                                    {{ forgotPasswordStatus }}
-                                </div>
-
-                                <div>
-                                    <InputLabel for="forgot-email" value="Email Address" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                    <TextInput
-                                        id="forgot-email"
-                                        type="email"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
-                                        v-model="forgotPasswordForm.email"
-                                        required
-                                        autofocus
-                                        autocomplete="username"
-                                    />
-                                    <InputError class="mt-1" :message="forgotPasswordForm.errors.email" />
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
-                                    :disabled="forgotPasswordForm.processing"
-                                >
-                                    {{ forgotPasswordForm.processing ? 'Sending Link...' : 'Email Reset Link' }}
-                                </button>
-
-                                <div class="text-center text-xs text-[#8C8275] pt-2">
-                                    Back to 
-                                    <button type="button" @click="openDrawer('login')" class="text-[#4A6B5D] font-bold hover:underline cursor-pointer">
-                                        {{ t('sign_in') }}
-                                    </button>
-                                </div>
-                            </form>
-
-                            <!-- 4. RESET PASSWORD FORM -->
-                            <form v-else-if="currentDrawer === 'reset-password'" @submit.prevent="submitResetPassword" class="space-y-4">
-                                <div>
-                                    <InputLabel for="reset-email" value="Email Address" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                    <TextInput
-                                        id="reset-email"
-                                        type="email"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
-                                        v-model="resetPasswordForm.email"
-                                        required
-                                        autocomplete="username"
-                                    />
-                                    <InputError class="mt-1" :message="resetPasswordForm.errors.email" />
-                                </div>
-
-                                <div>
-                                    <InputLabel for="reset-password" value="New Password" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                    <TextInput
-                                        id="reset-password"
-                                        type="password"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
-                                        v-model="resetPasswordForm.password"
-                                        required
-                                        autocomplete="new-password"
-                                    />
-                                    <InputError class="mt-1" :message="resetPasswordForm.errors.password" />
-                                </div>
-
-                                <div>
-                                    <InputLabel for="reset-password-confirm" value="Confirm New Password" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                    <TextInput
-                                        id="reset-password-confirm"
-                                        type="password"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
-                                        v-model="resetPasswordForm.password_confirmation"
-                                        required
-                                        autocomplete="new-password"
-                                    />
-                                    <InputError class="mt-1" :message="resetPasswordForm.errors.password_confirmation" />
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 mt-2 cursor-pointer"
-                                    :disabled="resetPasswordForm.processing"
-                                >
-                                    {{ resetPasswordForm.processing ? 'Resetting...' : 'Reset Password' }}
-                                </button>
-                            </form>
+                            <div class="p-3">
+                                <p class="text-[9px] font-bold text-[#1C201E] uppercase tracking-wider">Wedding</p>
+                                <p class="text-[9px] text-[#8C8275] font-light mt-0.5">dari RM 15/pax</p>
+                            </div>
                         </div>
-
-                        <!-- Footer -->
-                        <div class="text-center text-[10px] text-[#8C8275] uppercase tracking-widest border-t border-[#E6E1DA]/60 pt-6">
-                            SmartServe Catering Gong Badak
+                        <div class="bg-white border border-[#E6E1DA] rounded-2xl overflow-hidden shadow-xs hover:-translate-y-1 transition-transform duration-300 mt-6">
+                            <div class="aspect-square bg-[#EADED9] overflow-hidden">
+                                <img src="/img/catering_dish.png" alt="Corporate Package" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                            </div>
+                            <div class="p-3">
+                                <p class="text-[9px] font-bold text-[#1C201E] uppercase tracking-wider">Corporate</p>
+                                <p class="text-[9px] text-[#8C8275] font-light mt-0.5">dari RM 25/pax</p>
+                            </div>
+                        </div>
+                        <div class="bg-white border border-[#E6E1DA] rounded-2xl overflow-hidden shadow-xs hover:-translate-y-1 transition-transform duration-300">
+                            <div class="aspect-square bg-[#EADED9] overflow-hidden">
+                                <img src="/img/hero_catering.png" alt="Aqiqah Package" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                            </div>
+                            <div class="p-3">
+                                <p class="text-[9px] font-bold text-[#1C201E] uppercase tracking-wider">Aqiqah</p>
+                                <p class="text-[9px] text-[#8C8275] font-light mt-0.5">dari RM 18/pax</p>
+                            </div>
                         </div>
                     </div>
-                </Transition>
+                </div>
             </div>
-        </Transition>
-    </div>
+        </section>
+
+        <!-- Booking Policies Section -->
+        <section id="policies" class="py-24 bg-white border-t border-[#E6E1DA] font-sans-modern">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-14">
+
+                <!-- Section Header -->
+                <div class="text-center space-y-3">
+                    <span class="text-xs font-semibold text-[#4A6B5D] tracking-widest uppercase block">{{ t('booking_policies') }}</span>
+                    <h2 class="text-3xl lg:text-4xl font-light text-[#1C201E] font-serif-luxury uppercase tracking-wider">
+                        {{ t('booking_policies_title') }}
+                    </h2>
+                    <p class="text-xs text-[#8C8275] max-w-md mx-auto font-light leading-relaxed">
+                        {{ t('booking_policies_subtitle') }}
+                    </p>
+                </div>
+
+                <!-- Policy Cards Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <!-- Policy Card 1: Deposit -->
+                    <div class="group bg-[#FAF7F2] border border-[#E6E1DA] rounded-3xl p-7 space-y-5 hover:-translate-y-1 hover:shadow-lg hover:border-[#4A6B5D]/30 transition-all duration-300">
+                        <div class="flex items-start justify-between">
+                            <div class="w-12 h-12 rounded-2xl bg-[#EBEFEF] group-hover:bg-[#4A6B5D] text-[#4A6B5D] group-hover:text-white flex items-center justify-center text-base transition-all duration-300">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest bg-white border border-[#E6E1DA] px-2.5 py-1 rounded-full">01</span>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-base font-semibold text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ t('policy_header_1') }}</h3>
+                            <p class="text-xs text-[#5C6460] leading-relaxed font-light">{{ t('policy_desc_1') }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Policy Card 2: Cancellation -->
+                    <div class="group bg-[#FAF7F2] border border-[#E6E1DA] rounded-3xl p-7 space-y-5 hover:-translate-y-1 hover:shadow-lg hover:border-[#4A6B5D]/30 transition-all duration-300">
+                        <div class="flex items-start justify-between">
+                            <div class="w-12 h-12 rounded-2xl bg-[#EBEFEF] group-hover:bg-[#4A6B5D] text-[#4A6B5D] group-hover:text-white flex items-center justify-center text-base transition-all duration-300">
+                                <i class="fas fa-calendar-times"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest bg-white border border-[#E6E1DA] px-2.5 py-1 rounded-full">02</span>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-base font-semibold text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ t('policy_header_2') }}</h3>
+                            <p class="text-xs text-[#5C6460] leading-relaxed font-light">{{ t('policy_desc_2') }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Policy Card 3: Menu Change -->
+                    <div class="group bg-[#FAF7F2] border border-[#E6E1DA] rounded-3xl p-7 space-y-5 hover:-translate-y-1 hover:shadow-lg hover:border-[#4A6B5D]/30 transition-all duration-300">
+                        <div class="flex items-start justify-between">
+                            <div class="w-12 h-12 rounded-2xl bg-[#EBEFEF] group-hover:bg-[#4A6B5D] text-[#4A6B5D] group-hover:text-white flex items-center justify-center text-base transition-all duration-300">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest bg-white border border-[#E6E1DA] px-2.5 py-1 rounded-full">03</span>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-base font-semibold text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ t('policy_header_3') }}</h3>
+                            <p class="text-xs text-[#5C6460] leading-relaxed font-light">{{ t('policy_desc_3') }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Policy Card 4: Guest Count -->
+                    <div class="group bg-[#FAF7F2] border border-[#E6E1DA] rounded-3xl p-7 space-y-5 hover:-translate-y-1 hover:shadow-lg hover:border-[#4A6B5D]/30 transition-all duration-300">
+                        <div class="flex items-start justify-between">
+                            <div class="w-12 h-12 rounded-2xl bg-[#EBEFEF] group-hover:bg-[#4A6B5D] text-[#4A6B5D] group-hover:text-white flex items-center justify-center text-base transition-all duration-300">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest bg-white border border-[#E6E1DA] px-2.5 py-1 rounded-full">04</span>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-base font-semibold text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ t('policy_header_4') }}</h3>
+                            <p class="text-xs text-[#5C6460] leading-relaxed font-light">{{ t('policy_desc_4') }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Policy Card 5: Halal -->
+                    <div class="group bg-[#FAF7F2] border border-[#E6E1DA] rounded-3xl p-7 space-y-5 hover:-translate-y-1 hover:shadow-lg hover:border-[#4A6B5D]/30 transition-all duration-300">
+                        <div class="flex items-start justify-between">
+                            <div class="w-12 h-12 rounded-2xl bg-[#EBEFEF] group-hover:bg-[#4A6B5D] text-[#4A6B5D] group-hover:text-white flex items-center justify-center text-base transition-all duration-300">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest bg-white border border-[#E6E1DA] px-2.5 py-1 rounded-full">05</span>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-base font-semibold text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ t('policy_header_5') }}</h3>
+                            <p class="text-xs text-[#5C6460] leading-relaxed font-light">{{ t('policy_desc_5') }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Policy Card 6: Dispute -->
+                    <div class="group bg-[#FAF7F2] border border-[#E6E1DA] rounded-3xl p-7 space-y-5 hover:-translate-y-1 hover:shadow-lg hover:border-[#4A6B5D]/30 transition-all duration-300">
+                        <div class="flex items-start justify-between">
+                            <div class="w-12 h-12 rounded-2xl bg-[#EBEFEF] group-hover:bg-[#4A6B5D] text-[#4A6B5D] group-hover:text-white flex items-center justify-center text-base transition-all duration-300">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest bg-white border border-[#E6E1DA] px-2.5 py-1 rounded-full">06</span>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-base font-semibold text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ t('policy_header_6') }}</h3>
+                            <p class="text-xs text-[#5C6460] leading-relaxed font-light">{{ t('policy_desc_6') }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trust Footer Banner -->
+                <div class="bg-[#1C201E] rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-[#4A6B5D]/30 text-[#A8C5B8] flex items-center justify-center text-lg flex-shrink-0">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <div>
+                            <p class="text-white text-sm font-semibold font-serif-luxury uppercase tracking-wider">{{ t('agreement_banner_title') }}</p>
+                            <p class="text-[#8E9993] text-xs font-light mt-0.5 leading-relaxed">
+                                {{ t('agreement_banner_desc') }}
+                            </p>
+                        </div>
+                    </div>
+                    <Link
+                        href="/contact"
+                        class="flex-shrink-0 bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-7 py-3 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 whitespace-nowrap"
+                    >
+                        {{ t('ask_us') }}
+                    </Link>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FAQ CTA Section -->
+        <section class="py-20 bg-[#FAF7F2] border-t border-[#E6E1DA] font-sans-modern">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-5">
+                        <span class="text-xs font-semibold text-[#4A6B5D] tracking-widest uppercase block">{{ t('faq') }}</span>
+                        <h2 class="text-4xl lg:text-5xl font-light text-[#1C201E] font-serif-luxury leading-tight">
+                            {{ t('faq_title') }}
+                        </h2>
+                        <p class="text-sm text-[#5C6460] font-light leading-relaxed max-w-md">
+                            {{ t('faq_subtitle') }}
+                        </p>
+                        <Link
+                            href="/faq"
+                            class="inline-flex items-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-8 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md"
+                        >
+                            {{ t('view_all_questions') }} <i class="fas fa-arrow-right text-[10px]"></i>
+                        </Link>
+                    </div>
+                    <!-- Quick FAQ preview -->
+                    <div class="space-y-3">
+                        <div class="bg-white border border-[#E6E1DA] rounded-2xl px-6 py-4 flex items-center justify-between shadow-xs hover:border-[#4A6B5D]/40 transition-colors">
+                            <span class="text-sm font-medium text-[#1C201E]">{{ t('q_min_guests') }}</span>
+                            <i class="fas fa-chevron-right text-[10px] text-[#8C8275]"></i>
+                        </div>
+                        <div class="bg-white border border-[#E6E1DA] rounded-2xl px-6 py-4 flex items-center justify-between shadow-xs hover:border-[#4A6B5D]/40 transition-colors">
+                            <span class="text-sm font-medium text-[#1C201E]">{{ t('q_halal') }}</span>
+                            <i class="fas fa-chevron-right text-[10px] text-[#8C8275]"></i>
+                        </div>
+                        <div class="bg-white border border-[#E6E1DA] rounded-2xl px-6 py-4 flex items-center justify-between shadow-xs hover:border-[#4A6B5D]/40 transition-colors">
+                            <span class="text-sm font-medium text-[#1C201E]">{{ t('q_menu_change') }}</span>
+                            <i class="fas fa-chevron-right text-[10px] text-[#8C8275]"></i>
+                        </div>
+                        <div class="bg-white border border-[#E6E1DA] rounded-2xl px-6 py-4 flex items-center justify-between shadow-xs hover:border-[#4A6B5D]/40 transition-colors">
+                            <span class="text-sm font-medium text-[#1C201E]">{{ t('q_payment') }}</span>
+                            <i class="fas fa-chevron-right text-[10px] text-[#8C8275]"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews & Testimonials Section -->
+        <section v-if="reviews && reviews.length > 0" id="testimonials" class="py-24 bg-[#FAF7F2] border-t border-[#E6E1DA] font-sans-modern overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-14">
+
+                <!-- Section Header + Average Rating -->
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-10">
+                    <div class="space-y-3">
+                        <span class="text-xs font-semibold text-[#4A6B5D] tracking-widest uppercase block">{{ t('reviews_ratings') }}</span>
+                        <h2 class="text-3xl lg:text-4xl font-light text-[#1C201E] font-serif-luxury uppercase tracking-wider">
+                            {{ t('customer_testimonials') }}
+                        </h2>
+                        <p class="text-xs text-[#8C8275] max-w-md">
+                            {{ t('testimonials_subtitle') }}
+                        </p>
+                    </div>
+
+                    <!-- Average Rating Badge -->
+                    <div class="flex-shrink-0 bg-white border border-[#E6E1DA] rounded-3xl px-8 py-6 text-center shadow-sm min-w-[160px]">
+                        <div class="text-5xl font-light text-[#2D3330] font-serif-luxury leading-none mb-2">
+                            {{ (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1) }}
+                        </div>
+                        <div class="flex items-center justify-center gap-0.5 mb-2">
+                            <i v-for="s in 5" :key="s" class="fa-star text-sm"
+                               :class="s <= Math.round(reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length) ? 'fas text-[#C5A880]' : 'far text-zinc-200'">
+                            </i>
+                        </div>
+                        <span class="text-[10px] text-[#8C8275] uppercase tracking-widest font-semibold">{{ reviews.length }} {{ t('reviews_ratings') }}</span>
+                    </div>
+                </div>
+
+                <!-- Review Cards Marquee (Infinite scrolling left-to-right) -->
+                <div class="relative w-full overflow-hidden py-4 select-none">
+                    <!-- Fade gradients on sides for high-end look -->
+                    <div class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#FAF7F2] to-transparent z-10 pointer-events-none"></div>
+                    <div class="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#FAF7F2] to-transparent z-10 pointer-events-none"></div>
+
+                    <!-- Scrolling Track -->
+                    <div 
+                        class="flex gap-6 w-max animate-marquee-right hover:[animation-play-state:paused]"
+                        :style="{ animationDuration: marqueeDuration }"
+                    >
+                        <div
+                            v-for="(review, index) in marqueeReviews"
+                            :key="`${review.id}-${index}`"
+                            class="w-[350px] sm:w-[400px] flex-shrink-0 bg-white border border-[#E6E1DA] rounded-2xl p-6 shadow-sm flex flex-col justify-between space-y-5 hover:border-[#C5A880]/50 hover:shadow-md transition-all duration-300"
+                        >
+                            <!-- Top: Stars + Quote -->
+                            <div class="space-y-3">
+                                <!-- Stars row -->
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-0.5">
+                                        <i v-for="star in 5" :key="star" class="fa-star text-sm"
+                                           :class="star <= review.rating ? 'fas text-[#C5A880]' : 'far text-zinc-200'">
+                                        </i>
+                                    </div>
+                                    <!-- Decorative quote mark -->
+                                    <span class="text-4xl text-[#E6E1DA] font-serif leading-none select-none">"</span>
+                                </div>
+
+                                <!-- Review text -->
+                                <p class="text-xs text-[#5C6460] leading-relaxed italic">
+                                    "{{ review.review_text || (t('current_language') === 'en' ? 'Excellent catering service! Highly recommended.' : 'Servis katering yang sangat baik! Sangat disyorkan.') }}"
+                                </p>
+                            </div>
+
+                            <!-- Bottom: Customer info + admin reply -->
+                            <div class="space-y-3">
+                                <div class="border-t border-[#EBEFEF] pt-4 flex items-center gap-3">
+                                    <!-- Avatar initial -->
+                                    <div class="w-9 h-9 rounded-full bg-[#4A6B5D] text-white flex items-center justify-center text-xs font-bold uppercase flex-shrink-0">
+                                        {{ (review.user?.full_name || review.user?.name || 'C').charAt(0) }}
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <span class="font-bold text-[#2D3330] text-[11px] uppercase tracking-wider block truncate">
+                                            {{ review.user?.full_name || review.user?.name || 'Verified Customer' }}
+                                        </span>
+                                        <span class="text-[10px] text-[#8C8275] block truncate">
+                                            {{ review.order?.package_name || 'SmartServe Package' }}
+                                        </span>
+                                    </div>
+                                    <span class="text-[9px] text-[#C6C1B9] flex-shrink-0">
+                                        {{ new Date(review.created_at).toLocaleDateString('ms-MY', { month: 'short', year: 'numeric' }) }}
+                                    </span>
+                                </div>
+
+                                <!-- Admin Reply -->
+                                <div v-if="review.admin_reply" class="bg-[#F5F7F6] border border-[#E0E8E4] rounded-xl p-3 space-y-1">
+                                    <div class="flex items-center gap-1.5 text-[9px] font-bold text-[#4A6B5D] uppercase tracking-widest">
+                                        <i class="fas fa-reply text-[8px]"></i> SmartServe
+                                    </div>
+                                    <p class="text-[10px] text-[#5C6460] leading-relaxed">{{ review.admin_reply }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- Contact CTA Section -->
+        <section id="contact" class="py-24 bg-[#1C201E] text-white font-sans-modern text-center">
+            <div class="max-w-2xl mx-auto px-6 space-y-6">
+                <span class="text-[10px] text-[#A8C5B8] uppercase tracking-widest font-semibold block">{{ t('contact_us') }}</span>
+                <h2 class="text-3xl lg:text-5xl font-light font-serif-luxury leading-tight">
+                    {{ t('contact_title') }}
+                </h2>
+                <p class="text-[#8E9993] text-sm font-light leading-relaxed max-w-lg mx-auto">
+                    {{ t('contact_subtitle') }}
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                    <Link
+                        href="/contact"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-10 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md"
+                    >
+                        {{ t('contact_submit') }}
+                    </Link>
+                    <a
+                        href="https://wa.me/60123456789"
+                        target="_blank"
+                        class="bg-emerald-600 hover:bg-emerald-700 text-white text-center px-10 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2"
+                    >
+                        <i class="fab fa-whatsapp text-sm"></i>
+                        {{ t('contact_whatsapp_btn') }}
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </FrontLayout>
 </template>
+
+<style scoped>
+@keyframes marquee-right {
+    0% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+.animate-marquee-right {
+    animation: marquee-right linear infinite;
+}
+</style>
