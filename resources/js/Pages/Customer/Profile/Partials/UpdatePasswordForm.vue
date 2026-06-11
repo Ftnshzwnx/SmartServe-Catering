@@ -12,6 +12,11 @@ const { t } = useLocalization();
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
 
+const showCurrentPassword = ref(false);
+const showNewPassword = ref(false);
+const showConfirmPassword = ref(false);
+
+
 const form = useForm({
     current_password: '',
     password: '',
@@ -52,14 +57,23 @@ const updatePassword = () => {
             <div class="space-y-1.5">
                 <InputLabel for="current_password" :value="t('current_password')" class="text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
 
-                <TextInput
-                    id="current_password"
-                    ref="currentPasswordInput"
-                    v-model="form.current_password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    autocomplete="current-password"
-                />
+                <div class="relative flex items-center">
+                    <TextInput
+                        id="current_password"
+                        ref="currentPasswordInput"
+                        v-model="form.current_password"
+                        :type="showCurrentPassword ? 'text' : 'password'"
+                        class="mt-1 block w-full pr-10"
+                        autocomplete="current-password"
+                    />
+                    <button 
+                        type="button"
+                        @click="showCurrentPassword = !showCurrentPassword"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8C8275] hover:text-[#2D3330] transition-colors focus:outline-none cursor-pointer mt-0.5"
+                    >
+                        <i class="fas" :class="showCurrentPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </button>
+                </div>
 
                 <InputError
                     :message="form.errors.current_password"
@@ -70,14 +84,23 @@ const updatePassword = () => {
             <div class="space-y-1.5">
                 <InputLabel for="password" :value="t('new_password_label')" class="text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
 
-                <TextInput
-                    id="password"
-                    ref="passwordInput"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    autocomplete="new-password"
-                />
+                <div class="relative flex items-center">
+                    <TextInput
+                        id="password"
+                        ref="passwordInput"
+                        v-model="form.password"
+                        :type="showNewPassword ? 'text' : 'password'"
+                        class="mt-1 block w-full pr-10"
+                        autocomplete="new-password"
+                    />
+                    <button 
+                        type="button"
+                        @click="showNewPassword = !showNewPassword"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8C8275] hover:text-[#2D3330] transition-colors focus:outline-none cursor-pointer mt-0.5"
+                    >
+                        <i class="fas" :class="showNewPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </button>
+                </div>
 
                 <InputError :message="form.errors.password" class="mt-2" />
             </div>
@@ -89,13 +112,22 @@ const updatePassword = () => {
                     class="text-xs font-bold text-[#8C8275] uppercase tracking-wider"
                 />
 
-                <TextInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    autocomplete="new-password"
-                />
+                <div class="relative flex items-center">
+                    <TextInput
+                        id="password_confirmation"
+                        v-model="form.password_confirmation"
+                        :type="showConfirmPassword ? 'text' : 'password'"
+                        class="mt-1 block w-full pr-10"
+                        autocomplete="new-password"
+                    />
+                    <button 
+                        type="button"
+                        @click="showConfirmPassword = !showConfirmPassword"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8C8275] hover:text-[#2D3330] transition-colors focus:outline-none cursor-pointer mt-0.5"
+                    >
+                        <i class="fas" :class="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </button>
+                </div>
 
                 <InputError
                     :message="form.errors.password_confirmation"
