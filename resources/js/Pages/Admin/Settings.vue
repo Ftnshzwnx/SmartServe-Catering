@@ -61,6 +61,10 @@ const passwordForm = useForm({
     password_confirmation: '',
 });
 
+const showCurrentPassword = ref(false);
+const showNewPassword = ref(false);
+const showConfirmPassword = ref(false);
+
 // Zone form state
 const showZoneModal = ref(false);
 const editingZoneId = ref(null);
@@ -578,37 +582,64 @@ function submitPassword() {
                             <div class="space-y-4 max-w-xl">
                                 <div class="space-y-1.5">
                                     <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_security_current_pwd') }}</label>
-                                    <input 
-                                        type="password" 
-                                        v-model="passwordForm.current_password" 
-                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
-                                        autocomplete="current-password"
-                                        required
-                                    />
+                                    <div class="relative flex items-center">
+                                        <input 
+                                            :type="showCurrentPassword ? 'text' : 'password'" 
+                                            v-model="passwordForm.current_password" 
+                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-3 pr-10 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                            autocomplete="current-password"
+                                            required
+                                        />
+                                        <button 
+                                            type="button"
+                                            @click="showCurrentPassword = !showCurrentPassword"
+                                            class="absolute right-3 text-[#8C8275] hover:text-[#2D3330] transition-colors focus:outline-none cursor-pointer"
+                                        >
+                                            <i class="fas" :class="showCurrentPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                        </button>
+                                    </div>
                                     <span v-if="passwordForm.errors.current_password" class="text-xs text-red-500 font-semibold block">{{ passwordForm.errors.current_password }}</span>
                                 </div>
 
                                 <div class="space-y-1.5">
                                     <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_security_new_pwd') }}</label>
-                                    <input 
-                                        type="password" 
-                                        v-model="passwordForm.password" 
-                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
-                                        autocomplete="new-password"
-                                        required
-                                    />
+                                    <div class="relative flex items-center">
+                                        <input 
+                                            :type="showNewPassword ? 'text' : 'password'" 
+                                            v-model="passwordForm.password" 
+                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-3 pr-10 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                            autocomplete="new-password"
+                                            required
+                                        />
+                                        <button 
+                                            type="button"
+                                            @click="showNewPassword = !showNewPassword"
+                                            class="absolute right-3 text-[#8C8275] hover:text-[#2D3330] transition-colors focus:outline-none cursor-pointer"
+                                        >
+                                            <i class="fas" :class="showNewPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                        </button>
+                                    </div>
                                     <span v-if="passwordForm.errors.password" class="text-xs text-red-500 font-semibold block">{{ passwordForm.errors.password }}</span>
                                 </div>
 
                                 <div class="space-y-1.5">
                                     <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_security_confirm_pwd') }}</label>
-                                    <input 
-                                        type="password" 
-                                        v-model="passwordForm.password_confirmation" 
-                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
-                                        autocomplete="new-password"
-                                        required
-                                    />
+                                    <div class="relative flex items-center">
+                                        <input 
+                                            :type="showConfirmPassword ? 'text' : 'password'" 
+                                            v-model="passwordForm.password_confirmation" 
+                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-3 pr-10 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                            autocomplete="new-password"
+                                            required
+                                        />
+                                        <button 
+                                            type="button"
+                                            @click="showConfirmPassword = !showConfirmPassword"
+                                            class="absolute right-3 text-[#8C8275] hover:text-[#2D3330] transition-colors focus:outline-none cursor-pointer"
+                                        >
+                                            <i class="fas" :class="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                        </button>
+                                    </div>
                                     <span v-if="passwordForm.errors.password_confirmation" class="text-xs text-red-500 font-semibold block">{{ passwordForm.errors.password_confirmation }}</span>
                                 </div>
                             </div>
