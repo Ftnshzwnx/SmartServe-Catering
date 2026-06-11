@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Force Laravel logs to stderr so they appear in Railway console
+export LOG_CHANNEL=stderr
+
 echo "=== Setting up Laravel ==="
 
 # Generate APP_KEY if not set
@@ -23,6 +26,9 @@ php artisan db:seed --force
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
+
+# Set permissions for www-data since artisan commands ran as root
+chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 echo "=== Starting services ==="
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
