@@ -15,8 +15,9 @@ php artisan storage:link --force 2>/dev/null || true
 php artisan config:clear
 php artisan cache:clear
 
-# Run migrations
+# Run migrations & seeders
 php artisan migrate --force
+php artisan db:seed --force
 
 # Cache config for performance
 php artisan config:cache

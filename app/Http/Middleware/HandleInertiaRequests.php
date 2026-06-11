@@ -49,6 +49,7 @@ class HandleInertiaRequests extends Middleware
                 'success' => $request->session()->get('success'),
                 'error' => $request->session()->get('error'),
                 'status' => $request->session()->get('status'),
+                'just_registered' => $request->session()->get('just_registered'),
             ],
             'settings' => array_merge([
                 'business_name' => 'SmartServe Catering',

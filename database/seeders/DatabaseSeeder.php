@@ -14,17 +14,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Connect to legacy database if available
-        $legacyDb = 'azilinacatering';
-        $host = 'localhost';
-        $user = 'root';
-        $pass = '';
+        // Only attempt legacy migration if in local environment
+        $dbExists = false;
+        if (app()->environment('local')) {
+            $legacyDb = 'azilinacatering';
+            $host = 'localhost';
+            $user = 'root';
+            $pass = '';
 
-        try {
-            $pdo = new \PDO("mysql:host=$host", $user, $pass);
-            $dbExists = $pdo->query("SHOW DATABASES LIKE '$legacyDb'")->rowCount() > 0;
-        } catch (\Exception $e) {
-            $dbExists = false;
+            try {
+                // Set a short timeout (2s) to prevent hanging if MySQL is offline/busy
+                $pdo = new \PDO("mysql:host=$host", $user, $pass, [
+                    \PDO::ATTR_TIMEOUT => 2,
+                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                ]);
+                $dbExists = $pdo->query("SHOW DATABASES LIKE '$legacyDb'")->rowCount() > 0;
+            } catch (\Exception $e) {
+                $dbExists = false;
+            }
         }
 
         if ($dbExists) {

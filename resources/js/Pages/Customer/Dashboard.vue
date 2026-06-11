@@ -34,7 +34,7 @@ const qrCodePath = computed(() => page.props.settings?.qr_code_path || null);
 const showQrModal = ref(false);
 
 const greeting = computed(() => {
-    if (props.ordersCount === 0) {
+    if (page.props.flash?.just_registered) {
         return currentLanguage.value === 'en' ? 'Welcome' : 'Selamat datang';
     }
     return t('welcome_back');
