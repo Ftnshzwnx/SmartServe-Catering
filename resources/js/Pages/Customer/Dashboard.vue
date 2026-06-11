@@ -33,6 +33,14 @@ const qrCodePath = computed(() => page.props.settings?.qr_code_path || null);
 
 const showQrModal = ref(false);
 
+const greeting = computed(() => {
+    if (props.ordersCount === 0) {
+        return currentLanguage.value === 'en' ? 'Welcome' : 'Selamat datang';
+    }
+    return t('welcome_back');
+});
+
+
 const depositPercent = computed(() => {
     return parseFloat(page.props.settings?.deposit_percentage || 30);
 });
@@ -304,7 +312,7 @@ function getTranslatedStatus(status) {
                     <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div>
                             <h3 class="text-3xl lg:text-4xl font-light font-serif-luxury mb-2 tracking-wide">
-                                {{ t('welcome_back') }}, {{ $page.props.auth.user.name }}!
+                                {{ greeting }}, {{ $page.props.auth.user.name }}!
                             </h3>
                             <p class="text-[#E2ECE8] text-xs lg:text-sm tracking-wide uppercase font-light max-w-xl">
                                 {{ t('welcome_desc') }}
