@@ -125,13 +125,13 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
             
-            if (!DB::table('users')->where('email', 'admin@smartservecatering.com')->exists()) {
+            if (!DB::table('users')->where('email', 'atenshazlan@gmail.com')->exists()) {
                 DB::table('users')->insert([
                     'name' => 'admin',
                     'full_name' => 'SmartServe Admin',
-                    'email' => 'admin@smartservecatering.com',
+                    'email' => 'atenshazlan@gmail.com',
                     'email_verified_at' => now(),
-                    'password' => Hash::make('adminsmart!'),
+                    'password' => Hash::make('atenshaz02!'),
                     'role' => 'admin',
                     'created_at' => now(),
                     'updated_at' => now(),
