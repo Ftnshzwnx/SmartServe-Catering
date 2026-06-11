@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, Link, usePage, router } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -28,7 +28,7 @@ const user = computed(() => page.props.auth.user);
 const isCollapsed = ref(false);
 const isMobileOpen = ref(false);
 
-const { t, setLanguage, currentLanguage } = useLocalization();
+const { t, setLanguage, currentLanguage, translateNotification } = useLocalization();
 
 onMounted(() => {
     isCollapsed.value = localStorage.getItem('ssc_admin_sidebar_collapsed') === 'true';
@@ -45,6 +45,44 @@ const toggleMobileMenu = () => {
 
 const toggleLanguage = () => {
     setLanguage(currentLanguage.value === 'en' ? 'my' : 'en');
+};
+
+const notifications = computed(() => page.props.auth.notifications || []);
+const unreadCount = computed(() => page.props.auth.unread_notifications_count || 0);
+
+const showNotificationsDropdown = ref(false);
+const toggleNotificationsDropdown = () => {
+    showNotificationsDropdown.value = !showNotificationsDropdown.value;
+};
+
+const handleNotificationClick = (notification) => {
+    showNotificationsDropdown.value = false;
+    router.post(route('notifications.read', notification.id), { redirect: true }, {
+        preserveScroll: true
+    });
+};
+
+const markAllNotificationsAsRead = () => {
+    router.post(route('notifications.read-all'), {}, {
+        preserveScroll: true
+    });
+};
+
+const formatTimeAgo = (dateStr) => {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    const now = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+    
+    if (seconds < 60) return 'Just now';
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    if (days === 1) return 'Yesterday';
+    if (days < 7) return `${days}d ago`;
+    return date.toLocaleDateString();
 };
 </script>
 
@@ -120,14 +158,14 @@ const toggleLanguage = () => {
                         <span class="text-base font-extrabold tracking-tight font-serif-luxury block leading-none">
                             Smart<span class="text-[#C5A880]">Serve</span>
                         </span>
-                        <span class="text-[9px] uppercase tracking-widest font-bold text-white/50 block mt-0.5">Admin Portal</span>
+                        <span class="text-[9px] uppercase tracking-widest font-bold text-white/50 block mt-0.5">{{ t('admin_portal') }}</span>
                     </div>
                 </div>
 
                 <!-- Nav Menu Links -->
                 <div class="space-y-4">
                     <div>
-                        <span v-show="!isCollapsed" class="text-[9px] uppercase tracking-widest font-bold text-white/40 px-3 mb-2 block select-none">Management</span>
+                        <span v-show="!isCollapsed" class="text-[9px] uppercase tracking-widest font-bold text-white/40 px-3 mb-2 block select-none">{{ t('admin_management') }}</span>
                         <nav class="space-y-1">
                             <Link 
                                 :href="route('admin.dashboard')" 
@@ -138,10 +176,10 @@ const toggleLanguage = () => {
                                         : 'text-white/70 hover:text-white hover:bg-white/5 border-transparent',
                                     isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-2.5'
                                 ]"
-                                :title="isCollapsed ? 'Dashboard' : ''"
+                                :title="isCollapsed ? t('admin_dashboard') : ''"
                             >
                                 <i class="fas fa-chart-line text-sm w-5 text-center"></i>
-                                <span v-show="!isCollapsed" class="whitespace-nowrap">Dashboard</span>
+                                <span v-show="!isCollapsed" class="whitespace-nowrap">{{ t('admin_dashboard') }}</span>
                             </Link>
 
                             <Link 
@@ -153,10 +191,10 @@ const toggleLanguage = () => {
                                         : 'text-white/70 hover:text-white hover:bg-white/5 border-transparent',
                                     isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-2.5'
                                 ]"
-                                :title="isCollapsed ? 'Customers' : ''"
+                                :title="isCollapsed ? t('admin_customers') : ''"
                             >
                                 <i class="fas fa-users text-sm w-5 text-center"></i>
-                                <span v-show="!isCollapsed" class="whitespace-nowrap">Customers</span>
+                                <span v-show="!isCollapsed" class="whitespace-nowrap">{{ t('admin_customers') }}</span>
                             </Link>
 
                             <Link 
@@ -168,10 +206,10 @@ const toggleLanguage = () => {
                                         : 'text-white/70 hover:text-white hover:bg-white/5 border-transparent',
                                     isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-2.5'
                                 ]"
-                                :title="isCollapsed ? 'Manage Orders' : ''"
+                                :title="isCollapsed ? t('admin_manage_orders') : ''"
                             >
                                 <i class="fas fa-receipt text-sm w-5 text-center"></i>
-                                <span v-show="!isCollapsed" class="whitespace-nowrap">Manage Orders</span>
+                                <span v-show="!isCollapsed" class="whitespace-nowrap">{{ t('admin_manage_orders') }}</span>
                             </Link>
 
                             <Link 
@@ -183,10 +221,10 @@ const toggleLanguage = () => {
                                         : 'text-white/70 hover:text-white hover:bg-white/5 border-transparent',
                                     isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-2.5'
                                 ]"
-                                :title="isCollapsed ? 'Catering Packages' : ''"
+                                :title="isCollapsed ? t('admin_catering_packages') : ''"
                             >
                                 <i class="fas fa-utensils text-sm w-5 text-center"></i>
-                                <span v-show="!isCollapsed" class="whitespace-nowrap">Catering Packages</span>
+                                <span v-show="!isCollapsed" class="whitespace-nowrap">{{ t('admin_catering_packages') }}</span>
                             </Link>
 
                             <Link 
@@ -198,10 +236,10 @@ const toggleLanguage = () => {
                                         : 'text-white/70 hover:text-white hover:bg-white/5 border-transparent',
                                     isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-2.5'
                                 ]"
-                                :title="isCollapsed ? 'Booking Calendar' : ''"
+                                :title="isCollapsed ? t('admin_booking_calendar') : ''"
                             >
                                 <i class="fas fa-calendar text-sm w-5 text-center"></i>
-                                <span v-show="!isCollapsed" class="whitespace-nowrap">Booking Calendar</span>
+                                <span v-show="!isCollapsed" class="whitespace-nowrap">{{ t('admin_booking_calendar') }}</span>
                             </Link>
 
                             <Link 
@@ -213,10 +251,10 @@ const toggleLanguage = () => {
                                         : 'text-white/70 hover:text-white hover:bg-white/5 border-transparent',
                                     isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-2.5'
                                 ]"
-                                :title="isCollapsed ? 'Customer Reviews' : ''"
+                                :title="isCollapsed ? t('admin_customer_reviews') : ''"
                             >
                                 <i class="fas fa-star text-sm w-5 text-center"></i>
-                                <span v-show="!isCollapsed" class="whitespace-nowrap">Customer Reviews</span>
+                                <span v-show="!isCollapsed" class="whitespace-nowrap">{{ t('admin_customer_reviews') }}</span>
                             </Link>
 
                             <Link 
@@ -228,10 +266,10 @@ const toggleLanguage = () => {
                                         : 'text-white/70 hover:text-white hover:bg-white/5 border-transparent',
                                     isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-2.5'
                                 ]"
-                                :title="isCollapsed ? 'Promo Codes' : ''"
+                                :title="isCollapsed ? t('admin_promo_codes') : ''"
                             >
                                 <i class="fas fa-ticket-alt text-sm w-5 text-center"></i>
-                                <span v-show="!isCollapsed" class="whitespace-nowrap">Promo Codes</span>
+                                <span v-show="!isCollapsed" class="whitespace-nowrap">{{ t('admin_promo_codes') }}</span>
                             </Link>
 
                             <Link 
@@ -243,16 +281,16 @@ const toggleLanguage = () => {
                                         : 'text-white/70 hover:text-white hover:bg-white/5 border-transparent',
                                     isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-2.5'
                                 ]"
-                                :title="isCollapsed ? 'Reports & Analytics' : ''"
+                                :title="isCollapsed ? t('admin_reports_analytics') : ''"
                             >
                                 <i class="fas fa-chart-bar text-sm w-5 text-center"></i>
-                                <span v-show="!isCollapsed" class="whitespace-nowrap">Reports & Analytics</span>
+                                <span v-show="!isCollapsed" class="whitespace-nowrap">{{ t('admin_reports_analytics') }}</span>
                             </Link>
                         </nav>
                     </div>
 
                     <div>
-                        <span v-show="!isCollapsed" class="text-[9px] uppercase tracking-widest font-bold text-white/40 px-3 mb-2 block select-none">Configuration</span>
+                        <span v-show="!isCollapsed" class="text-[9px] uppercase tracking-widest font-bold text-white/40 px-3 mb-2 block select-none">{{ t('admin_configuration') }}</span>
                         <nav class="space-y-1">
                             <Link 
                                 :href="route('admin.settings')" 
@@ -263,10 +301,10 @@ const toggleLanguage = () => {
                                         : 'text-white/70 hover:text-white hover:bg-white/5 border-transparent',
                                     isCollapsed ? 'justify-center p-3' : 'gap-3 px-4 py-2.5'
                                 ]"
-                                :title="isCollapsed ? 'System Settings' : ''"
+                                :title="isCollapsed ? t('admin_system_settings') : ''"
                             >
                                 <i class="fas fa-cogs text-sm w-5 text-center"></i>
-                                <span v-show="!isCollapsed" class="whitespace-nowrap">System Settings</span>
+                                <span v-show="!isCollapsed" class="whitespace-nowrap">{{ t('admin_system_settings') }}</span>
                             </Link>
                         </nav>
                     </div>
@@ -287,7 +325,7 @@ const toggleLanguage = () => {
                         <!-- Profile details -->
                         <div class="overflow-hidden transition-all duration-300" :class="isCollapsed ? 'w-0 opacity-0' : 'w-full opacity-100'">
                             <h4 class="text-xs font-bold text-white truncate">{{ user?.name || 'Admin' }}</h4>
-                            <p class="text-[9px] text-[#C5A880] truncate uppercase font-semibold">Admin</p>
+                            <p class="text-[9px] text-[#C5A880] truncate uppercase font-semibold">{{ t('admin_role') }}</p>
                         </div>
                     </div>
                     
@@ -298,7 +336,7 @@ const toggleLanguage = () => {
                         as="button" 
                         class="text-white/60 hover:text-rose-400 p-1.5 rounded-lg hover:bg-rose-500/10 transition-colors cursor-pointer shrink-0"
                         :class="isCollapsed ? 'w-8 h-8 border border-white/10 rounded-lg bg-white/5 flex items-center justify-center' : ''"
-                        title="Log Out"
+                        :title="t('admin_logout')"
                     >
                         <i class="fas fa-sign-out-alt text-xs"></i>
                     </Link>
@@ -357,14 +395,81 @@ const toggleLanguage = () => {
                         <span>{{ currentLanguage.toUpperCase() }}</span>
                     </button>
  
-                    <!-- Notification Bell Icon -->
-                    <button 
-                        class="w-9 h-9 border border-[#E6E1DA] rounded-xl flex items-center justify-center text-[#8C8275] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] relative transition-colors cursor-pointer"
-                        title="Notifications"
-                    >
-                        <i class="far fa-bell text-[#8C8275]"></i>
-                        <span class="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-[#C5A880] rounded-full"></span>
-                    </button>
+                    <!-- Notification Bell Icon (VMS style) & Dropdown -->
+                    <div class="relative">
+                        <button 
+                            @click="toggleNotificationsDropdown"
+                            class="w-9 h-9 border border-[#E6E1DA] rounded-xl flex items-center justify-center text-[#8C8275] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] relative transition-colors cursor-pointer"
+                            title="Notifications"
+                        >
+                            <i class="far fa-bell text-[#8C8275]"></i>
+                            <!-- Soft dot indicator for notifications -->
+                            <span v-if="unreadCount > 0" class="absolute -top-1 -right-1 bg-[#8C3A3A] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
+                                {{ unreadCount }}
+                            </span>
+                        </button>
+
+                        <!-- Dropdown Overlay to click-away -->
+                        <div v-if="showNotificationsDropdown" class="fixed inset-0 z-40" @click="showNotificationsDropdown = false"></div>
+
+                        <!-- Dropdown List -->
+                        <transition
+                            enter-active-class="transition ease-out duration-200"
+                            enter-from-class="opacity-0 scale-95"
+                            enter-to-class="opacity-100 scale-100"
+                            leave-active-class="transition ease-in duration-75"
+                            leave-from-class="opacity-100 scale-100"
+                            leave-to-class="opacity-0 scale-95"
+                        >
+                            <div 
+                                v-show="showNotificationsDropdown" 
+                                class="absolute right-0 mt-2 w-80 bg-white border border-[#E6E1DA] rounded-2xl shadow-xl z-50 overflow-hidden"
+                            >
+                                <!-- Header -->
+                                <div class="px-4 py-3 border-b border-[#E6E1DA] flex justify-between items-center bg-[#FAF8F5]">
+                                    <span class="text-xs font-bold text-[#2D3330] uppercase tracking-wider">{{ t('notifications') }}</span>
+                                    <button 
+                                        v-if="unreadCount > 0"
+                                        @click="markAllNotificationsAsRead"
+                                        class="text-[10px] text-[#4A6B5D] hover:underline font-semibold"
+                                    >
+                                        {{ t('mark_all_read') }}
+                                    </button>
+                                </div>
+
+                                <!-- Body / List -->
+                                <div class="max-h-80 overflow-y-auto divide-y divide-[#E6E1DA]/60">
+                                    <div v-if="notifications.length === 0" class="p-6 text-center text-xs text-[#8C8275]">
+                                        <i class="far fa-bell-slash text-lg mb-2 block opacity-40"></i>
+                                        {{ t('no_notifications_yet') }}
+                                    </div>
+                                    <div 
+                                        v-else 
+                                        v-for="item in notifications" 
+                                        :key="item.id"
+                                        @click="handleNotificationClick(item)"
+                                        class="px-4 py-3.5 hover:bg-[#FAF7F2]/50 transition-colors cursor-pointer flex gap-3 text-left items-start"
+                                        :class="!item.read_at ? 'bg-[#FAF7F2]' : ''"
+                                    >
+                                        <div class="flex-grow space-y-1">
+                                            <div class="flex justify-between items-start">
+                                                <h4 class="text-xs font-bold text-[#2D3330] leading-snug">
+                                                    {{ translateNotification(item).title }}
+                                                </h4>
+                                                <span class="text-[9px] text-[#8C8275] whitespace-nowrap ml-2">
+                                                    {{ formatTimeAgo(item.created_at) }}
+                                                </span>
+                                            </div>
+                                            <p class="text-[11px] text-[#5C6460] leading-relaxed">
+                                                {{ translateNotification(item).message }}
+                                            </p>
+                                        </div>
+                                        <span v-if="!item.read_at" class="w-1.5 h-1.5 bg-[#4A6B5D] rounded-full mt-1.5 shrink-0"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </transition>
+                    </div>
  
                     <!-- User Detail Avatar with Dropdown -->
                     <div class="flex items-center border-l border-[#E6E1DA] pl-4 relative z-50">
@@ -375,7 +480,7 @@ const toggleLanguage = () => {
                                         <div class="text-xs font-semibold text-[#2D3330] leading-none mb-1 text-center">
                                             <span class="capitalize">{{ user?.name || 'Admin' }}</span>
                                         </div>
-                                        <div class="text-[9px] font-medium text-[#8C8275] leading-none uppercase tracking-wider text-center">Admin</div>
+                                        <div class="text-[9px] font-medium text-[#8C8275] leading-none uppercase tracking-wider text-center">{{ t('admin_role') }}</div>
                                     </div>
                                     <div class="w-8 h-8 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center font-bold text-xs shadow-xs shrink-0 select-none">
                                         {{ (user?.name || 'A').charAt(0).toUpperCase() }}
@@ -386,11 +491,11 @@ const toggleLanguage = () => {
                             <template #content>
                                 <DropdownLink :href="route('admin.settings')" class="flex items-center gap-2 text-xs">
                                     <i class="fas fa-cogs text-[#8C8275]"></i>
-                                    <span>Settings</span>
+                                    <span>{{ t('admin_system_settings') }}</span>
                                 </DropdownLink>
                                 <DropdownLink :href="route('logout')" method="post" as="button" class="w-full flex items-center gap-2 text-xs text-left">
                                     <i class="fas fa-sign-out-alt text-[#8C8275]"></i>
-                                    <span>Logout</span>
+                                    <span>{{ t('admin_logout') }}</span>
                                 </DropdownLink>
                             </template>
                         </Dropdown>
@@ -472,48 +577,48 @@ const toggleLanguage = () => {
                     <!-- Nav Menu Links (Mobile) -->
                     <div class="space-y-4" @click="isMobileOpen = false">
                         <div>
-                            <span class="text-[9px] uppercase tracking-widest font-bold text-white/40 px-3 mb-2 block select-none">Management</span>
+                            <span class="text-[9px] uppercase tracking-widest font-bold text-white/40 px-3 mb-2 block select-none">{{ t('admin_management') }}</span>
                             <nav class="space-y-1">
                                 <Link :href="route('admin.dashboard')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
                                     <i class="fas fa-chart-line text-sm w-5 text-center"></i>
-                                    <span>Dashboard</span>
+                                    <span>{{ t('admin_dashboard') }}</span>
                                 </Link>
                                 <Link :href="route('admin.customers')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
                                     <i class="fas fa-users text-sm w-5 text-center"></i>
-                                    <span>Customers</span>
+                                    <span>{{ t('admin_customers') }}</span>
                                 </Link>
                                 <Link :href="route('admin.orders')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
                                     <i class="fas fa-receipt text-sm w-5 text-center"></i>
-                                    <span>Manage Orders</span>
+                                    <span>{{ t('admin_manage_orders') }}</span>
                                 </Link>
                                 <Link :href="route('admin.packages')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
                                     <i class="fas fa-utensils text-sm w-5 text-center"></i>
-                                    <span>Catering Packages</span>
+                                    <span>{{ t('admin_catering_packages') }}</span>
                                 </Link>
                                 <Link :href="route('admin.calendar')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
                                     <i class="fas fa-calendar text-sm w-5 text-center"></i>
-                                    <span>Booking Calendar</span>
+                                    <span>{{ t('admin_booking_calendar') }}</span>
                                 </Link>
                                 <Link :href="route('admin.reviews')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
                                     <i class="fas fa-star text-sm w-5 text-center"></i>
-                                    <span>Customer Reviews</span>
+                                    <span>{{ t('admin_customer_reviews') }}</span>
                                 </Link>
                                 <Link :href="route('admin.promos')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
                                     <i class="fas fa-ticket-alt text-sm w-5 text-center"></i>
-                                    <span>Promo Codes</span>
+                                    <span>{{ t('admin_promo_codes') }}</span>
                                 </Link>
                                 <Link :href="route('admin.reports')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
                                     <i class="fas fa-chart-bar text-sm w-5 text-center"></i>
-                                    <span>Reports & Analytics</span>
+                                    <span>{{ t('admin_reports_analytics') }}</span>
                                 </Link>
                             </nav>
                         </div>
                         <div>
-                            <span class="text-[9px] uppercase tracking-widest font-bold text-white/40 px-3 mb-2 block select-none">Configuration</span>
+                            <span class="text-[9px] uppercase tracking-widest font-bold text-white/40 px-3 mb-2 block select-none">{{ t('admin_configuration') }}</span>
                             <nav class="space-y-1">
                                 <Link :href="route('admin.settings')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
                                     <i class="fas fa-cogs text-sm w-5 text-center"></i>
-                                    <span>System Settings</span>
+                                    <span>{{ t('admin_system_settings') }}</span>
                                 </Link>
                             </nav>
                         </div>
@@ -529,7 +634,7 @@ const toggleLanguage = () => {
                             </div>
                             <div>
                                 <h4 class="text-xs font-bold text-white">{{ user?.name || 'Admin' }}</h4>
-                                <p class="text-[9px] text-[#C5A880] uppercase tracking-wider font-semibold">Admin</p>
+                                <p class="text-[9px] text-[#C5A880] uppercase tracking-wider font-semibold">{{ t('admin_role') }}</p>
                             </div>
                         </div>
                         <Link 
@@ -538,6 +643,7 @@ const toggleLanguage = () => {
                             as="button" 
                             class="text-white/60 hover:text-rose-400 p-1.5 rounded-lg hover:bg-rose-500/10 transition-colors cursor-pointer"
                             @click="isMobileOpen = false"
+                            :title="t('admin_logout')"
                         >
                             <i class="fas fa-sign-out-alt text-xs"></i>
                         </Link>

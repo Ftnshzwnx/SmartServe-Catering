@@ -37,6 +37,10 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
+        if ($request->user()->role === 'admin') {
+            return Redirect::route('admin.settings');
+        }
+
         return Redirect::route('profile.edit');
     }
 

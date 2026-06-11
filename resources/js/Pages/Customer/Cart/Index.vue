@@ -61,14 +61,14 @@ const toastMessage = ref('');
 // Delete cart item
 async function removeCartItem(id) {
     if (await confirm(
-        t('confirm_remove_cart') || 'Are you sure you want to remove this package from your cart?',
-        t('confirm_action') || 'Remove Item',
-        t('yes_confirm') || 'Yes, Remove',
-        t('no_cancel') || 'Keep Item'
+        t('confirm_remove_cart'),
+        t('confirm_action'),
+        t('yes_confirm'),
+        t('no_cancel')
     )) {
         deleteForm.delete(route('cart.destroy', { id: id }), {
             onSuccess: () => {
-                toast(t('toast_item_removed') || 'Item removed from shopping cart.');
+                toast(t('toast_item_removed'));
                 
                 // Remove from selected list if deleted
                 const idx = selectedCartIds.value.indexOf(id);
@@ -85,14 +85,14 @@ function updateQuantity(id) {
     
     // Check package min limit
     if (newQty < (item.package?.min_order || 20)) {
-        toast((t('qty_min_order_error') || 'Minimum order requirement is') + ' ' + (item.package?.min_order || 20) + ' pax.', 'error');
+        toast(t('qty_min_order_error') + ' ' + (item.package?.min_order || 20) + ' ' + t('pax') + '.', 'error');
         updateForm.quantity[id] = item.package?.min_order || 20;
         return;
     }
 
     useForm({ quantity: newQty }).post(route('cart.update', { id: id }), {
         onSuccess: () => {
-            toast(t('toast_qty_updated') || 'Quantity updated successfully.');
+            toast(t('toast_qty_updated'));
         }
     });
 }
@@ -114,7 +114,7 @@ const checkoutForm = useForm({
 
 function proceedToCheckout() {
     if (selectedCartIds.value.length === 0) {
-        toast(t('select_item_checkout_error') || 'Please select at least one item to checkout.', 'error');
+        toast(t('select_item_checkout_error'), 'error');
         return;
     }
     checkoutForm.selected_items = selectedCartIds.value;
@@ -224,11 +224,11 @@ function proceedToCheckout() {
                                     v-model="selectAll"
                                     class="border-[#E6E1DA] text-[#4A6B5D] focus:ring-[#4A6B5D] w-4.5 h-4.5 cursor-pointer rounded"
                                 />
-                                <span>Pilih Semua Pakej ({{ cartItems.length }})</span>
+                                <span>{{ t('select_all_packages_count').replace('{count}', cartItems.length) }}</span>
                             </label>
                             
                             <span v-if="selectedCartIds.length > 0" class="text-[10px] font-bold text-[#4A6B5D] bg-[#EBEFEF] border border-[#D1DEDB] px-3 py-1 rounded-full uppercase tracking-wider">
-                                {{ selectedCartIds.length }} Dipilih
+                                {{ t('selected_count').replace('{count}', selectedCartIds.length) }}
                             </span>
                         </div>
 
@@ -260,14 +260,14 @@ function proceedToCheckout() {
                                                     {{ item.package_name }}
                                                 </h3>
                                                 <div class="text-xs font-semibold text-[#4A6B5D] mt-1">
-                                                    Harga Asas: RM {{ parseFloat(item.price).toFixed(2) }} <span class="text-[10px] text-[#8C8275] font-normal">/ pax</span>
+                                                    {{ t('base_price_label') }}: RM {{ parseFloat(item.price).toFixed(2) }} <span class="text-[10px] text-[#8C8275] font-normal">/ {{ t('pax') }}</span>
                                                 </div>
                                             </div>
                                             
                                             <!-- Selected Dishes List -->
                                             <div v-if="item.selected_dishes && item.selected_dishes.length > 0" class="space-y-1.5 pt-1.5 border-t border-[#EBEFEF]">
                                                 <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1">
-                                                    <i class="fas fa-utensils text-[8px] text-[#4A6B5D]"></i> Lauk Pilihan:
+                                                    <i class="fas fa-utensils text-[8px] text-[#4A6B5D]"></i> {{ t('selected_dishes_label') }}
                                                 </span>
                                                 <div class="flex flex-wrap gap-1.5">
                                                     <span 
@@ -283,7 +283,7 @@ function proceedToCheckout() {
                                             <!-- Selected Add-ons List -->
                                             <div v-if="item.selected_addons && item.selected_addons.length > 0" class="space-y-1.5 pt-1.5 border-t border-[#EBEFEF]">
                                                 <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1">
-                                                    <i class="fas fa-plus text-[8px] text-[#C5A880]"></i> Tambahan (Add-ons):
+                                                    <i class="fas fa-plus text-[8px] text-[#C5A880]"></i> {{ t('addons_label') }}
                                                 </span>
                                                 <div class="flex flex-wrap gap-1.5">
                                                     <span 
@@ -309,7 +309,7 @@ function proceedToCheckout() {
                                                     ? route('cart.customize', { package_id: item.package_id, cart_id: item.id })
                                                     : route('menu.show', item.package_name)"
                                                 class="text-[#8C8275] hover:text-[#4A6B5D] transition-colors w-8 h-8 rounded-lg hover:bg-[#FAF7F2] flex items-center justify-center cursor-pointer"
-                                                :title="(item.selected_dishes && item.selected_dishes.length > 0) ? 'Edit Pilihan Lauk' : 'Lihat Perincian Pakej'"
+                                                :title="(item.selected_dishes && item.selected_dishes.length > 0) ? t('edit_dish_selection') : t('view_package_details')"
                                             >
                                                 <i class="fas fa-edit text-xs"></i>
                                             </Link>
@@ -318,7 +318,7 @@ function proceedToCheckout() {
                                             <button 
                                                 @click="removeCartItem(item.id)" 
                                                 class="text-[#8C8275] hover:text-rose-600 transition-colors w-8 h-8 rounded-lg hover:bg-rose-50/50 flex items-center justify-center cursor-pointer"
-                                                title="Keluarkan Pakej"
+                                                :title="t('remove_package')"
                                             >
                                                 <i class="fas fa-trash-alt text-xs"></i>
                                             </button>
@@ -357,7 +357,7 @@ function proceedToCheckout() {
 
                                         <!-- Subtotal Display -->
                                         <div class="text-right">
-                                            <div class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">Subjumlah:</div>
+                                            <div class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('subtotal') }}:</div>
                                             <div class="text-lg font-normal text-[#2D3330] font-serif-luxury tracking-wide whitespace-nowrap">
                                                 RM {{ (parseFloat(item.price) * parseInt(item.quantity)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                             </div>
@@ -378,7 +378,7 @@ function proceedToCheckout() {
                             <div class="space-y-3 text-xs border-b border-[#E6E1DA] pb-5">
                                 <div class="flex justify-between text-[#8C8275] uppercase tracking-wider">
                                     <span>{{ t('selected_packages') || 'Pakej Dipilih' }}</span>
-                                    <span class="font-bold text-[#2D3330]">{{ selectedCartIds.length }} Pakej</span>
+                                    <span class="font-bold text-[#2D3330]">{{ selectedCartIds.length }} {{ t('packages') }}</span>
                                 </div>
                                 <div class="flex justify-between text-[#8C8275] uppercase tracking-wider">
                                     <span>{{ t('subtotal') || 'Subjumlah' }}</span>
@@ -389,11 +389,11 @@ function proceedToCheckout() {
                                 
                                 <div v-if="selectedCartIds.length > 0" class="space-y-2 pt-2 border-t border-[#EBEFEF] text-[11px] italic text-[#8C8275]">
                                     <div class="flex justify-between">
-                                        <span>Deposit Tempahan (30%)</span>
+                                        <span>{{ t('deposit_booking_percent').replace('{percent}', '30') }}</span>
                                         <span>RM {{ (selectedSubtotal * 0.3).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span>Baki Perlu Dijelaskan (70%)</span>
+                                        <span>{{ t('balance_due_percent').replace('{percent}', '70') }}</span>
                                         <span>RM {{ (selectedSubtotal * 0.7).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
                                     </div>
                                 </div>
@@ -405,7 +405,7 @@ function proceedToCheckout() {
                                     <span class="text-2xl font-normal text-[#4A6B5D] font-serif-luxury tracking-wide block">
                                         RM {{ selectedSubtotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                     </span>
-                                    <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block mt-0.5">SST Termasuk / Halal Certified</span>
+                                    <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block mt-0.5">{{ t('sst_halal_notices') }}</span>
                                 </div>
                             </div>
 

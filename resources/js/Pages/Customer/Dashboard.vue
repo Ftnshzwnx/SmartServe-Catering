@@ -289,8 +289,8 @@ function getTranslatedStatus(status) {
     </component>
 
     <AuthenticatedLayout
-        header-title="Customer Dashboard"
-        header-desc="Welcome to your SmartServe portal — browse packages, track your orders, and manage your account."
+        :header-title="t('customer_dashboard_title')"
+        :header-desc="t('welcome_desc')"
     >
 
         <div class="font-sans-modern">
@@ -406,20 +406,16 @@ function getTranslatedStatus(status) {
                                 >
                                     <i class="fas fa-exclamation-triangle" v-if="activeOrder.status.includes('Rejected')"></i>
                                     <i class="fas fa-file-invoice-dollar" v-else></i>
-                                    {{ activeOrder.status.includes('Rejected') ? t('action_required') : (isDepositPayment(activeOrder) ? ((currentLanguage.value === 'en' || currentLanguage === 'en') ? 'PAY 30% DEPOSIT' : 'BAYAR DEPOSIT 30%') : ((currentLanguage.value === 'en' || currentLanguage === 'en') ? 'PAY REMAINING BALANCE' : 'BAYAR BAKI SELEBIHNYA')) }} ({{ getTranslatedStatus(activeOrder.status) }})
+                                    {{ activeOrder.status.includes('Rejected') ? t('action_required') : (isDepositPayment(activeOrder) ? t('pay_30_deposit') : t('pay_remaining_balance')) }} ({{ getTranslatedStatus(activeOrder.status) }})
                                 </span>
                                 <p class="text-xs font-light leading-relaxed"
                                     :class="activeOrder.status.includes('Rejected') ? 'text-[#8C3A3A]' : 'text-[#5C6460]'"
                                 >
                                     <span v-if="activeOrder.status === 'Delivered' || activeOrder.status === 'Balance Rejected'">
-                                        {{ (currentLanguage.value === 'en' || currentLanguage === 'en') 
-                                            ? `Scan or download the QR code below to pay the remaining balance (RM ${getBalanceAmount(activeOrder.total_price).toFixed(2)}), then upload proof.` 
-                                            : `Imbas atau muat turun QR code di bawah untuk bayar baki (RM ${getBalanceAmount(activeOrder.total_price).toFixed(2)}), kemudian muat naik bukti.` }}
+                                        {{ t('scan_qr_balance_desc').replace('{balance}', getBalanceAmount(activeOrder.total_price).toFixed(2)) }}
                                     </span>
                                     <span v-else-if="activeOrder.status === 'Pending' && activeOrder.is_custom_proposal && !activeOrder.payment_proof">
-                                        {{ (currentLanguage.value === 'en' || currentLanguage === 'en') 
-                                            ? `Your custom proposal was approved. Scan or download the QR code below to pay the ${depositPercent}% deposit (RM ${getDepositAmount(activeOrder.total_price).toFixed(2)}), then upload proof.` 
-                                            : `Cadangan khas anda telah diluluskan. Imbas atau muat turun QR code di bawah untuk bayar deposit ${depositPercent}% (RM ${getDepositAmount(activeOrder.total_price).toFixed(2)}), kemudian muat naik bukti.` }}
+                                        {{ t('custom_proposal_approved_deposit_desc').replace('{depositPercent}', depositPercent).replace('{depositAmount}', getDepositAmount(activeOrder.total_price).toFixed(2)) }}
                                     </span>
                                     <span v-else-if="activeOrder.admin_note" class="font-medium">"{{ activeOrder.admin_note }}"</span>
                                     <span v-else>{{ t('reupload_rejected_slip') }}</span>
@@ -441,7 +437,7 @@ function getTranslatedStatus(status) {
                                     :disabled="processingReupload[activeOrder.id]"
                                 >
                                     <i class="fas fa-cloud-upload-alt"></i> 
-                                    {{ processingReupload[activeOrder.id] ? t('uploading') : (activeOrder.status === 'Delivered' ? ((currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Upload Balance Proof' : 'Muat Naik Bukti Baki') : (activeOrder.status === 'Pending' ? ((currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Upload Deposit Proof' : 'Muat Naik Bukti Deposit') : t('reupload_receipt_btn'))) }}
+                                    {{ processingReupload[activeOrder.id] ? t('uploading') : (activeOrder.status === 'Delivered' ? t('upload_balance_proof') : (activeOrder.status === 'Pending' ? t('upload_deposit_proof') : t('reupload_receipt_btn'))) }}
                                 </button>
                                 <span v-if="fileErrors[activeOrder.id]" class="text-[9px] text-[#8C3A3A] font-semibold absolute top-full right-0 mt-1 whitespace-nowrap">{{ fileErrors[activeOrder.id] }}</span>
                             </div>
@@ -467,18 +463,14 @@ function getTranslatedStatus(status) {
                                 <div>
                                     <span class="text-[10px] font-bold uppercase tracking-widest text-[#4A6B5D] block mb-0.5">
                                         <i class="fas fa-qrcode mr-1"></i>
-                                        {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Payment QR Code' : 'QR Code Pembayaran' }}
+                                        {{ t('payment_qr_code') }}
                                     </span>
                                     <p class="text-[11px] text-[#5C6460] font-light leading-relaxed">
                                         <template v-if="isDepositPayment(activeOrder)">
-                                            {{ (currentLanguage.value === 'en' || currentLanguage === 'en') 
-                                                ? `Scan this QR code using your banking app to pay the ${depositPercent}% deposit (RM ${getDepositAmount(activeOrder.total_price).toFixed(2)}). Then upload the receipt above.` 
-                                                : `Imbas QR code ini menggunakan aplikasi bank anda untuk membayar deposit ${depositPercent}% (RM ${getDepositAmount(activeOrder.total_price).toFixed(2)}). Kemudian muat naik resit di atas.` }}
+                                            {{ t('scan_qr_deposit_info').replace('{depositPercent}', depositPercent).replace('{depositAmount}', getDepositAmount(activeOrder.total_price).toFixed(2)) }}
                                         </template>
                                         <template v-else>
-                                            {{ (currentLanguage.value === 'en' || currentLanguage === 'en') 
-                                                ? `Scan this QR code using your banking app to complete the remaining balance (RM ${getBalanceAmount(activeOrder.total_price).toFixed(2)}). Then upload the receipt above.` 
-                                                : `Imbas QR code ini menggunakan aplikasi bank anda untuk menyelesaikan bayaran baki (RM ${getBalanceAmount(activeOrder.total_price).toFixed(2)}). Kemudian muat naik resit di atas.` }}
+                                            {{ t('scan_qr_balance_info').replace('{balance}', getBalanceAmount(activeOrder.total_price).toFixed(2)) }}
                                         </template>
                                     </p>
                                 </div>
@@ -488,7 +480,7 @@ function getTranslatedStatus(status) {
                                     class="self-start bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-4 py-2 rounded-lg text-[10px] uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
                                 >
                                     <i class="fas fa-download"></i>
-                                    {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Save QR Code' : 'Simpan QR Code' }}
+                                    {{ t('save_qr_code') }}
                                 </button>
                             </div>
                         </div>
@@ -505,12 +497,10 @@ function getTranslatedStatus(status) {
                             </div>
                             <div>
                                 <span class="text-[10px] font-bold uppercase tracking-widest text-[#4A6B5D] block">
-                                    {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Share Your Experience' : 'Kongsi Pengalaman Anda' }}
+                                    {{ t('share_your_experience') }}
                                 </span>
                                 <p class="text-xs text-[#5C6460] font-light mt-0.5">
-                                    {{ (currentLanguage.value === 'en' || currentLanguage === 'en') 
-                                        ? `How was your event? (Order #${reviewOrder.id})` 
-                                        : `Bagaimana acara anda? (Pesanan #${reviewOrder.id})` }}
+                                    {{ t('share_experience_desc') }} (Order #${reviewOrder.id})
                                 </p>
                             </div>
                         </div>
@@ -519,14 +509,14 @@ function getTranslatedStatus(status) {
                             :href="route('orders.show', { id: reviewOrder.id })" 
                             class="text-[10px] text-[#8C8275] hover:text-[#4A6B5D] font-semibold uppercase tracking-wider transition-colors flex-shrink-0"
                         >
-                            {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'View Invoice' : 'Lihat Invois' }} →
+                            {{ t('view_invoice') }} →
                         </Link>
                     </div>
 
                     <!-- Star Rating -->
                     <div class="space-y-1.5">
                         <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
-                            {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Rating / Stars' : 'Rating / Bintang' }}
+                            {{ t('rating_stars_label') }}
                         </label>
                         <div class="flex items-center gap-2">
                             <button
@@ -548,13 +538,13 @@ function getTranslatedStatus(status) {
                     <!-- Review Textarea -->
                     <div class="space-y-1.5">
                         <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
-                            {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Your Review (Optional)' : 'Ulasan Anda (Pilihan)' }}
+                            {{ t('your_review_optional') }}
                         </label>
                         <textarea
                             v-model="reviewForm.review_text"
                             rows="3"
                             class="w-full text-xs border border-[#E6E1DA] rounded-xl p-3 bg-white focus:outline-none focus:ring-1 focus:ring-[#4A6B5D] focus:border-[#4A6B5D] transition-shadow placeholder-[#C6C1B9]/80 resize-none"
-                            :placeholder="(currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Share your experience about our food and service...' : 'Kongsi pengalaman anda tentang makanan dan servis kami...'"
+                            :placeholder="t('review_placeholder')"
                         ></textarea>
                         <span v-if="reviewForm.errors.review_text" class="text-[10px] text-red-500 font-medium block">{{ reviewForm.errors.review_text }}</span>
                     </div>
@@ -568,10 +558,10 @@ function getTranslatedStatus(status) {
                     >
                         <i class="fas fa-paper-plane text-xs"></i>
                         <span v-if="reviewForm.processing">
-                            {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Submitting...' : 'Menghantar...' }}
+                            {{ t('submitting_status') }}
                         </span>
                         <span v-else>
-                            {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Submit Review' : 'Hantar Ulasan' }}
+                            {{ t('submit_review_btn') }}
                         </span>
                     </button>
                 </div>
@@ -891,10 +881,10 @@ function getTranslatedStatus(status) {
                     <div class="text-center">
                         <span class="text-[10px] font-bold uppercase tracking-widest text-[#4A6B5D] flex items-center justify-center gap-1.5 mb-1">
                             <i class="fas fa-qrcode"></i>
-                            {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Payment QR Code' : 'QR Code Pembayaran' }}
+                            {{ t('payment_qr_code') }}
                         </span>
                         <p class="text-[11px] text-[#8C8275] font-light">
-                            {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Scan using your banking app' : 'Imbas menggunakan aplikasi bank anda' }}
+                            {{ t('scan_using_bank_app') }}
                         </p>
                     </div>
 
@@ -910,7 +900,7 @@ function getTranslatedStatus(status) {
                         class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3 rounded-xl text-[11px] uppercase tracking-widest transition-colors flex items-center justify-center gap-2 cursor-pointer"
                     >
                         <i class="fas fa-download"></i>
-                        {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Save QR Code' : 'Simpan QR Code' }}
+                        {{ t('save_qr_code') }}
                     </button>
                 </div>
             </div>

@@ -47,7 +47,7 @@ function handleAddToCart(packageId) {
     form.quantity = quantities.value[packageId];
     form.post(route('cart.add'), {
         onSuccess: () => {
-            toastMessage.value = t('toast_added_to_cart') || 'Package added to cart successfully!';
+            toastMessage.value = t('toast_added_to_cart');
             showSuccessToast.value = true;
             setTimeout(() => {
                 showSuccessToast.value = false;
@@ -76,19 +76,19 @@ const getScaleBadge = (qty, minVal) => {
     const q = parseInt(qty || 0);
     if (q <= minVal + 100) {
         return {
-            text: t('scale_small') || 'Majlis Intim & Kecil',
+            text: t('scale_small'),
             icon: 'fa-users',
             class: 'bg-[#EBEFEF] text-[#4A6B5D] border border-[#D1DEDB]'
         };
     } else if (q <= minVal + 400) {
         return {
-            text: t('scale_medium') || 'Kenduri Sederhana (Grand)',
+            text: t('scale_medium'),
             icon: 'fa-people-group',
             class: 'bg-[#FFF9EE] text-[#D98A29] border border-[#F5E6CD]'
         };
     } else {
         return {
-            text: t('scale_large') || 'Kenduri Mega (Mega Feast)',
+            text: t('scale_large'),
             icon: 'fa-crown',
             class: 'bg-[#FDF3F3] text-[#C84B4B] border border-[#F3DFDF]'
         };
@@ -212,7 +212,7 @@ const getDishIcon = (dishName) => {
                         class="inline-flex items-center gap-2 text-xs font-semibold text-[#8C8275] hover:text-[#4A6B5D] uppercase tracking-wider transition-colors"
                     >
                         <i class="fas fa-arrow-left text-[9px]"></i>
-                        <span>{{ t('back_to_menu') || 'Kembali Ke Menu' }}</span>
+                        <span>{{ t('back_to_menu') }}</span>
                     </Link>
                 </div>
                 
@@ -225,13 +225,13 @@ const getDishIcon = (dishName) => {
                     <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                         <div class="space-y-3">
                             <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#C5A880]/20 border border-[#C5A880]/30 rounded-full text-[10px] font-bold text-[#E6CBA3] uppercase tracking-widest">
-                                <i class="fas fa-utensils"></i> {{ t('catering_packages') || 'Pakej Katering' }}
+                                <i class="fas fa-utensils"></i> {{ t('catering_packages') }}
                             </div>
                             <h1 class="text-3xl md:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
                                 {{ category }}
                             </h1>
                             <p class="text-xs md:text-sm text-[#E6E1DA]/80 max-w-2xl font-light leading-relaxed">
-                                {{ t('category_show_desc') || 'Sila pilih pakej kegemaran anda, buat anggaran jumlah tetamu, dan teruskan untuk tempahan.' }}
+                                {{ t('category_show_desc') }}
                             </p>
                         </div>
                         <div class="flex gap-4 shrink-0">
@@ -343,8 +343,8 @@ const getDishIcon = (dishName) => {
                                             class="w-full accent-[#4A6B5D] cursor-pointer h-1 bg-[#E6E1DA] rounded-lg appearance-none"
                                         />
                                         <div class="flex justify-between text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">
-                                            <span>Min: {{ pkg.min_order || 20 }} pax</span>
-                                            <span>Max: {{ Math.max(1000, (pkg.min_order || 20) * 5) }} pax</span>
+                                            <span>Min: {{ pkg.min_order || 20 }} {{ t('pax') }}</span>
+                                            <span>Max: {{ Math.max(1000, (pkg.min_order || 20) * 5) }} {{ t('pax') }}</span>
                                         </div>
                                     </div>
 
@@ -362,21 +362,21 @@ const getDishIcon = (dishName) => {
                                     <!-- Live Total Receipt Style Breakdown -->
                                     <div class="border-t border-[#E6E1DA] pt-4 space-y-2.5">
                                         <div class="flex items-center justify-between text-xs text-[#5C6460]">
-                                            <span>Harga Asas (RM {{ parseFloat(pkg.price).toFixed(2) }} × {{ quantities[pkg.id || pkg.package_id] }} pax)</span>
+                                            <span>{{ t('base_price_label') }} (RM {{ parseFloat(pkg.price).toFixed(2) }} × {{ quantities[pkg.id || pkg.package_id] }} {{ t('pax') }})</span>
                                             <span class="font-medium text-[#2D3330]">
                                                 RM {{ calculateTotal(pkg.price, quantities[pkg.id || pkg.package_id]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                             </span>
                                         </div>
 
                                         <div class="flex items-center justify-between text-[11px] text-[#8C8275] italic">
-                                            <span>Deposit Majlis Diperlukan (30%)</span>
+                                            <span>{{ t('deposit_booking_percent').replace('{percent}', '30') }}</span>
                                             <span>
                                                 RM {{ (calculateTotal(pkg.price, quantities[pkg.id || pkg.package_id]) * 0.3).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                             </span>
                                         </div>
 
                                         <div class="flex items-center justify-between text-[11px] text-[#8C8275] italic">
-                                            <span>Baki Perlu Dijelaskan (70%)</span>
+                                            <span>{{ t('balance_due_percent').replace('{percent}', '70') }}</span>
                                             <span>
                                                 RM {{ (calculateTotal(pkg.price, quantities[pkg.id || pkg.package_id]) * 0.7).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                             </span>
@@ -389,7 +389,7 @@ const getDishIcon = (dishName) => {
                                                 <span class="text-2xl font-normal text-[#4A6B5D] font-serif-luxury tracking-wide block">
                                                     RM {{ calculateTotal(pkg.price, quantities[pkg.id || pkg.package_id]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                                 </span>
-                                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mt-0.5">SST Termasuk / Halal Certified</span>
+                                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mt-0.5">{{ t('sst_halal_notices') }}</span>
                                             </div>
                                         </div>
                                     </div>

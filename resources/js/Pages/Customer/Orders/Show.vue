@@ -44,13 +44,12 @@ function approveProposal() {
 }
 
 async function rejectProposal() {
-    const lang = (currentLanguage.value || currentLanguage);
-    const message = lang === 'en' ? 'Are you sure you want to reject this proposal?' : 'Adakah anda pasti mahu menolak cadangan ini?';
-    const title = lang === 'en' ? 'Reject Proposal' : 'Tolak Cadangan';
-    const confirmText = lang === 'en' ? 'Yes, Reject' : 'Ya, Tolak';
-    const cancelText = lang === 'en' ? 'Cancel' : 'Batal';
-    
-    if (await confirm(message, title, confirmText, cancelText)) {
+    if (await confirm(
+        t('confirm_reject_proposal_msg'),
+        t('reject_proposal_title'),
+        t('yes_reject'),
+        t('cancel_btn')
+    )) {
         router.post(route('orders.proposal.reject', props.order.id));
     }
 }
@@ -81,12 +80,11 @@ function getStatusBadge(status) {
 }
 
 function getTranslatedStatus(status) {
-    const lang = (currentLanguage.value || currentLanguage);
     switch (status) {
         case 'Pending Proposal':
-            return lang === 'en' ? 'Awaiting Proposal' : 'Menunggu Cadangan';
+            return t('awaiting_proposal_status');
         case 'Proposal Sent':
-            return lang === 'en' ? 'Proposal Sent' : 'Cadangan Dihantar';
+            return t('proposal_sent_status');
         case 'Pending':
             return t('pending') || 'Pending';
         case 'Confirmed':
@@ -98,9 +96,8 @@ function getTranslatedStatus(status) {
         case 'Completed':
             return t('completed_tab') || 'Completed';
         case 'Deposit Rejected':
-            return t('deposit_rejected') || 'Deposit Rejected';
         case 'Balance Rejected':
-            return t('balance_rejected') || 'Balance Rejected';
+            return t('deposit_rejected') || 'Deposit Rejected';
         case 'Cancelled':
             return t('cancelled_tab') || 'Cancelled';
         default:
@@ -203,7 +200,7 @@ function getGroupedDishes(item) {
 
     <AuthenticatedLayout
         :header-title="t('invoice_receipt') + ' #' + order.id"
-        header-desc="View your order summary, download invoice and receipt PDFs, or print this page."
+        :header-desc="t('order_show_desc')"
     >
 
         <div class="font-sans-modern">
@@ -251,10 +248,10 @@ function getGroupedDishes(item) {
                             </div>
                             <div>
                                 <h4 class="font-serif-luxury text-lg font-normal text-[#2D3330]">
-                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Review Custom Proposal' : 'Semak Cadangan Menu Khas' }}
+                                    {{ t('review_custom_proposal') }}
                                 </h4>
                                 <p class="text-xs text-[#8C8275] font-light">
-                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'The caterer has proposed a customized menu list and a final price.' : 'Katering telah mencadangkan senarai menu dan harga akhir bagi tempahan anda.' }}
+                                    {{ t('caterer_proposed_custom_desc') }}
                                 </p>
                             </div>
                         </div>
@@ -262,7 +259,7 @@ function getGroupedDishes(item) {
                         <!-- Admin explanation note if any -->
                         <div v-if="order.admin_note" class="bg-white border border-[#E6E1DA] rounded-xl p-4 text-xs text-[#5C6460] leading-relaxed">
                             <strong class="font-semibold text-[#2D3330] block mb-1">
-                                {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Note from Owner:' : 'Nota daripada Pemilik:' }}
+                                {{ t('note_from_owner') }}
                             </strong>
                             <p class="font-light">{{ order.admin_note }}</p>
                         </div>
@@ -274,7 +271,7 @@ function getGroupedDishes(item) {
                                 class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer"
                             >
                                 <i class="fas fa-check-circle mr-1"></i>
-                                {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Approve & Pay Deposit' : 'Setuju & Bayar Deposit' }}
+                                {{ t('approve_pay_deposit') }}
                             </button>
                             <button 
                                 type="button"
@@ -282,7 +279,7 @@ function getGroupedDishes(item) {
                                 class="bg-white hover:bg-red-50 border border-red-200 text-red-600 px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer"
                             >
                                 <i class="fas fa-times-circle mr-1"></i>
-                                {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Reject & Cancel' : 'Tolak & Batal' }}
+                                {{ t('reject_cancel') }}
                             </button>
                         </div>
                     </div>
@@ -294,10 +291,10 @@ function getGroupedDishes(item) {
                         </div>
                         <div>
                             <h4 class="font-serif-luxury text-lg font-normal text-[#2D3330]">
-                                {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Awaiting Owner Proposal' : 'Menunggu Cadangan Pemilik' }}
+                                {{ t('awaiting_owner_proposal') }}
                             </h4>
                             <p class="text-xs text-[#8C8275] font-light">
-                                {{ (currentLanguage.value || currentLanguage) === 'en' ? 'The caterer is currently reviewing your wishlist and pricing a custom menu.' : 'Pemilik katering sedang menyemak wishlist dan menetapkan harga menu khas anda.' }}
+                                {{ t('caterer_reviewing_wishlist_desc') }}
                             </p>
                         </div>
                     </div>
@@ -433,19 +430,19 @@ function getGroupedDishes(item) {
                         
                         <div class="space-y-2 text-xs uppercase tracking-wider text-[#8C8275] self-end">
                             <div class="flex justify-between">
-                                <span>Subjumlah</span>
+                                <span>{{ t('subtotal') }}</span>
                                 <span class="font-bold text-[#2D3330]">RM {{ (parseFloat(order.total_price) - parseFloat(order.delivery_fee || 0) + parseFloat(order.discount_amount || 0)).toFixed(2) }}</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Caj Penghantaran ({{ order.delivery_zone || 'N/A' }})</span>
+                                <span>{{ t('delivery_fee_label') }} ({{ order.delivery_zone || 'N/A' }})</span>
                                 <span class="font-bold text-[#2D3330]">RM {{ parseFloat(order.delivery_fee || 0).toFixed(2) }}</span>
                             </div>
                             <div v-if="parseFloat(order.discount_amount) > 0" class="flex justify-between text-emerald-700 font-semibold">
-                                <span>Diskaun</span>
+                                <span>{{ t('discount') }}</span>
                                 <span>- RM {{ parseFloat(order.discount_amount).toFixed(2) }}</span>
                             </div>
-                            <div class="flex justify-between border-t border-[#E6E1DA] pt-2 text-[#8C8275]">
-                                <span>Jumlah Keseluruhan</span>
+                            <div class="flex justify-between border-t border-[#E6E1DA] pt-2 text-[#8C8275]">  
+                                <span>{{ t('grand_total') }}</span>
                                 <span class="font-bold text-[#2D3330]">RM {{ parseFloat(order.total_price).toFixed(2) }}</span>
                             </div>
                             <div class="flex justify-between text-[#8C3A3A] font-bold">

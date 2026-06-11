@@ -99,13 +99,16 @@ function getCategoryIcon(name) {
 
 function getPackageImage(pkg) {
     if (pkg.image && pkg.image !== 'placeholder.jpg') {
-        return '/' + pkg.image;
+        return pkg.image.startsWith('/') ? pkg.image : '/' + pkg.image;
     }
     const lower = pkg.package_name.toLowerCase();
     if (lower.includes('wedding') || lower.includes('kahwin') || lower.includes('sanding')) {
-        return '/img/catering_dish.png';
+        return '/img/hero_catering.png';
     }
-    return '/img/hero_catering.png';
+    if (lower.includes('aqiqah') || lower.includes('cukur') || lower.includes('baby') || lower.includes('birthday') || lower.includes('lahir') || lower.includes('kenduri') || lower.includes('family')) {
+        return '/img/aqiqah_catering.png';
+    }
+    return '/img/catering_dish.png';
 }
 </script>
 
@@ -172,8 +175,8 @@ function getPackageImage(pkg) {
     </component>
 
     <AuthenticatedLayout
-        header-title="Our Menu"
-        header-desc="Browse and select from our curated catering packages for your special occasion."
+        :header-title="t('our_menu')"
+        :header-desc="t('our_menu_desc')"
     >
 
         <div class="font-sans-modern">
@@ -186,21 +189,21 @@ function getPackageImage(pkg) {
                         <div class="stepper-item active">
                             <div class="stepper-circle">1</div>
                             <span class="text-[9px] font-bold uppercase tracking-widest text-[#4A6B5D]">
-                                {{ currentLanguage === 'en' ? 'Select Occasion' : 'Pilih Majlis' }}
+                                {{ t('select_occasion_stepper') }}
                             </span>
                         </div>
                         <!-- Step 2 -->
                         <div class="stepper-item">
                             <div class="stepper-circle">2</div>
                             <span class="text-[9px] font-bold uppercase tracking-widest text-[#8C8275]">
-                                {{ currentLanguage === 'en' ? 'Customize Menu' : 'Kustom Menu' }}
+                                {{ t('customize_menu_stepper') }}
                             </span>
                         </div>
                         <!-- Step 3 -->
                         <div class="stepper-item">
                             <div class="stepper-circle">3</div>
                             <span class="text-[9px] font-bold uppercase tracking-widest text-[#8C8275]">
-                                {{ currentLanguage === 'en' ? 'Confirm Booking' : 'Sahkan Tempahan' }}
+                                {{ t('confirm_booking_stepper') }}
                             </span>
                         </div>
                     </div>
@@ -238,10 +241,7 @@ function getPackageImage(pkg) {
                                 </div>
                                 
                                 <p class="text-xs text-[#8C8275] font-light leading-relaxed">
-                                    {{ currentLanguage === 'en' 
-                                        ? 'Select the event type below to explore curated set packages with custom guest count adjusters and dish add-ons.' 
-                                        : 'Pilih jenis majlis di bawah untuk menerokai pakej set katering berserta kustomisasi kuantiti tetamu dan tambahan lauk-pauk.' 
-                                    }}
+                                    {{ t('select_event_type_desc') }}
                                 </p>
 
                                 <!-- Category Tab Filters -->
@@ -353,10 +353,10 @@ function getPackageImage(pkg) {
                             <div v-else class="py-16 text-center">
                                 <i class="fas fa-search fa-2x text-[#8C8275] mb-4"></i>
                                 <h5 class="text-[#2D3330] font-serif-luxury text-xl mb-1">
-                                    {{ currentLanguage === 'en' ? 'No packages match your criteria' : 'Tiada pakej sepadan dengan carian anda' }}
+                                    {{ t('no_packages_criteria') }}
                                 </h5>
                                 <p class="text-xs text-[#8C8275]">
-                                    {{ currentLanguage === 'en' ? 'Try adjusting your search filters or check other tabs.' : 'Cuba laraskan penapis carian anda atau semak tab lain.' }}
+                                    {{ t('adjust_search_filters_desc') }}
                                 </p>
                             </div>
                         </div>
@@ -372,27 +372,24 @@ function getPackageImage(pkg) {
                             </div>
                             <div class="space-y-2">
                                 <h4 class="text-base font-normal font-serif-luxury uppercase tracking-wider text-[#FAF7F2]">
-                                    {{ currentLanguage === 'en' ? 'Budget Planner' : 'Perancang Bajet' }}
+                                    {{ t('budget_planner') }}
                                 </h4>
                                 <p class="text-[11px] text-[#FAF7F2]/80 leading-relaxed font-light">
-                                    {{ currentLanguage === 'en' 
-                                        ? 'Calculate package options, extra lauk add-ons, and payment breakdowns in real-time according to your target budget!' 
-                                        : 'Uji pelbagai pilihan pakej, tambahan lauk-pauk, serta pecahan pembayaran deposit secara langsung mengikut sasaran bajet anda!' 
-                                    }}
+                                    {{ t('budget_planner_desc_panel') }}
                                 </p>
                             </div>
                             <Link 
                                 :href="route('budget.planner')"
                                 class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3 px-4 rounded-xl text-xs uppercase tracking-widest transition-colors duration-200 text-center"
                             >
-                                {{ currentLanguage === 'en' ? 'Open Planner' : 'Buka Perancang Bajet' }} <i class="fas fa-arrow-right text-[10px]"></i>
+                                {{ t('open_planner') }} <i class="fas fa-arrow-right text-[10px]"></i>
                             </Link>
                         </div>
 
                         <!-- Brand Guarantees Pillars (bg-white explicitly added) -->
                         <div class="pillar-card bg-white space-y-6">
                             <h4 class="text-xs font-bold text-[#2D3330] uppercase tracking-widest border-b border-[#E6E1DA] pb-3">
-                                {{ currentLanguage === 'en' ? 'SmartServe Guarantees' : 'Jaminan Katering Kami' }}
+                                {{ t('smartserve_guarantees') }}
                             </h4>
                             
                             <div class="space-y-5">
@@ -403,13 +400,10 @@ function getPackageImage(pkg) {
                                     </div>
                                     <div>
                                         <span class="font-bold text-xs text-[#2D3330] block mb-0.5">
-                                            {{ currentLanguage === 'en' ? 'Heritage Flavors' : 'Rasa Pantai Timur Asli' }}
+                                            {{ t('heritage_flavors_title') }}
                                         </span>
                                         <p class="text-[10px] text-[#8C8275] font-light leading-relaxed">
-                                            {{ currentLanguage === 'en' 
-                                                ? 'Traditional spice recipes of Kuala Terengganu curated by master culinary chefs.' 
-                                                : 'Resipi rempah ratus tradisional Kuala Terengganu yang digubah oleh cef masakan pakar.' 
-                                            }}
+                                            {{ t('heritage_flavors_desc') }}
                                         </p>
                                     </div>
                                 </div>
@@ -421,13 +415,10 @@ function getPackageImage(pkg) {
                                     </div>
                                     <div>
                                         <span class="font-bold text-xs text-[#2D3330] block mb-0.5">
-                                            {{ currentLanguage === 'en' ? 'Sanitized Containment' : 'Kawalan Kebersihan & Halal' }}
+                                            {{ t('sanitized_containment_title') }}
                                         </span>
                                         <p class="text-[10px] text-[#8C8275] font-light leading-relaxed">
-                                            {{ currentLanguage === 'en' 
-                                                ? 'Food is transported in pristine, double-sealed thermal containment units.' 
-                                                : 'Hidangan dihantar menggunakan bekas containment terma berkembar yang sentiasa bersih.' 
-                                            }}
+                                            {{ t('sanitized_containment_desc') }}
                                         </p>
                                     </div>
                                 </div>
@@ -439,13 +430,10 @@ function getPackageImage(pkg) {
                                     </div>
                                     <div>
                                         <span class="font-bold text-xs text-[#2D3330] block mb-0.5">
-                                            {{ currentLanguage === 'en' ? '7-Day Headcount Rules' : 'Fleksibiliti Tarikh & Pax' }}
+                                            {{ t('headcount_rules_title') }}
                                         </span>
                                         <p class="text-[10px] text-[#8C8275] font-light leading-relaxed">
-                                            {{ currentLanguage === 'en' 
-                                                ? 'Finalize guest quantities or menu add-ons up to 7 days before delivery.' 
-                                                : 'Selesaikan jumlah tetamu atau tambahan menu sehingga 7 hari sebelum tarikh majlis.' 
-                                            }}
+                                            {{ t('headcount_rules_desc') }}
                                         </p>
                                     </div>
                                 </div>

@@ -12,6 +12,20 @@ const props = defineProps({
 
 const openDrawer = inject('openDrawer', () => {});
 const { t } = useLocalization();
+
+function getPackageImage(pkg) {
+    if (pkg.image && pkg.image !== 'placeholder.jpg') {
+        return pkg.image.startsWith('/') ? pkg.image : '/' + pkg.image;
+    }
+    const lower = pkg.package_name.toLowerCase();
+    if (lower.includes('wedding') || lower.includes('kahwin') || lower.includes('sanding')) {
+        return '/img/hero_catering.png';
+    }
+    if (lower.includes('aqiqah') || lower.includes('cukur') || lower.includes('baby') || lower.includes('birthday') || lower.includes('lahir') || lower.includes('kenduri') || lower.includes('family')) {
+        return '/img/aqiqah_catering.png';
+    }
+    return '/img/catering_dish.png';
+}
 </script>
 
 <template>
@@ -23,7 +37,11 @@ const { t } = useLocalization();
         <section class="py-20 bg-white border-b border-[#E6E1DA] font-sans-modern">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="max-w-2xl space-y-4">
-                    <span class="text-xs font-semibold text-[#4A6B5D] tracking-widest uppercase block">{{ t('premium_selection') }}</span>
+                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#8C8275]">
+                        <Link href="/" class="hover:text-[#4A6B5D] transition-colors duration-200">{{ t('home_nav') }}</Link>
+                        <span class="text-[#D1C8BD] text-[10px] font-normal">/</span>
+                        <span class="text-[#4A6B5D]">{{ t('package_nav') }}</span>
+                    </div>
                     <h1 class="text-5xl lg:text-6xl font-light text-[#1C201E] font-serif-luxury leading-tight">
                         {{ t('packages_hero_title_1') }} <span class="italic text-[#4A6B5D]">{{ t('packages_hero_title_2') }}</span>
                     </h1>
@@ -49,7 +67,7 @@ const { t } = useLocalization();
                             <div>
                                 <div class="aspect-[4/3] bg-[#EADED9] overflow-hidden relative">
                                     <img
-                                        :src="pkg.image ? pkg.image : '/img/hero_catering.png'"
+                                        :src="getPackageImage(pkg)"
                                         :alt="pkg.package_name"
                                         class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 ease-out"
                                     />
@@ -153,7 +171,7 @@ const { t } = useLocalization();
                         <div class="bg-white border border-[#E6E1DA] rounded-3xl overflow-hidden shadow-xs hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col justify-between">
                             <div>
                                 <div class="aspect-[4/3] bg-[#EADED9] overflow-hidden relative">
-                                    <img src="/img/hero_catering.png" alt="Aqiqah & Gathering Package" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 ease-out" />
+                                    <img src="/img/aqiqah_catering.png" alt="Aqiqah & Gathering Package" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 ease-out" />
                                     <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-xs px-3 py-1 rounded-full text-[10px] font-bold text-[#4A6B5D] uppercase tracking-wider">{{ t('value_tag') }}</div>
                                 </div>
                                 <div class="p-6 lg:p-8 space-y-4">

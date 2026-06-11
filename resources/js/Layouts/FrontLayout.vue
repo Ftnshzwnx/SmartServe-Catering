@@ -300,54 +300,125 @@ watch(() => window.location.search, () => {
         </main>
 
         <!-- Footer -->
-        <footer class="bg-[#242A27] text-[#D1C8BD] py-16 font-sans-modern border-t border-[#2D3330]">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 grid md:grid-cols-3 gap-12">
+        <footer class="bg-[#242A27] text-[#D1C8BD] py-20 font-sans-modern border-t border-[#2D3330]">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 grid md:grid-cols-3 gap-16">
                 <!-- Brand Info -->
-                <div class="space-y-4">
-                    <div class="flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-full bg-[#4A6B5D] flex items-center justify-center text-white text-xs font-bold font-sans-modern">SS</span>
-                        <span class="text-lg font-bold tracking-wider text-white uppercase">
-                            Smart<span class="text-[#4A6B5D]">Serve</span>
-                        </span>
-                    </div>
+                <div class="space-y-6">
+                    <Link href="/" class="text-white inline-block hover:opacity-90 transition-opacity">
+                        <ApplicationLogo />
+                    </Link>
                     <p class="text-xs text-[#8E9993] leading-relaxed max-w-sm font-light">
                         {{ t('footer_desc') }}
                     </p>
-                    <div class="flex gap-4 pt-2">
-                        <a class="text-[#8E9993] hover:text-white transition-colors" href="#"><i class="fab fa-facebook-f text-sm"></i></a>
-                        <a class="text-[#8E9993] hover:text-white transition-colors" href="#"><i class="fab fa-instagram text-sm"></i></a>
-                        <a class="text-[#8E9993] hover:text-white transition-colors" href="https://wa.me/60123456789" target="_blank"><i class="fab fa-whatsapp text-sm"></i></a>
+                    <div class="flex items-center gap-3 pt-2">
+                        <!-- Facebook -->
+                        <a 
+                            class="w-10 h-10 rounded-full bg-[#2E3532] border border-[#3E4743] flex items-center justify-center text-[#8E9993] hover:text-white hover:bg-[#1877F2] hover:border-[#1877F2] hover:-translate-y-1 hover:scale-110 active:scale-95 transition-all duration-300 ease-out shadow-xs" 
+                            href="https://www.facebook.com/people/Azilina-Katering/100063705123584/" 
+                            target="_blank" 
+                            title="Facebook"
+                        >
+                            <i class="fab fa-facebook-f text-sm"></i>
+                        </a>
+                        <!-- Instagram -->
+                        <a 
+                            class="w-10 h-10 rounded-full bg-[#2E3532] border border-[#3E4743] flex items-center justify-center text-[#8E9993] hover:text-white hover:bg-gradient-to-tr hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] hover:border-transparent hover:-translate-y-1 hover:scale-110 active:scale-95 transition-all duration-300 ease-out shadow-xs" 
+                            href="https://www.instagram.com/azilina_restaurant/" 
+                            target="_blank" 
+                            title="Instagram"
+                        >
+                            <i class="fab fa-instagram text-sm"></i>
+                        </a>
+                        <!-- TikTok -->
+                        <a 
+                            class="w-10 h-10 rounded-full bg-[#2E3532] border border-[#3E4743] flex items-center justify-center text-[#8E9993] hover:text-white hover:bg-black hover:border-black hover:shadow-[0_0_10px_rgba(254,44,85,0.4),0_0_10px_rgba(37,244,238,0.4)] hover:-translate-y-1 hover:scale-110 active:scale-95 transition-all duration-300 ease-out shadow-xs" 
+                            href="https://www.tiktok.com/@azilinamustapha" 
+                            target="_blank" 
+                            title="TikTok"
+                        >
+                            <i class="fab fa-tiktok text-sm"></i>
+                        </a>
+                        <!-- WhatsApp -->
+                        <a 
+                            class="w-10 h-10 rounded-full bg-[#2E3532] border border-[#3E4743] flex items-center justify-center text-[#8E9993] hover:text-white hover:bg-[#25D366] hover:border-[#25D366] hover:-translate-y-1 hover:scale-110 active:scale-95 transition-all duration-300 ease-out shadow-xs" 
+                            :href="'https://wa.me/' + ($page.props.settings.contact_phone || '019-2094670').replace(/[^0-9]/g, '').replace(/^0/, '60')" 
+                            target="_blank"
+                            title="WhatsApp"
+                        >
+                            <i class="fab fa-whatsapp text-sm"></i>
+                        </a>
                     </div>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="space-y-4">
-                    <h4 class="text-white text-xs font-bold uppercase tracking-widest">{{ t('explore_title') }}</h4>
-                    <ul class="space-y-2.5 text-xs text-[#8E9993]">
-                        <li><Link href="/" class="hover:text-white transition-colors uppercase tracking-widest font-light">{{ t('home_nav') }}</Link></li>
-                        <li><Link href="/about" class="hover:text-white transition-colors uppercase tracking-widest font-light">{{ t('about_nav') }}</Link></li>
-                        <li><Link href="/packages" class="hover:text-white transition-colors uppercase tracking-widest font-light">{{ t('package_nav') }}</Link></li>
-                        <li><Link href="/faq" class="hover:text-white transition-colors uppercase tracking-widest font-light">{{ t('faq_nav') }}</Link></li>
-                        <li><Link href="/contact" class="hover:text-white transition-colors uppercase tracking-widest font-light">{{ t('contact_nav') }}</Link></li>
-
+                <div class="space-y-6 flex flex-col items-center">
+                    <h4 class="text-white text-xs font-bold uppercase tracking-widest border-b border-[#2D3330] pb-3 w-full text-center">{{ t('explore_title') }}</h4>
+                    <ul class="space-y-4 text-xs text-[#8E9993] flex flex-col items-center w-full">
+                        <li>
+                            <Link href="/" class="group relative pb-1 hover:text-white transition-colors uppercase tracking-widest font-light text-center block after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[1.5px] after:bg-[#4A6B5D] hover:after:w-8 after:transition-all after:duration-300 ease-out">
+                                {{ t('home_nav') }}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/about" class="group relative pb-1 hover:text-white transition-colors uppercase tracking-widest font-light text-center block after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[1.5px] after:bg-[#4A6B5D] hover:after:w-8 after:transition-all after:duration-300 ease-out">
+                                {{ t('about_nav') }}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/packages" class="group relative pb-1 hover:text-white transition-colors uppercase tracking-widest font-light text-center block after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[1.5px] after:bg-[#4A6B5D] hover:after:w-8 after:transition-all after:duration-300 ease-out">
+                                {{ t('package_nav') }}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/faq" class="group relative pb-1 hover:text-white transition-colors uppercase tracking-widest font-light text-center block after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[1.5px] after:bg-[#4A6B5D] hover:after:w-8 after:transition-all after:duration-300 ease-out">
+                                {{ t('faq_nav') }}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/contact" class="group relative pb-1 hover:text-white transition-colors uppercase tracking-widest font-light text-center block after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[1.5px] after:bg-[#4A6B5D] hover:after:w-8 after:transition-all after:duration-300 ease-out">
+                                {{ t('contact_nav') }}
+                            </Link>
+                        </li>
                     </ul>
                 </div>
 
                 <!-- Contact Details -->
-                <div class="space-y-4">
-                    <h4 class="text-white text-xs font-bold uppercase tracking-widest">{{ t('connect_title') }}</h4>
-                    <ul class="space-y-3 text-xs text-[#8E9993] font-light">
-                        <li class="flex items-start gap-2.5">
-                            <i class="fa fa-map-marker-alt text-[#4A6B5D] mt-0.5"></i> 
-                            <span>Gong Badak, Kuala Terengganu, Malaysia</span>
+                <div class="space-y-6">
+                    <h4 class="text-white text-xs font-bold uppercase tracking-widest border-b border-[#2D3330] pb-3">{{ t('connect_title') }}</h4>
+                    <ul class="space-y-4 text-xs text-[#8E9993] font-light">
+                        <li class="group">
+                            <a 
+                                :href="'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent($page.props.settings.business_address || '30899 TAMAN DESA YT, HADAPAN KOMPLEKS SUKAN GONG BADAK 21300 SEB. TAKIR, KUALA TERENGGANU, TERENGGANU')"
+                                target="_blank"
+                                class="flex items-start gap-3 hover:text-white transition-colors"
+                            >
+                                <span class="w-8 h-8 rounded-lg bg-[#2E3532] border border-[#3E4743] flex items-center justify-center text-[#4A6B5D] group-hover:text-white group-hover:bg-[#4A6B5D] group-hover:border-[#4A6B5D] transition-all duration-300 flex-shrink-0 shadow-xs">
+                                    <i class="fa fa-map-marker-alt text-xs"></i> 
+                                </span>
+                                <span class="leading-relaxed">{{ $page.props.settings.business_address || 'Gong Badak, Kuala Terengganu, Malaysia' }}</span>
+                            </a>
                         </li>
-                        <li class="flex items-center gap-2.5">
-                            <i class="fa fa-phone-alt text-[#4A6B5D]"></i> 
-                            <span>+60 12-345 6789</span>
+                        <li class="group">
+                            <a 
+                                :href="'tel:' + ($page.props.settings.contact_phone || '019-2094670')" 
+                                class="flex items-center gap-3 hover:text-white transition-colors"
+                            >
+                                <span class="w-8 h-8 rounded-lg bg-[#2E3532] border border-[#3E4743] flex items-center justify-center text-[#4A6B5D] group-hover:text-white group-hover:bg-[#4A6B5D] group-hover:border-[#4A6B5D] transition-all duration-300 flex-shrink-0 shadow-xs">
+                                    <i class="fa fa-phone-alt text-xs"></i> 
+                                </span>
+                                <span class="font-normal">{{ $page.props.settings.contact_phone || '019-2094670' }}</span>
+                            </a>
                         </li>
-                        <li class="flex items-center gap-2.5">
-                            <i class="fa fa-envelope text-[#4A6B5D]"></i> 
-                            <span>info@smartservecatering.com</span>
+                        <li class="group">
+                            <a 
+                                :href="'mailto:' + ($page.props.settings.contact_email || 'info@smartservecatering.com')" 
+                                class="flex items-center gap-3 hover:text-white transition-colors"
+                            >
+                                <span class="w-8 h-8 rounded-lg bg-[#2E3532] border border-[#3E4743] flex items-center justify-center text-[#4A6B5D] group-hover:text-white group-hover:bg-[#4A6B5D] group-hover:border-[#4A6B5D] transition-all duration-300 flex-shrink-0 shadow-xs">
+                                    <i class="fa fa-envelope text-xs"></i> 
+                                </span>
+                                <span class="font-normal break-all">{{ $page.props.settings.contact_email || 'info@smartservecatering.com' }}</span>
+                            </a>
                         </li>
                     </ul>
                 </div>

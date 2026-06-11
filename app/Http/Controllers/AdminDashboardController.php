@@ -150,6 +150,16 @@ class AdminDashboardController extends Controller
 
         $order->save();
 
+        // Trigger notification
+        $statusText = $action === 'approve' ? 'diluluskan / approved' : 'ditolak / rejected';
+        \App\Models\SystemNotification::send(
+            $order->user_id,
+            "Status Pembayaran Tempahan #{$order->id} / Payment Status Update",
+            "Pembayaran resit anda untuk tempahan #{$order->id} telah {$statusText}.",
+            'payment_verified',
+            "/orders/{$order->id}"
+        );
+
         // Send Status Email
         $this->sendStatusMail($order->user->email, $order, $action, $note);
 
@@ -167,6 +177,15 @@ class AdminDashboardController extends Controller
         $order->status = 'Delivered';
         $order->save();
 
+        // Trigger notification
+        \App\Models\SystemNotification::send(
+            $order->user_id,
+            "Tempahan Sedang Dihantar / Order Out for Delivery",
+            "Tempahan #{$order->id} anda sedang dihantar/dipasang ke lokasi.",
+            'delivery_update',
+            "/orders/{$order->id}"
+        );
+
         // Calculate baki (70% balance remaining) dynamically based on settings
         $settings = Setting::all()->pluck('setting_value', 'setting_key');
         $depositPercent = isset($settings['deposit_percentage']) ? (float)$settings['deposit_percentage'] : 30;
@@ -178,47 +197,11 @@ class AdminDashboardController extends Controller
             $email = $order->user->email;
             $subject = "Pesanan Katering Anda Sedang Dihantar! / Your Order is Out for Delivery! - SmartServe Catering";
             
-            $body = "
-                <div style='font-family: Arial, sans-serif; line-height: 1.6; color: #2D3330; max-width: 600px; margin: 0 auto; border: 1px solid #E6E1DA; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);'>
-                    <div style='background-color: #4A6B5D; padding: 24px; text-align: center; color: #FAF7F2;'>
-                        <h2 style='margin: 0; font-family: serif; font-size: 24px; font-weight: normal; letter-spacing: 1px;'>SmartServe Catering</h2>
-                        <p style='margin: 4px 0 0 0; font-size: 12px; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px;'>Status Penghantaran / Delivery Update</p>
-                    </div>
-                    <div style='padding: 30px; background-color: #ffffff;'>
-                        <h3 style='color: #4A6B5D; margin-top: 0;'>Pesanan Anda Sedang Dihantar! 🚚</h3>
-                        <p>Pelanggan yang dihormati <strong>{$order->user->full_name}</strong>,</p>
-                        <p>Kami ingin memaklumkan bahawa tempahan katering anda untuk majlis pada <strong>{$order->delivery_date}</strong> kini sedang <strong>dalam proses penghantaran / pemasangan</strong> ke lokasi anda:</p>
-                        
-                        <div style='background-color: #FAF7F2; border-left: 4px solid #4A6B5D; padding: 15px; margin: 20px 0; border-radius: 4px;'>
-                            <strong>Alamat Acara / Event Address:</strong><br>
-                            " . nl2br(e($order->delivery_address)) . "
-                        </div>
-
-                        <p>Pasukan kami sedang dalam perjalanan untuk memastikan semuanya berjalan dengan lancar untuk majlis anda.</p>
-                        
-                        <hr style='border: 0; border-top: 1px solid #E6E1DA; margin: 25px 0;' />
-                        
-                        <h4 style='color: #8C3A3A; margin-top: 0;'>Peringatan Pembayaran Baki 70% 💳</h4>
-                        <p>Memandangkan katering telah dihantar, anda kini perlu menjelaskan baki pembayaran sebanyak 70% berjumlah:</p>
-                        
-                        <div style='background-color: #FDF2F2; border: 1px solid #FADCDD; padding: 15px; text-align: center; border-radius: 12px; margin: 20px 0;'>
-                            <span style='font-size: 12px; color: #8C8275; display: block; text-transform: uppercase; font-weight: bold;'>Jumlah Baki Perlu Dibayar</span>
-                            <strong style='font-size: 22px; color: #8C3A3A; display: block; margin-top: 5px;'>RM " . number_format($balance, 2) . "</strong>
-                        </div>
-
-                        <p>Sila buat bayaran dan <strong>muat naik resit baki bayaran</strong> anda melalui akaun pelanggan anda untuk pengesahan akhir pemilik.</p>
-                        
-                        <div style='text-align: center; margin-top: 30px;'>
-                            <a href='" . url('/dashboard') . "' style='background-color: #4A6B5D; color: #FAF7F2; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block;'>Muat Naik Resit Sekarang</a>
-                        </div>
-                    </div>
-                    <div style='background-color: #FAF7F2; padding: 20px; text-align: center; font-size: 11px; color: #8C8275; border-top: 1px solid #E6E1DA;'>
-                        SmartServe Catering Gong Badak, Kuala Terengganu, Terengganu<br>
-                        Hubungi kami jika anda mempunyai sebarang pertanyaan. Terima kasih!
-                    </div>
-                </div>
-            ";
-            Mail::html($body, function ($message) use ($email, $subject) {
+            Mail::send('emails.order_delivery_update', [
+                'order' => $order,
+                'balance' => $balance,
+                'subject' => $subject,
+            ], function ($message) use ($email, $subject) {
                 $message->to($email)->subject($subject);
             });
         } catch (\Exception $e) {
@@ -265,18 +248,24 @@ class AdminDashboardController extends Controller
             }
         });
 
+        // Trigger notification
+        \App\Models\SystemNotification::send(
+            $order->user_id,
+            "Cadangan Menu Sedia / Menu Proposal Ready",
+            "Cadangan menu kustom untuk tempahan #{$order->id} telah dihantar. Sila semak dan luluskan.",
+            'proposal_sent',
+            "/orders/{$order->id}"
+        );
+
         // Try to send notification email to the customer
         try {
             $email = $order->user->email;
             $subject = "Custom Menu Proposal Ready - SmartServe Catering";
-            $body = "
-                <h3 style='color: #4A6B5D;'>Custom Menu Proposal Ready!</h3>
-                <p>Dear {$order->user->name},</p>
-                <p>We have built a custom menu proposal for your event on <strong>{$order->delivery_date}</strong> with a total custom price of <strong>RM " . number_format($order->total_price, 2) . "</strong>.</p>
-                <p>Please log in to your dashboard to view the proposed menu list and approve it to lock in your date.</p>
-                <p>Warm regards,<br><strong>SmartServe Catering Admin</strong></p>
-            ";
-            Mail::html($body, function ($message) use ($email, $subject) {
+            
+            Mail::send('emails.custom_proposal', [
+                'order' => $order,
+                'subject' => $subject,
+            ], function ($message) use ($email, $subject) {
                 $message->to($email)->subject($subject);
             });
         } catch (\Exception $e) {
@@ -410,7 +399,7 @@ class AdminDashboardController extends Controller
             $file = $request->file('image');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('menu'), $fileName);
-            $imagePath = $fileName;
+            $imagePath = 'menu/' . $fileName;
         }
 
         $pkg = Package::create([
@@ -445,13 +434,19 @@ class AdminDashboardController extends Controller
         $pkg = Package::findOrFail($id);
 
         if ($request->hasFile('image')) {
-            if ($pkg->image && file_exists(public_path('menu/' . $pkg->image))) {
-                @unlink(public_path('menu/' . $pkg->image));
+            $oldImagePath = $pkg->image;
+            if ($oldImagePath) {
+                if (strpos($oldImagePath, 'menu/') !== 0) {
+                    $oldImagePath = 'menu/' . $oldImagePath;
+                }
+                if (file_exists(public_path($oldImagePath))) {
+                    @unlink(public_path($oldImagePath));
+                }
             }
             $file = $request->file('image');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('menu'), $fileName);
-            $pkg->image = $fileName;
+            $pkg->image = 'menu/' . $fileName;
         }
 
         $pkg->package_name = $request->input('package_name');
@@ -473,8 +468,14 @@ class AdminDashboardController extends Controller
     public function deletePackage(int $id): RedirectResponse
     {
         $pkg = Package::findOrFail($id);
-        if ($pkg->image && file_exists(public_path('menu/' . $pkg->image))) {
-            @unlink(public_path('menu/' . $pkg->image));
+        $oldImagePath = $pkg->image;
+        if ($oldImagePath) {
+            if (strpos($oldImagePath, 'menu/') !== 0) {
+                $oldImagePath = 'menu/' . $oldImagePath;
+            }
+            if (file_exists(public_path($oldImagePath))) {
+                @unlink(public_path($oldImagePath));
+            }
         }
         $pkg->delete();
         return redirect()->back()->with('success', 'Package deleted.');
@@ -950,16 +951,14 @@ class AdminDashboardController extends Controller
             $desc .= "<br><br>Please log in to your dashboard and re-upload a valid payment receipt.";
         }
 
-        $body = "
-            <h3 style='color: #b89047;'>{$title}</h3>
-            <p>Dear Customer,</p>
-            <p>{$desc}</p>
-            <p>If you have any questions, reply to this email or contact customer service.</p>
-            <p>Warm regards,<br><strong>SmartServe Catering Admin</strong></p>
-        ";
-
         try {
-            Mail::html($body, function ($message) use ($email, $subject) {
+            Mail::send('emails.order_status_update', [
+                'order' => $order,
+                'action' => $action,
+                'title' => $title,
+                'desc' => $desc,
+                'subject' => $subject,
+            ], function ($message) use ($email, $subject) {
                 $message->to($email)->subject($subject);
             });
         } catch (\Exception $e) {
@@ -988,6 +987,15 @@ class AdminDashboardController extends Controller
         $review = Review::findOrFail($id);
         $review->admin_reply = $request->input('admin_reply');
         $review->save();
+
+        // Trigger notification
+        \App\Models\SystemNotification::send(
+            $review->user_id,
+            "Balasan Maklum Balas / Review Replied",
+            "Pihak admin telah membalas maklum balas anda untuk tempahan #{$review->order_id}.",
+            'review_replied',
+            "/orders/{$review->order_id}"
+        );
 
         return redirect()->back()->with('success', 'Reply submitted successfully.');
     }

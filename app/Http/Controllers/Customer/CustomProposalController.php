@@ -54,7 +54,7 @@ class CustomProposalController extends Controller
         $qrCodeFile = $qrSetting ? $qrSetting->setting_value : 'admin/uploads/qr_default.png';
 
         // 3. Create the Custom Proposal Order
-        DB::transaction(function () use ($user, $request, $dishes, $qrCodeFile) {
+        $order = DB::transaction(function () use ($user, $request, $dishes, $qrCodeFile) {
             $order = Order::create([
                 'user_id' => $user->id,
                 'package_name' => 'Custom Menu Proposal (' . $request->input('guest_count') . ' Pax)',
@@ -81,7 +81,17 @@ class CustomProposalController extends Controller
                 'subtotal' => $request->input('budget'),
                 'selected_dishes' => $dishes,
             ]);
+
+            return $order;
         });
+
+        // Trigger notification
+        \App\Models\SystemNotification::notifyAdmins(
+            'Permohonan Menu Kustom Baru / New Custom Menu Request',
+            "Permohonan menu kustom baru telah dihantar oleh {$user->name} untuk tarikh {$order->delivery_date}.",
+            'proposal_requested',
+            "/admin/orders?status=Pending+Proposal"
+        );
 
         return redirect()->route('orders.index')->with('success', 'Your custom menu request has been submitted! Waiting for owner proposal.');
     }
@@ -100,6 +110,14 @@ class CustomProposalController extends Controller
 
         $order->status = 'Pending';
         $order->save();
+
+        // Trigger notification
+        \App\Models\SystemNotification::notifyAdmins(
+            'Cadangan Menu Diterima / Proposal Approved',
+            "Pelanggan {$user->name} bersetuju dengan cadangan menu untuk tempahan #{$order->id}.",
+            'proposal_approved',
+            "/admin/orders?search={$order->id}"
+        );
 
         return redirect()->route('orders.index')->with('success', 'Proposal approved! Please upload your 30% deposit payment slip to confirm your booking date.');
     }
@@ -120,6 +138,14 @@ class CustomProposalController extends Controller
         $order->cancelled_by = 'user';
         $order->cancelled_at = now();
         $order->save();
+
+        // Trigger notification
+        \App\Models\SystemNotification::notifyAdmins(
+            'Cadangan Menu Ditolak / Proposal Rejected',
+            "Pelanggan {$user->name} menolak cadangan menu untuk tempahan #{$order->id}.",
+            'proposal_rejected',
+            "/admin/orders?search={$order->id}"
+        );
 
         return redirect()->route('orders.index')->with('success', 'Proposal rejected and cancelled.');
     }

@@ -120,6 +120,7 @@ class DatabaseSeeder extends Seeder
             if (DB::table('settings')->count() === 0) {
                 DB::table('settings')->insert([
                     ['setting_key' => 'business_name', 'setting_value' => 'SmartServe Catering', 'created_at' => now(), 'updated_at' => now()],
+                    ['setting_key' => 'contact_phone', 'setting_value' => '019-2094670', 'created_at' => now(), 'updated_at' => now()],
                     ['setting_key' => 'qr_code_path', 'setting_value' => 'admin/uploads/qr_default.png', 'created_at' => now(), 'updated_at' => now()],
                 ]);
             }

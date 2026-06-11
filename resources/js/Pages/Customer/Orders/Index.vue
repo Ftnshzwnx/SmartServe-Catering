@@ -103,28 +103,27 @@ function getStatusBadge(status) {
 }
 
 function getTranslatedStatus(status) {
-    const lang = (currentLanguage.value || currentLanguage);
     switch (status) {
         case 'Pending Proposal':
-            return lang === 'en' ? 'Awaiting Proposal' : 'Menunggu Cadangan';
+            return t('awaiting_proposal_status');
         case 'Proposal Sent':
-            return lang === 'en' ? 'Proposal Sent' : 'Cadangan Dihantar';
+            return t('proposal_sent_status');
         case 'Pending':
-            return t('pending') || 'Pending';
+            return t('pending');
         case 'Confirmed':
-            return t('confirmed') || 'Confirmed';
+            return t('confirmed');
         case 'Payment Submitted':
-            return t('awaiting_verification') || 'Awaiting Verification';
+            return t('awaiting_verification');
         case 'Delivered':
-            return t('delivered_tab') || 'Delivered';
+            return t('delivered_tab');
         case 'Completed':
-            return t('completed_tab') || 'Completed';
+            return t('completed_tab');
         case 'Deposit Rejected':
-            return t('deposit_rejected') || 'Deposit Rejected';
+            return t('deposit_rejected');
         case 'Balance Rejected':
-            return t('balance_rejected') || 'Balance Rejected';
+            return t('balance_rejected');
         case 'Cancelled':
-            return t('cancelled_tab') || 'Cancelled';
+            return t('cancelled_tab');
         default:
             return status;
     }
@@ -255,8 +254,8 @@ function handleReceiptSelect(event, orderId, type) {
     </component>
 
     <AuthenticatedLayout
-        header-title="My Bookings"
-        header-desc="Track and manage all your catering event orders in one place."
+        :header-title="t('my_bookings')"
+        :header-desc="t('my_orders_desc')"
     >
 
         <div class="font-sans-modern">
@@ -369,19 +368,19 @@ function handleReceiptSelect(event, orderId, type) {
                                 <!-- Dot 1: Requested -->
                                 <div class="flex flex-col items-center gap-1.5 relative">
                                     <div class="progress-dot border border-slate-300" :class="['Pending Proposal', 'Proposal Sent', 'Pending', 'Deposit Rejected', 'Confirmed', 'Delivered', 'Balance Rejected', 'Payment Submitted', 'Completed'].includes(order.status) ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ (currentLanguage.value || currentLanguage) === 'en' ? 'Requested' : 'Dipohon' }}</span>
+                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('status_requested') }}</span>
                                 </div>
 
                                 <!-- Dot 2: Proposal Sent -->
                                 <div class="flex flex-col items-center gap-1.5 relative">
                                     <div class="progress-dot border border-slate-300" :class="['Proposal Sent', 'Pending', 'Deposit Rejected', 'Confirmed', 'Delivered', 'Balance Rejected', 'Payment Submitted', 'Completed'].includes(order.status) ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ (currentLanguage.value || currentLanguage) === 'en' ? 'Proposal' : 'Cadangan' }}</span>
+                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('status_proposal') }}</span>
                                 </div>
 
                                 <!-- Dot 3: Approved / Deposit -->
                                 <div class="flex flex-col items-center gap-1.5 relative">
                                     <div class="progress-dot border border-slate-300" :class="['Pending', 'Deposit Rejected', 'Confirmed', 'Delivered', 'Balance Rejected', 'Payment Submitted', 'Completed'].includes(order.status) ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ (currentLanguage.value || currentLanguage) === 'en' ? 'Approved' : 'Diluluskan' }}</span>
+                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('status_approved') }}</span>
                                 </div>
 
                                 <!-- Dot 4: Confirmed -->
@@ -458,7 +457,7 @@ function handleReceiptSelect(event, orderId, type) {
                             <!-- Otherwise, show soft info note from admin/owner -->
                             <div v-else class="p-4 bg-[#FAF7F2] border border-[#E6E1DA] text-xs">
                                 <span class="font-bold text-[#4A6B5D] uppercase tracking-wider block mb-1">
-                                    <i class="fas fa-comment-dots"></i> {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Note from Owner:' : 'Nota daripada Pemilik:' }}
+                                    <i class="fas fa-comment-dots"></i> {{ t('note_from_owner') }}
                                 </span>
                                 <p class="text-[#5C6460] leading-relaxed font-light">{{ order.admin_note }}</p>
                             </div>
@@ -477,7 +476,7 @@ function handleReceiptSelect(event, orderId, type) {
                                     :href="route('orders.show', { id: order.id })" 
                                     class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
                                 >
-                                    <i class="fas fa-file-invoice-dollar text-[10px]"></i> {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Review & Approve' : 'Semak & Setuju' }}
+                                    <i class="fas fa-file-invoice-dollar text-[10px]"></i> {{ t('review_approve') }}
                                 </Link>
                                 <Link 
                                     v-else
@@ -503,7 +502,7 @@ function handleReceiptSelect(event, orderId, type) {
                                         :disabled="processingReupload[order.id]"
                                     >
                                         <i class="fas fa-cloud-upload-alt"></i> 
-                                        {{ processingReupload[order.id] ? t('uploading') : (order.status === 'Delivered' ? ((currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Upload Balance Proof' : 'Muat Naik Bukti Baki') : (order.status === 'Pending' ? ((currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Upload Deposit Proof' : 'Muat Naik Bukti Deposit') : t('reupload_receipt_btn'))) }}
+                                        {{ processingReupload[order.id] ? t('uploading') : (order.status === 'Delivered' ? t('upload_balance_proof') : (order.status === 'Pending' ? t('upload_deposit_proof') : t('reupload_receipt_btn'))) }}
                                     </button>
                                     <span v-if="fileErrors[order.id]" class="text-[10px] text-[#8C3A3A] font-semibold absolute top-full left-0 mt-1 whitespace-nowrap">{{ fileErrors[order.id] }}</span>
                                 </div>
@@ -516,7 +515,7 @@ function handleReceiptSelect(event, orderId, type) {
                                     class="bg-white hover:bg-[#FAF7F2] border border-[#C5D8D1] text-[#4A6B5D] font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
                                 >
                                     <i class="fas fa-qrcode"></i>
-                                    {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Save QR' : 'Simpan QR' }}
+                                    {{ t('save_qr') }}
                                 </button>
  
                                  <!-- Cancellation Button -->
@@ -545,18 +544,14 @@ function handleReceiptSelect(event, orderId, type) {
                             <div class="flex flex-col gap-2 flex-1">
                                 <span class="text-[10px] font-bold uppercase tracking-widest text-[#4A6B5D] flex items-center gap-1.5">
                                     <i class="fas fa-qrcode"></i>
-                                    {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Payment QR Code' : 'QR Code Pembayaran' }}
+                                    {{ t('payment_qr_code') }}
                                 </span>
                                 <p class="text-[11px] text-[#5C6460] font-light leading-relaxed">
                                     <template v-if="isDepositPayment(order)">
-                                        {{ (currentLanguage.value === 'en' || currentLanguage === 'en') 
-                                            ? `Scan this QR with your banking app to pay the ${depositPercent}% deposit (RM ${getDepositAmount(order.total_price).toFixed(2)}), then upload the receipt above.` 
-                                            : `Imbas QR ini dengan aplikasi bank anda untuk bayar deposit ${depositPercent}% (RM ${getDepositAmount(order.total_price).toFixed(2)}), kemudian muat naik resit di atas.` }}
+                                        {{ t('scan_qr_deposit_info').replace('{depositPercent}', depositPercent).replace('{depositAmount}', getDepositAmount(order.total_price).toFixed(2)) }}
                                     </template>
                                     <template v-else>
-                                        {{ (currentLanguage.value === 'en' || currentLanguage === 'en') 
-                                            ? `Scan this QR with your banking app to pay the remaining balance (RM ${getBalanceAmount(order.total_price).toFixed(2)}), then upload the receipt above.` 
-                                            : `Imbas QR ini dengan aplikasi bank anda untuk bayar baki (RM ${getBalanceAmount(order.total_price).toFixed(2)}), kemudian muat naik resit di atas.` }}
+                                        {{ t('scan_qr_balance_info').replace('{balance}', getBalanceAmount(order.total_price).toFixed(2)) }}
                                     </template>
                                 </p>
                                 <button 
@@ -565,7 +560,7 @@ function handleReceiptSelect(event, orderId, type) {
                                     class="self-start mt-1 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-4 py-2 rounded-lg text-[10px] uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
                                 >
                                     <i class="fas fa-download"></i>
-                                    {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Save QR Code' : 'Simpan QR Code' }}
+                                    {{ t('save_qr_code') }}
                                 </button>
                             </div>
                         </div>
@@ -638,10 +633,10 @@ function handleReceiptSelect(event, orderId, type) {
                     <div class="text-center">
                         <span class="text-[10px] font-bold uppercase tracking-widest text-[#4A6B5D] flex items-center justify-center gap-1.5 mb-1">
                             <i class="fas fa-qrcode"></i>
-                            {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Payment QR Code' : 'QR Code Pembayaran' }}
+                            {{ t('payment_qr_code') }}
                         </span>
                         <p class="text-[11px] text-[#8C8275] font-light">
-                            {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Scan using your banking app' : 'Imbas menggunakan aplikasi bank anda' }}
+                            {{ t('scan_using_bank_app') }}
                         </p>
                     </div>
 
@@ -657,7 +652,7 @@ function handleReceiptSelect(event, orderId, type) {
                         class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3 rounded-xl text-[11px] uppercase tracking-widest transition-colors flex items-center justify-center gap-2 cursor-pointer"
                     >
                         <i class="fas fa-download"></i>
-                        {{ (currentLanguage.value === 'en' || currentLanguage === 'en') ? 'Save QR Code' : 'Simpan QR Code' }}
+                        {{ t('save_qr_code') }}
                     </button>
                 </div>
             </div>

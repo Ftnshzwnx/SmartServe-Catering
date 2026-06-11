@@ -60,7 +60,7 @@ const discountAmount = computed(() => {
 // Zones list derived dynamically from props.deliveryZones
 const zones = computed(() => {
     const list = [
-        { value: 'Self-Pickup', label: 'Ambil Sendiri (Self-Pickup @ Gong Badak) - RM 0.00', fee: 0.00 }
+        { value: 'Self-Pickup', label: `${t('self_pickup_label')} - RM 0.00`, fee: 0.00 }
     ];
     props.deliveryZones.forEach(zone => {
         list.push({
@@ -149,7 +149,7 @@ function formatDate(dateStr) {
     const month = parseInt(parts[1], 10) - 1;
     const day = parseInt(parts[2], 10);
     const dateObj = new Date(year, month, day);
-    return dateObj.toLocaleDateString(currentLanguage.value === 'en' ? 'en-US' : 'ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
+    return dateObj.toLocaleDateString((currentLanguage.value || currentLanguage) === 'en' ? 'en-US' : 'ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 const showCalendar = ref(false);
@@ -157,17 +157,14 @@ const todayDate = new Date();
 const calendarYear = ref(todayDate.getFullYear());
 const calendarMonth = ref(todayDate.getMonth());
 
-const monthNames = computed(() => {
-    return currentLanguage.value === 'en'
-        ? ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        : ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
-});
+const monthNames = computed(() => [
+    t('month_jan'), t('month_feb'), t('month_mar'), t('month_apr'), t('month_may'), t('month_jun'),
+    t('month_jul'), t('month_aug'), t('month_sep'), t('month_oct'), t('month_nov'), t('month_dec')
+]);
 
-const weekdays = computed(() => {
-    return currentLanguage.value === 'en'
-        ? ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
-        : ['Ah', 'Is', 'Se', 'Ra', 'Kh', 'Ju', 'Sa'];
-});
+const weekdays = computed(() => [
+    t('day_sun'), t('day_mon'), t('day_tue'), t('day_wed'), t('day_thu'), t('day_fri'), t('day_sat')
+]);
 
 function prevMonth() {
     if (calendarMonth.value === 0) {
@@ -506,7 +503,7 @@ function copyAccountNumber() {
                                         class="flex-grow flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2"
                                         :class="checkoutMethod === 'pickup' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#2D3330]'"
                                     >
-                                        <i class="fas fa-store text-[10px]"></i> Ambil Sendiri (Pickup)
+                                        <i class="fas fa-store text-[10px]"></i> {{ t('self_pickup_label') }}
                                     </button>
                                 </div>
 
@@ -561,7 +558,7 @@ function copyAccountNumber() {
                                                 class="form-input text-left flex justify-between items-center cursor-pointer h-11 relative z-10 w-full"
                                             >
                                                 <span :class="form.delivery_date ? 'text-[#2D3330]' : 'text-gray-400'">
-                                                    {{ formattedSelectedDate || (currentLanguage === 'en' ? 'Select Date' : 'Pilih Tarikh') }}
+                                                    {{ formattedSelectedDate || t('select_date') }}
                                                 </span>
                                                 <i class="fas fa-calendar-alt text-[#8C8275]"></i>
                                             </button>
@@ -615,18 +612,18 @@ function copyAccountNumber() {
                                                 <div class="flex items-center justify-center gap-4 border-t border-[#EBEFEF] pt-2.5 text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">
                                                     <div class="flex items-center gap-1">
                                                         <span class="w-2.5 h-2.5 rounded bg-rose-50 border border-rose-200 block"></span>
-                                                        <span>{{ currentLanguage === 'en' ? 'Full' : 'Penuh' }}</span>
+                                                        <span>{{ t('legend_full') }}</span>
                                                     </div>
                                                     <div class="flex items-center gap-1">
                                                         <span class="w-2.5 h-2.5 rounded bg-[#4A6B5D] block"></span>
-                                                        <span>{{ currentLanguage === 'en' ? 'Selected' : 'Dipilih' }}</span>
+                                                        <span>{{ t('legend_selected') }}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <span class="text-[9px] text-[#8C8275] font-semibold uppercase tracking-wider block mt-1">
-                                            <i class="fas fa-info-circle"></i> Batal 7 hari sebelum (Min 7 Days).
+                                            <i class="fas fa-info-circle"></i> {{ t('cancel_policy_info') }}
                                         </span>
                                         <span v-if="form.errors.delivery_date" class="text-xs text-red-500 font-semibold">{{ form.errors.delivery_date }}</span>
                                     </div>
@@ -699,7 +696,7 @@ function copyAccountNumber() {
                                     ></iframe>
                                     
                                     <span class="text-[9px] text-[#8C8275] uppercase tracking-wider block font-semibold pt-1">
-                                        <i class="fas fa-info-circle text-[#C5A880]"></i> Sila ambil tempahan anda mengikut masa persediaan/penghantaran yang ditetapkan. Caj penghantaran adalah percuma (RM 0.00).
+                                        <i class="fas fa-info-circle text-[#C5A880]"></i> {{ t('pickup_notice') }}
                                     </span>
                                 </div>
 
@@ -727,11 +724,10 @@ function copyAccountNumber() {
 
                                 <div class="p-5 bg-rose-50 border border-rose-100 rounded-2xl space-y-2.5">
                                     <span class="font-bold text-[#8C3A3A] text-xs uppercase tracking-widest block flex items-center gap-1.5">
-                                        <i class="fas fa-exclamation-circle text-xs"></i> Deposit Diperlukan ({{ depositPercent }}%):
+                                        <i class="fas fa-exclamation-circle text-xs"></i> {{ t('deposit_required_label').replace('{percent}', depositPercent) }}
                                     </span>
                                     <p class="text-xs text-[#5C6460] leading-relaxed font-medium">
-                                        Pihak katering memerlukan bayaran deposit sebanyak {{ depositPercent }}% untuk mengesahkan tarikh tempahan majlis anda. 
-                                        Sila buat pembayaran sebanyak:
+                                        {{ t('deposit_required_desc').replace('{percent}', depositPercent) }}
                                         <strong class="text-[#8C3A3A] text-lg font-normal font-serif-luxury block mt-1 tracking-wide">RM {{ depositAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</strong>
                                     </p>
                                 </div>
@@ -924,18 +920,18 @@ function copyAccountNumber() {
                                     <span>{{ t('discount') || 'Diskaun' }}</span>
                                     <span>- RM {{ discountAmount.toFixed(2) }}</span>
                                 </div>
-                                <div class="price-row total flex justify-between items-center border-t border-[#E6E1DA] pt-2 mt-1.5">
-                                    <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider">Jumlah Kasar:</span>
+                                <div class="price-row flex justify-between items-center py-1">
+                                    <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('grand_total') }}:</span>
                                     <span class="text-xl font-normal text-[#4A6B5D] font-serif-luxury tracking-wide">
                                         RM {{ grandTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                     </span>
                                 </div>
                                 <div class="price-row text-[#8C3A3A] font-semibold">
-                                    <span>Deposit Diperlukan ({{ depositPercent }}%)</span>
+                                    <span>{{ t('deposit_booking_percent').replace('{percent}', depositPercent) }}</span>
                                     <span>RM {{ depositAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
                                 </div>
                                 <div class="price-row text-[#8C8275]">
-                                    <span>Baki Perlu Dijelaskan ({{ 100 - depositPercent }}%)</span>
+                                    <span>{{ t('balance_due_percent').replace('{percent}', 100 - depositPercent) }}</span>
                                     <span>RM {{ balanceAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
                                 </div>
                             </div>

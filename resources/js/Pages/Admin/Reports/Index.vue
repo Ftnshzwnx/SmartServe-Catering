@@ -3,6 +3,7 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, onMounted, watch, computed } from 'vue';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Chart } from 'chart.js/auto';
+import { useLocalization } from '@/Composables/useLocalization';
 
 const props = defineProps({
     salesData: {
@@ -35,12 +36,10 @@ const props = defineProps({
     },
 });
 
+const { t } = useLocalization();
+
 function getMonthName(monthNumber) {
-    const months = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-    ];
-    return months[monthNumber - 1] || 'Month ' + monthNumber;
+    return t('month_' + monthNumber);
 }
 
 const monthsList = [
@@ -73,6 +72,20 @@ const totalStatusBookings = computed(() => {
 const totalAddonBookings = computed(() => {
     return props.addonPopularity.reduce((sum, a) => sum + a.bookings_count, 0);
 });
+
+function getStatusLabel(status) {
+    const map = {
+        'Pending': t('pending'),
+        'Confirmed': t('confirmed'),
+        'Payment Submitted': t('awaiting_verification'),
+        'Delivered': t('delivered_tab'),
+        'Completed': t('completed_tab'),
+        'Deposit Rejected': t('deposit_rejected'),
+        'Balance Rejected': t('balance_rejected'),
+        'Cancelled': t('cancelled_tab'),
+    };
+    return map[status] || status;
+}
 
 const statusConfig = {
     'Pending': { color: '#F59E0B' },
@@ -129,10 +142,10 @@ const initCharts = () => {
         salesChart = new Chart(salesChartCanvas.value, {
             type: 'line',
             data: {
-                labels: labels.length > 0 ? labels : ['No Data'],
+                labels: labels.length > 0 ? labels : [t('admin_reports_no_sales_data')],
                 datasets: [
                     {
-                        label: `Revenue ${props.filters.year} (RM)`,
+                        label: t('admin_reports_chart_legend_revenue_year').replace('{year}', props.filters.year),
                         data: data.length > 0 ? data : [0],
                         borderColor: '#4A6B5D',
                         backgroundColor: 'rgba(74, 107, 93, 0.08)',
@@ -149,7 +162,7 @@ const initCharts = () => {
                         pointHoverBorderWidth: 2,
                     },
                     ...(props.filters.viewMode === 'monthly' ? [{
-                        label: `Revenue ${props.filters.year - 1} (RM)`,
+                        label: t('admin_reports_chart_legend_revenue_year').replace('{year}', props.filters.year - 1),
                         data: prevData.length > 0 ? prevData : [0],
                         borderColor: '#C5A880',
                         borderDash: [5, 5],
@@ -223,14 +236,14 @@ const initCharts = () => {
             'Cancelled': '#64748B',
         };
 
-        const labels = props.statusDistribution.map(s => s.status);
+        const labels = props.statusDistribution.map(s => getStatusLabel(s.status));
         const data = props.statusDistribution.map(s => s.count);
         const colors = props.statusDistribution.map(s => statusColors[s.status] || '#CBD5E1');
 
         statusChart = new Chart(statusChartCanvas.value, {
             type: 'doughnut',
             data: {
-                labels: labels.length > 0 ? labels : ['No Bookings'],
+                labels: labels.length > 0 ? labels : [t('admin_reports_no_bookings_found')],
                 datasets: [{
                     data: data.length > 0 ? data : [1],
                     backgroundColor: data.length > 0 ? colors : ['#E6E1DA'],
@@ -251,8 +264,8 @@ const initCharts = () => {
                         padding: 10,
                         callbacks: {
                             label: (context) => {
-                                if (props.statusDistribution.length === 0) return ' 0 bookings';
-                                return ` ${context.label}: ${context.raw} booking(s)`;
+                                if (props.statusDistribution.length === 0) return ` 0 ${t('admin_reports_chart_tooltip_bookings').trim()}`;
+                                return ` ${context.label}: ${context.raw} ${context.raw === 1 ? t('admin_reports_chart_tooltip_booking').trim() : t('admin_reports_chart_tooltip_bookings').trim()}`;
                             }
                         }
                     }
@@ -270,7 +283,7 @@ const initCharts = () => {
         packageChart = new Chart(packageChartCanvas.value, {
             type: 'doughnut',
             data: {
-                labels: labels.length > 0 ? labels : ['No Data'],
+                labels: labels.length > 0 ? labels : [t('admin_reports_no_pkgs_booked')],
                 datasets: [
                     {
                         data: bookings.length > 0 ? bookings : [1],
@@ -302,8 +315,8 @@ const initCharts = () => {
                         padding: 10,
                         callbacks: {
                             label: (context) => {
-                                if (props.packagePopularity.length === 0) return ' 0 bookings';
-                                return ` ${context.label}: ${context.raw} booking(s)`;
+                                if (props.packagePopularity.length === 0) return ` 0 ${t('admin_reports_chart_tooltip_bookings').trim()}`;
+                                return ` ${context.label}: ${context.raw} ${context.raw === 1 ? t('admin_reports_chart_tooltip_booking').trim() : t('admin_reports_chart_tooltip_bookings').trim()}`;
                             }
                         }
                     }
@@ -324,9 +337,9 @@ watch(() => props.salesData, () => {
 
 <template>
     <AdminLayout
-        title="Reports & Analytics Dashboard"
-        header-title="Reports & Analytics"
-        header-desc="Review company performance charts, sales analytics, and export bookings records."
+        :title="t('admin_reports_dashboard_title')"
+        :header-title="t('admin_reports_header_title')"
+        :header-desc="t('admin_reports_desc')"
     >
         <template #header-action>
             <div class="flex flex-wrap items-center gap-3 bg-white border border-[#E6E1DA] rounded-2xl p-2 shadow-xs">
@@ -338,7 +351,7 @@ watch(() => props.salesData, () => {
                         class="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer"
                         :class="viewMode === 'monthly' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#2D3330]'"
                     >
-                        Monthly
+                        {{ t('admin_reports_monthly') }}
                     </button>
                     <button
                         type="button"
@@ -346,7 +359,7 @@ watch(() => props.salesData, () => {
                         class="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer"
                         :class="viewMode === 'daily' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#2D3330]'"
                     >
-                        Daily
+                        {{ t('admin_reports_daily') }}
                     </button>
                 </div>
 
@@ -357,7 +370,7 @@ watch(() => props.salesData, () => {
                         class="bg-[#FAF7F2] border border-[#E6E1DA] text-[#2D3330] rounded-xl pl-3 pr-8 py-1.5 text-xs font-bold focus:outline-none focus:border-[#4A6B5D] focus:ring-1 focus:ring-[#4A6B5D] cursor-pointer appearance-none"
                     >
                         <option v-for="y in availableYears" :key="y" :value="y">
-                            Year {{ y }}
+                            {{ t('admin_reports_year') }} {{ y }}
                         </option>
                     </select>
                     <span class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none text-[#8C8275] text-[10px]">
@@ -372,7 +385,7 @@ watch(() => props.salesData, () => {
                         class="bg-[#FAF7F2] border border-[#E6E1DA] text-[#2D3330] rounded-xl pl-3 pr-8 py-1.5 text-xs font-bold focus:outline-none focus:border-[#4A6B5D] focus:ring-1 focus:ring-[#4A6B5D] cursor-pointer appearance-none"
                     >
                         <option v-for="m in monthsList" :key="m.value" :value="m.value">
-                            {{ m.name }}
+                            {{ t('month_' + m.value) }}
                         </option>
                     </select>
                     <span class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none text-[#8C8275] text-[10px]">
@@ -387,9 +400,9 @@ watch(() => props.salesData, () => {
             <!-- Total Revenue -->
             <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in">
                 <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">Total Revenue</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reports_total_revenue') }}</span>
                     <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">RM {{ parseFloat(kpis.totalRevenue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
-                    <span class="text-[9px] text-[#8C8275] block mt-1.5 font-semibold">For selected timeframe</span>
+                    <span class="text-[9px] text-[#8C8275] block mt-1.5 font-semibold">{{ t('admin_reports_timeframe_desc') }}</span>
                 </div>
                 <div class="w-12 h-12 bg-emerald-50 text-[#4A6B5D] rounded-xl border border-emerald-100 flex items-center justify-center text-lg shrink-0">
                     <i class="fas fa-coins"></i>
@@ -399,9 +412,9 @@ watch(() => props.salesData, () => {
             <!-- Average Order Value -->
             <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 50ms;">
                 <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">Avg Order Value</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reports_avg_order_value') }}</span>
                     <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">RM {{ parseFloat(kpis.averageOrderValue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
-                    <span class="text-[9px] text-[#8C8275] block mt-1.5 font-semibold">Per completed booking</span>
+                    <span class="text-[9px] text-[#8C8275] block mt-1.5 font-semibold">{{ t('admin_reports_avg_order_desc') }}</span>
                 </div>
                 <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl border border-blue-100 flex items-center justify-center text-lg shrink-0">
                     <i class="fas fa-calculator"></i>
@@ -411,9 +424,9 @@ watch(() => props.salesData, () => {
             <!-- Cancellation Rate -->
             <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 100ms;">
                 <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">Cancellation Rate</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reports_cancellation_rate') }}</span>
                     <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ kpis.cancellationRate }}%</span>
-                    <span class="text-[9px] text-rose-500 block mt-1.5 font-bold">Of selected {{ kpis.totalBookings }} bookings</span>
+                    <span class="text-[9px] text-rose-500 block mt-1.5 font-bold">{{ t('admin_reports_cancellation_desc').replace('{count}', kpis.totalBookings) }}</span>
                 </div>
                 <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-xl border border-rose-100 flex items-center justify-center text-lg shrink-0">
                     <i class="fas fa-chart-pie"></i>
@@ -423,9 +436,9 @@ watch(() => props.salesData, () => {
             <!-- Best Seller -->
             <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 150ms;">
                 <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">Top Selling Package</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reports_top_package') }}</span>
                     <span class="text-lg font-bold text-[#2D3330] block truncate max-w-[170px]" :title="kpis.topPackage">{{ kpis.topPackage }}</span>
-                    <span class="text-[9px] text-[#C5A880] block mt-1 font-bold uppercase tracking-wider">Most popular choice</span>
+                    <span class="text-[9px] text-[#C5A880] block mt-1 font-bold uppercase tracking-wider">{{ t('admin_reports_top_package_desc') }}</span>
                 </div>
                 <div class="w-12 h-12 bg-amber-50 text-[#C5A880] rounded-xl border border-amber-100 flex items-center justify-center text-lg shrink-0">
                     <i class="fas fa-crown"></i>
@@ -438,36 +451,36 @@ watch(() => props.salesData, () => {
             <div class="space-y-1">
                 <h3 class="text-xs font-bold text-[#4A6B5D] uppercase tracking-widest flex items-center gap-1.5">
                     <i class="fas fa-shield-alt text-[#C5A880]"></i>
-                    Business Health & Audit Metrics
+                    {{ t('admin_reports_business_health') }}
                 </h3>
-                <p class="text-[10px] text-[#8C8275] font-semibold">Long-term strategic indicators and customer retention audit for completed sales.</p>
+                <p class="text-[10px] text-[#8C8275] font-semibold">{{ t('admin_reports_business_health_desc') }}</p>
             </div>
             
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 md:gap-12 flex-grow max-w-3xl justify-end">
                 <!-- Repeat Customer Rate -->
                 <div class="space-y-1">
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider block">Repeat Clients</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_reports_repeat_clients') }}</span>
                     <div class="flex items-baseline gap-1">
                         <span class="text-lg font-extrabold text-[#2D3330]">{{ kpis.repeatCustomerRate }}%</span>
-                        <span class="text-[9px] text-emerald-600 font-bold">Retention</span>
+                        <span class="text-[9px] text-emerald-600 font-bold">{{ t('admin_reports_retention') }}</span>
                     </div>
                 </div>
 
                 <!-- Customer Lifetime Value (LTV) -->
                 <div class="space-y-1">
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider block">Customer LTV</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_reports_customer_ltv') }}</span>
                     <div class="flex items-baseline gap-1">
                         <span class="text-lg font-extrabold text-[#2D3330]">RM {{ parseFloat(kpis.customerLtv).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
-                        <span class="text-[9px] text-[#C5A880] font-bold">Avg Spend</span>
+                        <span class="text-[9px] text-[#C5A880] font-bold">{{ t('admin_reports_avg_spend') }}</span>
                     </div>
                 </div>
 
                 <!-- Lost Revenue (Cancellations) -->
                 <div class="space-y-1 col-span-2 sm:col-span-1">
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider block">Lost Revenue (Cancelled)</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_reports_lost_revenue') }}</span>
                     <div class="flex items-baseline gap-1">
                         <span class="text-lg font-extrabold text-rose-600">RM {{ parseFloat(kpis.lostRevenue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
-                        <span class="text-[9px] text-rose-500 font-bold">Audit</span>
+                        <span class="text-[9px] text-rose-500 font-bold">{{ t('admin_reports_lost_revenue_audit') }}</span>
                     </div>
                 </div>
             </div>
@@ -479,10 +492,13 @@ watch(() => props.salesData, () => {
             <div class="lg:col-span-7 bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-4 flex flex-col justify-between">
                 <div>
                     <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
-                        {{ filters.viewMode === 'daily' ? 'Daily Revenue' : 'Monthly Revenue' }}
+                        {{ filters.viewMode === 'daily' ? t('admin_reports_daily_revenue') : t('admin_reports_monthly_revenue') }}
                     </h2>
                     <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">
-                        {{ filters.viewMode === 'daily' ? 'Sales performance across ' + getMonthName(filters.month) + ' ' + filters.year : 'Sales performance across the calendar year ' + filters.year }} (completed orders).
+                        {{ filters.viewMode === 'daily' 
+                            ? t('admin_reports_sales_perf_daily').replace('{month}', getMonthName(filters.month)).replace('{year}', filters.year) 
+                            : t('admin_reports_sales_perf_monthly').replace('{year}', filters.year) 
+                        }} {{ t('admin_reports_completed_orders_only') }}
                     </p>
                 </div>
 
@@ -490,7 +506,7 @@ watch(() => props.salesData, () => {
                     <canvas ref="salesChartCanvas" v-show="salesData.length > 0"></canvas>
                     <div v-if="salesData.length === 0" class="absolute inset-0 flex flex-col items-center justify-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl">
                         <i class="fas fa-chart-line text-3xl mb-2"></i>
-                        <span class="text-xs font-bold">No completed sales data available for this period.</span>
+                        <span class="text-xs font-bold">{{ t('admin_reports_no_sales_data') }}</span>
                     </div>
                 </div>
             </div>
@@ -498,15 +514,15 @@ watch(() => props.salesData, () => {
             <!-- Booking Status Distribution Doughnut Chart & Custom Legend Grid (5 cols) -->
             <div class="lg:col-span-5 bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 flex flex-col justify-between space-y-5">
                 <div>
-                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Booking Statuses</h2>
-                    <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">Summary of orders segmented by workflow status for this period.</p>
+                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_booking_statuses') }}</h2>
+                    <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_booking_statuses_desc') }}</p>
                 </div>
  
                 <div class="relative h-44 w-full flex items-center justify-center">
                     <canvas ref="statusChartCanvas" v-show="statusDistribution.length > 0"></canvas>
                     <div v-if="statusDistribution.length === 0" class="absolute inset-0 flex flex-col items-center justify-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl">
                         <i class="fas fa-chart-pie text-3xl mb-2"></i>
-                        <span class="text-xs font-bold">No booking records found in database.</span>
+                        <span class="text-xs font-bold">{{ t('admin_reports_no_bookings_found') }}</span>
                     </div>
                 </div>
 
@@ -522,8 +538,8 @@ watch(() => props.salesData, () => {
                                 class="w-2 h-2 rounded-full shrink-0" 
                                 :style="{ backgroundColor: statusConfig[s.status]?.color || '#CBD5E1' }"
                             ></span>
-                            <span class="text-[10px] font-bold text-[#2D3330] truncate" :title="s.status">
-                                {{ s.status }}
+                            <span class="text-[10px] font-bold text-[#2D3330] truncate" :title="getStatusLabel(s.status)">
+                                {{ getStatusLabel(s.status) }}
                             </span>
                         </div>
                         <div class="text-right shrink-0 pl-1">
@@ -541,8 +557,8 @@ watch(() => props.salesData, () => {
             <!-- Package Popularity Split Layout (Leaderboard + Share Distribution) (12 cols) -->
             <div class="lg:col-span-12 bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
                 <div>
-                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Package Popularity & Revenue Analysis</h2>
-                    <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">Performance breakdown showing booking frequency leaderboard and percentage share distribution for this period.</p>
+                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_pkg_popularity_title') }}</h2>
+                    <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_pkg_popularity_desc') }}</p>
                 </div>
 
                 <div v-show="packagePopularity.length > 0" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -552,11 +568,11 @@ watch(() => props.salesData, () => {
                             <table class="w-full text-left border-collapse">
                                 <thead>
                                     <tr class="border-b border-[#E6E1DA]">
-                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">Rank</th>
-                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">Package Name</th>
-                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-center">Bookings</th>
-                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-1/3">Popularity Share</th>
-                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-right">Revenue (RM)</th>
+                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_rank') }}</th>
+                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_package_name') }}</th>
+                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-center">{{ t('admin_reports_bookings') }}</th>
+                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-1/3">{{ t('admin_reports_popularity_share') }}</th>
+                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-right">{{ t('admin_reports_revenue_rm') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-[#FAF7F2]">
@@ -606,32 +622,32 @@ watch(() => props.salesData, () => {
                         <div class="relative h-56 w-full max-w-[280px]">
                             <canvas ref="packageChartCanvas"></canvas>
                         </div>
-                        <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider block">Booking Frequency Distribution</span>
+                        <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_reports_freq_dist') }}</span>
                     </div>
                 </div>
 
                 <div v-if="packagePopularity.length === 0" class="flex flex-col items-center justify-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl py-12">
                     <i class="fas fa-utensils text-3xl mb-2"></i>
-                    <span class="text-xs font-bold">No packages have been booked yet.</span>
+                    <span class="text-xs font-bold">{{ t('admin_reports_no_pkgs_booked') }}</span>
                 </div>
             </div>
 
             <!-- Add-on Popularity Analysis Leaderboard (12 cols) -->
             <div class="lg:col-span-12 bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
                 <div>
-                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Add-on Options Popularity</h2>
-                    <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">Pilihan add-on makanan atau servis tambahan yang paling kerap ditempah oleh pelanggan untuk tempoh ini.</p>
+                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_addon_popularity_title') }}</h2>
+                    <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_addon_popularity_desc') }}</p>
                 </div>
 
                 <div v-show="addonPopularity.length > 0" class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="border-b border-[#E6E1DA]">
-                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-16">Rank</th>
-                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">Add-on Item Name</th>
-                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-center w-32">Times Selected</th>
-                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-1/3">Popularity Share</th>
-                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-right w-40">Revenue Generated</th>
+                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-16">{{ t('admin_reports_rank') }}</th>
+                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_addon_item_name') }}</th>
+                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-center w-32">{{ t('admin_reports_times_selected') }}</th>
+                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-1/3">{{ t('admin_reports_popularity_share') }}</th>
+                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-right w-40">{{ t('admin_reports_revenue_generated') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[#FAF7F2]">
@@ -677,7 +693,7 @@ watch(() => props.salesData, () => {
 
                 <div v-if="addonPopularity.length === 0" class="flex flex-col items-center justify-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl py-8">
                     <i class="fas fa-ticket-alt text-3xl mb-2"></i>
-                    <span class="text-xs font-bold">No add-on options have been ordered during this period.</span>
+                    <span class="text-xs font-bold">{{ t('admin_reports_no_addons_ordered') }}</span>
                 </div>
             </div>
         </div>
@@ -685,8 +701,8 @@ watch(() => props.salesData, () => {
         <!-- Export Center Panel Card -->
         <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
             <div>
-                <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Report Export Center</h2>
-                <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">Download filtered booking summaries, financial audits, and customer orders data in standard formats.</p>
+                <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_export_center') }}</h2>
+                <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_export_center_desc') }}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -696,14 +712,14 @@ watch(() => props.salesData, () => {
                         <i class="fas fa-file-excel"></i>
                     </div>
                     <div class="space-y-2.5 flex-grow">
-                        <h4 class="text-xs font-bold text-[#2D3330] uppercase tracking-wide">Spreadsheet Log (CSV)</h4>
-                        <p class="text-[11px] text-[#8C8275] leading-relaxed">Download a structured CSV spreadsheet of orders including customer names, contacts, totals, delivery details, and payments.</p>
+                        <h4 class="text-xs font-bold text-[#2D3330] uppercase tracking-wide">{{ t('admin_reports_csv_title') }}</h4>
+                        <p class="text-[11px] text-[#8C8275] leading-relaxed">{{ t('admin_reports_csv_desc') }}</p>
                         <a 
                             :href="route('admin.reports.export', { format: 'csv', view_mode: filters.viewMode, year: filters.year, month: filters.month })"
                             class="inline-flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold px-4 py-2 rounded-xl text-[10px] uppercase tracking-widest border border-emerald-200 transition-colors cursor-pointer"
                             target="_blank"
                         >
-                            <i class="fas fa-download"></i> Download CSV
+                            <i class="fas fa-download"></i> {{ t('admin_reports_csv_btn') }}
                         </a>
                     </div>
                 </div>
@@ -714,14 +730,14 @@ watch(() => props.salesData, () => {
                         <i class="fas fa-file-pdf"></i>
                     </div>
                     <div class="space-y-2.5 flex-grow">
-                        <h4 class="text-xs font-bold text-[#2D3330] uppercase tracking-wide">Financial Sales Summary (PDF)</h4>
-                        <p class="text-[11px] text-[#8C8275] leading-relaxed">Download a high-fidelity, printable PDF sales report summarizing the catering business turnover, transaction log, and event records.</p>
+                        <h4 class="text-xs font-bold text-[#2D3330] uppercase tracking-wide">{{ t('admin_reports_pdf_title') }}</h4>
+                        <p class="text-[11px] text-[#8C8275] leading-relaxed">{{ t('admin_reports_pdf_desc') }}</p>
                         <a 
                             :href="route('admin.reports.export', { format: 'pdf', view_mode: filters.viewMode, year: filters.year, month: filters.month })"
                             class="inline-flex items-center gap-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold px-4 py-2 rounded-xl text-[10px] uppercase tracking-widest border border-rose-200 transition-colors cursor-pointer"
                             target="_blank"
                         >
-                            <i class="fas fa-download"></i> Download PDF
+                            <i class="fas fa-download"></i> {{ t('admin_reports_pdf_btn') }}
                         </a>
                     </div>
                 </div>

@@ -37,6 +37,14 @@ class ReviewController extends Controller
             'review_text' => $request->input('review_text'),
         ]);
 
+        // Trigger notification
+        \App\Models\SystemNotification::notifyAdmins(
+            'Maklum Balas Baru / New Review',
+            "{$user->name} telah menghantar maklum balas ({$request->input('rating')} bintang) untuk tempahan #{$order->id}.",
+            'review_submitted',
+            "/admin/reviews"
+        );
+
         return redirect()->back()->with('success', 'Thank you for your feedback! Your review has been submitted.');
     }
 }

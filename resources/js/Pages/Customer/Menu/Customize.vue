@@ -400,7 +400,7 @@ function handleDownloadQuotation() {
 
     <AuthenticatedLayout
         :header-title="package.package_name"
-        header-desc="Customise your catering package with add-ons, adjust pax count, and add to cart."
+        :header-desc="t('customize_package_desc')"
     >
 
         <div class="font-sans-modern">
@@ -412,7 +412,7 @@ function handleDownloadQuotation() {
                         class="inline-flex items-center gap-2 text-xs font-semibold text-[#8C8275] hover:text-[#4A6B5D] uppercase tracking-wider transition-colors"
                     >
                         <i class="fas fa-arrow-left text-[9px]"></i>
-                        <span>{{ currentLanguage === 'en' ? 'Back to Packages' : 'Kembali ke Pakej' }}</span>
+                        <span>{{ t('back_to_packages') }}</span>
                     </Link>
                 </div>
                 
@@ -569,7 +569,7 @@ function handleDownloadQuotation() {
 
                             <!-- List Selected Dishes Summary -->
                             <div class="space-y-2">
-                                <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">Menu Lauk Pilihan:</span>
+                                <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('selected_dishes_label') }}</span>
                                 <div class="p-4 bg-[#FAF6F0] rounded-lg border border-[#E6E1DA] space-y-2.5">
                                     <div v-for="cat in Object.keys(package.dish_limits || {})" :key="cat" class="text-xs">
                                         <div class="flex justify-between items-center">
@@ -582,7 +582,7 @@ function handleDownloadQuotation() {
                                             {{ package.dishes.filter(d => selectedDishIds[cat].includes(d.id)).map(d => d.name).join(', ') }}
                                         </div>
                                         <div v-else class="text-[#8C8275] italic pl-2 mt-0.5 text-[10px]">
-                                            Belum dipilih
+                                            {{ t('not_selected_yet') }}
                                         </div>
                                     </div>
                                 </div>

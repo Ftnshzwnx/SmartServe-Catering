@@ -164,6 +164,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/orders/custom-proposal', [CustomProposalController::class, 'store'])->name('orders.custom-proposal.store');
     Route::post('/orders/{id}/approve-proposal', [CustomProposalController::class, 'approve'])->name('orders.proposal.approve');
     Route::post('/orders/{id}/reject-proposal', [CustomProposalController::class, 'reject'])->name('orders.proposal.reject');
+
+    // Notifications
+    Route::post('/notifications/{id}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
 });
 
 // Admin panel routes

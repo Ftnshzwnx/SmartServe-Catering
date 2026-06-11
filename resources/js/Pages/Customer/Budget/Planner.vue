@@ -60,25 +60,24 @@ const dishesByCategory = computed(() => {
 
 const submitCustomProposal = () => {
     formErrors.value = {};
-    const lang = (currentLanguage.value || currentLanguage);
     
     if (!customForm.value.budget || customForm.value.budget < 100) {
-        formErrors.value.budget = lang === 'en' ? 'Minimum budget is RM100.' : 'Bajet minimum ialah RM100.';
+        formErrors.value.budget = t('val_min_budget');
     }
     if (!customForm.value.guest_count || customForm.value.guest_count < 20) {
-        formErrors.value.guest_count = lang === 'en' ? 'Minimum guest count is 20 pax.' : 'Bilangan tetamu minimum ialah 20 pax.';
+        formErrors.value.guest_count = t('val_min_guest_count');
     }
     if (!customForm.value.delivery_date) {
-        formErrors.value.delivery_date = lang === 'en' ? 'Delivery date is required.' : 'Tarikh penghantaran diperlukan.';
+        formErrors.value.delivery_date = t('val_delivery_date_required');
     }
     if (!customForm.value.delivery_time) {
-        formErrors.value.delivery_time = lang === 'en' ? 'Delivery time is required.' : 'Waktu penghantaran diperlukan.';
+        formErrors.value.delivery_time = t('val_delivery_time_required');
     }
     if (!customForm.value.address) {
-        formErrors.value.address = lang === 'en' ? 'Address is required.' : 'Alamat diperlukan.';
+        formErrors.value.address = t('val_address_required');
     }
     if (customForm.value.dishes.length === 0) {
-        formErrors.value.dishes = lang === 'en' ? 'Please select at least one wishlist dish.' : 'Sila pilih sekurang-kurangnya satu hidangan wishlist.';
+        formErrors.value.dishes = t('val_select_wishlist_dish');
     }
 
     if (Object.keys(formErrors.value).length > 0) return;
@@ -397,8 +396,8 @@ const bookRedirectUrl = computed(() => {
     </component>
 
     <AuthenticatedLayout
-        header-title="Budget Planner"
-        header-desc="Estimate your catering costs live before placing a booking."
+        :header-title="t('budget_planner')"
+        :header-desc="t('budget_planner_desc')"
     >
 
         <div class="font-sans-modern">
@@ -429,10 +428,10 @@ const bookRedirectUrl = computed(() => {
                 <div class="bg-[#FAF9F6] border border-[#E6E1DA] rounded-3xl p-6 flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
                     <div class="space-y-1">
                         <h4 class="font-serif-luxury text-xl font-normal text-[#2D3330]">
-                            {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Prefer a Custom Budget Menu?' : 'Inginkan Menu Ikut Bajet Sendiri?' }}
+                            {{ t('prefer_custom_budget') }}
                         </h4>
                         <p class="text-xs text-[#8C8275] font-light">
-                            {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Tell us your budget, guest count, and pick your preferred wishlist dishes. Our chef will customize a proposal just for you!' : 'Nyatakan bajet, bilangan tetamu, dan pilih lauk-pauk kegemaran anda. Chef kami akan menyediakan cadangan khas untuk anda!' }}
+                            {{ t('prefer_custom_budget_desc') }}
                         </p>
                     </div>
                     <button 
@@ -440,10 +439,7 @@ const bookRedirectUrl = computed(() => {
                         @click="showCustomForm = !showCustomForm"
                         class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer"
                     >
-                        {{ showCustomForm 
-                            ? ((currentLanguage.value || currentLanguage) === 'en' ? 'Back to Budget Calculator' : 'Kembali ke Kalkulator Pakej') 
-                            : ((currentLanguage.value || currentLanguage) === 'en' ? 'Request Custom Proposal' : 'Minta Menu Khas') 
-                        }}
+                        {{ showCustomForm ? t('back_to_budget_calc') : t('request_custom_proposal_btn') }}
                     </button>
                 </div>
 
@@ -576,7 +572,7 @@ const bookRedirectUrl = computed(() => {
                             </div>
                             <div v-else class="p-6 border border-dashed border-[#E6E1DA] rounded-2xl text-center text-[#8C8275] text-xs font-light">
                                 <i class="fas fa-info-circle mr-1.5 text-xs text-[#C5A880]"></i>
-                                {{ currentLanguage === 'en' ? 'This package does not offer extra add-ons.' : 'Tiada add-on ditawarkan untuk pakej ini.' }}
+                                {{ t('no_addons_for_package') }}
                             </div>
                         </div>
 
@@ -745,20 +741,20 @@ const bookRedirectUrl = computed(() => {
                         <!-- Back Link -->
                         <div class="mb-4">
                             <button 
-                                type="button"
+                                type="button" 
                                 @click="showCustomForm = false"
                                 class="inline-flex items-center gap-2 text-xs text-[#8C8275] hover:text-[#4A6B5D] font-medium transition-colors cursor-pointer"
                             >
                                 <i class="fas fa-arrow-left text-[10px]"></i> 
-                                {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Back to Budget Calculator' : 'Kembali ke Kalkulator Pakej' }}
+                                {{ t('back_to_budget_calc') }}
                             </button>
                         </div>
 
                         <h3 class="font-serif-luxury text-2xl text-[#2D3330] font-normal uppercase tracking-wide">
-                            {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Request Custom Menu Proposal' : 'Minta Cadangan Menu Khas' }}
+                            {{ t('request_custom_proposal_title') }}
                         </h3>
                         <p class="text-xs text-[#8C8275] font-light mt-1">
-                            {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Fill up the form below and build your wishlist menu. The owner will adjust it to fit your budget.' : 'Isi borang di bawah dan pilih senarai lauk idaman anda. Pemilik katering akan menyesuaikannya mengikut bajet anda.' }}
+                            {{ t('request_custom_proposal_subtitle') }}
                         </p>
                     </div>
 
@@ -769,7 +765,7 @@ const bookRedirectUrl = computed(() => {
                             <!-- Target Budget -->
                             <div class="space-y-2">
                                 <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
-                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Target Budget (RM)' : 'Bajet Sasaran (RM)' }} *
+                                    {{ t('target_budget_label') }} *
                                 </label>
                                 <div class="relative">
                                     <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-bold text-[#8C8275]">RM</span>
@@ -788,7 +784,7 @@ const bookRedirectUrl = computed(() => {
                             <!-- Guest Count -->
                             <div class="space-y-2">
                                 <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
-                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Guest Count (Pax)' : 'Bilangan Tetamu (Pax)' }} *
+                                    {{ t('guest_count_label') }} *
                                 </label>
                                 <div class="relative">
                                     <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[#8C8275]"><i class="fas fa-users text-xs"></i></span>
@@ -807,22 +803,22 @@ const bookRedirectUrl = computed(() => {
                             <!-- Delivery Date -->
                             <div class="space-y-2">
                                 <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
-                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Event Date' : 'Tarikh Acara' }} *
+                                    {{ t('event_date_label') }} *
                                 </label>
                                 <input 
                                     type="date" 
                                     v-model="customForm.delivery_date" 
                                     class="w-full px-4 py-3 border border-[#E6E1DA] rounded-xl focus:outline-none focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF9F6]/40 text-xs font-semibold text-[#2D3330]"
                                     required
-                                />
+                                 />
                                 <p v-if="formErrors.delivery_date" class="text-xs text-red-600 font-semibold">{{ formErrors.delivery_date }}</p>
-                                <p class="text-[10px] text-[#8C8275] mt-1">{{ (currentLanguage.value || currentLanguage) === 'en' ? 'Must be booked at least 7 days in advance.' : 'Mesti ditempah sekurang-kurangnya 7 hari sebelum acara.' }}</p>
+                                <p class="text-[10px] text-[#8C8275] mt-1">{{ t('book_advance_notice') }}</p>
                             </div>
 
                             <!-- Delivery Time -->
                             <div class="space-y-2">
                                 <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
-                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Delivery/Event Time' : 'Waktu Penghantaran/Acara' }} *
+                                    {{ t('delivery_time_label') }} *
                                 </label>
                                 <input 
                                     type="time" 
@@ -836,7 +832,7 @@ const bookRedirectUrl = computed(() => {
                             <!-- Delivery Address -->
                             <div class="md:col-span-2 space-y-2">
                                 <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
-                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Delivery Venue / Address' : 'Alamat / Lokasi Penghantaran' }} *
+                                    {{ t('delivery_venue_label') }} *
                                 </label>
                                 <textarea 
                                     v-model="customForm.address"
@@ -851,7 +847,7 @@ const bookRedirectUrl = computed(() => {
                             <!-- Special Notes -->
                             <div class="md:col-span-2 space-y-2">
                                 <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
-                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Additional Notes / Request Details' : 'Nota Tambahan / Butiran Permintaan' }}
+                                    {{ t('additional_notes_label') }}
                                 </label>
                                 <textarea 
                                     v-model="customForm.notes"
@@ -868,10 +864,10 @@ const bookRedirectUrl = computed(() => {
                         <div class="space-y-4 border-t border-[#E6E1DA] pt-6">
                             <div>
                                 <h4 class="font-serif-luxury text-xl text-[#2D3330] font-normal uppercase tracking-wide">
-                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Select Wishlist Dishes' : 'Pilih Lauk-Pauk Wishlist' }} *
+                                    {{ t('select_wishlist_dishes_label') }} *
                                 </h4>
                                 <p class="text-xs text-[#8C8275] font-light mt-0.5">
-                                    {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Pick the dishes you wish to include in your menu. The caterer will finalize the options.' : 'Tandakan hidangan yang anda inginkan. Pemilik katering akan menyusun semula menu akhir.' }}
+                                    {{ t('select_wishlist_dishes_desc') }}
                                 </p>
                                 <p v-if="formErrors.dishes" class="text-xs text-red-600 font-semibold mt-1">{{ formErrors.dishes }}</p>
                             </div>
@@ -913,15 +909,15 @@ const bookRedirectUrl = computed(() => {
                                 @click="showCustomForm = false"
                                 class="px-6 py-3 border border-[#E6E1DA] text-[#8C8275] rounded-xl text-xs uppercase tracking-widest font-semibold hover:bg-[#FAF9F6] transition-colors cursor-pointer"
                             >
-                                {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Cancel' : 'Batal' }}
+                                {{ t('cancel') }}
                             </button>
                             <button 
                                 type="submit"
                                 :disabled="isSubmitting"
                                 class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:bg-[#E6E1DA] text-white px-6 py-3 rounded-xl text-xs uppercase tracking-widest font-semibold transition-colors cursor-pointer flex items-center gap-2"
                             >
-                                <span v-if="isSubmitting"><i class="fas fa-spinner fa-spin mr-1"></i> {{ (currentLanguage.value || currentLanguage) === 'en' ? 'Submitting...' : 'Menghantar...' }}</span>
-                                <span v-else>{{ (currentLanguage.value || currentLanguage) === 'en' ? 'Submit Proposal Request' : 'Hantar Permintaan Cadangan' }}</span>
+                                <span v-if="isSubmitting"><i class="fas fa-spinner fa-spin mr-1"></i> {{ t('submitting_status') }}</span>
+                                <span v-else>{{ t('submit_proposal_request_btn') }}</span>
                             </button>
                         </div>
                     </form>

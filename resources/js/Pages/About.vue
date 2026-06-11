@@ -20,10 +20,11 @@ const { t } = useLocalization();
             <div class="absolute inset-0 opacity-10 bg-[url('/img/hero_catering.png')] bg-cover bg-center"></div>
             <div class="absolute inset-0 bg-gradient-to-br from-[#1C201E] via-[#1C201E]/80 to-[#4A6B5D]/30"></div>
             <div class="relative max-w-7xl mx-auto px-6 lg:px-8 text-center space-y-6 z-10">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#A8C5B8] text-xs font-semibold tracking-widest uppercase">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#4A6B5D] animate-pulse"></span>
-                    {{ t('about_subtitle') }}
-                </span>
+                <div class="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#A8C5B8]">
+                    <Link href="/" class="hover:text-white transition-colors duration-200">{{ t('home_nav') }}</Link>
+                    <span class="text-white/30 text-[10px] font-normal">/</span>
+                    <span class="text-white/60">{{ t('about_nav') }}</span>
+                </div>
                 <h1 class="text-5xl lg:text-7xl font-light tracking-tight font-serif-luxury leading-[1.1]">
                     {{ t('about_title_1') }} <br />
                     <span class="italic text-[#A8C5B8]">{{ t('about_title_2') }}</span>
@@ -50,7 +51,7 @@ const { t } = useLocalization();
                             </div>
                             <!-- Floating badge -->
                             <div class="absolute -bottom-6 -right-6 bg-[#4A6B5D] text-white rounded-2xl p-5 shadow-xl">
-                                <div class="text-3xl font-light font-serif-luxury">15+</div>
+                                <div class="text-3xl font-light font-serif-luxury">13+</div>
                                 <div class="text-[9px] uppercase tracking-widest font-semibold opacity-80 mt-1">{{ t('years_serving') }}</div>
                             </div>
                         </div>
@@ -163,7 +164,7 @@ const { t } = useLocalization();
                         <!-- Timeline Item 1 -->
                         <div class="relative flex flex-col md:flex-row md:items-center gap-6 md:gap-12">
                             <div class="md:w-1/2 md:text-right md:pr-10 pl-12 md:pl-0">
-                                <div class="text-[10px] text-[#4A6B5D] font-bold uppercase tracking-widest mb-1">2009</div>
+                                <div class="text-[10px] text-[#4A6B5D] font-bold uppercase tracking-widest mb-1">2013</div>
                                 <h3 class="text-lg font-semibold text-[#1C201E] font-serif-luxury">{{ t('journey_2009_title') }}</h3>
                                 <p class="text-xs text-[#5C6460] font-light leading-relaxed mt-2">
                                     {{ t('journey_2009_desc') }}
@@ -182,7 +183,7 @@ const { t } = useLocalization();
                                 <div class="w-2 h-2 rounded-full bg-white"></div>
                             </div>
                             <div class="md:w-1/2 md:pl-10 pl-12 md:pl-10">
-                                <div class="text-[10px] text-[#4A6B5D] font-bold uppercase tracking-widest mb-1">2015</div>
+                                <div class="text-[10px] text-[#4A6B5D] font-bold uppercase tracking-widest mb-1">2023</div>
                                 <h3 class="text-lg font-semibold text-[#1C201E] font-serif-luxury">{{ t('journey_2015_title') }}</h3>
                                 <p class="text-xs text-[#5C6460] font-light leading-relaxed mt-2">
                                     {{ t('journey_2015_desc') }}
@@ -193,7 +194,7 @@ const { t } = useLocalization();
                         <!-- Timeline Item 3 -->
                         <div class="relative flex flex-col md:flex-row md:items-center gap-6 md:gap-12">
                             <div class="md:w-1/2 md:text-right md:pr-10 pl-12 md:pl-0">
-                                <div class="text-[10px] text-[#4A6B5D] font-bold uppercase tracking-widest mb-1">2020</div>
+                                <div class="text-[10px] text-[#4A6B5D] font-bold uppercase tracking-widest mb-1">2026</div>
                                 <h3 class="text-lg font-semibold text-[#1C201E] font-serif-luxury">{{ t('journey_2020_title') }}</h3>
                                 <p class="text-xs text-[#5C6460] font-light leading-relaxed mt-2">
                                     {{ t('journey_2020_desc') }}
@@ -225,13 +226,13 @@ const { t } = useLocalization();
         </section>
 
         <!-- CTA Section -->
-        <section class="py-20 bg-[#1C201E] text-white font-sans-modern text-center">
+        <section class="py-20 bg-white border-t border-[#E6E1DA] font-sans-modern text-center">
             <div class="max-w-2xl mx-auto px-6 space-y-6">
-                <span class="text-[10px] text-[#A8C5B8] uppercase tracking-widest font-semibold">{{ t('start_journey_title') }}</span>
-                <h2 class="text-3xl lg:text-4xl font-light font-serif-luxury">
+                <span class="text-[10px] text-[#4A6B5D] uppercase tracking-widest font-bold block">{{ t('start_journey_title') }}</span>
+                <h2 class="text-3xl lg:text-4xl font-light text-[#1C201E] font-serif-luxury">
                     {{ t('ready_dream_event') }}
                 </h2>
-                <p class="text-[#8E9993] text-sm font-light leading-relaxed">
+                <p class="text-[#5C6460] text-sm font-light leading-relaxed">
                     {{ t('ready_dream_desc') }}
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center pt-2">
@@ -243,7 +244,7 @@ const { t } = useLocalization();
                     </Link>
                     <Link
                         href="/packages"
-                        class="bg-transparent border border-white/20 hover:border-white/50 text-white text-center px-8 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200"
+                        class="bg-transparent border border-[#4A6B5D] hover:bg-[#4A6B5D]/10 text-[#4A6B5D] text-center px-8 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200"
                     >
                         {{ t('our_packages') }}
                     </Link>

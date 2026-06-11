@@ -118,7 +118,7 @@ const updatePassword = () => {
                         v-if="form.recentlySuccessful"
                         class="text-xs text-green-600 font-semibold"
                     >
-                        Password updated.
+                        {{ t('password_updated') }}
                     </p>
                 </Transition>
             </div>

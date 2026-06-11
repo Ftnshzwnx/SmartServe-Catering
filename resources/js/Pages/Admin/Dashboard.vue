@@ -4,6 +4,9 @@ import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { useToast } from '@/Composables/useToast';
 import { useConfirm } from '@/Composables/useConfirm';
+import { useLocalization } from '@/Composables/useLocalization';
+
+const { t } = useLocalization();
 
 const props = defineProps({
     metrics: {
@@ -47,33 +50,33 @@ const verifyForm = useForm({
 
 async function handleVerify(orderId, actionType) {
     if (actionType === 'reject') {
-        const note = await prompt('Please enter the rejection reason / notes for the customer:', 'Reject Payment');
+        const note = await prompt(t('admin_enter_reject_reason'), t('admin_reject_payment'));
         if (note === null) return;
         if (!note.trim()) {
-            toast('Rejection note is required to reject payment verification.', 'error');
+            toast(t('admin_rejection_reason_required'), 'error');
             return;
         }
         verifyForm.admin_note = note;
     } else {
         verifyForm.admin_note = '';
-        if (!(await confirm('Are you sure you want to approve this payment receipt?', 'Approve Payment'))) return;
+        if (!(await confirm(t('admin_confirm_approve_payment'), t('admin_approve_payment')))) return;
     }
 
     verifyForm.action = actionType;
     verifyForm.post(route('admin.orders.verify', { id: orderId }), {
         onSuccess: () => {
-            toast('Order status has been updated and customer notified.');
+            toast(t('admin_toast_status_updated'));
             closeDetailsModal();
         }
     });
 }
 
 async function handleDeliver(orderId) {
-    if (!(await confirm('Are you sure you want to mark this order as Delivered? This will notify the customer via email and request the 70% balance payment.', 'Mark as Delivered'))) return;
+    if (!(await confirm(t('admin_confirm_deliver'), t('admin_mark_delivered_title')))) return;
     
     router.post(route('admin.orders.deliver', { id: orderId }), {}, {
         onSuccess: () => {
-            toast('Order status has been updated to Delivered and customer notified.');
+            toast(t('admin_toast_delivered_updated'));
             closeDetailsModal();
         }
     });
@@ -98,6 +101,29 @@ function getStatusBadge(status) {
             return 'bg-slate-100 text-slate-800 border-slate-200';
         default:
             return 'bg-slate-100 text-slate-800 border-slate-200';
+    }
+}
+
+function getTranslatedStatus(status) {
+    switch (status) {
+        case 'Pending':
+            return t('pending');
+        case 'Confirmed':
+            return t('confirmed');
+        case 'Payment Submitted':
+            return t('awaiting_verification');
+        case 'Delivered':
+            return t('delivered_tab');
+        case 'Completed':
+            return t('completed_tab');
+        case 'Deposit Rejected':
+            return t('deposit_rejected');
+        case 'Balance Rejected':
+            return t('balance_rejected');
+        case 'Cancelled':
+            return t('cancelled_tab');
+        default:
+            return status;
     }
 }
 
@@ -160,16 +186,16 @@ function getGroupedDishes(item) {
 
 <template>
     <AdminLayout
-        title="Admin Dashboard Overview"
-        header-title="Admin Dashboard"
-        header-desc="Review operational alerts, approve bookings, and monitor daily catering events."
+        :title="t('admin_dashboard_overview')"
+        :header-title="t('admin_dashboard')"
+        :header-desc="t('admin_operational_desc')"
     >
         <!-- Metrics Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- Revenue -->
             <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in">
                 <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">Total Revenue</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_total_revenue') }}</span>
                     <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">RM {{ parseFloat(metrics.totalRevenue || 0).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
                 </div>
                 <div class="w-12 h-12 bg-emerald-50 text-[#4A6B5D] rounded-xl border border-emerald-100 flex items-center justify-center text-lg">
@@ -180,7 +206,7 @@ function getGroupedDishes(item) {
             <!-- Total Orders -->
             <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 50ms;">
                 <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">Total Bookings</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_total_bookings') }}</span>
                     <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ metrics.totalOrders }}</span>
                 </div>
                 <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl border border-blue-100 flex items-center justify-center text-lg">
@@ -191,7 +217,7 @@ function getGroupedDishes(item) {
             <!-- Pending Verification -->
             <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 100ms;">
                 <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">Pending Verify</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_pending_verify') }}</span>
                     <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ metrics.pendingPayment }}</span>
                 </div>
                 <div class="w-12 h-12 bg-amber-50 text-[#C5A880] rounded-xl border border-amber-100 flex items-center justify-center text-lg">
@@ -202,7 +228,7 @@ function getGroupedDishes(item) {
             <!-- Completed -->
             <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 150ms;">
                 <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">Completed Events</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_completed_events') }}</span>
                     <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ metrics.completedOrders }}</span>
                 </div>
                 <div class="w-12 h-12 bg-green-50 text-green-600 rounded-xl border border-green-100 flex items-center justify-center text-lg">
@@ -221,13 +247,13 @@ function getGroupedDishes(item) {
                 <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Pending Verifications</h2>
-                            <p class="text-[10px] text-amber-600 font-bold mt-0.5"><i class="fas fa-exclamation-circle mr-1"></i> Receipts submitted by customers waiting for validation.</p>
+                            <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_pending_verifications') }}</h2>
+                            <p class="text-[10px] text-amber-600 font-bold mt-0.5"><i class="fas fa-exclamation-circle mr-1"></i> {{ t('admin_receipts_waiting') }}</p>
                         </div>
                         <div class="flex items-center gap-4">
-                            <Link :href="route('admin.orders')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">View Orders</Link>
+                            <Link :href="route('admin.orders')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">{{ t('admin_view_orders') }}</Link>
                             <span class="text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 px-2.5 py-0.5 rounded-full">
-                                {{ pendingVerification.length }} action{{ pendingVerification.length !== 1 ? 's' : '' }} required
+                                {{ pendingVerification.length }} {{ pendingVerification.length !== 1 ? t('admin_actions_required') : t('admin_action_required') }}
                             </span>
                         </div>
                     </div>
@@ -248,14 +274,14 @@ function getGroupedDishes(item) {
                                         #SSC-{{ order.id }}
                                     </button>
                                     <span class="inline-flex text-[9px] font-bold px-2 py-0.5 rounded-full border" :class="getStatusBadge(order.status)">
-                                        {{ order.status === 'Pending' ? 'Deposit Submitted' : 'Balance Submitted' }}
+                                        {{ order.status === 'Pending' ? t('timeline_confirmed') : t('balance_submitted_verification') }}
                                     </span>
                                 </div>
                                 <p class="text-xs font-semibold text-[#2D3330]">
                                     {{ order.user?.full_name || order.user?.name || 'Customer' }} - {{ order.package_name }}
                                 </p>
                                 <p class="text-[10px] text-[#8C8275] font-semibold">
-                                    Event Date: {{ order.delivery_date }} ({{ order.delivery_time }})
+                                    {{ t('admin_event_date') }}: {{ order.delivery_date }} ({{ order.delivery_time }})
                                 </p>
                             </div>
 
@@ -266,21 +292,21 @@ function getGroupedDishes(item) {
                                     target="_blank"
                                     class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold px-3 py-2 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center gap-1"
                                 >
-                                    <i class="fas fa-file-invoice text-[9px]"></i> View Slip
+                                    <i class="fas fa-file-invoice text-[9px]"></i> {{ t('admin_view_slip') }}
                                 </a>
                                 <!-- Quick Approve -->
                                 <button
                                     @click="handleVerify(order.id, 'approve')"
                                     class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
                                 >
-                                    <i class="fas fa-check text-[9px]"></i> Approve
+                                    <i class="fas fa-check text-[9px]"></i> {{ t('admin_approve') }}
                                 </button>
                                 <!-- Quick Reject -->
                                 <button
                                     @click="handleVerify(order.id, 'reject')"
                                     class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-3 py-2 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
                                 >
-                                    <i class="fas fa-times text-[9px]"></i> Reject
+                                    <i class="fas fa-times text-[9px]"></i> {{ t('admin_reject') }}
                                 </button>
                             </div>
                         </div>
@@ -290,8 +316,8 @@ function getGroupedDishes(item) {
                         <div class="w-10 h-10 bg-emerald-50 text-[#4A6B5D] rounded-full flex items-center justify-center text-sm mb-3">
                             <i class="fas fa-check-circle"></i>
                         </div>
-                        <h5 class="text-xs font-bold text-[#2D3330]">All Caught Up!</h5>
-                        <p class="text-[10px] text-[#8C8275] mt-1">There are no pending receipts requiring verification.</p>
+                        <h5 class="text-xs font-bold text-[#2D3330]">{{ t('admin_all_caught_up') }}</h5>
+                        <p class="text-[10px] text-[#8C8275] mt-1">{{ t('admin_no_pending_receipts') }}</p>
                     </div>
                 </div>
 
@@ -299,21 +325,21 @@ function getGroupedDishes(item) {
                 <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Upcoming Event Gigs</h2>
-                            <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">Catering bookings scheduled for delivery or pickup.</p>
+                            <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_upcoming_event_gigs') }}</h2>
+                            <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_scheduled_bookings_desc') }}</p>
                         </div>
-                        <Link :href="route('admin.orders')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">View Calendar</Link>
+                        <Link :href="route('admin.orders')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">{{ t('admin_view_calendar') }}</Link>
                     </div>
 
                     <div v-if="upcomingEvents.length > 0" class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">ID</th>
-                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Customer</th>
-                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Package Details</th>
-                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Event Date</th>
-                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">Status</th>
+                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_id') }}</th>
+                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_customer') }}</th>
+                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_package_details') }}</th>
+                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_event_date') }}</th>
+                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('status_label') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
@@ -332,7 +358,7 @@ function getGroupedDishes(item) {
                                     <td class="px-5 py-3.5 font-medium">{{ order.delivery_date }} ({{ order.delivery_time }})</td>
                                     <td class="px-5 py-3.5 text-center">
                                         <span class="inline-flex text-[9px] font-bold px-2 py-0.5 rounded-full border" :class="getStatusBadge(order.status)">
-                                            {{ order.status }}
+                                            {{ getTranslatedStatus(order.status) }}
                                         </span>
                                     </td>
                                 </tr>
@@ -342,8 +368,8 @@ function getGroupedDishes(item) {
                     
                     <div v-else class="py-12 text-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl">
                         <i class="fas fa-truck text-3xl mb-2 text-slate-300"></i>
-                        <h5 class="text-xs font-bold text-[#2D3330]">No upcoming events.</h5>
-                        <p class="text-[10px] text-[#8C8275] mt-1">There are no confirmed event packages scheduled soon.</p>
+                        <h5 class="text-xs font-bold text-[#2D3330]">{{ t('admin_no_upcoming_events') }}</h5>
+                        <p class="text-[10px] text-[#8C8275] mt-1">{{ t('admin_no_upcoming_desc') }}</p>
                     </div>
                 </div>
             </div>
@@ -353,7 +379,7 @@ function getGroupedDishes(item) {
                 
                 <!-- Quick Navigation Links Panel -->
                 <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
-                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Quick Operations</h2>
+                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_quick_operations') }}</h2>
                     
                     <div class="grid grid-cols-1 gap-2.5">
                         <Link 
@@ -364,7 +390,7 @@ function getGroupedDishes(item) {
                                 <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xs shrink-0 border border-blue-100">
                                     <i class="fas fa-receipt"></i>
                                 </div>
-                                <span class="text-xs font-bold text-[#5C6460]">Manage Bookings</span>
+                                <span class="text-xs font-bold text-[#5C6460]">{{ t('admin_manage_orders') }}</span>
                             </div>
                             <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
                         </Link>
@@ -377,7 +403,7 @@ function getGroupedDishes(item) {
                                 <div class="w-8 h-8 rounded-xl bg-emerald-50 text-[#4A6B5D] flex items-center justify-center text-xs shrink-0 border border-emerald-100">
                                     <i class="fas fa-utensils"></i>
                                 </div>
-                                <span class="text-xs font-bold text-[#5C6460]">Catering Packages</span>
+                                <span class="text-xs font-bold text-[#5C6460]">{{ t('admin_catering_packages') }}</span>
                             </div>
                             <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
                         </Link>
@@ -390,7 +416,7 @@ function getGroupedDishes(item) {
                                 <div class="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xs shrink-0 border border-purple-100">
                                     <i class="fas fa-calendar"></i>
                                 </div>
-                                <span class="text-xs font-bold text-[#5C6460]">Booking Calendar</span>
+                                <span class="text-xs font-bold text-[#5C6460]">{{ t('admin_booking_calendar') }}</span>
                             </div>
                             <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
                         </Link>
@@ -403,7 +429,7 @@ function getGroupedDishes(item) {
                                 <div class="w-8 h-8 rounded-xl bg-amber-50 text-[#C5A880] flex items-center justify-center text-xs shrink-0 border border-amber-100">
                                     <i class="fas fa-chart-bar"></i>
                                 </div>
-                                <span class="text-xs font-bold text-[#5C6460]">Reports & Analytics</span>
+                                <span class="text-xs font-bold text-[#5C6460]">{{ t('admin_reports_analytics') }}</span>
                             </div>
                             <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
                         </Link>
@@ -416,7 +442,7 @@ function getGroupedDishes(item) {
                                 <div class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xs shrink-0 border border-slate-200">
                                     <i class="fas fa-cogs"></i>
                                 </div>
-                                <span class="text-xs font-bold text-[#5C6460]">System Settings</span>
+                                <span class="text-xs font-bold text-[#5C6460]">{{ t('admin_system_settings') }}</span>
                             </div>
                             <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
                         </Link>
@@ -426,8 +452,8 @@ function getGroupedDishes(item) {
                 <!-- Recent Feedback Reviews summary panel -->
                 <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
                     <div class="flex justify-between items-center">
-                        <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Customer Reviews</h2>
-                        <Link :href="route('admin.reviews')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">Reply All</Link>
+                        <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_customer_reviews') }}</h2>
+                        <Link :href="route('admin.reviews')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">{{ t('admin_reply_all') }}</Link>
                     </div>
 
                     <div v-if="recentReviews.length > 0" class="space-y-4">
@@ -446,7 +472,7 @@ function getGroupedDishes(item) {
                                 </div>
                             </div>
                             <p class="text-[#5C6460] font-medium leading-relaxed italic text-[11px]">
-                                "{{ review.review_text || 'No comment provided.' }}"
+                                "{{ review.review_text || t('admin_no_comment') }}"
                             </p>
                             <span class="text-[9px] font-bold text-[#8C8275] block uppercase tracking-wider">
                                 Order #SSC-{{ review.order_id }}
@@ -456,8 +482,8 @@ function getGroupedDishes(item) {
                     
                     <div v-else class="py-8 text-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl">
                         <i class="far fa-star text-2xl mb-2 text-slate-300"></i>
-                        <h5 class="text-xs font-bold text-[#2D3330]">No reviews yet.</h5>
-                        <p class="text-[10px] text-[#8C8275]">Client ratings will appear here.</p>
+                        <h5 class="text-xs font-bold text-[#2D3330]">{{ t('admin_no_reviews_yet') }}</h5>
+                        <p class="text-[10px] text-[#8C8275]">{{ t('admin_client_ratings_appear') }}</p>
                     </div>
                 </div>
             </div>
@@ -470,10 +496,10 @@ function getGroupedDishes(item) {
                 <div class="bg-[#FAF7F2] px-6 py-4 border-b border-[#E6E1DA] flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <span class="font-extrabold text-sm text-[#4A6B5D] font-serif-luxury uppercase tracking-wide">
-                            Booking #SSC-{{ selectedOrderDetails.id }}
+                            {{ t('admin_booking') }} #SSC-{{ selectedOrderDetails.id }}
                         </span>
                         <span class="inline-flex text-[9px] font-bold px-2 py-0.5 rounded-full border" :class="getStatusBadge(selectedOrderDetails.status)">
-                            {{ selectedOrderDetails.status === 'Pending' ? 'Deposit Submitted' : (selectedOrderDetails.status === 'Payment Submitted' ? 'Balance Submitted' : selectedOrderDetails.status) }}
+                            {{ selectedOrderDetails.status === 'Pending' ? t('admin_deposit_submitted') : (selectedOrderDetails.status === 'Payment Submitted' ? t('admin_balance_submitted') : getTranslatedStatus(selectedOrderDetails.status)) }}
                         </span>
                     </div>
                     <button @click="closeDetailsModal" class="text-[#8C8275] hover:text-[#2D3330] transition-colors cursor-pointer">
@@ -487,22 +513,22 @@ function getGroupedDishes(item) {
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6 border-b border-[#E6E1DA]">
                         <div class="space-y-2.5">
                             <h4 class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                <i class="fas fa-user text-[#C5A880]"></i> Customer Information
+                                <i class="fas fa-user text-[#C5A880]"></i> {{ t('admin_customer_information') }}
                             </h4>
                             <div class="space-y-1">
                                 <p class="font-bold text-[#2D3330] text-sm">{{ selectedOrderDetails.user?.full_name || selectedOrderDetails.user?.name || 'Customer' }}</p>
                                 <p class="text-[#5C6460] font-semibold"><i class="far fa-envelope mr-1.5 text-gray-400"></i>{{ selectedOrderDetails.user?.email }}</p>
-                                <p class="text-[#5C6460] font-semibold"><i class="fas fa-phone-alt mr-1.5 text-gray-400"></i>{{ selectedOrderDetails.user?.phone || 'No phone number' }}</p>
+                                <p class="text-[#5C6460] font-semibold"><i class="fas fa-phone-alt mr-1.5 text-gray-400"></i>{{ selectedOrderDetails.user?.phone || t('admin_no_phone') }}</p>
                             </div>
                         </div>
                         <div class="space-y-2.5">
                             <h4 class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                <i class="fas fa-calendar-alt text-[#C5A880]"></i> Event Details
+                                <i class="fas fa-calendar-alt text-[#C5A880]"></i> {{ t('admin_event_details') }}
                             </h4>
                             <div class="space-y-1">
-                                <p class="font-bold text-[#2D3330]"><span class="text-[#8C8275] font-semibold">Date:</span> {{ selectedOrderDetails.delivery_date }}</p>
-                                <p class="font-bold text-[#2D3330]"><span class="text-[#8C8275] font-semibold">Time:</span> {{ selectedOrderDetails.delivery_time }}</p>
-                                <p class="font-bold text-[#2D3330]"><span class="text-[#8C8275] font-semibold">Delivery Option:</span> {{ selectedOrderDetails.delivery_zone || 'Standard' }}</p>
+                                <p class="font-bold text-[#2D3330]"><span class="text-[#8C8275] font-semibold">{{ t('admin_date') }}:</span> {{ selectedOrderDetails.delivery_date }}</p>
+                                <p class="font-bold text-[#2D3330]"><span class="text-[#8C8275] font-semibold">{{ t('admin_time') }}:</span> {{ selectedOrderDetails.delivery_time }}</p>
+                                <p class="font-bold text-[#2D3330]"><span class="text-[#8C8275] font-semibold">{{ t('admin_delivery_option') }}:</span> {{ selectedOrderDetails.delivery_zone || 'Standard' }}</p>
                             </div>
                         </div>
                     </div>
@@ -510,23 +536,23 @@ function getGroupedDishes(item) {
                     <!-- Venue Address -->
                     <div class="pb-6 border-b border-[#E6E1DA] space-y-2">
                         <h4 class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                            <i class="fas fa-map-marker-alt text-[#C5A880]"></i> Delivery / Event Venue Address
+                            <i class="fas fa-map-marker-alt text-[#C5A880]"></i> {{ t('admin_venue_address') }}
                         </h4>
                         <p class="text-[#2D3330] font-bold leading-relaxed bg-[#FAF7F2] p-3.5 rounded-2xl border border-[#E6E1DA]">
-                            {{ selectedOrderDetails.delivery_address || 'No address specified.' }}
+                            {{ selectedOrderDetails.delivery_address || t('admin_no_address') }}
                         </p>
                     </div>
 
                     <!-- Menu & Packages Items -->
                     <div class="pb-6 border-b border-[#E6E1DA] space-y-3">
                         <h4 class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                            <i class="fas fa-utensils text-[#C5A880]"></i> Selected Packages & Dishes
+                            <i class="fas fa-utensils text-[#C5A880]"></i> {{ t('admin_selected_packages_dishes') }}
                         </h4>
                         <div class="space-y-4">
                             <div v-for="item in selectedOrderDetails.items" :key="item.id" class="space-y-3">
                                 <div class="flex justify-between items-center bg-[#FAF7F2]/50 px-3 py-2 rounded-xl border border-[#E6E1DA]/60">
                                     <span class="font-bold text-[#2D3330] text-sm">{{ item.package?.package_name || selectedOrderDetails.package_name }}</span>
-                                    <span class="text-xs text-[#4A6B5D] font-extrabold">{{ item.quantity }} Pax</span>
+                                    <span class="text-xs text-[#4A6B5D] font-extrabold">{{ item.quantity }} {{ t('admin_pax') }}</span>
                                 </div>
                                 
                                 <!-- Dishes grouped by category -->
@@ -541,18 +567,18 @@ function getGroupedDishes(item) {
                                             <li v-for="dish in dishes" :key="dish.name" class="text-[10px] font-bold text-[#5C6460] flex items-center gap-1.5">
                                                 <i class="fas fa-check text-[7px] text-[#4A6B5D]"></i> 
                                                 <span>{{ dish.name }}</span>
-                                                <span v-if="dish.isDefault" class="text-[8px] text-[#8C8275] italic font-normal">(Default)</span>
+                                                <span v-if="dish.isDefault" class="text-[8px] text-[#8C8275] italic font-normal">{{ t('admin_default_dish') }}</span>
                                             </li>
                                         </ul>
                                     </div>
                                     <div v-if="Object.keys(getGroupedDishes(item)).length === 0" class="col-span-2 text-[10px] text-[#8C8275] italic">
-                                        No dishes defined.
+                                        {{ t('admin_no_dishes') }}
                                     </div>
                                 </div>
 
                                 <!-- Selected Addons -->
                                 <div v-if="item.selected_addons && item.selected_addons.length > 0" class="mt-2 pl-2 space-y-1.5">
-                                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">Add-ons:</span>
+                                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_addons') }}</span>
                                     <div class="flex flex-wrap gap-1.5">
                                         <span v-for="addon in item.selected_addons" :key="addon" class="bg-amber-50 border border-amber-200 text-[9px] text-amber-800 font-bold px-2.5 py-1 rounded-lg flex items-center gap-1.5">
                                             <i class="fas fa-plus text-[8px] text-[#C5A880]"></i> {{ addon }}
@@ -566,7 +592,7 @@ function getGroupedDishes(item) {
                     <!-- Customer Notes -->
                     <div v-if="selectedOrderDetails.notes" class="pb-6 border-b border-[#E6E1DA] space-y-2">
                         <h4 class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                            <i class="fas fa-comment-dots text-[#C5A880]"></i> Customer Notes
+                            <i class="fas fa-comment-dots text-[#C5A880]"></i> {{ t('customer_notes') }}
                         </h4>
                         <p class="text-[#5C6460] font-medium leading-relaxed italic bg-amber-50/40 p-3.5 rounded-2xl border border-amber-100">
                             "{{ selectedOrderDetails.notes }}"
@@ -576,23 +602,23 @@ function getGroupedDishes(item) {
                     <!-- Billing Summary -->
                     <div class="space-y-2.5">
                         <h4 class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                            <i class="fas fa-file-invoice-dollar text-[#C5A880]"></i> Billing Breakdown
+                            <i class="fas fa-file-invoice-dollar text-[#C5A880]"></i> {{ t('admin_billing_breakdown') }}
                         </h4>
                         <div class="bg-[#FAF7F2] p-4 rounded-2xl border border-[#E6E1DA] space-y-2">
                             <div class="flex justify-between font-semibold text-[#5C6460]">
-                                <span>Subtotal</span>
+                                <span>{{ t('admin_subtotal') }}</span>
                                 <span>RM {{ (parseFloat(selectedOrderDetails.total_price) - parseFloat(selectedOrderDetails.delivery_fee || 0) + parseFloat(selectedOrderDetails.discount_amount || 0)).toFixed(2) }}</span>
                             </div>
                             <div v-if="parseFloat(selectedOrderDetails.delivery_fee) > 0" class="flex justify-between font-semibold text-[#5C6460]">
-                                <span>Delivery Fee ({{ selectedOrderDetails.delivery_zone }})</span>
+                                <span>{{ t('admin_delivery_fee') }} ({{ selectedOrderDetails.delivery_zone }})</span>
                                 <span>RM {{ parseFloat(selectedOrderDetails.delivery_fee).toFixed(2) }}</span>
                             </div>
                             <div v-if="parseFloat(selectedOrderDetails.discount_amount) > 0" class="flex justify-between font-semibold text-emerald-700">
-                                <span>Discount</span>
+                                <span>{{ t('admin_discount') }}</span>
                                 <span>- RM {{ parseFloat(selectedOrderDetails.discount_amount).toFixed(2) }}</span>
                             </div>
                             <div class="flex justify-between border-t border-[#E6E1DA] pt-2 mt-2">
-                                <span class="font-bold text-[#2D3330] text-sm">Grand Total</span>
+                                <span>{{ t('admin_grand_total') }}</span>
                                 <span class="font-black text-[#2D3330] text-base">RM {{ parseFloat(selectedOrderDetails.total_price).toFixed(2) }}</span>
                             </div>
                         </div>
@@ -605,7 +631,7 @@ function getGroupedDishes(item) {
                         @click="closeDetailsModal"
                         class="bg-white hover:bg-gray-50 border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors cursor-pointer text-center"
                     >
-                        Close
+                        {{ t('admin_close') }}
                     </button>
                     
                     <div class="flex items-center gap-2.5 justify-end">
@@ -614,7 +640,7 @@ function getGroupedDishes(item) {
                             :href="route('orders.invoice.pdf', selectedOrderDetails.id)" 
                             class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5"
                         >
-                            <i class="fas fa-file-pdf text-[9px]"></i> Kitchen Slip
+                            <i class="fas fa-file-pdf text-[9px]"></i> {{ t('admin_kitchen_slip') }}
                         </a>
 
                         <!-- View Receipt slip -->
@@ -624,7 +650,7 @@ function getGroupedDishes(item) {
                             target="_blank"
                             class="bg-white hover:bg-gray-50 border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5"
                         >
-                            <i class="fas fa-file-invoice text-[9px]"></i> View Slip
+                            <i class="fas fa-file-invoice text-[9px]"></i> {{ t('admin_view_slip') }}
                         </a>
                         
                         <!-- Actions inside modal if order is pending/needs verification -->
@@ -633,13 +659,13 @@ function getGroupedDishes(item) {
                                 @click="handleVerify(selectedOrderDetails.id, 'approve')"
                                 class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                             >
-                                <i class="fas fa-check text-[9px]"></i> Approve
+                                <i class="fas fa-check text-[9px]"></i> {{ t('admin_approve') }}
                             </button>
                             <button
                                 @click="handleVerify(selectedOrderDetails.id, 'reject')"
                                 class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                             >
-                                <i class="fas fa-times text-[9px]"></i> Reject
+                                <i class="fas fa-times text-[9px]"></i> {{ t('admin_reject') }}
                             </button>
                         </template>
 
@@ -649,7 +675,7 @@ function getGroupedDishes(item) {
                                 @click="handleDeliver(selectedOrderDetails.id)"
                                 class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                             >
-                                <i class="fas fa-truck text-[9px]"></i> Mark as Delivered
+                                <i class="fas fa-truck text-[9px]"></i> {{ t('admin_mark_as_delivered') }}
                             </button>
                         </template>
                     </div>

@@ -259,6 +259,14 @@ class OrderController extends Controller
         // Clear Session
         session()->forget('checkout_items');
 
+        // Trigger notification
+        \App\Models\SystemNotification::notifyAdmins(
+            'Tempahan Baru / New Order',
+            "Tempahan #{$order->id} telah dibuat oleh {$user->name} untuk tarikh {$order->delivery_date}.",
+            'order_placed',
+            "/admin/orders?search={$order->id}"
+        );
+
         // Send Email Notification
         $this->sendOrderEmail($user->email, $order, $deposit, $balance, $request->input('name'));
 
@@ -369,6 +377,14 @@ class OrderController extends Controller
         $order->cancelled_at = now();
         $order->save();
 
+        // Trigger notification
+        \App\Models\SystemNotification::notifyAdmins(
+            'Tempahan Dibatalkan / Order Cancelled',
+            "Tempahan #{$order->id} telah dibatalkan oleh {$user->name}.",
+            'order_cancelled',
+            "/admin/orders?search={$order->id}"
+        );
+
         // Send Email Notice
         $this->sendCancelEmail($user->email, $order, $user->full_name);
 
@@ -398,6 +414,15 @@ class OrderController extends Controller
                 $order->status = 'Payment Submitted';
             }
             $order->save();
+
+            // Trigger notification
+            $typeName = $type === 'deposit' ? 'deposit' : 'baki / balance';
+            \App\Models\SystemNotification::notifyAdmins(
+                'Resit Pembayaran Dimuat Naik / Payment Receipt Uploaded',
+                "Resit {$typeName} baru dimuat naik untuk tempahan #{$order->id} oleh {$user->name}.",
+                'payment_submitted',
+                "/admin/orders?search={$order->id}"
+            );
         }
 
         return redirect()->route('orders.index')->with('success', 'Receipt uploaded. Waiting for verification.');
@@ -440,28 +465,15 @@ class OrderController extends Controller
     private function sendOrderEmail($email, $order, $deposit, $balance, $customerName)
     {
         $subject = "Order Confirmation - SmartServe Catering";
-        $deliveryRow = $order->delivery_fee > 0 
-            ? "<tr><td><strong>Delivery Zone:</strong></td><td>{$order->delivery_zone} (RM " . number_format($order->delivery_fee, 2) . ")</td></tr>"
-            : "<tr><td><strong>Delivery Zone:</strong></td><td>Self-Pickup (RM 0.00)</td></tr>";
-
-        $body = "
-            <h3 style='color: #b89047;'>Order Confirmation</h3>
-            <p>Dear <strong>{$customerName}</strong>,</p>
-            <p>Thank you for choosing SmartServe Catering. We have received your order details and your deposit receipt (30%) has been uploaded.</p>
-            <table style='width: 100%; border-collapse: collapse; margin: 20px 0;'>
-                <tr><td><strong>Order ID:</strong></td><td>#{$order->id}</td></tr>
-                <tr><td><strong>Delivery Date:</strong></td><td>{$order->delivery_date}</td></tr>
-                <tr><td><strong>Delivery Time:</strong></td><td>{$order->delivery_time}</td></tr>
-                {$deliveryRow}
-                <tr><td><strong>Total Cost:</strong></td><td>RM " . number_format($order->total_price, 2) . "</td></tr>
-                <tr><td><strong>Deposit Paid (30%):</strong></td><td>RM " . number_format($deposit, 2) . "</td></tr>
-                <tr><td><strong>Balance Remaining (70%):</strong></td><td style='color: #d9534f; font-weight: bold;'>RM " . number_format($balance, 2) . "</td></tr>
-            </table>
-            <p>Best regards,<br><strong>SmartServe Catering Team</strong></p>
-        ";
 
         try {
-            Mail::html($body, function ($message) use ($email, $subject) {
+            Mail::send('emails.order_confirmation', [
+                'order' => $order,
+                'deposit' => $deposit,
+                'balance' => $balance,
+                'customerName' => $customerName,
+                'subject' => $subject,
+            ], function ($message) use ($email, $subject) {
                 $message->to($email)->subject($subject);
             });
         } catch (\Exception $e) {
@@ -472,19 +484,13 @@ class OrderController extends Controller
     private function sendCancelEmail($email, $order, $customerName)
     {
         $subject = "Cancellation Confirmed: Order #{$order->id}";
-        $body = "
-            <h3 style='color: #dc3545;'>Order Cancellation Notice</h3>
-            <p>Dear <strong>{$customerName}</strong>,</p>
-            <p>This email is to confirm that your order <strong>#{$order->id}</strong> has been cancelled per your request.</p>
-            <div style='padding: 15px; background-color: #fff5f5; border: 1px solid #feb2b2; border-radius: 8px; margin: 20px 0;'>
-                <h4 style='margin-top: 0; color: #c53030;'>Deposit Policy:</h4>
-                <p>According to our terms, the <strong>30% deposit payment is non-refundable</strong> for customer cancellations.</p>
-            </div>
-            <p>Warm regards,<br><strong>SmartServe Catering Team</strong></p>
-        ";
 
         try {
-            Mail::html($body, function ($message) use ($email, $subject) {
+            Mail::send('emails.order_cancellation', [
+                'order' => $order,
+                'customerName' => $customerName,
+                'subject' => $subject,
+            ], function ($message) use ($email, $subject) {
                 $message->to($email)->subject($subject);
             });
         } catch (\Exception $e) {

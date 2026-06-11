@@ -117,7 +117,7 @@
                     <div class="details-title">Daripada:</div>
                     <strong>{{ $settings['business_name'] ?? 'SmartServe Catering' }}</strong><br>
                     {!! nl2br(e($settings['business_address'] ?? "Gong Badak, Kuala Terengganu,\nTerengganu, Malaysia")) !!}<br>
-                    Telefon: {{ $settings['contact_phone'] ?? '+60 12-345 6789' }}
+                    Telefon: {{ $settings['contact_phone'] ?? '019-2094670' }}
                 </td>
                 <td class="details-col" style="padding-left: 50px;">
                     <div class="details-title">Diterima Oleh:</div>

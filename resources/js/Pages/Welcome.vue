@@ -209,7 +209,7 @@ const marqueeDuration = computed(() => {
                         </div>
                         <div class="bg-white border border-[#E6E1DA] rounded-2xl overflow-hidden shadow-xs hover:-translate-y-1 transition-transform duration-300">
                             <div class="aspect-square bg-[#EADED9] overflow-hidden">
-                                <img src="/img/hero_catering.png" alt="Aqiqah Package" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+                                <img src="/img/aqiqah_catering.png" alt="Aqiqah Package" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
                             </div>
                             <div class="p-3">
                                 <p class="text-[9px] font-bold text-[#1C201E] uppercase tracking-wider">Aqiqah</p>
@@ -492,13 +492,13 @@ const marqueeDuration = computed(() => {
 
 
         <!-- Contact CTA Section -->
-        <section id="contact" class="py-24 bg-[#1C201E] text-white font-sans-modern text-center">
+        <section id="contact" class="py-24 bg-white border-t border-[#E6E1DA] font-sans-modern text-center">
             <div class="max-w-2xl mx-auto px-6 space-y-6">
-                <span class="text-[10px] text-[#A8C5B8] uppercase tracking-widest font-semibold block">{{ t('contact_us') }}</span>
-                <h2 class="text-3xl lg:text-5xl font-light font-serif-luxury leading-tight">
+                <span class="text-[10px] text-[#4A6B5D] uppercase tracking-widest font-bold block">{{ t('contact_us') }}</span>
+                <h2 class="text-3xl lg:text-5xl font-light text-[#1C201E] font-serif-luxury leading-tight">
                     {{ t('contact_title') }}
                 </h2>
-                <p class="text-[#8E9993] text-sm font-light leading-relaxed max-w-lg mx-auto">
+                <p class="text-[#5C6460] text-sm font-light leading-relaxed max-w-lg mx-auto">
                     {{ t('contact_subtitle') }}
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
@@ -509,7 +509,7 @@ const marqueeDuration = computed(() => {
                         {{ t('contact_submit') }}
                     </Link>
                     <a
-                        href="https://wa.me/60123456789"
+                        :href="'https://wa.me/' + ($page.props.settings.contact_phone || '019-2094670').replace(/[^0-9]/g, '').replace(/^0/, '60')"
                         target="_blank"
                         class="bg-emerald-600 hover:bg-emerald-700 text-white text-center px-10 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2"
                     >

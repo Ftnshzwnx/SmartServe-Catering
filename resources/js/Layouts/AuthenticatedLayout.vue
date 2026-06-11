@@ -98,6 +98,45 @@ const toggleCollapse = () => {
 const toggleLanguage = () => {
     setLanguage(currentLanguage.value === 'en' ? 'my' : 'en');
 };
+
+const page = usePage();
+const notifications = computed(() => page.props.auth.notifications || []);
+const unreadCount = computed(() => page.props.auth.unread_notifications_count || 0);
+
+const showNotificationsDropdown = ref(false);
+const toggleNotificationsDropdown = () => {
+    showNotificationsDropdown.value = !showNotificationsDropdown.value;
+};
+
+const handleNotificationClick = (notification) => {
+    showNotificationsDropdown.value = false;
+    router.post(route('notifications.read', notification.id), { redirect: true }, {
+        preserveScroll: true
+    });
+};
+
+const markAllNotificationsAsRead = () => {
+    router.post(route('notifications.read-all'), {}, {
+        preserveScroll: true
+    });
+};
+
+const formatTimeAgo = (dateStr) => {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    const now = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+    
+    if (seconds < 60) return t('time_just_now');
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}${t('time_min_ago')}`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}${t('time_hr_ago')}`;
+    const days = Math.floor(hours / 24);
+    if (days === 1) return t('time_yesterday');
+    if (days < 7) return `${days}${t('time_day_ago')}`;
+    return date.toLocaleDateString();
+};
 </script>
 
 <template>
@@ -159,7 +198,7 @@ const toggleLanguage = () => {
                 <div class="space-y-4">
                     <!-- Group 1: Overview -->
                     <div>
-                        <span v-show="!isCollapsed" class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block select-none">Overview</span>
+                        <span v-show="!isCollapsed" class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block select-none">{{ t('nav_group_overview') }}</span>
                         <nav class="space-y-1">
                             <Link 
                                 :href="route('dashboard')" 
@@ -178,7 +217,7 @@ const toggleLanguage = () => {
 
                     <!-- Group 2: Catering Flow -->
                     <div>
-                        <span v-show="!isCollapsed" class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block select-none">Catering Flow</span>
+                        <span v-show="!isCollapsed" class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block select-none">{{ t('nav_group_catering') }}</span>
                         <nav class="space-y-1">
                             <Link 
                                 :href="route('menu.index')" 
@@ -224,7 +263,7 @@ const toggleLanguage = () => {
 
                     <!-- Group 3: Account -->
                     <div>
-                        <span v-show="!isCollapsed" class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block select-none">Account</span>
+                        <span v-show="!isCollapsed" class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block select-none">{{ t('nav_group_account') }}</span>
                         <nav class="space-y-1">
                             <Link 
                                 :href="route('profile.edit')" 
@@ -257,7 +296,7 @@ const toggleLanguage = () => {
                         <!-- Profile details -->
                         <div class="overflow-hidden transition-all duration-300" :class="isCollapsed ? 'w-0 opacity-0' : 'w-full opacity-100'">
                             <h4 class="text-xs font-semibold text-[#2D3330] truncate">{{ $page.props.auth.user.name }}</h4>
-                            <p class="text-[9px] text-[#8C8275] truncate uppercase font-semibold">Customer</p>
+                            <p class="text-[9px] text-[#8C8275] truncate uppercase font-semibold">{{ t('role_customer') }}</p>
                         </div>
                     </div>
                     
@@ -290,7 +329,7 @@ const toggleLanguage = () => {
                     <button 
                         @click="toggleCollapse"
                         class="hidden md:flex w-9 h-9 border border-[#E6E1DA] rounded-xl items-center justify-center text-[#8C8275] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] transition-colors cursor-pointer shrink-0"
-                        :title="isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'"
+                        :title="isCollapsed ? t('expand_sidebar') : t('collapse_sidebar')"
                     >
                         <i class="fas" :class="isCollapsed ? 'fa-indent' : 'fa-outdent'"></i>
                     </button>
@@ -306,7 +345,7 @@ const toggleLanguage = () => {
                     <!-- Breadcrumbs (Tajdid style) -->
                     <div class="flex items-center text-[10px] font-bold tracking-wider select-none font-sans-modern">
                         <Link :href="route('dashboard')" class="text-[#8C8275] hover:text-[#4A6B5D] uppercase transition-colors">
-                            Dashboard
+                            {{ t('dashboard') }}
                         </Link>
                         <span v-if="headerTitle" class="text-[#8C8275]/60 mx-2 text-xs font-normal">&rsaquo;</span>
                         <span v-if="headerTitle" class="text-[#4A6B5D] uppercase">{{ headerTitle }}</span>
@@ -329,7 +368,7 @@ const toggleLanguage = () => {
                     <Link 
                         :href="route('cart.index')"
                         class="w-9 h-9 border border-[#E6E1DA] rounded-xl flex items-center justify-center text-[#8C8275] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] relative transition-colors cursor-pointer"
-                        title="View Shopping Cart"
+                        :title="t('view_cart')"
                     >
                         <i class="fas fa-shopping-basket"></i>
                         <span 
@@ -340,15 +379,81 @@ const toggleLanguage = () => {
                         </span>
                     </Link>
 
-                    <!-- Notification Bell Icon (VMS style) -->
-                    <button 
-                        class="w-9 h-9 border border-[#E6E1DA] rounded-xl flex items-center justify-center text-[#8C8275] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] relative transition-colors cursor-pointer"
-                        title="Notifications"
-                    >
-                        <i class="far fa-bell text-[#8C8275]"></i>
-                        <!-- Soft dot indicator for notifications -->
-                        <span class="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-[#C5A880] rounded-full"></span>
-                    </button>
+                    <!-- Notification Bell Icon (VMS style) & Dropdown -->
+                    <div class="relative">
+                        <button 
+                            @click="toggleNotificationsDropdown"
+                            class="w-9 h-9 border border-[#E6E1DA] rounded-xl flex items-center justify-center text-[#8C8275] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] relative transition-colors cursor-pointer"
+                            :title="t('notifications')"
+                        >
+                            <i class="far fa-bell text-[#8C8275]"></i>
+                            <!-- Soft dot indicator for notifications -->
+                            <span v-if="unreadCount > 0" class="absolute -top-1 -right-1 bg-[#8C3A3A] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
+                                {{ unreadCount }}
+                            </span>
+                        </button>
+
+                        <!-- Dropdown Overlay to click-away -->
+                        <div v-if="showNotificationsDropdown" class="fixed inset-0 z-40" @click="showNotificationsDropdown = false"></div>
+
+                        <!-- Dropdown List -->
+                        <transition
+                            enter-active-class="transition ease-out duration-200"
+                            enter-from-class="opacity-0 scale-95"
+                            enter-to-class="opacity-100 scale-100"
+                            leave-active-class="transition ease-in duration-75"
+                            leave-from-class="opacity-100 scale-100"
+                            leave-to-class="opacity-0 scale-95"
+                        >
+                            <div 
+                                v-show="showNotificationsDropdown" 
+                                class="absolute right-0 mt-2 w-80 bg-white border border-[#E6E1DA] rounded-2xl shadow-xl z-50 overflow-hidden"
+                            >
+                                <!-- Header -->
+                                <div class="px-4 py-3 border-b border-[#E6E1DA] flex justify-between items-center bg-[#FAF8F5]">
+                                    <span class="text-xs font-bold text-[#2D3330] uppercase tracking-wider">{{ t('notifications') }}</span>
+                                    <button 
+                                        v-if="unreadCount > 0"
+                                        @click="markAllNotificationsAsRead"
+                                        class="text-[10px] text-[#4A6B5D] hover:underline font-semibold"
+                                    >
+                                        {{ t('mark_all_read') }}
+                                    </button>
+                                </div>
+
+                                <!-- Body / List -->
+                                <div class="max-h-80 overflow-y-auto divide-y divide-[#E6E1DA]/60">
+                                    <div v-if="notifications.length === 0" class="p-6 text-center text-xs text-[#8C8275]">
+                                        <i class="far fa-bell-slash text-lg mb-2 block opacity-40"></i>
+                                        {{ t('no_notifications_yet') }}
+                                    </div>
+                                    <div 
+                                        v-else 
+                                        v-for="item in notifications" 
+                                        :key="item.id"
+                                        @click="handleNotificationClick(item)"
+                                        class="px-4 py-3.5 hover:bg-[#FAF7F2]/50 transition-colors cursor-pointer flex gap-3 text-left items-start"
+                                        :class="!item.read_at ? 'bg-[#FAF7F2]' : ''"
+                                    >
+                                        <div class="flex-grow space-y-1">
+                                            <div class="flex justify-between items-start">
+                                                <h4 class="text-xs font-bold text-[#2D3330] leading-snug">
+                                                    {{ item.title }}
+                                                </h4>
+                                                <span class="text-[9px] text-[#8C8275] whitespace-nowrap ml-2">
+                                                    {{ formatTimeAgo(item.created_at) }}
+                                                </span>
+                                            </div>
+                                            <p class="text-[11px] text-[#5C6460] leading-relaxed">
+                                                {{ item.message }}
+                                            </p>
+                                        </div>
+                                        <span v-if="!item.read_at" class="w-1.5 h-1.5 bg-[#4A6B5D] rounded-full mt-1.5 shrink-0"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </transition>
+                    </div>
 
                     <!-- User Detail Avatar with Dropdown -->
                     <div class="flex items-center border-l border-[#E6E1DA] pl-4 h-9 relative z-30">
@@ -359,7 +464,7 @@ const toggleLanguage = () => {
                                         <div class="text-xs font-semibold text-[#2D3330] leading-none mb-1 text-center">
                                             <span>{{ $page.props.auth.user.name }}</span>
                                         </div>
-                                        <div class="text-[9px] font-medium text-[#8C8275] leading-none uppercase tracking-wider text-center">Customer</div>
+                                        <div class="text-[9px] font-medium text-[#8C8275] leading-none uppercase tracking-wider text-center">{{ t('role_customer') }}</div>
                                     </div>
                                     <div class="w-8 h-8 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center font-bold text-xs shadow-xs shrink-0 select-none">
                                         {{ ($page.props.auth.user.name || 'C').charAt(0).toUpperCase() }}
@@ -426,7 +531,7 @@ const toggleLanguage = () => {
                     <div class="space-y-4" @click="isMobileOpen = false">
                         <!-- Overview -->
                         <div>
-                            <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block">Overview</span>
+                            <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block">{{ t('nav_group_overview') }}</span>
                             <nav class="space-y-1">
                                 <Link 
                                     :href="route('dashboard')" 
@@ -441,7 +546,7 @@ const toggleLanguage = () => {
 
                         <!-- Catering Flow -->
                         <div>
-                            <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block">Catering Flow</span>
+                            <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block">{{ t('nav_group_catering') }}</span>
                             <nav class="space-y-1">
                                 <Link 
                                     :href="route('menu.index')" 
@@ -475,7 +580,7 @@ const toggleLanguage = () => {
 
                         <!-- Account -->
                         <div>
-                            <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block">Account</span>
+                            <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block">{{ t('nav_group_account') }}</span>
                             <nav class="space-y-1">
                                 <Link 
                                     :href="route('profile.edit')" 
@@ -499,7 +604,7 @@ const toggleLanguage = () => {
                             </div>
                             <div>
                                 <h4 class="text-xs font-semibold text-[#2D3330]">{{ $page.props.auth.user.name }}</h4>
-                                <p class="text-[9px] text-[#8C8275] uppercase font-semibold">Customer</p>
+                                <p class="text-[9px] text-[#8C8275] uppercase font-semibold">{{ t('role_customer') }}</p>
                             </div>
                         </div>
                         <Link 
@@ -523,9 +628,9 @@ const toggleLanguage = () => {
                     <i class="fas fa-exclamation-triangle"></i>
                 </div>
                 <div class="space-y-2">
-                    <h3 class="text-lg font-bold text-[#2D3330]">Session Timeout Warning</h3>
+                    <h3 class="text-lg font-bold text-[#2D3330]">{{ t('session_timeout_title') }}</h3>
                     <p class="text-xs text-[#5C6460] leading-relaxed">
-                        You have been inactive for a while. For security reasons, your session will be automatically terminated in:
+                        {{ t('session_timeout_desc') }}
                     </p>
                     <div class="text-2xl font-extrabold text-[#8C3A3A] font-serif-luxury tracking-wider py-2">
                         {{ Math.floor(warningCountdown / 60) }}:{{ String(warningCountdown % 60).padStart(2, '0') }}
@@ -536,13 +641,13 @@ const toggleLanguage = () => {
                         @click="keepSessionActive" 
                         class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3 px-4 rounded-xl text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
                     >
-                        Keep Me Logged In
+                        {{ t('keep_logged_in') }}
                     </button>
                     <button 
                         @click="forceLogout" 
                         class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold py-3 px-4 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer"
                     >
-                        Log Out Now
+                        {{ t('logout') }}
                     </button>
                 </div>
             </div>

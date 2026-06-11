@@ -46,7 +46,7 @@ class CateringNotificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.catering_notification',
+            view: 'emails.catering_notification',
         );
     }
 }

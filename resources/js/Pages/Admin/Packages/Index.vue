@@ -1,9 +1,12 @@
 <script setup>
 import { Link, useForm, router } from '@inertiajs/vue3';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { useToast } from '@/Composables/useToast';
 import { useConfirm } from '@/Composables/useConfirm';
+import { useLocalization } from '@/Composables/useLocalization';
+
+const { t, currentLanguage } = useLocalization();
 
 const props = defineProps({
     packages: {
@@ -33,6 +36,7 @@ const activeTab = ref('packages'); // 'packages' | 'addons' | 'dishes' | 'catego
 const showPackageModal = ref(false);
 const isEditingPackage = ref(false);
 const editingPackageId = ref(null);
+const currentPackageImage = ref(null);
 
 const packageForm = useForm({
     package_name : '',
@@ -41,6 +45,7 @@ const packageForm = useForm({
     description  : '',
     dish_limits  : {},
     dishes       : [],
+    image        : null,
 });
 
 // --- Addon Modal State ---
@@ -80,13 +85,33 @@ const dishCategories = computed(() => {
 
 // ─── Package Helper Methods ──────────────────────────────────────────────────
 
+const imagePreviewUrl = ref(null);
+
+function handleImageChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+        packageForm.image = file;
+        imagePreviewUrl.value = URL.createObjectURL(file);
+    }
+}
+
+function clearSelectedImage() {
+    packageForm.image = null;
+    imagePreviewUrl.value = null;
+    const fileInput = document.getElementById('package-image-input');
+    if (fileInput) fileInput.value = '';
+}
+
 function openCreatePackage() {
     isEditingPackage.value = false;
     editingPackageId.value = null;
+    currentPackageImage.value = null;
+    imagePreviewUrl.value = null;
     packageForm.package_name = '';
     packageForm.price        = '';
     packageForm.min_order    = 100;
     packageForm.description  = '';
+    packageForm.image        = null;
     
     const limits = {};
     props.categories.forEach(cat => {
@@ -102,10 +127,13 @@ function openCreatePackage() {
 function openEditPackage(pkg) {
     isEditingPackage.value = true;
     editingPackageId.value = pkg.id;
+    currentPackageImage.value = pkg.image;
+    imagePreviewUrl.value = null;
     packageForm.package_name = pkg.package_name;
     packageForm.price        = pkg.price;
     packageForm.min_order    = pkg.min_order;
     packageForm.description  = pkg.description;
+    packageForm.image        = null;
     
     const limits = {};
     props.categories.forEach(cat => {
@@ -120,6 +148,7 @@ function openEditPackage(pkg) {
 
 function closePackageModal() {
     showPackageModal.value = false;
+    imagePreviewUrl.value = null;
 }
 
 function submitPackage() {
@@ -129,16 +158,16 @@ function submitPackage() {
 
     packageForm.post(route_name, {
         onSuccess: () => {
-            toast(isEditingPackage.value ? 'Package updated successfully.' : 'Package created successfully.');
+            toast(isEditingPackage.value ? t('admin_toast_pkg_updated') : t('admin_toast_pkg_created'));
             closePackageModal();
         }
     });
 }
 
 async function deletePackage(id) {
-    if (await confirm('Are you sure you want to delete this catering package?', 'Delete Package')) {
+    if (await confirm(t('admin_confirm_delete_pkg'), t('admin_confirm_delete_pkg_title'))) {
         router.delete(route('admin.packages.delete', { id }), {
-            onSuccess: () => toast('Package deleted successfully.')
+            onSuccess: () => toast(t('admin_toast_pkg_deleted'))
         });
     }
 }
@@ -174,16 +203,16 @@ function submitAddon() {
 
     addonForm.post(route_name, {
         onSuccess: () => {
-            toast(isEditingAddon.value ? 'Global add-on updated successfully.' : 'Global add-on created successfully.');
+            toast(isEditingAddon.value ? t('admin_toast_addon_updated') : t('admin_toast_addon_created'));
             closeAddonModal();
         }
     });
 }
 
 async function deleteAddon(id) {
-    if (await confirm('Are you sure you want to delete this global add-on? It will be removed from all packages.', 'Delete Add-on')) {
+    if (await confirm(t('admin_confirm_delete_addon'), t('admin_confirm_delete_addon_title'))) {
         router.delete(route('admin.addons.delete', { id }), {
-            onSuccess: () => toast('Add-on deleted successfully.')
+            onSuccess: () => toast(t('admin_toast_addon_deleted'))
         });
     }
 }
@@ -196,7 +225,7 @@ function toggleAddonStatus(addon) {
         active: toggledActive ? 1 : 0
     }, {
         onSuccess: () => {
-            toast(`Add-on is now ${toggledActive ? 'Active' : 'Inactive'}.`);
+            toast(toggledActive ? t('admin_toast_addon_status_active') : t('admin_toast_addon_status_inactive'));
         }
     });
 }
@@ -233,16 +262,16 @@ function submitDish() {
 
     dishForm.post(route_name, {
         onSuccess: () => {
-            toast(isEditingDish.value ? 'Dish updated successfully.' : 'Dish created successfully.');
+            toast(isEditingDish.value ? t('admin_toast_dish_updated') : t('admin_toast_dish_created'));
             closeDishModal();
         }
     });
 }
 
 async function deleteDish(id) {
-    if (await confirm('Are you sure you want to delete this dish from the library? It will be removed from all packages.', 'Delete Dish')) {
+    if (await confirm(t('admin_confirm_delete_dish'), t('admin_confirm_delete_dish_title'))) {
         router.delete(route('admin.dishes.delete', { id }), {
-            onSuccess: () => toast('Dish deleted successfully.')
+            onSuccess: () => toast(t('admin_toast_dish_deleted'))
         });
     }
 }
@@ -255,7 +284,7 @@ function toggleDishStatus(dish) {
         active: toggledActive ? 1 : 0
     }, {
         onSuccess: () => {
-            toast(`Dish is now ${toggledActive ? 'Active' : 'Inactive'}.`);
+            toast(toggledActive ? t('admin_toast_dish_status_active') : t('admin_toast_dish_status_inactive'));
         }
     });
 }
@@ -289,17 +318,17 @@ function submitCategory() {
 
     categoryForm.post(route_name, {
         onSuccess: () => {
-            toast(isEditingCategory.value ? 'Category updated successfully.' : 'Category created successfully.');
+            toast(isEditingCategory.value ? t('admin_toast_cat_updated') : t('admin_toast_cat_created'));
             closeCategoryModal();
         }
     });
 }
 
 async function deleteCategory(id) {
-    if (await confirm('Adakah anda pasti mahu memadam kategori ini?', 'Padam Kategori')) {
+    if (await confirm(t('admin_confirm_delete_cat'), t('admin_confirm_delete_cat_title'))) {
         router.delete(route('admin.categories.delete', { id }), {
             onSuccess: () => {
-                toast('Kategori berjaya dipadam.');
+                toast(t('admin_toast_cat_deleted'));
             },
             onError: (errors) => {
                 if (errors.category) {
@@ -356,19 +385,170 @@ function getCategoryIcon(name) {
     };
 }
 
+function getPackageImage(pkg) {
+    if (pkg.image && pkg.image !== 'placeholder.jpg') {
+        return pkg.image.startsWith('/') ? pkg.image : '/' + pkg.image;
+    }
+    const lower = pkg.package_name.toLowerCase();
+    if (lower.includes('wedding') || lower.includes('kahwin') || lower.includes('sanding')) {
+        return '/img/hero_catering.png';
+    }
+    if (lower.includes('aqiqah') || lower.includes('cukur') || lower.includes('baby') || lower.includes('birthday') || lower.includes('lahir') || lower.includes('kenduri') || lower.includes('family')) {
+        return '/img/aqiqah_catering.png';
+    }
+    return '/img/catering_dish.png';
+}
+
 const activePackageFilter = ref('all');
 
+// --- Search & Filters & Pagination state for Packages ---
+const packageSearchQuery = ref('');
+const packageCurrentPage = ref(1);
+const packagesPerPage = 6;
+
 const filteredPackages = computed(() => {
-    if (activePackageFilter.value === 'all') return props.packages;
-    return props.packages.filter(p => getCategoryKey(p.package_name) === activePackageFilter.value);
+    let result = props.packages;
+    
+    // Category filter
+    if (activePackageFilter.value !== 'all') {
+        result = result.filter(p => getCategoryKey(p.package_name) === activePackageFilter.value);
+    }
+    
+    // Search query filter
+    if (packageSearchQuery.value.trim()) {
+        const query = packageSearchQuery.value.toLowerCase().trim();
+        result = result.filter(p => p.package_name.toLowerCase().includes(query) || p.description?.toLowerCase().includes(query));
+    }
+    
+    return result;
+});
+
+const paginatedPackages = computed(() => {
+    const start = (packageCurrentPage.value - 1) * packagesPerPage;
+    return filteredPackages.value.slice(start, start + packagesPerPage);
+});
+
+const packageTotalPages = computed(() => {
+    return Math.ceil(filteredPackages.value.length / packagesPerPage) || 1;
+});
+
+// Reset page when filter or search changes
+watch([activePackageFilter, packageSearchQuery], () => {
+    packageCurrentPage.value = 1;
+});
+
+// --- Search & Filters & Pagination state for Add-ons ---
+const addonSearchQuery = ref('');
+const addonFilterStatus = ref('all'); // 'all' | 'active' | 'inactive'
+const addonCurrentPage = ref(1);
+const addonsPerPage = 10;
+
+const filteredAddons = computed(() => {
+    let result = props.addons;
+    
+    if (addonFilterStatus.value === 'active') {
+        result = result.filter(a => a.active);
+    } else if (addonFilterStatus.value === 'inactive') {
+        result = result.filter(a => !a.active);
+    }
+    
+    if (addonSearchQuery.value.trim()) {
+        const query = addonSearchQuery.value.toLowerCase().trim();
+        result = result.filter(a => a.addon_name.toLowerCase().includes(query));
+    }
+    
+    return result;
+});
+
+const paginatedAddons = computed(() => {
+    const start = (addonCurrentPage.value - 1) * addonsPerPage;
+    return filteredAddons.value.slice(start, start + addonsPerPage);
+});
+
+const addonTotalPages = computed(() => {
+    return Math.ceil(filteredAddons.value.length / addonsPerPage) || 1;
+});
+
+watch([addonSearchQuery, addonFilterStatus], () => {
+    addonCurrentPage.value = 1;
+});
+
+// --- Search & Filters & Pagination state for Dishes ---
+const dishSearchQuery = ref('');
+const dishFilterStatus = ref('all'); // 'all' | 'active' | 'inactive'
+const dishFilterCategory = ref('all');
+const dishCurrentPage = ref(1);
+const dishesPerPage = 10;
+
+const filteredDishes = computed(() => {
+    let result = props.dishes;
+    
+    if (dishFilterStatus.value === 'active') {
+        result = result.filter(d => d.active);
+    } else if (dishFilterStatus.value === 'inactive') {
+        result = result.filter(d => !d.active);
+    }
+    
+    if (dishFilterCategory.value !== 'all') {
+        result = result.filter(d => d.category === dishFilterCategory.value);
+    }
+    
+    if (dishSearchQuery.value.trim()) {
+        const query = dishSearchQuery.value.toLowerCase().trim();
+        result = result.filter(d => d.name.toLowerCase().includes(query) || d.category.toLowerCase().includes(query));
+    }
+    
+    return result;
+});
+
+const paginatedDishes = computed(() => {
+    const start = (dishCurrentPage.value - 1) * dishesPerPage;
+    return filteredDishes.value.slice(start, start + dishesPerPage);
+});
+
+const dishTotalPages = computed(() => {
+    return Math.ceil(filteredDishes.value.length / dishesPerPage) || 1;
+});
+
+watch([dishSearchQuery, dishFilterStatus, dishFilterCategory], () => {
+    dishCurrentPage.value = 1;
+});
+
+// --- Search & Pagination state for Categories ---
+const categorySearchQuery = ref('');
+const categoryCurrentPage = ref(1);
+const categoriesPerPage = 10;
+
+const filteredCategories = computed(() => {
+    let result = props.categories;
+    
+    if (categorySearchQuery.value.trim()) {
+        const query = categorySearchQuery.value.toLowerCase().trim();
+        result = result.filter(c => c.name.toLowerCase().includes(query));
+    }
+    
+    return result;
+});
+
+const paginatedCategories = computed(() => {
+    const start = (categoryCurrentPage.value - 1) * categoriesPerPage;
+    return filteredCategories.value.slice(start, start + categoriesPerPage);
+});
+
+const categoryTotalPages = computed(() => {
+    return Math.ceil(filteredCategories.value.length / categoriesPerPage) || 1;
+});
+
+watch([categorySearchQuery], () => {
+    categoryCurrentPage.value = 1;
 });
 </script>
 
 <template>
     <AdminLayout
-        title="Catering Packages & Add-ons"
-        header-title="Catering Packages & Add-ons"
-        header-desc="Manage standard event menu packages and configure global custom add-on selections."
+        :title="t('admin_packages_title')"
+        :header-title="t('admin_packages_title')"
+        :header-desc="t('admin_packages_desc')"
     >
         <!-- Tab Navigation Bar -->
         <div class="flex border-b border-[#E6E1DA] mb-6">
@@ -377,43 +557,60 @@ const filteredPackages = computed(() => {
                 class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none"
                 :class="activeTab === 'packages' ? 'border-[#4A6B5D] text-[#4A6B5D]' : 'border-transparent text-[#8C8275] hover:text-[#5C6460]'"
             >
-                Catering Packages ({{ packages.length }})
+                {{ t('admin_tab_packages') }} ({{ packages.length }})
             </button>
             <button
                 @click="activeTab = 'addons'"
                 class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none"
                 :class="activeTab === 'addons' ? 'border-[#4A6B5D] text-[#4A6B5D]' : 'border-transparent text-[#8C8275] hover:text-[#5C6460]'"
             >
-                Add-on Options ({{ addons.length }})
+                {{ t('admin_tab_addons') }} ({{ addons.length }})
             </button>
             <button
                 @click="activeTab = 'dishes'"
                 class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none"
                 :class="activeTab === 'dishes' ? 'border-[#4A6B5D] text-[#4A6B5D]' : 'border-transparent text-[#8C8275] hover:text-[#5C6460]'"
             >
-                Dish Selections ({{ dishes.length }})
+                {{ t('admin_tab_dishes') }} ({{ dishes.length }})
             </button>
             <button
                 @click="activeTab = 'categories'"
                 class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none"
                 :class="activeTab === 'categories' ? 'border-[#4A6B5D] text-[#4A6B5D]' : 'border-transparent text-[#8C8275] hover:text-[#5C6460]'"
             >
-                Dish Categories ({{ categories.length }})
+                {{ t('admin_tab_categories') }} ({{ categories.length }})
             </button>
         </div>
 
         <!-- TAB 1: CATERING PACKAGES -->
         <div v-if="activeTab === 'packages'" class="space-y-6">
-            <!-- Action Bar -->
-            <div class="flex justify-between items-center gap-3">
-                <span class="text-xs text-[#8C8275] font-semibold">
-                    Packages automatically offer all active global add-ons during customization.
-                </span>
+            <!-- Search & Action Bar -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-[#E6E1DA] rounded-3xl p-5 shadow-xs">
+                <!-- Search Input -->
+                <div class="relative flex-grow max-w-md">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
+                        <i class="fas fa-search text-xs"></i>
+                    </span>
+                    <input 
+                        v-model="packageSearchQuery" 
+                        type="text" 
+                        :placeholder="t('admin_search_packages_placeholder')" 
+                        class="w-full h-11 pl-10 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
+                    />
+                    <button 
+                        v-if="packageSearchQuery"
+                        @click="packageSearchQuery = ''"
+                        class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors cursor-pointer"
+                    >
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                </div>
+                <!-- Action Button -->
                 <button
                     @click="openCreatePackage"
                     class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0"
                 >
-                    <i class="fas fa-plus"></i> Create New Package
+                    <i class="fas fa-plus"></i> {{ t('admin_create_package_btn') }}
                 </button>
             </div>
 
@@ -426,42 +623,42 @@ const filteredPackages = computed(() => {
                         class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none"
                         :class="activePackageFilter === 'all' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
-                        All Packages ({{ packages.length }})
+                        {{ t('admin_all_packages') }} ({{ packages.length }})
                     </button>
                     <button 
                         @click="activePackageFilter = 'wedding'" 
                         class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none"
                         :class="activePackageFilter === 'wedding' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
-                        Wedding ({{ packages.filter(p => getCategoryKey(p.package_name) === 'wedding').length }})
+                        {{ t('admin_pkg_cat_wedding') }} ({{ packages.filter(p => getCategoryKey(p.package_name) === 'wedding').length }})
                     </button>
                     <button 
                         @click="activePackageFilter = 'corporate'" 
                         class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none"
                         :class="activePackageFilter === 'corporate' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
-                        Corporate ({{ packages.filter(p => getCategoryKey(p.package_name) === 'corporate').length }})
+                        {{ t('admin_pkg_cat_corporate') }} ({{ packages.filter(p => getCategoryKey(p.package_name) === 'corporate').length }})
                     </button>
                     <button 
                         @click="activePackageFilter = 'aqiqah'" 
                         class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none"
                         :class="activePackageFilter === 'aqiqah' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
-                        Aqiqah & Family ({{ packages.filter(p => getCategoryKey(p.package_name) === 'aqiqah').length }})
+                        {{ t('admin_pkg_cat_aqiqah') }} ({{ packages.filter(p => getCategoryKey(p.package_name) === 'aqiqah').length }})
                     </button>
                     <button 
                         @click="activePackageFilter = 'other'" 
                         class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none"
                         :class="activePackageFilter === 'other' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
-                        Other ({{ packages.filter(p => getCategoryKey(p.package_name) === 'other').length }})
+                        {{ t('admin_pkg_cat_other') }} ({{ packages.filter(p => getCategoryKey(p.package_name) === 'other').length }})
                     </button>
                 </div>
 
                 <!-- Packages list grid -->
                 <div v-if="filteredPackages.length > 0" class="space-y-5">
                     <div
-                        v-for="pkg in filteredPackages"
+                        v-for="(pkg, idx) in paginatedPackages"
                         :key="pkg.id"
                         class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs hover:shadow-md transition-all duration-200 overflow-hidden animate-fade-in"
                     >
@@ -470,9 +667,10 @@ const filteredPackages = computed(() => {
                             <div class="lg:col-span-7 p-6 md:p-8 space-y-5">
                                 <div class="flex flex-wrap justify-between items-start gap-4">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xs border shadow-sm shrink-0" :class="getCategoryIcon(pkg.package_name).colors">
-                                            <i class="fas text-[12px]" :class="getCategoryIcon(pkg.package_name).icon"></i>
+                                        <div class="text-xs font-bold text-[#8C8275] bg-[#FAF8F5] border border-[#E6E1DA] rounded-lg w-7 h-7 flex items-center justify-center select-none shrink-0">
+                                            {{ (packageCurrentPage - 1) * packagesPerPage + idx + 1 }}
                                         </div>
+                                        <img :src="getPackageImage(pkg)" class="w-12 h-12 rounded-xl object-cover shrink-0 border border-[#E6E1DA] shadow-xs" alt="Package image" />
                                         <div>
                                             <h3 class="text-xl font-bold text-[#2D3330] tracking-wide uppercase font-serif-luxury">{{ pkg.package_name }}</h3>
                                             <p class="text-xs text-[#C5A880] font-bold mt-1.5 uppercase tracking-wider">
@@ -485,20 +683,20 @@ const filteredPackages = computed(() => {
                                             @click="openEditPackage(pkg)"
                                             class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold px-3.5 py-2 rounded-xl text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
                                         >
-                                            <i class="fas fa-edit text-[10px]"></i> Edit
+                                            <i class="fas fa-edit text-[10px]"></i> {{ t('admin_edit') }}
                                         </button>
                                         <button
                                             @click="deletePackage(pkg.id)"
                                             class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-3.5 py-2 rounded-xl text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
                                         >
-                                            <i class="fas fa-trash-alt text-[10px]"></i> Delete
+                                            <i class="fas fa-trash-alt text-[10px]"></i> {{ t('admin_delete') }}
                                         </button>
                                     </div>
                                 </div>
 
                                 <div class="border-t border-[#E6E1DA] pt-5 space-y-3">
                                     <div class="flex items-center justify-between">
-                                        <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">Menu Choices & Limits</span>
+                                        <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_menu_choices_limits') }}</span>
                                         <div class="flex flex-wrap gap-1.5">
                                             <span 
                                                 v-for="(limit, cat) in (pkg.dish_limits || {})" 
@@ -520,7 +718,7 @@ const filteredPackages = computed(() => {
                                         </span>
                                     </div>
                                     <div v-else class="text-xs text-[#8C8275] italic">
-                                        No custom dishes associated with this package.
+                                        {{ t('admin_no_custom_dishes_pkg') }}
                                     </div>
                                 </div>
                             </div>
@@ -529,9 +727,9 @@ const filteredPackages = computed(() => {
                             <div class="lg:col-span-5 bg-[#FAF7F2] border-l border-[#E6E1DA] p-6 flex flex-col justify-between gap-4">
                                 <div class="space-y-3">
                                     <div class="flex items-center justify-between">
-                                        <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Active Global Add-ons</span>
+                                        <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_active_global_addons') }}</span>
                                         <span class="text-[9px] font-bold text-[#4A6B5D] bg-[#4A6B5D]/10 px-2 py-0.5 rounded-full">
-                                            {{ activeAddons.length }} Active Options
+                                            {{ activeAddons.length }} {{ t('admin_active_options_count') }}
                                         </span>
                                     </div>
 
@@ -546,7 +744,7 @@ const filteredPackages = computed(() => {
                                         </div>
                                     </div>
                                     <div v-else class="py-4 text-center">
-                                        <p class="text-xs text-[#B5AFA8] italic">No active global add-ons configured.</p>
+                                        <p class="text-xs text-[#B5AFA8] italic">{{ t('admin_no_active_addons_configured') }}</p>
                                     </div>
                                 </div>
 
@@ -554,11 +752,38 @@ const filteredPackages = computed(() => {
                                     @click="activeTab = 'addons'"
                                     class="w-full flex items-center justify-center gap-2 border border-dashed border-[#4A6B5D]/40 text-[#4A6B5D] hover:bg-[#4A6B5D]/5 font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider transition-colors cursor-pointer"
                                 >
-                                    <i class="fas fa-list text-[10px]"></i> Manage Add-ons
+                                    <i class="fas fa-list text-[10px]"></i> {{ t('admin_manage_addons_btn') }}
                                 </button>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Pagination Controls for Packages -->
+                <div v-if="filteredPackages.length > 0" class="flex justify-between items-center bg-white border border-[#E6E1DA] rounded-3xl p-4 shadow-2xs">
+                    <button 
+                        @click="packageCurrentPage = Math.max(1, packageCurrentPage - 1)"
+                        :disabled="packageCurrentPage === 1"
+                        class="px-4 py-2 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 focus:outline-none"
+                        :class="packageCurrentPage === 1 ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
+                    >
+                        <i class="fas fa-chevron-left text-[9px]"></i>
+                        <span>{{ t('admin_prev_page') }}</span>
+                    </button>
+                    
+                    <span class="text-xs font-semibold text-[#8C8275]">
+                        {{ packageCurrentPage }} / {{ packageTotalPages }}
+                    </span>
+                    
+                    <button 
+                        @click="packageCurrentPage = Math.min(packageTotalPages, packageCurrentPage + 1)"
+                        :disabled="packageCurrentPage === packageTotalPages"
+                        class="px-4 py-2 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 focus:outline-none"
+                        :class="packageCurrentPage === packageTotalPages ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
+                    >
+                        <span>{{ t('admin_next_page') }}</span>
+                        <i class="fas fa-chevron-right text-[9px]"></i>
+                    </button>
                 </div>
 
                 <!-- Empty State for filtered packages -->
@@ -567,8 +792,8 @@ const filteredPackages = computed(() => {
                         <i class="fas fa-filter"></i>
                     </div>
                     <div>
-                        <h4 class="text-sm font-bold text-[#2D3330]">No packages matching this filter.</h4>
-                        <p class="text-[11px] text-[#8C8275] mt-1">Try selecting another category or check the main packages tab.</p>
+                        <h4 class="text-sm font-bold text-[#2D3330]">{{ t('admin_no_packages_matching_filter') }}</h4>
+                        <p class="text-[11px] text-[#8C8275] mt-1">{{ t('admin_try_selecting_other_pkg_cat') }}</p>
                     </div>
                 </div>
             </div>
@@ -579,44 +804,81 @@ const filteredPackages = computed(() => {
                     <i class="fas fa-utensils"></i>
                 </div>
                 <div>
-                    <h4 class="text-[#2D3330] font-bold">No catering packages configured.</h4>
-                    <p class="text-xs text-[#8C8275] mt-1">Get started by creating your first event catering menu package.</p>
+                    <h4 class="text-[#2D3330] font-bold">{{ t('admin_no_catering_packages_configured') }}</h4>
+                    <p class="text-xs text-[#8C8275] mt-1">{{ t('admin_get_started_pkg_desc') }}</p>
                 </div>
                 <button @click="openCreatePackage" class="inline-flex items-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-sm">
-                    <i class="fas fa-plus"></i> Create First Package
+                    <i class="fas fa-plus"></i> {{ t('admin_create_first_package_btn') }}
                 </button>
             </div>
         </div>
 
         <!-- TAB 2: GLOBAL ADD-ONS LIBRARY -->
         <div v-if="activeTab === 'addons'" class="space-y-6">
-            <!-- Action Bar -->
-            <div class="flex justify-between items-center gap-3">
-                <span class="text-xs text-[#8C8275] font-semibold">
-                    Define and update add-on options. Any changes automatically apply to all packages.
-                </span>
+            <!-- Search & Filters Card -->
+            <div class="bg-white border border-[#E6E1DA] rounded-3xl p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-grow max-w-2xl">
+                    <!-- Search Input -->
+                    <div class="relative flex-grow">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
+                            <i class="fas fa-search text-xs"></i>
+                        </span>
+                        <input 
+                            v-model="addonSearchQuery" 
+                            type="text" 
+                            :placeholder="t('admin_search_addons_placeholder')" 
+                            class="w-full h-11 pl-10 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
+                        />
+                        <button 
+                            v-if="addonSearchQuery"
+                            @click="addonSearchQuery = ''"
+                            class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors cursor-pointer"
+                        >
+                            <i class="fas fa-times text-xs"></i>
+                        </button>
+                    </div>
+                    <!-- Status Filter Dropdown -->
+                    <div class="relative w-full sm:w-48">
+                        <select 
+                            v-model="addonFilterStatus"
+                            class="w-full h-11 pl-4 pr-10 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
+                        >
+                            <option value="all">{{ t('admin_all_statuses') }}</option>
+                            <option value="active">{{ t('admin_active') }}</option>
+                            <option value="inactive">{{ t('admin_inactive') }}</option>
+                        </select>
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-[#8C8275]">
+                            <i class="fas fa-chevron-down text-[10px]"></i>
+                        </span>
+                    </div>
+                </div>
+                <!-- Action Button -->
                 <button
                     @click="openCreateAddon"
                     class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0"
                 >
-                    <i class="fas fa-plus"></i> Add New Global Item
+                    <i class="fas fa-plus"></i> {{ t('admin_add_new_global_item_btn') }}
                 </button>
             </div>
 
             <!-- Add-ons Data Table -->
-            <div v-if="addons.length > 0" class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs overflow-hidden">
+            <div v-if="filteredAddons.length > 0" class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse text-left">
                         <thead>
                             <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Add-on Item</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Price / Pax</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">Status</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">Actions</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_addon_item_col') }}</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_price_pax_col') }}</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_status_col') }}</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
-                            <tr v-for="addon in addons" :key="addon.id" class="hover:bg-[#FAFAF9] transition-colors">
+                            <tr v-for="(addon, index) in paginatedAddons" :key="addon.id" class="hover:bg-[#FAFAF9] transition-colors">
+                                <td class="px-6 py-4 text-center font-semibold text-[#8C8275]">
+                                    {{ (addonCurrentPage - 1) * addonsPerPage + index + 1 }}
+                                </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         <div class="w-6 h-6 rounded-lg bg-[#C5A880]/10 text-[#C5A880] flex items-center justify-center text-[10px] shrink-0 border border-[#C5A880]/20">
@@ -639,7 +901,7 @@ const filteredPackages = computed(() => {
                                             : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'"
                                     >
                                         <i class="fas text-[7px]" :class="addon.active ? 'fa-check' : 'fa-times'"></i>
-                                        {{ addon.active ? 'Active' : 'Inactive' }}
+                                        {{ addon.active ? t('admin_active') : t('admin_inactive') }}
                                     </button>
                                 </td>
                                 <td class="px-6 py-4 text-right">
@@ -647,14 +909,14 @@ const filteredPackages = computed(() => {
                                         <button
                                             @click="openEditAddon(addon)"
                                             class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold w-8 h-8 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
-                                            title="Edit Add-on"
+                                            :title="t('admin_edit_global_addon')"
                                         >
                                             <i class="fas fa-edit text-[10px]"></i>
                                         </button>
                                         <button
                                             @click="deleteAddon(addon.id)"
                                             class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold w-8 h-8 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
-                                            title="Delete Add-on"
+                                            :title="t('admin_delete')"
                                         >
                                             <i class="fas fa-trash-alt text-[10px]"></i>
                                         </button>
@@ -664,52 +926,131 @@ const filteredPackages = computed(() => {
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Pagination for Addons -->
+                <div v-if="filteredAddons.length > 0" class="flex justify-between items-center p-4 border-t border-[#E6E1DA]">
+                    <button 
+                        @click="addonCurrentPage = Math.max(1, addonCurrentPage - 1)"
+                        :disabled="addonCurrentPage === 1"
+                        class="px-3.5 py-1.5 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
+                        :class="addonCurrentPage === 1 ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
+                    >
+                        <i class="fas fa-chevron-left text-[8px]"></i>
+                        <span>{{ t('admin_prev_page') }}</span>
+                    </button>
+                    
+                    <span class="text-xs font-semibold text-[#8C8275]">
+                        {{ addonCurrentPage }} / {{ addonTotalPages }}
+                    </span>
+                    
+                    <button 
+                        @click="addonCurrentPage = Math.min(addonTotalPages, addonCurrentPage + 1)"
+                        :disabled="addonCurrentPage === addonTotalPages"
+                        class="px-3.5 py-1.5 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
+                        :class="addonCurrentPage === addonTotalPages ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
+                    >
+                        <span>{{ t('admin_next_page') }}</span>
+                        <i class="fas fa-chevron-right text-[8px]"></i>
+                    </button>
+                </div>
             </div>
 
-            <!-- Empty Add-ons State -->
+            <!-- Empty Add-ons State / No matches -->
             <div v-else class="bg-white rounded-3xl border border-[#E6E1DA] p-20 text-center space-y-4">
                 <div class="w-16 h-16 bg-[#FAF7F2] text-[#8C8275] border border-[#E6E1DA] rounded-2xl flex items-center justify-center mx-auto text-2xl">
                     <i class="fas fa-list-ul"></i>
                 </div>
                 <div>
-                    <h4 class="text-[#2D3330] font-bold">No global add-ons configured.</h4>
-                    <p class="text-xs text-[#8C8275] mt-1">Get started by creating your first global add-on choice.</p>
+                    <h4 class="text-[#2D3330] font-bold">{{ t('admin_no_global_addons_configured') }}</h4>
+                    <p class="text-xs text-[#8C8275] mt-1">{{ addonSearchQuery || addonFilterStatus !== 'all' ? t('admin_no_packages_matching_filter') : t('admin_get_started_addon_desc') }}</p>
                 </div>
-                <button @click="openCreateAddon" class="inline-flex items-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-sm">
-                    <i class="fas fa-plus"></i> Create First Add-on
+                <button v-if="!addonSearchQuery && addonFilterStatus === 'all'" @click="openCreateAddon" class="inline-flex items-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-sm">
+                    <i class="fas fa-plus"></i> {{ t('admin_create_first_addon_btn') }}
                 </button>
             </div>
         </div>
 
         <!-- TAB 3: DISHES LIBRARY -->
         <div v-if="activeTab === 'dishes'" class="space-y-6">
-            <!-- Action Bar -->
-            <div class="flex justify-between items-center gap-3">
-                <span class="text-xs text-[#8C8275] font-semibold">
-                    Define and update dishes. Any changes automatically apply to all packages.
-                </span>
+            <!-- Search & Filters Card -->
+            <div class="bg-white border border-[#E6E1DA] rounded-3xl p-5 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-grow max-w-3xl">
+                    <!-- Search Input -->
+                    <div class="relative flex-grow">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
+                            <i class="fas fa-search text-xs"></i>
+                        </span>
+                        <input 
+                            v-model="dishSearchQuery" 
+                            type="text" 
+                            :placeholder="t('admin_search_dishes_placeholder')" 
+                            class="w-full h-11 pl-10 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
+                        />
+                        <button 
+                            v-if="dishSearchQuery"
+                            @click="dishSearchQuery = ''"
+                            class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors cursor-pointer"
+                        >
+                            <i class="fas fa-times text-xs"></i>
+                        </button>
+                    </div>
+                    <!-- Status Filter Dropdown -->
+                    <div class="relative w-full sm:w-40">
+                        <select 
+                            v-model="dishFilterStatus"
+                            class="w-full h-11 pl-4 pr-10 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
+                        >
+                            <option value="all">{{ t('admin_all_statuses') }}</option>
+                            <option value="active">{{ t('admin_active') }}</option>
+                            <option value="inactive">{{ t('admin_inactive') }}</option>
+                        </select>
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-[#8C8275]">
+                            <i class="fas fa-chevron-down text-[10px]"></i>
+                        </span>
+                    </div>
+                    <!-- Category Filter Dropdown -->
+                    <div class="relative w-full sm:w-48">
+                        <select 
+                            v-model="dishFilterCategory"
+                            class="w-full h-11 pl-4 pr-10 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
+                        >
+                            <option value="all">{{ t('admin_all_categories') }}</option>
+                            <option v-for="cat in categories" :key="cat.id" :value="cat.name">
+                                {{ cat.name }}
+                            </option>
+                        </select>
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-[#8C8275]">
+                            <i class="fas fa-chevron-down text-[10px]"></i>
+                        </span>
+                    </div>
+                </div>
+                <!-- Action Button -->
                 <button
                     @click="openCreateDish"
                     class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0"
                 >
-                    <i class="fas fa-plus"></i> Add New Dish
+                    <i class="fas fa-plus"></i> {{ t('admin_add_new_dish_btn') }}
                 </button>
             </div>
 
             <!-- Dishes Data Table -->
-            <div v-if="dishes.length > 0" class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs overflow-hidden animate-fade-in">
+            <div v-if="filteredDishes.length > 0" class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs overflow-hidden animate-fade-in">
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse text-left">
                         <thead>
                             <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Dish Name</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Category</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">Status</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">Actions</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_dish_name_col') }}</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_category_col') }}</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_status_col') }}</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
-                            <tr v-for="dish in dishes" :key="dish.id" class="hover:bg-[#FAFAF9] transition-colors">
+                            <tr v-for="(dish, index) in paginatedDishes" :key="dish.id" class="hover:bg-[#FAFAF9] transition-colors">
+                                <td class="px-6 py-4 text-center font-semibold text-[#8C8275]">
+                                    {{ (dishCurrentPage - 1) * dishesPerPage + index + 1 }}
+                                </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         <div class="w-6 h-6 rounded-lg bg-[#4A6B5D]/10 text-[#4A6B5D] flex items-center justify-center text-[10px] shrink-0 border border-[#4A6B5D]/20">
@@ -732,7 +1073,7 @@ const filteredPackages = computed(() => {
                                             : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'"
                                     >
                                         <i class="fas text-[7px]" :class="dish.active ? 'fa-check' : 'fa-times'"></i>
-                                        {{ dish.active ? 'Active' : 'Inactive' }}
+                                        {{ dish.active ? t('admin_active') : t('admin_inactive') }}
                                     </button>
                                 </td>
                                 <td class="px-6 py-4 text-right">
@@ -740,14 +1081,14 @@ const filteredPackages = computed(() => {
                                         <button
                                             @click="openEditDish(dish)"
                                             class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold w-8 h-8 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
-                                            title="Edit Dish"
+                                            :title="t('admin_edit_dish_details')"
                                         >
                                             <i class="fas fa-edit text-[10px]"></i>
                                         </button>
                                         <button
                                             @click="deleteDish(dish.id)"
                                             class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold w-8 h-8 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
-                                            title="Delete Dish"
+                                            :title="t('admin_delete')"
                                         >
                                             <i class="fas fa-trash-alt text-[10px]"></i>
                                         </button>
@@ -757,51 +1098,99 @@ const filteredPackages = computed(() => {
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Pagination for Dishes -->
+                <div v-if="filteredDishes.length > 0" class="flex justify-between items-center p-4 border-t border-[#E6E1DA]">
+                    <button 
+                        @click="dishCurrentPage = Math.max(1, dishCurrentPage - 1)"
+                        :disabled="dishCurrentPage === 1"
+                        class="px-3.5 py-1.5 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
+                        :class="dishCurrentPage === 1 ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
+                    >
+                        <i class="fas fa-chevron-left text-[8px]"></i>
+                        <span>{{ t('admin_prev_page') }}</span>
+                    </button>
+                    
+                    <span class="text-xs font-semibold text-[#8C8275]">
+                        {{ dishCurrentPage }} / {{ dishTotalPages }}
+                    </span>
+                    
+                    <button 
+                        @click="dishCurrentPage = Math.min(dishTotalPages, dishCurrentPage + 1)"
+                        :disabled="dishCurrentPage === dishTotalPages"
+                        class="px-3.5 py-1.5 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
+                        :class="dishCurrentPage === dishTotalPages ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
+                    >
+                        <span>{{ t('admin_next_page') }}</span>
+                        <i class="fas fa-chevron-right text-[8px]"></i>
+                    </button>
+                </div>
             </div>
 
-            <!-- Empty Dishes State -->
+            <!-- Empty Dishes State / No matches -->
             <div v-else class="bg-white rounded-3xl border border-[#E6E1DA] p-20 text-center space-y-4">
                 <div class="w-16 h-16 bg-[#FAF7F2] text-[#8C8275] border border-[#E6E1DA] rounded-2xl flex items-center justify-center mx-auto text-2xl">
                     <i class="fas fa-utensils"></i>
                 </div>
                 <div>
-                    <h4 class="text-[#2D3330] font-bold">No dishes configured.</h4>
-                    <p class="text-xs text-[#8C8275] mt-1">Get started by creating your first dish choice.</p>
+                    <h4 class="text-[#2D3330] font-bold">{{ t('admin_no_dishes_configured') }}</h4>
+                    <p class="text-xs text-[#8C8275] mt-1">{{ dishSearchQuery || dishFilterStatus !== 'all' || dishFilterCategory !== 'all' ? t('admin_no_packages_matching_filter') : t('admin_get_started_dish_desc') }}</p>
                 </div>
-                <button @click="openCreateDish" class="inline-flex items-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-sm">
-                    <i class="fas fa-plus"></i> Create First Dish
+                <button v-if="!dishSearchQuery && dishFilterStatus === 'all' && dishFilterCategory === 'all'" @click="openCreateDish" class="inline-flex items-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-sm">
+                    <i class="fas fa-plus"></i> {{ t('admin_create_first_dish_btn') }}
                 </button>
             </div>
         </div>
 
         <!-- TAB 4: DISH CATEGORIES -->
         <div v-if="activeTab === 'categories'" class="space-y-6">
-            <!-- Action Bar -->
-            <div class="flex justify-between items-center gap-3">
-                <span class="text-xs text-[#8C8275] font-semibold">
-                    Uruskan kategori makanan untuk digunakan di dalam pakej katering dan senarai hidangan.
-                </span>
+            <!-- Search & Action Bar -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-[#E6E1DA] rounded-3xl p-5 shadow-xs">
+                <!-- Search Input -->
+                <div class="relative flex-grow max-w-md">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
+                        <i class="fas fa-search text-xs"></i>
+                    </span>
+                    <input 
+                        v-model="categorySearchQuery" 
+                        type="text" 
+                        :placeholder="t('admin_search_categories_placeholder')" 
+                        class="w-full h-11 pl-10 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
+                    />
+                    <button 
+                        v-if="categorySearchQuery"
+                        @click="categorySearchQuery = ''"
+                        class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors cursor-pointer"
+                    >
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                </div>
+                <!-- Action Button -->
                 <button
                     @click="openCreateCategory"
                     class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0"
                 >
-                    <i class="fas fa-plus"></i> Add New Category
+                    <i class="fas fa-plus"></i> {{ t('admin_add_new_category_btn') }}
                 </button>
             </div>
 
             <!-- Categories Data Table -->
-            <div v-if="categories.length > 0" class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs overflow-hidden animate-fade-in">
+            <div v-if="filteredCategories.length > 0" class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs overflow-hidden animate-fade-in">
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse text-left">
                         <thead>
                             <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Category Name</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Dishes Count</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">Actions</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_category_name_col') }}</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_dishes_count_col') }}</th>
+                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
-                            <tr v-for="cat in categories" :key="cat.id" class="hover:bg-[#FAFAF9] transition-colors">
+                            <tr v-for="(cat, index) in paginatedCategories" :key="cat.id" class="hover:bg-[#FAFAF9] transition-colors">
+                                <td class="px-6 py-4 text-center font-semibold text-[#8C8275]">
+                                    {{ (categoryCurrentPage - 1) * categoriesPerPage + index + 1 }}
+                                </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         <div class="w-6 h-6 rounded-lg bg-[#4A6B5D]/10 text-[#4A6B5D] flex items-center justify-center text-[10px] shrink-0 border border-[#4A6B5D]/20">
@@ -812,7 +1201,7 @@ const filteredPackages = computed(() => {
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="font-semibold px-2.5 py-0.5 rounded-full border bg-emerald-50 text-emerald-800 border-emerald-200">
-                                        {{ dishes.filter(d => d.category === cat.name).length }} Dishes
+                                        {{ dishes.filter(d => d.category === cat.name).length }} {{ currentLanguage === 'en' ? 'Dishes' : 'Hidangan' }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-right">
@@ -820,14 +1209,14 @@ const filteredPackages = computed(() => {
                                         <button
                                             @click="openEditCategory(cat)"
                                             class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold w-8 h-8 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
-                                            title="Edit Category"
+                                            :title="t('admin_edit_category')"
                                         >
                                             <i class="fas fa-edit text-[10px]"></i>
                                         </button>
                                         <button
                                             @click="deleteCategory(cat.id)"
                                             class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold w-8 h-8 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
-                                            title="Delete Category"
+                                            :title="t('admin_delete')"
                                         >
                                             <i class="fas fa-trash-alt text-[10px]"></i>
                                         </button>
@@ -837,19 +1226,46 @@ const filteredPackages = computed(() => {
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Pagination for Categories -->
+                <div v-if="filteredCategories.length > 0" class="flex justify-between items-center p-4 border-t border-[#E6E1DA]">
+                    <button 
+                        @click="categoryCurrentPage = Math.max(1, categoryCurrentPage - 1)"
+                        :disabled="categoryCurrentPage === 1"
+                        class="px-3.5 py-1.5 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
+                        :class="categoryCurrentPage === 1 ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
+                    >
+                        <i class="fas fa-chevron-left text-[8px]"></i>
+                        <span>{{ t('admin_prev_page') }}</span>
+                    </button>
+                    
+                    <span class="text-xs font-semibold text-[#8C8275]">
+                        {{ categoryCurrentPage }} / {{ categoryTotalPages }}
+                    </span>
+                    
+                    <button 
+                        @click="categoryCurrentPage = Math.min(categoryTotalPages, categoryCurrentPage + 1)"
+                        :disabled="categoryCurrentPage === categoryTotalPages"
+                        class="px-3.5 py-1.5 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
+                        :class="categoryCurrentPage === categoryTotalPages ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
+                    >
+                        <span>{{ t('admin_next_page') }}</span>
+                        <i class="fas fa-chevron-right text-[8px]"></i>
+                    </button>
+                </div>
             </div>
 
-            <!-- Empty Categories State -->
+            <!-- Empty Categories State / No matches -->
             <div v-else class="bg-white rounded-3xl border border-[#E6E1DA] p-20 text-center space-y-4">
                 <div class="w-16 h-16 bg-[#FAF7F2] text-[#8C8275] border border-[#E6E1DA] rounded-2xl flex items-center justify-center mx-auto text-2xl">
                     <i class="fas fa-folder-open"></i>
                 </div>
                 <div>
-                    <h4 class="text-[#2D3330] font-bold">Tiada kategori hidangan dikonfigurasikan.</h4>
-                    <p class="text-xs text-[#8C8275] mt-1">Mula dengan mencipta kategori hidangan pertama anda.</p>
+                    <h4 class="text-[#2D3330] font-bold">{{ t('admin_no_categories_configured') }}</h4>
+                    <p class="text-xs text-[#8C8275] mt-1">{{ categorySearchQuery ? t('admin_no_packages_matching_filter') : t('admin_get_started_cat_desc') }}</p>
                 </div>
-                <button @click="openCreateCategory" class="inline-flex items-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-sm">
-                    <i class="fas fa-plus"></i> Create First Category
+                <button v-if="!categorySearchQuery" @click="openCreateCategory" class="inline-flex items-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-sm">
+                    <i class="fas fa-plus"></i> {{ t('admin_create_first_category_btn') }}
                 </button>
             </div>
         </div>
@@ -876,10 +1292,10 @@ const filteredPackages = computed(() => {
                         <div class="flex items-center justify-between px-7 py-5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
                             <div>
                                 <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
-                                    {{ isEditingPackage ? 'Edit Package Details' : 'Create New Package' }}
+                                    {{ isEditingPackage ? t('admin_edit_package_details') : t('admin_create_new_package') }}
                                 </h3>
                                 <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">
-                                    Define base price, minimum guests, and included dishes list.
+                                    {{ t('admin_package_modal_desc') }}
                                 </p>
                             </div>
                             <button @click="closePackageModal"
@@ -892,12 +1308,12 @@ const filteredPackages = computed(() => {
                             <div class="p-7 space-y-4">
                                 <!-- Package Name -->
                                 <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#5C6460] block">Package Category Name <span class="text-rose-500">*</span></label>
+                                    <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_package_category_name') }} <span class="text-rose-500">*</span></label>
                                     <input
                                         type="text"
                                         v-model="packageForm.package_name"
                                         class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
-                                        placeholder="e.g. Wedding Set A / Aqiqah Standard"
+                                        :placeholder="t('admin_pkg_name_placeholder')"
                                         required
                                     />
                                     <p v-if="packageForm.errors.package_name" class="text-xs text-rose-500 font-semibold">{{ packageForm.errors.package_name }}</p>
@@ -906,7 +1322,7 @@ const filteredPackages = computed(() => {
                                 <!-- Price + Min Order -->
                                 <div class="grid grid-cols-2 gap-4">
                                     <div class="space-y-1.5">
-                                        <label class="text-xs font-bold text-[#5C6460] block">Base Price / Pax (RM) <span class="text-rose-500">*</span></label>
+                                        <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_base_price_pax_rm') }} <span class="text-rose-500">*</span></label>
                                         <div class="relative">
                                             <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-[#8C8275]">RM</span>
                                             <input
@@ -919,7 +1335,7 @@ const filteredPackages = computed(() => {
                                         <p v-if="packageForm.errors.price" class="text-xs text-rose-500 font-semibold">{{ packageForm.errors.price }}</p>
                                     </div>
                                     <div class="space-y-1.5">
-                                        <label class="text-xs font-bold text-[#5C6460] block">Min Order (Pax) <span class="text-rose-500">*</span></label>
+                                        <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_min_order_pax') }} <span class="text-rose-500">*</span></label>
                                         <div class="relative">
                                             <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-[#8C8275]">pax</span>
                                             <input
@@ -936,28 +1352,77 @@ const filteredPackages = computed(() => {
                                 <!-- Description / Dishes -->
                                 <div class="space-y-1.5">
                                     <label class="text-xs font-bold text-[#5C6460] block">
-                                        Included Dishes List <span class="text-rose-500">*</span>
-                                        <span class="text-[#8C8275] font-normal ml-1">(one dish per line)</span>
+                                        {{ t('admin_included_dishes_list') }} <span class="text-rose-500">*</span>
+                                        <span class="text-[#8C8275] font-normal ml-1">({{ t('admin_one_dish_per_line') }})</span>
                                     </label>
                                     <textarea
                                         v-model="packageForm.description"
                                         rows="5"
                                         class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all resize-none"
-                                        placeholder="Nasi Minyak&#10;Ayam Masak Merah&#10;Gulai Daging&#10;Acar Buah&#10;Air Sirap"
+                                        :placeholder="t('admin_included_dishes_placeholder')"
                                         required
                                     ></textarea>
                                     <p v-if="packageForm.errors.description" class="text-xs text-rose-500 font-semibold">{{ packageForm.errors.description }}</p>
                                 </div>
 
+                                <!-- Package Image Upload -->
+                                <div class="space-y-1.5">
+                                    <label class="text-xs font-bold text-[#5C6460] block">
+                                        {{ currentLanguage === 'en' ? 'Package Image' : 'Gambar Pakej' }}
+                                        <span class="text-[#8C8275] font-normal ml-1">({{ currentLanguage === 'en' ? 'Optional, Max 2MB' : 'Pilihan, Maksimum 2MB' }})</span>
+                                    </label>
+                                    
+                                    <div class="flex items-center gap-4">
+                                        <!-- Thumbnail Preview of current or selected image -->
+                                        <div class="w-16 h-16 rounded-xl border border-[#E6E1DA] overflow-hidden bg-[#FAF8F5] shrink-0 flex items-center justify-center">
+                                            <img v-if="imagePreviewUrl" :src="imagePreviewUrl" class="w-full h-full object-cover" />
+                                            <img v-else :src="getPackageImage({ image: currentPackageImage, package_name: packageForm.package_name })" class="w-full h-full object-cover" />
+                                        </div>
+                                        
+                                        <!-- File picker -->
+                                        <div class="flex-grow">
+                                            <div class="relative flex items-center">
+                                                <input
+                                                    id="package-image-input"
+                                                    type="file"
+                                                    accept="image/*"
+                                                    @change="handleImageChange"
+                                                    class="hidden"
+                                                />
+                                                <label
+                                                    for="package-image-input"
+                                                    class="cursor-pointer bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-xs transition-colors flex items-center gap-2"
+                                                >
+                                                    <i class="fas fa-upload text-[10px]"></i>
+                                                    {{ currentLanguage === 'en' ? 'Choose Image' : 'Pilih Gambar' }}
+                                                </label>
+                                                <button
+                                                    v-if="imagePreviewUrl"
+                                                    type="button"
+                                                    @click="clearSelectedImage"
+                                                    class="ml-2 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-3 py-2.5 rounded-xl text-xs transition-colors flex items-center gap-1 cursor-pointer"
+                                                >
+                                                    <i class="fas fa-times text-[10px]"></i>
+                                                    {{ currentLanguage === 'en' ? 'Clear' : 'Batal' }}
+                                                </button>
+                                            </div>
+                                            <p class="text-[10px] text-[#8C8275] mt-1">
+                                                {{ currentLanguage === 'en' ? 'Supports PNG, JPG, JPEG up to 2MB.' : 'Sokong PNG, JPG, JPEG sehingga 2MB.' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p v-if="packageForm.errors.image" class="text-xs text-rose-500 font-semibold">{{ packageForm.errors.image }}</p>
+                                </div>
+
                                 <!-- Divider -->
                                 <div class="border-t border-[#E6E1DA] pt-4">
-                                    <span class="text-xs font-bold text-[#2D3330] uppercase tracking-wider block mb-2">Interactive Menu Options</span>
-                                    <p class="text-[10px] text-[#8C8275] font-semibold mb-4">Set the limits and select which dishes from the library are available in this package.</p>
+                                    <span class="text-xs font-bold text-[#2D3330] uppercase tracking-wider block mb-2">{{ t('admin_interactive_menu_options') }}</span>
+                                    <p class="text-[10px] text-[#8C8275] font-semibold mb-4">{{ t('admin_interactive_menu_options_desc') }}</p>
                                 </div>
 
                                 <!-- Dish Limits Grid -->
                                 <div class="space-y-2">
-                                    <label class="text-xs font-bold text-[#5C6460] block">Dish Selection Limits (per Category)</label>
+                                    <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_dish_selection_limits') }}</label>
                                     <div class="grid grid-cols-3 gap-3">
                                         <div v-for="cat in dishCategories" :key="cat" class="space-y-1">
                                             <span class="text-[10px] font-bold text-[#8C8275] uppercase block">{{ cat }}</span>
@@ -975,7 +1440,7 @@ const filteredPackages = computed(() => {
 
                                 <!-- Dishes Checklist -->
                                 <div class="space-y-2">
-                                    <label class="text-xs font-bold text-[#5C6460] block">Select Available Dishes for this Package</label>
+                                    <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_select_available_dishes') }}</label>
                                     <div class="space-y-4 max-h-60 overflow-y-auto border border-[#E6E1DA] rounded-xl p-4 bg-[#FAF7F2]/40">
                                         <div v-for="cat in dishCategories" :key="cat" class="space-y-2">
                                             <span class="text-[10px] font-extrabold text-[#4A6B5D] uppercase tracking-wider block border-b border-[#E6E1DA] pb-1">{{ cat }} (Limit: {{ packageForm.dish_limits[cat] || 0 }})</span>
@@ -995,7 +1460,7 @@ const filteredPackages = computed(() => {
                                                 </label>
                                             </div>
                                             <span v-if="dishes.filter(d => d.category === cat && d.active).length === 0" class="text-[10px] text-[#8C8275] italic block">
-                                                No active dishes in this category.
+                                                {{ t('admin_no_active_dishes_in_cat') }}
                                             </span>
                                         </div>
                                     </div>
@@ -1007,13 +1472,13 @@ const filteredPackages = computed(() => {
                             <div class="border-t border-[#E6E1DA] bg-[#FAF7F2]/50 px-7 py-5 flex items-center justify-end gap-3 rounded-b-3xl">
                                 <button type="button" @click="closePackageModal"
                                     class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer">
-                                    Cancel
+                                    {{ t('cancel') }}
                                 </button>
                                 <button type="submit"
                                     class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest shadow transition-colors cursor-pointer flex items-center gap-2"
                                     :disabled="packageForm.processing">
                                     <i class="fas fa-save text-[10px]"></i>
-                                    {{ isEditingPackage ? 'Save Changes' : 'Create Package' }}
+                                    {{ isEditingPackage ? t('save_changes') : t('admin_create_package_btn') }}
                                 </button>
                             </div>
                         </form>
@@ -1044,10 +1509,10 @@ const filteredPackages = computed(() => {
                         <div class="flex items-center justify-between px-7 py-5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
                             <div>
                                 <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
-                                    {{ isEditingAddon ? 'Edit Global Add-on' : 'Add New Global Item' }}
+                                    {{ isEditingAddon ? t('admin_edit_global_addon') : t('admin_add_new_global_addon') }}
                                 </h3>
                                 <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">
-                                    Provide the add-on name, surcharge price per guest, and status.
+                                    {{ t('admin_addon_modal_desc') }}
                                 </p>
                             </div>
                             <button @click="closeAddonModal"
@@ -1060,12 +1525,12 @@ const filteredPackages = computed(() => {
                             <div class="p-7 space-y-4">
                                 <!-- Addon Name -->
                                 <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#5C6460] block">Add-on Item Name <span class="text-rose-500">*</span></label>
+                                    <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_addon_item_name') }} <span class="text-rose-500">*</span></label>
                                     <input
                                         type="text"
                                         v-model="addonForm.addon_name"
                                         class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
-                                        placeholder="e.g. Teh Tarik Live Station / Kambing Bakar"
+                                        :placeholder="t('admin_addon_name_placeholder')"
                                         required
                                     />
                                     <p v-if="addonForm.errors.addon_name" class="text-xs text-rose-500 font-semibold">{{ addonForm.errors.addon_name }}</p>
@@ -1073,7 +1538,7 @@ const filteredPackages = computed(() => {
 
                                 <!-- Price -->
                                 <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#5C6460] block">Extra Price / Pax (RM) <span class="text-rose-500">*</span></label>
+                                    <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_extra_price_pax_rm') }} <span class="text-rose-500">*</span></label>
                                     <div class="relative">
                                         <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-[#8C8275]">RM</span>
                                         <input
@@ -1088,7 +1553,7 @@ const filteredPackages = computed(() => {
 
                                 <!-- Toggle Status -->
                                 <div v-if="isEditingAddon" class="flex items-center justify-between bg-[#FAF7F2] border border-[#E6E1DA] rounded-xl px-4 py-3">
-                                    <div class="text-xs font-semibold text-[#5C6460]">Active Status</div>
+                                    <div class="text-xs font-semibold text-[#5C6460]">{{ t('admin_active_status') }}</div>
                                     <label class="relative inline-flex items-center cursor-pointer">
                                         <input type="checkbox" v-model="addonForm.active" class="sr-only peer" />
                                         <div class="w-9 h-5 bg-[#E6E1DA] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#4A6B5D]"></div>
@@ -1100,13 +1565,13 @@ const filteredPackages = computed(() => {
                             <div class="border-t border-[#E6E1DA] bg-[#FAF7F2]/50 px-7 py-5 flex items-center justify-end gap-3 rounded-b-3xl">
                                 <button type="button" @click="closeAddonModal"
                                     class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer">
-                                    Cancel
+                                    {{ t('cancel') }}
                                 </button>
                                 <button type="submit"
                                     class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest shadow transition-colors cursor-pointer flex items-center gap-2"
                                     :disabled="addonForm.processing">
                                     <i class="fas fa-save text-[10px]"></i>
-                                    {{ isEditingAddon ? 'Save Changes' : 'Add Item' }}
+                                    {{ isEditingAddon ? t('save_changes') : t('admin_add_item') }}
                                 </button>
                             </div>
                         </form>
@@ -1137,10 +1602,10 @@ const filteredPackages = computed(() => {
                         <div class="flex items-center justify-between px-7 py-5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
                             <div>
                                 <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
-                                    {{ isEditingDish ? 'Edit Dish details' : 'Add New Dish' }}
+                                    {{ isEditingDish ? t('admin_edit_dish_details') : t('admin_add_new_dish') }}
                                 </h3>
                                 <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">
-                                    Define the dish name, category, and status.
+                                    {{ t('admin_dish_modal_desc') }}
                                 </p>
                             </div>
                             <button @click="closeDishModal"
@@ -1153,12 +1618,12 @@ const filteredPackages = computed(() => {
                              <div class="p-7 space-y-4">
                                  <!-- Dish Name -->
                                  <div class="space-y-1.5">
-                                     <label class="text-xs font-bold text-[#5C6460] block">Dish Name <span class="text-rose-500">*</span></label>
+                                     <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_dish_name_label') }} <span class="text-rose-500">*</span></label>
                                      <input
                                          type="text"
                                          v-model="dishForm.name"
                                          class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
-                                         placeholder="e.g. Nasi Briyani / Ayam Masak Merah"
+                                         :placeholder="t('admin_dish_name_placeholder')"
                                          required
                                      />
                                      <p v-if="dishForm.errors.name" class="text-xs text-rose-500 font-semibold">{{ dishForm.errors.name }}</p>
@@ -1166,7 +1631,7 @@ const filteredPackages = computed(() => {
 
                                  <!-- Category Dropdown -->
                                  <div class="space-y-1.5">
-                                     <label class="text-xs font-bold text-[#5C6460] block">Category <span class="text-rose-500">*</span></label>
+                                     <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_category_col') }} <span class="text-rose-500">*</span></label>
                                      <select
                                          v-model="dishForm.category"
                                          class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
@@ -1179,7 +1644,7 @@ const filteredPackages = computed(() => {
 
                                  <!-- Toggle Status -->
                                  <div v-if="isEditingDish" class="flex items-center justify-between bg-[#FAF7F2] border border-[#E6E1DA] rounded-xl px-4 py-3">
-                                     <div class="text-xs font-semibold text-[#5C6460]">Active Status</div>
+                                     <div class="text-xs font-semibold text-[#5C6460]">{{ t('admin_active_status') }}</div>
                                      <label class="relative inline-flex items-center cursor-pointer">
                                          <input type="checkbox" v-model="dishForm.active" class="sr-only peer" />
                                          <div class="w-9 h-5 bg-[#E6E1DA] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#4A6B5D]"></div>
@@ -1191,13 +1656,13 @@ const filteredPackages = computed(() => {
                              <div class="border-t border-[#E6E1DA] bg-[#FAF7F2]/50 px-7 py-5 flex items-center justify-end gap-3 rounded-b-3xl">
                                  <button type="button" @click="closeDishModal"
                                      class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer">
-                                     Cancel
+                                     {{ t('cancel') }}
                                  </button>
                                  <button type="submit"
                                      class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest shadow transition-colors cursor-pointer flex items-center gap-2"
                                      :disabled="dishForm.processing">
                                      <i class="fas fa-save text-[10px]"></i>
-                                     {{ isEditingDish ? 'Save Changes' : 'Add Dish' }}
+                                     {{ isEditingDish ? t('save_changes') : t('admin_add_dish') }}
                                  </button>
                              </div>
                         </form>
@@ -1228,10 +1693,10 @@ const filteredPackages = computed(() => {
                         <div class="flex items-center justify-between px-7 py-5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
                             <div>
                                 <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
-                                    {{ isEditingCategory ? 'Edit Category' : 'Add New Category' }}
+                                    {{ isEditingCategory ? t('admin_edit_category') : t('admin_add_new_category') }}
                                 </h3>
                                 <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">
-                                    Provide a unique category name for dishes grouping.
+                                    {{ t('admin_category_modal_desc') }}
                                 </p>
                             </div>
                             <button @click="closeCategoryModal"
@@ -1244,12 +1709,12 @@ const filteredPackages = computed(() => {
                             <div class="p-7 space-y-4">
                                 <!-- Category Name -->
                                 <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#5C6460] block">Category Name <span class="text-rose-500">*</span></label>
+                                    <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_category_name_label') }} <span class="text-rose-500">*</span></label>
                                     <input
                                         type="text"
                                         v-model="categoryForm.name"
                                         class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
-                                        placeholder="e.g. Pencuci Mulut / Sambal"
+                                        :placeholder="t('admin_category_placeholder')"
                                         required
                                     />
                                     <p v-if="categoryForm.errors.name" class="text-xs text-rose-500 font-semibold">{{ categoryForm.errors.name }}</p>
@@ -1260,13 +1725,13 @@ const filteredPackages = computed(() => {
                             <div class="border-t border-[#E6E1DA] bg-[#FAF7F2]/50 px-7 py-5 flex items-center justify-end gap-3 rounded-b-3xl">
                                 <button type="button" @click="closeCategoryModal"
                                     class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer">
-                                    Cancel
+                                    {{ t('cancel') }}
                                 </button>
                                 <button type="submit"
                                     class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest shadow transition-colors cursor-pointer flex items-center gap-2"
                                     :disabled="categoryForm.processing">
                                     <i class="fas fa-save text-[10px]"></i>
-                                    {{ isEditingCategory ? 'Save Changes' : 'Add Category' }}
+                                    {{ isEditingCategory ? t('save_changes') : t('admin_add_category') }}
                                 </button>
                             </div>
                         </form>

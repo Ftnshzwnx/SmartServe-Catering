@@ -1,17 +1,17 @@
-<x-mail::message>
-# {{ $greeting }}
+@extends('emails.layout')
 
-@foreach ($lines as $line)
-{{ $line }}
+@section('title', $mailSubject ?? 'Catering Notification')
 
-@endforeach
+@section('content')
+    <h2 style="color: #4A6B5D; margin-top: 0;">{{ $greeting }}</h2>
+    
+    @foreach ($lines as $line)
+        <p>{{ $line }}</p>
+    @endforeach
 
-@if ($actionText && $actionUrl)
-<x-mail::button :url="$actionUrl">
-{{ $actionText }}
-</x-mail::button>
-@endif
-
-Terima kasih,<br>
-{{ config('app.name') }}
-</x-mail::message>
+    @if ($actionText && $actionUrl)
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ $actionUrl }}" class="btn">{{ $actionText }}</a>
+        </div>
+    @endif
+@endsection

@@ -4,6 +4,9 @@ import { ref, computed } from 'vue';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { useToast } from '@/Composables/useToast';
 import { useConfirm } from '@/Composables/useConfirm';
+import { useLocalization } from '@/Composables/useLocalization';
+
+const { t } = useLocalization();
 
 const props = defineProps({
     orders: {
@@ -96,17 +99,17 @@ function isDishInWishlist(dishId) {
 
 function submitProposal() {
     if (!proposalForm.total_price || proposalForm.total_price < 0) {
-        toast('Price must be greater than or equal to 0.', 'error');
+        toast(t('admin_price_validation_error'), 'error');
         return;
     }
     if (proposalForm.dishes.length === 0) {
-        toast('Please select at least one dish for the proposal.', 'error');
+        toast(t('admin_dish_validation_error'), 'error');
         return;
     }
     
     proposalForm.post(route('admin.orders.send-proposal', { id: selectedProposalOrder.value.id }), {
         onSuccess: () => {
-            toast('Custom menu proposal has been sent to the customer.');
+            toast(t('admin_proposal_sent_toast'));
             closeProposalModal();
         }
     });
@@ -159,33 +162,33 @@ function closeReceiptModal() {
 
 async function handleVerify(orderId, actionType) {
     if (actionType === 'reject') {
-        const note = await prompt('Please enter the rejection reason / notes for the customer:', 'Reject Payment');
+        const note = await prompt(t('admin_enter_reject_reason'), t('admin_reject_payment'));
         if (note === null) return;
         if (!note.trim()) {
-            toast('Rejection note is required to reject payment verification.', 'error');
+            toast(t('admin_rejection_reason_required'), 'error');
             return;
         }
         verifyForm.admin_note = note;
     } else {
         verifyForm.admin_note = '';
-        if (!(await confirm('Are you sure you want to approve this payment receipt?', 'Approve Payment'))) return;
+        if (!(await confirm(t('admin_confirm_approve_payment'), t('admin_approve_payment')))) return;
     }
 
     verifyForm.action = actionType;
     verifyForm.post(route('admin.orders.verify', { id: orderId }), {
         onSuccess: () => {
-            toast('Order status has been updated and customer notified.');
+            toast(t('admin_toast_status_updated'));
             closeReceiptModal();
         }
     });
 }
 
 async function handleDeliver(orderId) {
-    if (!(await confirm('Are you sure you want to mark this order as Delivered? This will notify the customer via email and request the 70% balance payment.', 'Mark as Delivered'))) return;
+    if (!(await confirm(t('admin_confirm_deliver'), t('admin_mark_delivered_title')))) return;
     
     router.post(route('admin.orders.deliver', { id: orderId }), {}, {
         onSuccess: () => {
-            toast('Order status has been updated to Delivered and customer notified.');
+            toast(t('admin_toast_delivered_updated'));
         }
     });
 }
@@ -204,6 +207,33 @@ function getStatusBadge(status) {
         'Cancelled':         'bg-slate-100 text-slate-600 border-slate-200',
     };
     return map[status] || 'bg-slate-100 text-slate-600 border-slate-200';
+}
+
+function getTranslatedStatus(status) {
+    switch (status) {
+        case 'Pending Proposal':
+            return t('admin_status_pending_proposal');
+        case 'Proposal Sent':
+            return t('admin_status_proposal_sent');
+        case 'Pending':
+            return t('admin_status_pending_deposit');
+        case 'Payment Submitted':
+            return t('admin_status_payment_resubmitted');
+        case 'Confirmed':
+            return t('confirmed');
+        case 'Delivered':
+            return t('delivered_tab');
+        case 'Completed':
+            return t('completed_tab');
+        case 'Deposit Rejected':
+            return t('deposit_rejected');
+        case 'Balance Rejected':
+            return t('balance_rejected');
+        case 'Cancelled':
+            return t('cancelled_tab');
+        default:
+            return status;
+    }
 }
 
 function getStatusIcon(status) {
@@ -285,14 +315,14 @@ function needsAction(status) {
 
 <template>
     <AdminLayout
-        title="Manage Booking Orders"
-        header-title="Manage Orders"
-        header-desc="Review active events, verify customer payments, and cancel orders."
+        :title="t('admin_manage_booking_orders')"
+        :header-title="t('admin_manage_orders')"
+        :header-desc="t('admin_manage_orders_desc')"
     >
         <template #header-action>
             <div class="bg-[#FAF7F2] border border-[#E6E1DA] rounded-xl px-4 py-2.5 text-xs font-bold text-[#4A6B5D] flex items-center gap-2 shadow-2xs select-none">
                 <i class="fas fa-receipt text-[#C5A880]"></i>
-                <span class="text-[#8C8275] uppercase tracking-wider text-[10px]">Total Orders:</span>
+                <span class="text-[#8C8275] uppercase tracking-wider text-[10px]">{{ t('admin_total_bookings') }}:</span>
                 <span class="text-[#2D3330] font-extrabold text-sm">{{ statusCounts.all }}</span>
             </div>
         </template>
@@ -302,7 +332,7 @@ function needsAction(status) {
             <!-- Total Orders -->
             <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 flex items-center justify-between shadow-xs hover:border-[#C5A880]/30 transition-all">
                 <div class="space-y-1">
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">Total Bookings</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_total_bookings') }}</span>
                     <span class="text-3xl font-extrabold text-[#2D3330] font-serif-luxury block">{{ statusCounts.all }}</span>
                 </div>
                 <div class="w-12 h-12 bg-[#FAF7F2] text-[#4A6B5D] border border-[#E6E1DA] rounded-2xl flex items-center justify-center text-lg shadow-2xs">
@@ -313,7 +343,7 @@ function needsAction(status) {
             <!-- Confirmed / Active -->
             <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 flex items-center justify-between shadow-xs hover:border-[#4A6B5D]/30 transition-all">
                 <div class="space-y-1">
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">Confirmed Events</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_confirmed_events') }}</span>
                     <span class="text-3xl font-extrabold text-[#4A6B5D] font-serif-luxury block">
                         {{ statusCounts.confirmed + statusCounts.delivered }}
                     </span>
@@ -326,7 +356,7 @@ function needsAction(status) {
             <!-- Pending / Action Required -->
             <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 flex items-center justify-between shadow-xs hover:border-amber-500/30 transition-all">
                 <div class="space-y-1">
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">Awaiting Action</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_awaiting_action') }}</span>
                     <span class="text-3xl font-extrabold text-amber-600 font-serif-luxury block">
                         {{ statusCounts.pending_proposal + statusCounts.pending_deposit + statusCounts.payment_submitted }}
                     </span>
@@ -339,7 +369,7 @@ function needsAction(status) {
             <!-- Completed -->
             <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 flex items-center justify-between shadow-xs hover:border-blue-500/30 transition-all">
                 <div class="space-y-1">
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">Completed Jobs</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_completed_jobs') }}</span>
                     <span class="text-3xl font-extrabold text-blue-700 font-serif-luxury block">{{ statusCounts.completed }}</span>
                 </div>
                 <div class="w-12 h-12 bg-blue-50 text-blue-600 border border-blue-100 rounded-2xl flex items-center justify-center text-lg shadow-2xs">
@@ -360,7 +390,7 @@ function needsAction(status) {
                         <input 
                             v-model="searchQuery" 
                             type="text" 
-                            placeholder="Search by name, email, phone, order ID, or package..." 
+                            :placeholder="t('admin_search_orders_placeholder')" 
                             class="w-full h-11 pl-10 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
                             @input="handleSearchInput"
                         />
@@ -377,24 +407,24 @@ function needsAction(status) {
 
                 <!-- Status Filter Dropdown with custom arrow -->
                 <div class="flex items-center gap-3 shrink-0">
-                    <span class="hidden lg:inline text-[10px] font-bold text-[#8C8275] uppercase tracking-wider select-none">Filter Status:</span>
+                    <span class="hidden lg:inline text-[10px] font-bold text-[#8C8275] uppercase tracking-wider select-none">{{ t('admin_filter_status') }}</span>
                     <div class="relative w-full sm:w-48">
                         <select 
                             v-model="filterStatus"
                             @change="handleFilterChange"
                             class="w-full h-11 pl-4 pr-10 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
                         >
-                            <option value="">All Statuses</option>
-                            <option value="Pending Proposal">Pending Proposal Request</option>
-                            <option value="Proposal Sent">Proposal Sent</option>
-                            <option value="Pending">Pending Deposit</option>
-                            <option value="Payment Submitted">Payment Re-submitted</option>
-                            <option value="Confirmed">Confirmed</option>
-                            <option value="Delivered">Delivered</option>
-                            <option value="Completed">Completed</option>
-                            <option value="Deposit Rejected">Deposit Rejected</option>
-                            <option value="Balance Rejected">Balance Rejected</option>
-                            <option value="Cancelled">Cancelled</option>
+                            <option value="">{{ t('admin_all_statuses') }}</option>
+                            <option value="Pending Proposal">{{ t('admin_status_pending_proposal') }}</option>
+                            <option value="Proposal Sent">{{ t('admin_status_proposal_sent') }}</option>
+                            <option value="Pending">{{ t('admin_status_pending_deposit') }}</option>
+                            <option value="Payment Submitted">{{ t('admin_status_payment_resubmitted') }}</option>
+                            <option value="Confirmed">{{ t('confirmed') }}</option>
+                            <option value="Delivered">{{ t('delivered_tab') }}</option>
+                            <option value="Completed">{{ t('completed_tab') }}</option>
+                            <option value="Deposit Rejected">{{ t('deposit_rejected') }}</option>
+                            <option value="Balance Rejected">{{ t('balance_rejected') }}</option>
+                            <option value="Cancelled">{{ t('cancelled_tab') }}</option>
                         </select>
                         <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-[#8C8275]">
                             <i class="fas fa-chevron-down text-[10px]"></i>
@@ -407,7 +437,7 @@ function needsAction(status) {
             <div class="flex items-center justify-between pt-2 border-t border-[#E6E1DA]">
                 <div class="flex items-center gap-2 flex-wrap">
                     <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest">
-                        {{ orders.total }} order{{ orders.total !== 1 ? 's' : '' }} found
+                        {{ orders.total }} {{ t('admin_orders_found') }}
                     </span>
                     <span v-if="search"
                         class="inline-flex items-center gap-1.5 bg-[#4A6B5D]/10 text-[#4A6B5D] text-[10px] font-bold px-2.5 py-1 rounded-full">
@@ -418,11 +448,11 @@ function needsAction(status) {
                     </span>
                     <span v-if="currentStatus"
                         class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 text-[10px] font-bold px-2.5 py-1 rounded-full border border-amber-200">
-                        <i class="fas fa-filter text-[8px]"></i> {{ currentStatus }}
+                        <i class="fas fa-filter text-[8px]"></i> {{ getTranslatedStatus(currentStatus) }}
                     </span>
                 </div>
                 <span class="text-[10px] text-[#8C8275] font-semibold shrink-0">
-                    Page {{ orders.current_page }} / {{ orders.last_page }}
+                    {{ t('admin_page') }} {{ orders.current_page }} / {{ orders.last_page }}
                 </span>
             </div>
         </div>
@@ -432,14 +462,14 @@ function needsAction(status) {
             
             <!-- Table Header -->
             <div class="grid grid-cols-12 gap-3 px-6 py-3 border-b border-[#E6E1DA] bg-[#FAF7F2]">
-                <div class="col-span-1 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">No.</div>
-                <div class="col-span-1 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">ID</div>
-                <div class="col-span-2 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Customer</div>
-                <div class="col-span-2 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Package</div>
-                <div class="col-span-2 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">Event Date</div>
-                <div class="col-span-1 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">Total (RM)</div>
-                <div class="col-span-2 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">Status</div>
-                <div class="col-span-1 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">Actions</div>
+                <div class="col-span-1 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_number_col') }}</div>
+                <div class="col-span-1 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_id') }}</div>
+                <div class="col-span-2 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_customer') }}</div>
+                <div class="col-span-2 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('package') }}</div>
+                <div class="col-span-2 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_event_date') }}</div>
+                <div class="col-span-1 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_total_rm') }}</div>
+                <div class="col-span-2 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('status_label') }}</div>
+                <div class="col-span-1 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('action') }}</div>
             </div>
 
             <!-- Table Rows -->
@@ -462,7 +492,7 @@ function needsAction(status) {
                         <!-- Needs action dot -->
                         <span v-if="needsAction(order.status)"
                             class="ml-1 inline-block w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse align-middle"
-                            title="Requires action"></span>
+                            :title="t('admin_requires_action')"></span>
                     </div>
 
                     <!-- Customer -->
@@ -486,7 +516,7 @@ function needsAction(status) {
                     <div class="col-span-2 min-w-0">
                         <div class="flex flex-col gap-1">
                             <span v-if="order.is_custom_proposal" class="inline-flex self-start px-2 py-0.5 text-[9px] font-bold bg-[#FAF7F2] text-[#4A6B5D] border border-[#C5A880]/50 rounded uppercase tracking-wider">
-                                Custom Request
+                                {{ t('admin_custom_request') }}
                             </span>
                             <p class="text-xs font-semibold text-[#2D3330] truncate" :title="order.package_name">
                                 {{ order.package_name }}
@@ -517,7 +547,7 @@ function needsAction(status) {
                         <span class="inline-flex items-center gap-1.5 text-[9px] font-bold px-2.5 py-1 rounded-full border"
                             :class="getStatusBadge(order.status)">
                             <i class="fas text-[7px]" :class="getStatusIcon(order.status)"></i>
-                            {{ order.status }}
+                            {{ getTranslatedStatus(order.status) }}
                         </span>
                     </div>
 
@@ -546,16 +576,16 @@ function needsAction(status) {
                             <!-- Venue -->
                             <div class="bg-white rounded-2xl border border-[#E6E1DA] p-4 space-y-1.5">
                                 <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                    <i class="fas fa-map-marker-alt text-[#C5A880]"></i> Event Venue
+                                    <i class="fas fa-map-marker-alt text-[#C5A880]"></i> {{ t('admin_event_venue') }}
                                 </span>
                                 <p class="text-xs text-[#2D3330] font-semibold leading-relaxed whitespace-pre-line">{{ order.delivery_address }}</p>
                                 <div v-if="order.delivery_zone" class="mt-2 pt-2 border-t border-[#E6E1DA]/60 text-[10px] text-[#5C6460]">
-                                    <span class="font-bold block">Delivery Option:</span>
+                                    <span class="font-bold block">{{ t('admin_delivery_option') }}:</span>
                                     <span>{{ order.delivery_zone }} (RM {{ parseFloat(order.delivery_fee).toFixed(2) }})</span>
                                 </div>
                                 <div v-if="order.notes" class="mt-2 pt-2 border-t border-[#E6E1DA]/60 text-[10px]">
                                     <span class="font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5 mb-1">
-                                        <i class="fas fa-sticky-note text-[#C5A880]"></i> Customer Note
+                                        <i class="fas fa-sticky-note text-[#C5A880]"></i> {{ t('customer_notes') }}
                                     </span>
                                     <p class="text-xs text-[#2D3330] font-semibold leading-relaxed whitespace-pre-line">{{ order.notes }}</p>
                                 </div>
@@ -564,14 +594,14 @@ function needsAction(status) {
                             <!-- Order Info -->
                              <div class="bg-white rounded-2xl border border-[#E6E1DA] p-4 space-y-3">
                                  <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                     <i class="fas fa-info-circle text-[#C5A880]"></i> Order Details
+                                     <i class="fas fa-info-circle text-[#C5A880]"></i> {{ t('itemized_breakdown') }}
                                  </span>
                                  <div class="space-y-2 text-xs">
                                      <!-- Itemized list -->
                                      <div v-for="item in order.items" :key="item.id" class="border-b border-[#E6E1DA]/60 pb-2 last:border-0 last:pb-0">
                                          <div class="flex justify-between items-start">
                                              <span class="font-bold text-[#2D3330]">{{ item.package?.package_name || order.package_name }}</span>
-                                             <span class="text-[10px] text-[#8C8275] font-semibold">{{ item.quantity }} pax</span>
+                                             <span class="text-[10px] text-[#8C8275] font-semibold">{{ item.quantity }} {{ t('admin_pax') }}</span>
                                          </div>
                                           <!-- Dishes grouped by category -->
                                           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
@@ -585,7 +615,7 @@ function needsAction(status) {
                                                       <li v-for="dish in dishes" :key="dish.name" class="text-[9px] font-bold text-[#5C6460] flex items-center gap-1">
                                                           <i class="fas fa-check text-[6px] text-[#4A6B5D]"></i> 
                                                           <span>{{ dish.name }}</span>
-                                                          <span v-if="dish.isDefault" class="text-[7px] text-[#8C8275] italic font-normal">(Default)</span>
+                                                          <span v-if="dish.isDefault" class="text-[7px] text-[#8C8275] italic font-normal">{{ t('admin_default_dish') }}</span>
                                                       </li>
                                                   </ul>
                                               </div>
@@ -593,7 +623,7 @@ function needsAction(status) {
 
                                           <!-- Selected Addons -->
                                           <div v-if="item.selected_addons && item.selected_addons.length > 0" class="mt-2.5 space-y-1">
-                                              <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block">Add-ons:</span>
+                                              <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_addons') }}</span>
                                               <div class="flex flex-wrap gap-1">
                                                   <span v-for="addon in item.selected_addons" :key="addon" class="bg-amber-50 border border-amber-200 text-[8px] text-amber-800 font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
                                                       <i class="fas fa-plus text-[6px] text-[#C5A880]"></i> {{ addon }}
@@ -602,29 +632,29 @@ function needsAction(status) {
                                           </div>
                                      </div>
                                      <div class="flex justify-between pt-1.5 border-t border-[#E6E1DA]/60">
-                                         <span class="text-[#8C8275] font-semibold">Subtotal</span>
+                                         <span class="text-[#8C8275] font-semibold">{{ t('admin_subtotal') }}</span>
                                          <span class="text-[#2D3330] font-bold">RM {{ (parseFloat(order.total_price) - parseFloat(order.delivery_fee || 0) + parseFloat(order.discount_amount || 0)).toFixed(2) }}</span>
                                      </div>
                                      <div v-if="parseFloat(order.delivery_fee) > 0" class="flex justify-between">
-                                         <span class="text-[#8C8275] font-semibold">Delivery Fee</span>
+                                         <span class="text-[#8C8275] font-semibold">{{ t('admin_delivery_fee') }}</span>
                                          <span class="text-[#2D3330] font-bold">RM {{ parseFloat(order.delivery_fee).toFixed(2) }}</span>
                                      </div>
                                      <div v-if="parseFloat(order.discount_amount) > 0" class="flex justify-between text-emerald-700 font-semibold">
-                                         <span class="font-semibold">Discount</span>
+                                         <span class="font-semibold">{{ t('admin_discount') }}</span>
                                          <span>- RM {{ parseFloat(order.discount_amount).toFixed(2) }}</span>
                                      </div>
                                      <div class="flex justify-between border-t border-dashed border-[#E6E1DA]/60 pt-1">
-                                         <span class="text-[#8C8275] font-semibold">Grand Total</span>
+                                         <span class="text-[#8C8275] font-semibold">{{ t('admin_grand_total') }}</span>
                                          <span class="text-sm font-black text-[#2D3330]">RM {{ parseFloat(order.total_price).toFixed(2) }}</span>
                                      </div>
                                      <div class="flex justify-between">
-                                         <span class="text-[#8C8275] font-semibold">Status</span>
+                                         <span class="text-[#8C8275] font-semibold">{{ t('status_label') }}</span>
                                          <span class="inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded-full border" :class="getStatusBadge(order.status)">
-                                             {{ order.status }}
+                                             {{ getTranslatedStatus(order.status) }}
                                          </span>
                                      </div>
                                      <div v-if="order.admin_note" class="mt-1 pt-1.5 border-t border-[#E6E1DA]">
-                                         <span class="text-[#8C8275] font-semibold block mb-0.5">Admin Note</span>
+                                         <span class="text-[#8C8275] font-semibold block mb-0.5">{{ t('admin_note_label') }}</span>
                                          <p class="text-[#2D3330] font-medium leading-relaxed text-[10px] bg-rose-50 border border-rose-100 rounded-lg px-2 py-1.5">{{ order.admin_note }}</p>
                                      </div>
                                  </div>
@@ -633,7 +663,7 @@ function needsAction(status) {
                             <!-- Actions Panel -->
                             <div class="bg-white rounded-2xl border border-[#E6E1DA] p-4 space-y-3">
                                 <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                    <i class="fas fa-bolt text-[#C5A880]"></i> Quick Actions
+                                    <i class="fas fa-bolt text-[#C5A880]"></i> {{ t('quick_actions') }}
                                 </span>
 
                                 <!-- View Receipt -->
@@ -641,18 +671,18 @@ function needsAction(status) {
                                     <button v-if="order.payment_proof"
                                         @click.stop="openReceipt(order)"
                                         class="w-full flex items-center justify-center gap-2 bg-[#FAF7F2] hover:bg-[#F0EBE2] border border-[#E6E1DA] text-[#5C6460] font-bold py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer">
-                                        <i class="fas fa-file-invoice-dollar text-blue-600"></i> View Payment Slip
+                                        <i class="fas fa-file-invoice-dollar text-blue-600"></i> {{ t('admin_view_slip') }}
                                     </button>
                                     <div v-else
                                         class="w-full flex items-center justify-center gap-2 bg-[#FAF7F2] border border-dashed border-[#E6E1DA] text-[#B5AFA8] font-semibold py-2.5 rounded-xl text-xs">
-                                        <i class="fas fa-times-circle"></i> No slip uploaded
+                                        <i class="fas fa-times-circle"></i> {{ t('admin_no_slip_uploaded') }}
                                     </div>
 
                                     <!-- Download Kitchen Slip -->
                                     <a :href="route('orders.invoice.pdf', order.id)"
                                         @click.stop
                                         class="w-full flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors">
-                                        <i class="fas fa-file-pdf text-[10px]"></i> Download Kitchen Slip
+                                        <i class="fas fa-file-pdf text-[10px]"></i> {{ t('admin_kitchen_slip') }}
                                     </a>
 
                                      <!-- Proposal Actions -->
@@ -661,13 +691,13 @@ function needsAction(status) {
                                              @click.stop="openProposalBuilder(order)"
                                              class="w-full flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer"
                                          >
-                                             <i class="fas fa-utensils"></i> Build Custom Menu
+                                             <i class="fas fa-utensils"></i> {{ t('admin_build_custom_menu') }}
                                          </button>
                                      </div>
 
                                      <div v-else-if="order.status === 'Proposal Sent'" class="pt-2">
                                          <div class="p-3 bg-emerald-50 border border-emerald-100 text-xs rounded-xl text-center text-[#4A6B5D] font-semibold">
-                                             <i class="fas fa-check-circle"></i> Proposal has been sent to client (Price: RM {{ parseFloat(order.total_price).toFixed(2) }}). Awaiting client approval.
+                                             <i class="fas fa-check-circle"></i> {{ t('admin_proposal_sent_waiting').replace('{price}', parseFloat(order.total_price).toFixed(2)) }}
                                          </div>
                                      </div>
 
@@ -677,13 +707,13 @@ function needsAction(status) {
                                              @click.stop="handleVerify(order.id, 'approve')"
                                              :disabled="verifyForm.processing"
                                              class="flex items-center justify-center gap-1.5 bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-xs">
-                                             <i class="fas fa-check text-[10px]"></i> Approve
+                                             <i class="fas fa-check text-[10px]"></i> {{ t('admin_approve') }}
                                          </button>
                                          <button
                                              @click.stop="handleVerify(order.id, 'reject')"
                                              :disabled="verifyForm.processing"
                                              class="flex items-center justify-center gap-1.5 bg-rose-600 hover:bg-rose-700 disabled:opacity-60 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-xs">
-                                             <i class="fas fa-times text-[10px]"></i> Reject
+                                             <i class="fas fa-times text-[10px]"></i> {{ t('admin_reject') }}
                                          </button>
                                      </div>
 
@@ -693,7 +723,7 @@ function needsAction(status) {
                                              @click.stop="handleDeliver(order.id)"
                                              class="w-full flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-xs"
                                          >
-                                             <i class="fas fa-truck text-[10px]"></i> Mark as Delivered
+                                             <i class="fas fa-truck text-[10px]"></i> {{ t('admin_mark_as_delivered') }}
                                          </button>
                                      </div>
                                 </div>
@@ -710,23 +740,23 @@ function needsAction(status) {
                 <i class="fas fa-receipt text-[#8C8275]"></i>
             </div>
             <div>
-                <h4 class="text-[#2D3330] font-bold">No orders found.</h4>
+                <h4 class="text-[#2D3330] font-bold">{{ t('admin_no_orders_found') }}</h4>
                 <p class="text-xs text-[#8C8275] mt-1 font-semibold">
-                    {{ search || currentStatus ? 'Try adjusting your search or filter criteria.' : 'No booking orders have been placed yet.' }}
+                    {{ search || currentStatus ? t('admin_no_orders_filter_desc') : t('admin_no_orders_placed_desc') }}
                 </p>
             </div>
             <button v-if="search || currentStatus"
                 @click="searchQuery = ''; filterStatus = ''; applyFilters();"
                 class="inline-flex items-center gap-2 text-xs font-bold text-[#4A6B5D] hover:underline cursor-pointer">
-                <i class="fas fa-undo"></i> Clear all filters
+                <i class="fas fa-undo"></i> {{ t('admin_clear_all_filters') }}
             </button>
         </div>
 
         <!-- Pagination Bar -->
-        <div v-if="orders.last_page > 1" class="bg-white rounded-3xl border border-[#E6E1DA] p-4 shadow-xs">
+        <div v-if="orders.data.length > 0" class="bg-white rounded-3xl border border-[#E6E1DA] p-4 shadow-xs">
             <div class="flex flex-wrap items-center justify-between gap-4">
                 <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider">
-                    Showing {{ orders.from }}–{{ orders.to }} of {{ orders.total }} orders
+                    {{ t('admin_showing_orders').replace('{from}', orders.from).replace('{to}', orders.to).replace('{total}', orders.total) }}
                 </span>
                 <div class="flex items-center gap-1.5 flex-wrap">
                     <button @click="goToPage(orders.prev_page_url)" :disabled="!orders.prev_page_url"
@@ -766,9 +796,9 @@ function needsAction(status) {
                     <!-- Modal Header -->
                     <div class="flex items-center justify-between px-7 py-5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
                         <div>
-                            <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Payment Receipt Slip</h3>
+                            <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_payment_receipt_slip') }}</h3>
                             <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5" v-if="activeReceiptOrder">
-                                Order #SSC-{{ activeReceiptOrder.id }} — {{ activeReceiptOrder.user?.full_name || activeReceiptOrder.user?.name }}
+                                {{ t('admin_booking') }} #SSC-{{ activeReceiptOrder.id }} — {{ activeReceiptOrder.user?.full_name || activeReceiptOrder.user?.name }}
                             </p>
                         </div>
                         <button @click="closeReceiptModal"
@@ -789,7 +819,7 @@ function needsAction(status) {
                     <div class="px-7 pb-6 flex items-center justify-between gap-3 flex-wrap">
                         <a :href="activeReceiptUrl" target="_blank"
                             class="inline-flex items-center gap-1.5 text-xs font-bold text-[#C5A880] hover:underline">
-                            <i class="fas fa-external-link-alt text-[10px]"></i> Open in New Tab
+                            <i class="fas fa-external-link-alt text-[10px]"></i> {{ t('admin_open_new_tab') }}
                         </a>
                         
                         <div v-if="activeReceiptOrder && needsAction(activeReceiptOrder.status)" class="flex items-center gap-2">
@@ -797,13 +827,13 @@ function needsAction(status) {
                                 @click="handleVerify(activeReceiptOrder.id, 'reject')"
                                 :disabled="verifyForm.processing"
                                 class="flex items-center gap-1.5 border border-rose-200 bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-700 font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-all cursor-pointer">
-                                <i class="fas fa-times text-[10px]"></i> Reject
+                                <i class="fas fa-times text-[10px]"></i> {{ t('admin_reject') }}
                             </button>
                             <button
                                 @click="handleVerify(activeReceiptOrder.id, 'approve')"
                                 :disabled="verifyForm.processing"
                                 class="flex items-center gap-1.5 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-xs">
-                                <i class="fas fa-check text-[10px]"></i> Approve Payment
+                                <i class="fas fa-check text-[10px]"></i> {{ t('admin_approve_payment') }}
                             </button>
                         </div>
                     </div>
@@ -826,9 +856,9 @@ function needsAction(status) {
                     <!-- Modal Header -->
                     <div class="flex items-center justify-between px-7 py-5 border-b border-[#E6E1DA] bg-[#FAF7F2] shrink-0">
                         <div>
-                            <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">Build Custom Menu Proposal</h3>
+                            <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_build_custom_proposal_title') }}</h3>
                             <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5" v-if="selectedProposalOrder">
-                                Order #SSC-{{ selectedProposalOrder.id }} — {{ selectedProposalOrder.user?.full_name || selectedProposalOrder.user?.name }}
+                                {{ t('admin_booking') }} #SSC-{{ selectedProposalOrder.id }} — {{ selectedProposalOrder.user?.full_name || selectedProposalOrder.user?.name }}
                             </p>
                         </div>
                         <button @click="closeProposalModal"
@@ -843,20 +873,20 @@ function needsAction(status) {
                         <!-- Client Request Brief -->
                         <div v-if="selectedProposalOrder" class="bg-[#FAF7F2]/60 border border-[#E6E1DA] rounded-2xl p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
-                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">Target Budget</span>
+                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('admin_target_budget') }}</span>
                                 <span class="font-extrabold text-[#C5A880] text-sm font-serif-luxury">RM {{ parseFloat(selectedProposalOrder.total_price).toFixed(2) }}</span>
                             </div>
                             <div>
-                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">Guest Count</span>
-                                <span class="font-bold text-[#2D3330]">{{ selectedProposalOrder.items?.[0]?.quantity || '-' }} Pax</span>
+                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('guest_count') }}</span>
+                                <span class="font-bold text-[#2D3330]">{{ selectedProposalOrder.items?.[0]?.quantity || '-' }} {{ t('admin_pax') }}</span>
                             </div>
                             <div>
-                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">Event Date & Time</span>
+                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('admin_event_date_time') }}</span>
                                 <span class="font-bold text-[#2D3330]">{{ selectedProposalOrder.delivery_date }} ({{ selectedProposalOrder.delivery_time }})</span>
                             </div>
                             <div class="sm:col-span-3 border-t border-[#E6E1DA] pt-3">
-                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">Client Wishlist / Special Notes</span>
-                                <p class="text-[#5C6460] leading-relaxed italic">"{{ selectedProposalOrder.admin_note || 'No notes provided' }}"</p>
+                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('admin_client_wishlist') }}</span>
+                                <p class="text-[#5C6460] leading-relaxed italic">"{{ selectedProposalOrder.admin_note || t('admin_no_notes_provided') }}"</p>
                             </div>
                         </div>
 
@@ -865,7 +895,7 @@ function needsAction(status) {
                             <!-- Custom Final Price & Admin Note -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="space-y-1.5">
-                                    <label class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">Proposed Final Price (RM) *</label>
+                                    <label class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_proposed_final_price') }}</label>
                                     <div class="relative">
                                         <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-[#8C8275]">RM</span>
                                         <input 
@@ -875,17 +905,17 @@ function needsAction(status) {
                                             step="0.01"
                                             required
                                             class="w-full pl-12 pr-4 h-11 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] text-[#2D3330]"
-                                            placeholder="Enter finalized total cost"
+                                            :placeholder="t('admin_enter_finalized_cost_placeholder')"
                                         />
                                     </div>
                                 </div>
                                 <div class="space-y-1.5">
-                                    <label class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">Note / Message to Customer</label>
+                                    <label class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_note_to_customer') }}</label>
                                     <input 
                                         v-model="proposalForm.admin_note" 
                                         type="text" 
                                         class="w-full px-4 h-11 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] text-[#2D3330]"
-                                        placeholder="Add a friendly note or explanation..."
+                                        :placeholder="t('admin_note_placeholder')"
                                     />
                                 </div>
                             </div>
@@ -893,8 +923,8 @@ function needsAction(status) {
                             <!-- Dish Swapper / Wishlist Selector -->
                             <div class="space-y-4 pt-4 border-t border-[#E6E1DA]">
                                 <div>
-                                    <h4 class="font-serif-luxury text-base text-[#2D3330] font-normal uppercase tracking-wide">Assemble Proposal Menu</h4>
-                                    <p class="text-[10px] text-[#8C8275] font-light mt-0.5">Select and swap dishes. Checkboxes marked as "Wishlist" represent customer preferences.</p>
+                                    <h4 class="font-serif-luxury text-base text-[#2D3330] font-normal uppercase tracking-wide">{{ t('admin_assemble_proposal_menu') }}</h4>
+                                    <p class="text-[10px] text-[#8C8275] font-light mt-0.5">{{ t('admin_assemble_proposal_desc') }}</p>
                                 </div>
 
                                 <div class="space-y-6">
@@ -918,7 +948,7 @@ function needsAction(status) {
                                                 <div class="min-w-0">
                                                     <span class="font-bold text-xs text-[#2D3330] block truncate">{{ dish.name }}</span>
                                                     <span v-if="isDishInWishlist(dish.id)" class="text-[8px] font-bold text-[#FAF7F2] bg-[#4A6B5D] px-1.5 py-0.5 rounded-full uppercase tracking-wider inline-block mt-0.5">
-                                                        Wishlist
+                                                        {{ t('admin_wishlist_tag') }}
                                                     </span>
                                                 </div>
                                             </label>
@@ -934,14 +964,14 @@ function needsAction(status) {
                                     @click="closeProposalModal"
                                     class="px-5 py-2.5 border border-[#E6E1DA] hover:bg-[#FAF7F2] text-[#8C8275] rounded-xl text-xs uppercase tracking-widest font-semibold transition-colors cursor-pointer"
                                 >
-                                    Cancel
+                                    {{ t('cancel') }}
                                 </button>
                                 <button 
                                     type="submit" 
                                     :disabled="proposalForm.processing"
                                     class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest font-semibold transition-colors cursor-pointer shadow-xs"
                                 >
-                                    {{ proposalForm.processing ? 'Sending...' : 'Send Menu Proposal' }}
+                                    {{ proposalForm.processing ? t('sending_status') : t('admin_send_menu_proposal') }}
                                 </button>
                             </div>
                         </form>

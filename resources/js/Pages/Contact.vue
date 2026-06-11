@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import FrontLayout from '@/Layouts/FrontLayout.vue';
 import { useLocalization } from '@/Composables/useLocalization';
 import TextInput from '@/Components/TextInput.vue';
@@ -61,13 +61,15 @@ const handleContactSubmit = () => {
 };
 
 const handleWhatsAppClick = () => {
+    const page = usePage();
     const text = t('inquiry_whatsapp_text')
         .replace('{name}', contactForm.value.name || 'Pelanggan')
         .replace('{date}', contactForm.value.date || 'TBD')
         .replace('{pax}', contactForm.value.pax || 'TBD')
         .replace('{type}', t(`contact_type_${contactForm.value.type}`))
         .replace('{message}', contactForm.value.message || 'Tiada mesej tambahan.');
-    const url = `https://wa.me/60123456789?text=${encodeURIComponent(text)}`;
+    const phoneNum = (page.props.settings.contact_phone || '019-2094670').replace(/[^0-9]/g, '').replace(/^0/, '60');
+    const url = `https://wa.me/${phoneNum}?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
 };
 </script>
@@ -81,10 +83,11 @@ const handleWhatsAppClick = () => {
             <div class="absolute inset-0 opacity-10 bg-[url('/img/hero_catering.png')] bg-cover bg-center"></div>
             <div class="absolute inset-0 bg-gradient-to-br from-[#1C201E] via-[#1C201E]/80 to-[#4A6B5D]/30"></div>
             <div class="relative max-w-7xl mx-auto px-6 lg:px-8 text-center space-y-6 z-10">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#A8C5B8] text-xs font-semibold tracking-widest uppercase">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#4A6B5D] animate-pulse"></span>
-                    {{ t('contact_us') }}
-                </span>
+                <div class="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#A8C5B8]">
+                    <Link href="/" class="hover:text-white transition-colors duration-200">{{ t('home_nav') }}</Link>
+                    <span class="text-white/30 text-[10px] font-normal">/</span>
+                    <span class="text-white/60">{{ t('contact_nav') }}</span>
+                </div>
                 <h1 class="text-5xl lg:text-7xl font-light tracking-tight font-serif-luxury leading-[1.1]">
                     {{ t('contact_title') }}
                 </h1>
@@ -113,13 +116,13 @@ const handleWhatsAppClick = () => {
                         <ul class="space-y-4">
                             <!-- Alamat Kami -->
                             <li class="flex items-center justify-between gap-4 p-3 -mx-3 rounded-2xl hover:bg-white hover:shadow-xs border border-transparent hover:border-[#E6E1DA] transition-all duration-300 group">
-                                <a href="https://www.google.com/maps/search/?api=1&query=Gong+Badak%2C+Kuala+Terengganu%2C+Terengganu%2C+Malaysia" target="_blank" class="flex items-start gap-4 flex-grow">
+                                <a :href="'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent($page.props.settings.business_address || 'Gong Badak, Kuala Terengganu, Terengganu, Malaysia')" target="_blank" class="flex items-start gap-4 flex-grow">
                                     <span class="w-11 h-11 flex-shrink-0 rounded-2xl bg-white border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-sm shadow-xs transition-colors group-hover:border-[#4A6B5D]/30 group-hover:bg-[#FAF7F2]">
                                         <i class="fa fa-map-marker-alt"></i>
                                     </span>
                                     <div class="space-y-0.5">
                                         <span class="font-bold text-[#2D3330] block text-xs uppercase tracking-wider">{{ t('address_label') }}</span>
-                                        <span class="text-sm text-[#5C6460] font-light group-hover:text-[#4A6B5D] transition-colors">Gong Badak, Kuala Terengganu, Terengganu, Malaysia</span>
+                                        <span class="text-sm text-[#5C6460] font-light group-hover:text-[#4A6B5D] transition-colors">{{ $page.props.settings.business_address || 'Gong Badak, Kuala Terengganu, Terengganu, Malaysia' }}</span>
                                     </div>
                                 </a>
                                 <div class="pr-2 flex items-center">
@@ -129,13 +132,13 @@ const handleWhatsAppClick = () => {
 
                             <!-- Hotline Langsung -->
                             <li class="flex items-center justify-between gap-4 p-3 -mx-3 rounded-2xl hover:bg-white hover:shadow-xs border border-transparent hover:border-[#E6E1DA] transition-all duration-300 group">
-                                <a href="tel:+60123456789" class="flex items-start gap-4 flex-grow">
+                                <a :href="'tel:' + ($page.props.settings.contact_phone || '019-2094670')" class="flex items-start gap-4 flex-grow">
                                     <span class="w-11 h-11 flex-shrink-0 rounded-2xl bg-white border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-sm shadow-xs transition-colors group-hover:border-[#4A6B5D]/30 group-hover:bg-[#FAF7F2]">
                                         <i class="fa fa-phone-alt"></i>
                                     </span>
                                     <div class="space-y-0.5">
                                         <span class="font-bold text-[#2D3330] block text-xs uppercase tracking-wider">{{ t('hotline_label') }}</span>
-                                        <span class="text-sm text-[#5C6460] font-light group-hover:text-[#4A6B5D] transition-colors">+60 12-345 6789</span>
+                                        <span class="text-sm text-[#5C6460] font-light group-hover:text-[#4A6B5D] transition-colors">{{ $page.props.settings.contact_phone || '019-2094670' }}</span>
                                     </div>
                                 </a>
                                 <div class="pr-2 flex items-center">
@@ -145,13 +148,13 @@ const handleWhatsAppClick = () => {
 
                             <!-- E-mel -->
                             <li class="flex items-center justify-between gap-4 p-3 -mx-3 rounded-2xl hover:bg-white hover:shadow-xs border border-transparent hover:border-[#E6E1DA] transition-all duration-300 group">
-                                <a href="mailto:info@smartservecatering.com" class="flex items-start gap-4 flex-grow">
+                                <a :href="'mailto:' + ($page.props.settings.contact_email || 'info@smartservecatering.com')" class="flex items-start gap-4 flex-grow">
                                     <span class="w-11 h-11 flex-shrink-0 rounded-2xl bg-white border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-sm shadow-xs transition-colors group-hover:border-[#4A6B5D]/30 group-hover:bg-[#FAF7F2]">
                                         <i class="fa fa-envelope"></i>
                                     </span>
                                     <div class="space-y-0.5">
                                         <span class="font-bold text-[#2D3330] block text-xs uppercase tracking-wider">{{ t('email_label') }}</span>
-                                        <span class="text-sm text-[#5C6460] font-light group-hover:text-[#4A6B5D] transition-colors">info@smartservecatering.com</span>
+                                        <span class="text-sm text-[#5C6460] font-light group-hover:text-[#4A6B5D] transition-colors">{{ $page.props.settings.contact_email || 'info@smartservecatering.com' }}</span>
                                     </div>
                                 </a>
                                 <div class="pr-2 flex items-center">
@@ -161,7 +164,7 @@ const handleWhatsAppClick = () => {
 
                             <!-- WhatsApp -->
                             <li class="flex items-center justify-between gap-4 p-3 -mx-3 rounded-2xl hover:bg-white hover:shadow-xs border border-transparent hover:border-[#E6E1DA] transition-all duration-300 group">
-                                <a href="https://wa.me/60123456789" target="_blank" class="flex items-start gap-4 flex-grow">
+                                <a :href="'https://wa.me/' + ($page.props.settings.contact_phone || '019-2094670').replace(/[^0-9]/g, '').replace(/^0/, '60')" target="_blank" class="flex items-start gap-4 flex-grow">
                                     <span class="w-11 h-11 flex-shrink-0 rounded-2xl bg-white border border-[#E6E1DA] text-emerald-600 flex items-center justify-center text-sm shadow-xs transition-colors group-hover:border-emerald-500/30 group-hover:bg-emerald-50/50">
                                         <i class="fab fa-whatsapp"></i>
                                     </span>
@@ -206,16 +209,8 @@ const handleWhatsAppClick = () => {
                             <h4 class="text-[10px] font-bold text-[#4A6B5D] uppercase tracking-widest border-b border-[#E6E1DA]/60 pb-3">{{ t('business_hours_title') }}</h4>
                             <ul class="space-y-2 text-xs text-[#5C6460] font-light">
                                 <li class="flex justify-between">
-                                    <span>{{ t('weekday_label') }}</span>
+                                    <span>{{ t('business_days_label') }}</span>
                                     <span class="font-semibold text-[#2D3330]">8:00 AM – 6:00 PM</span>
-                                </li>
-                                <li class="flex justify-between">
-                                    <span>{{ t('saturday_label') }}</span>
-                                    <span class="font-semibold text-[#2D3330]">9:00 AM – 4:00 PM</span>
-                                </li>
-                                <li class="flex justify-between">
-                                    <span>{{ t('sunday_label') }}</span>
-                                    <span class="font-semibold text-[#8C8275]">{{ t('booking_only_label') }}</span>
                                 </li>
                             </ul>
                         </div>

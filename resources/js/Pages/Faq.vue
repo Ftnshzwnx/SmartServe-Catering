@@ -62,7 +62,11 @@ const faqs = computed(() => [
         <section class="py-20 bg-white border-b border-[#E6E1DA] font-sans-modern">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="max-w-2xl space-y-4">
-                    <span class="text-xs font-semibold text-[#4A6B5D] tracking-widest uppercase block">{{ t('faq') }}</span>
+                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#8C8275]">
+                        <Link href="/" class="hover:text-[#4A6B5D] transition-colors duration-200">{{ t('home_nav') }}</Link>
+                        <span class="text-[#D1C8BD] text-[10px] font-normal">/</span>
+                        <span class="text-[#4A6B5D]">{{ t('faq_nav') }}</span>
+                    </div>
                     <h1 class="text-5xl lg:text-6xl font-light text-[#1C201E] font-serif-luxury leading-tight">
                         {{ t('faq_title_1') }} <span class="italic text-[#4A6B5D]">{{ t('faq_title_2') }}</span> {{ t('faq_title_3') }}
                     </h1>
@@ -88,7 +92,7 @@ const faqs = computed(() => [
                         <div class="text-[10px] text-[#8C8275] uppercase tracking-widest font-semibold">{{ t('stats_halal') }}</div>
                     </div>
                     <div class="bg-white border border-[#E6E1DA] rounded-2xl p-5 text-center space-y-1">
-                        <div class="text-2xl font-light text-[#4A6B5D] font-serif-luxury">15+</div>
+                        <div class="text-2xl font-light text-[#4A6B5D] font-serif-luxury">13+</div>
                         <div class="text-[10px] text-[#8C8275] uppercase tracking-widest font-semibold">{{ t('years_serving') }}</div>
                     </div>
                 </div>
@@ -135,7 +139,7 @@ const faqs = computed(() => [
                         <Link href="/contact" class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-7 py-3 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 whitespace-nowrap">
                             {{ t('contact_us') }}
                         </Link>
-                        <a href="https://wa.me/60123456789" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-7 py-3 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 flex items-center gap-2 whitespace-nowrap">
+                        <a :href="'https://wa.me/' + ($page.props.settings.contact_phone || '019-2094670').replace(/[^0-9]/g, '').replace(/^0/, '60')" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-7 py-3 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 flex items-center gap-2 whitespace-nowrap">
                             <i class="fab fa-whatsapp"></i> WhatsApp
                         </a>
                     </div>

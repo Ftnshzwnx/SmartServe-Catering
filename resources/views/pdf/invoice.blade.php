@@ -128,7 +128,7 @@
                     <div class="details-title">Maklumat Syarikat:</div>
                     <strong>{{ $settings['business_name'] ?? 'SmartServe Catering' }}</strong><br>
                     {!! nl2br(e($settings['business_address'] ?? "Gong Badak, Kuala Terengganu,\nTerengganu, Malaysia")) !!}<br>
-                    Telefon: {{ $settings['contact_phone'] ?? '+60 12-345 6789' }}<br>
+                    Telefon: {{ $settings['contact_phone'] ?? '019-2094670' }}<br>
                     E-mel: {{ $settings['contact_email'] ?? 'info@smartservecatering.com' }}
                 </td>
                 <td class="details-col" style="padding-left: 50px;">
