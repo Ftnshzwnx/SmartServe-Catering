@@ -62,6 +62,27 @@ Route::get('/contact', function () {
     ]);
 })->name('contact');
 
+// Contact form submission — sends email to admin
+Route::post('/contact', function (\Illuminate\Http\Request $request) {
+    $validated = $request->validate([
+        'name'    => 'required|string|max:100',
+        'email'   => 'required|email|max:100',
+        'phone'   => 'required|string|max:20',
+        'date'    => 'required|date',
+        'pax'     => 'required|integer|min:1',
+        'type'    => 'required|string',
+        'message' => 'required|string|max:2000',
+    ]);
+
+    $adminEmail = \App\Models\Setting::where('setting_key', 'contact_email')->value('setting_value')
+        ?? config('mail.from.address');
+
+    \Illuminate\Support\Facades\Mail::to($adminEmail)
+        ->queue(new \App\Mail\ContactInquiry($validated));
+
+    return back()->with('success', 'Mesej anda telah dihantar! Kami akan menghubungi anda tidak lama lagi.');
+})->name('contact.send');
+
 // Packages page
 Route::get('/packages', function () {
     $packages = \Illuminate\Support\Facades\Schema::hasTable('packages')

@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
+import { Head, Link, usePage, useForm } from '@inertiajs/vue3';
 import FrontLayout from '@/Layouts/FrontLayout.vue';
 import { useLocalization } from '@/Composables/useLocalization';
 import TextInput from '@/Components/TextInput.vue';
@@ -15,59 +15,38 @@ const props = defineProps({
 
 const { t } = useLocalization();
 const { toast } = useToast();
+const page = usePage();
 
-// Contact Form Logic
-const contactForm = ref({
+// Contact Form — backed by Inertia useForm for real server submission
+const contactForm = useForm({
     name: '',
     email: '',
     phone: '',
     date: '',
     pax: '',
     type: 'wedding',
-    message: ''
+    message: '',
 });
 
-const contactErrors = ref({});
-const contactSuccess = ref(false);
-const contactSubmitting = ref(false);
-
-const validateContactForm = () => {
-    const errors = {};
-    if (!contactForm.value.name.trim()) errors.name = t('error_name_required');
-    if (!contactForm.value.email.trim()) {
-        errors.email = t('error_email_required');
-    } else if (!/\S+@\S+\.\S+/.test(contactForm.value.email)) {
-        errors.email = t('error_email_invalid');
-    }
-    if (!contactForm.value.phone.trim()) errors.phone = t('error_phone_required');
-    if (!contactForm.value.date) errors.date = t('error_date_required');
-    if (!contactForm.value.pax || parseInt(contactForm.value.pax) <= 0) errors.pax = t('error_pax_required');
-    if (!contactForm.value.message.trim()) errors.message = t('error_message_required');
-
-    contactErrors.value = errors;
-    return Object.keys(errors).length === 0;
-};
+const contactSuccess = computed(() => !!page.props.flash?.success);
 
 const handleContactSubmit = () => {
-    if (!validateContactForm()) return;
-    contactSubmitting.value = true;
-    setTimeout(() => {
-        contactSubmitting.value = false;
-        contactSuccess.value = true;
-        toast(t('inquiry_success'));
-        contactForm.value = { name: '', email: '', phone: '', date: '', pax: '', type: 'wedding', message: '' };
-        contactErrors.value = {};
-    }, 1200);
+    contactForm.post(route('contact.send'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            toast(page.props.flash?.success || t('inquiry_success'));
+            contactForm.reset();
+        },
+    });
 };
 
 const handleWhatsAppClick = () => {
-    const page = usePage();
     const text = t('inquiry_whatsapp_text')
-        .replace('{name}', contactForm.value.name || 'Pelanggan')
-        .replace('{date}', contactForm.value.date || 'TBD')
-        .replace('{pax}', contactForm.value.pax || 'TBD')
-        .replace('{type}', t(`contact_type_${contactForm.value.type}`))
-        .replace('{message}', contactForm.value.message || 'Tiada mesej tambahan.');
+        .replace('{name}', contactForm.name || 'Pelanggan')
+        .replace('{date}', contactForm.date || 'TBD')
+        .replace('{pax}', contactForm.pax || 'TBD')
+        .replace('{type}', t(`contact_type_${contactForm.type}`))
+        .replace('{message}', contactForm.message || 'Tiada mesej tambahan.');
     const phoneNum = (page.props.settings.contact_phone || '019-2094670').replace(/[^0-9]/g, '').replace(/^0/, '60');
     const url = `https://wa.me/${phoneNum}?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
@@ -244,7 +223,7 @@ const handleWhatsAppClick = () => {
                                             v-model="contactForm.name"
                                             :placeholder="t('placeholder_name')"
                                         />
-                                        <p v-if="contactErrors.name" class="mt-1 text-xs text-red-500">{{ contactErrors.name }}</p>
+                                        <p v-if="contactForm.errors.name" class="mt-1 text-xs text-red-500">{{ contactForm.errors.name }}</p>
                                     </div>
                                     <div>
                                         <InputLabel for="contact-email" :value="t('contact_email')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
@@ -255,7 +234,7 @@ const handleWhatsAppClick = () => {
                                             v-model="contactForm.email"
                                             :placeholder="t('placeholder_email')"
                                         />
-                                        <p v-if="contactErrors.email" class="mt-1 text-xs text-red-500">{{ contactErrors.email }}</p>
+                                        <p v-if="contactForm.errors.email" class="mt-1 text-xs text-red-500">{{ contactForm.errors.email }}</p>
                                     </div>
                                 </div>
 
@@ -269,7 +248,7 @@ const handleWhatsAppClick = () => {
                                             v-model="contactForm.phone"
                                             :placeholder="t('placeholder_phone')"
                                         />
-                                        <p v-if="contactErrors.phone" class="mt-1 text-xs text-red-500">{{ contactErrors.phone }}</p>
+                                        <p v-if="contactForm.errors.phone" class="mt-1 text-xs text-red-500">{{ contactForm.errors.phone }}</p>
                                     </div>
                                     <div>
                                         <InputLabel for="contact-date" :value="t('contact_date')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
@@ -279,7 +258,7 @@ const handleWhatsAppClick = () => {
                                             class="mt-1.5 block w-full rounded-xl border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF7F2] text-xs py-3.5 px-4"
                                             v-model="contactForm.date"
                                         />
-                                        <p v-if="contactErrors.date" class="mt-1 text-xs text-red-500">{{ contactErrors.date }}</p>
+                                        <p v-if="contactForm.errors.date" class="mt-1 text-xs text-red-500">{{ contactForm.errors.date }}</p>
                                     </div>
                                 </div>
 
@@ -293,7 +272,7 @@ const handleWhatsAppClick = () => {
                                             v-model="contactForm.pax"
                                             :placeholder="t('placeholder_pax')"
                                         />
-                                        <p v-if="contactErrors.pax" class="mt-1 text-xs text-red-500">{{ contactErrors.pax }}</p>
+                                        <p v-if="contactForm.errors.pax" class="mt-1 text-xs text-red-500">{{ contactForm.errors.pax }}</p>
                                     </div>
                                     <div>
                                         <InputLabel for="contact-type" :value="t('contact_type')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
@@ -324,7 +303,7 @@ const handleWhatsAppClick = () => {
                                         v-model="contactForm.message"
                                         :placeholder="t('placeholder_message')"
                                     ></textarea>
-                                    <p v-if="contactErrors.message" class="mt-1 text-xs text-red-500">{{ contactErrors.message }}</p>
+                                    <p v-if="contactForm.errors.message" class="mt-1 text-xs text-red-500">{{ contactForm.errors.message }}</p>
                                 </div>
 
                                 <!-- Action Buttons -->
@@ -332,9 +311,9 @@ const handleWhatsAppClick = () => {
                                     <button
                                         type="submit"
                                         class="flex-1 bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 cursor-pointer shadow-sm"
-                                        :disabled="contactSubmitting"
+                                        :disabled="contactForm.processing"
                                     >
-                                        <template v-if="contactSubmitting">
+                                        <template v-if="contactForm.processing">
                                             <i class="fas fa-spinner animate-spin mr-2"></i> {{ t('sending_status_msg') }}
                                         </template>
                                         <template v-else>
