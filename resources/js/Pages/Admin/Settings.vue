@@ -26,6 +26,12 @@ const { t, currentLanguage } = useLocalization();
 
 const activeTab = ref('company'); // 'company', 'zones', 'profile', 'security'
 const qrPreviewUrl = ref('');
+const showQrModal = ref(false);
+const activeQrUrl = computed(() => {
+    if (qrPreviewUrl.value) return qrPreviewUrl.value;
+    if (props.settings.qr_code_path) return '/' + props.settings.qr_code_path;
+    return null;
+});
 const fileError = ref('');
 
 // Company Form state
@@ -366,23 +372,31 @@ function submitPassword() {
                                             <span class="text-xs font-bold text-[#C5A880] uppercase tracking-widest block border-b border-[#E6E1DA] pb-1.5">{{ t('admin_settings_qr_title') }}</span>
                                             
                                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
-                                                <div class="border border-dashed border-[#C5A880]/30 rounded-2xl bg-[#FAF7F2] p-3 text-center">
-                                                    <div class="inline-block p-1 bg-white border border-[#E6E1DA] rounded-xl shadow-xs">
+                                                <div 
+                                                    class="border border-dashed border-[#C5A880]/30 hover:border-[#C5A880]/60 rounded-2xl bg-[#FAF7F2] p-3 text-center cursor-pointer group transition-all duration-300 relative hover:shadow-md"
+                                                    @click="activeQrUrl && (showQrModal = true)"
+                                                    title="Klik untuk besarkan"
+                                                >
+                                                    <div class="inline-block p-1 bg-white border border-[#E6E1DA] rounded-xl shadow-xs relative overflow-hidden">
                                                         <img 
                                                             v-if="qrPreviewUrl" 
                                                             :src="qrPreviewUrl" 
                                                             :alt="t('admin_settings_qr_preview_new')" 
-                                                            class="w-24 h-24 object-contain mx-auto"
+                                                            class="w-24 h-24 object-contain mx-auto transition-transform duration-350 group-hover:scale-105"
                                                         />
                                                         <img 
                                                             v-else-if="settings.qr_code_path" 
                                                             :src="'/' + settings.qr_code_path" 
                                                             :alt="t('admin_settings_qr_preview_current')" 
-                                                            class="w-24 h-24 object-contain mx-auto"
+                                                            class="w-24 h-24 object-contain mx-auto transition-transform duration-350 group-hover:scale-105"
                                                         />
                                                         <div v-else class="w-24 h-24 bg-[#FAF7F2] rounded-xl flex flex-col items-center justify-center text-[#8C8275]">
                                                             <i class="fas fa-qrcode text-xl mb-1"></i>
                                                             <span class="text-[8px] font-bold">{{ t('admin_settings_qr_no_file') }}</span>
+                                                        </div>
+                                                        <!-- Hover Magnifier Icon Overlay -->
+                                                        <div v-if="activeQrUrl" class="absolute inset-0 bg-[#4A6B5D]/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                                                            <i class="fas fa-search-plus text-base"></i>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -777,6 +791,60 @@ function submitPassword() {
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <!-- QR Code Preview Popup Modal -->
+        <div v-if="showQrModal && activeQrUrl" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-[60] animate-fade-in font-sans-modern" @click.self="showQrModal = false">
+            <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-2xl p-6 md:p-8 max-w-sm w-full space-y-6 relative">
+                <button 
+                    type="button" 
+                    @click="showQrModal = false"
+                    class="absolute top-4 right-4 text-[#8C8275] hover:text-[#2D3330] transition-colors p-1 rounded-full hover:bg-[#FAF7F2] w-8 h-8 flex items-center justify-center cursor-pointer"
+                >
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+
+                <div class="text-center space-y-4 pt-2">
+                    <h3 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
+                        {{ t('admin_settings_qr_title') }}
+                    </h3>
+                    <p class="text-xs text-[#8C8275]">
+                        {{ currentLanguage === 'en' ? 'Scan to pay or verify credentials' : 'Imbas untuk bayar atau sahkan butiran' }}
+                    </p>
+                    <div class="bg-[#FAF7F2] p-4 rounded-2xl border border-[#C5A880]/30 inline-block shadow-inner">
+                        <img 
+                            :src="activeQrUrl" 
+                            alt="QR Code" 
+                            class="w-64 h-64 object-contain mx-auto rounded-lg bg-white p-2 border border-[#E6E1DA]"
+                        />
+                    </div>
+                </div>
+
+                <div class="bg-[#FAF7F2]/50 p-4 rounded-2xl border border-[#E6E1DA] text-xs text-[#2D3330] space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-[#8C8275]">{{ t('admin_settings_bank_name') }}:</span>
+                        <span class="font-bold">{{ form.bank_name || '-' }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-[#8C8275]">{{ t('admin_settings_account_no') }}:</span>
+                        <span class="font-bold font-mono">{{ form.bank_account_no || '-' }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-[#8C8275]">{{ t('admin_settings_account_name') }}:</span>
+                        <span class="font-bold text-right">{{ form.bank_account_name || '-' }}</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-center pt-2">
+                    <button 
+                        type="button" 
+                        @click="showQrModal = false"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-6 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer w-full text-center"
+                    >
+                        Tutup
+                    </button>
+                </div>
             </div>
         </div>
     </AdminLayout>
