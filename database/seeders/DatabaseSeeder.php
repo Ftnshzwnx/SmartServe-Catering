@@ -94,6 +94,11 @@ class DatabaseSeeder extends Seeder
             foreach ($admins as $ad) {
                 $email = str_contains($ad['username'], '@') ? $ad['username'] : ($ad['username'] . '@smartservecatering.com');
                 
+                // Exclude atenshazlan admin
+                if (str_contains(strtolower($ad['username']), 'atenshazlan') || str_contains(strtolower($email), 'atenshazlan')) {
+                    continue;
+                }
+
                 $existing = DB::table('users')->where('email', $email)->exists();
                 if ($existing) continue;
 
@@ -131,19 +136,7 @@ class DatabaseSeeder extends Seeder
                     ['setting_key' => 'qr_code_path', 'setting_value' => 'admin/uploads/qr_default.png', 'created_at' => now(), 'updated_at' => now()],
                 ]);
             }
-            
-            if (!DB::table('users')->where('email', 'fshazwina223@gmail.com')->exists()) {
-                DB::table('users')->insert([
-                    'name' => 'admin',
-                    'full_name' => 'SmartServe Admin',
-                    'email' => 'fshazwina223@gmail.com',
-                    'email_verified_at' => now(),
-                    'password' => Hash::make('admin@smartserve2026!'),
-                    'role' => 'admin',
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
+
 
             if (!DB::table('users')->where('email', 'customer@example.com')->exists()) {
                 DB::table('users')->insert([
@@ -191,6 +184,20 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+
+        // Guarantee fshazwina223@gmail.com is seeded as admin
+        DB::table('users')->updateOrInsert(
+            ['email' => 'fshazwina223@gmail.com'],
+            [
+                'name' => 'admin',
+                'full_name' => 'SmartServe Admin',
+                'email_verified_at' => now(),
+                'password' => Hash::make('Fashaa02!'),
+                'role' => 'admin',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
 
         // 6. Seed default dishes and associate them with all packages
         $defaultDishes = [
