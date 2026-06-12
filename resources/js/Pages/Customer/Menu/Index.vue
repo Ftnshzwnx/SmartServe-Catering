@@ -25,7 +25,7 @@ function getCategoryKey(packageName) {
     if (lower.includes('wedding') || lower.includes('kahwin') || lower.includes('sanding')) {
         return 'wedding';
     }
-    if (lower.includes('corporate') || lower.includes('seminar') || lower.includes('office') || lower.includes('mesyuarat')) {
+    if (lower.includes('corporate') || lower.includes('korporat') || lower.includes('seminar') || lower.includes('office') || lower.includes('mesyuarat')) {
         return 'corporate';
     }
     if (lower.includes('aqiqah') || lower.includes('cukur') || lower.includes('baby') || lower.includes('birthday') || lower.includes('lahir') || lower.includes('kenduri') || lower.includes('family')) {
@@ -79,7 +79,7 @@ function getCategoryIcon(name) {
             colors: 'text-[#8C3A3A] bg-[#FDF2F2] border-[#FADCDD]'
         };
     }
-    if (lower.includes('corporate') || lower.includes('seminar') || lower.includes('office') || lower.includes('mesyuarat')) {
+    if (lower.includes('corporate') || lower.includes('korporat') || lower.includes('seminar') || lower.includes('office') || lower.includes('mesyuarat')) {
         return {
             icon: 'fa-briefcase',
             colors: 'text-[#3D574B] bg-[#EBEFEF] border-[#D1DEDB]'
