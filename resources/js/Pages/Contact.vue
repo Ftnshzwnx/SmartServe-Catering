@@ -47,7 +47,7 @@ const handleWhatsAppClick = () => {
         .replace('{pax}', contactForm.pax || 'TBD')
         .replace('{type}', t(`contact_type_${contactForm.type}`))
         .replace('{message}', contactForm.message || 'Tiada mesej tambahan.');
-    const phoneNum = (page.props.settings.contact_phone || '019-2094670').replace(/[^0-9]/g, '').replace(/^0/, '60');
+    const phoneNum = (page.props.settings.contact_phone || '012-3456789').replace(/[^0-9]/g, '').replace(/^0/, '60');
     const url = `https://wa.me/${phoneNum}?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
 };
@@ -116,13 +116,13 @@ const mapUrl = computed(() => {
 
                             <!-- Hotline Langsung -->
                             <li class="flex items-center justify-between gap-4 p-3 -mx-3 rounded-2xl hover:bg-white hover:shadow-xs border border-transparent hover:border-[#E6E1DA] transition-all duration-300 group">
-                                <a :href="'tel:' + ($page.props.settings.contact_phone || '019-2094670')" class="flex items-start gap-4 flex-grow">
+                                <a :href="'tel:' + ($page.props.settings.contact_phone || '012-3456789')" class="flex items-start gap-4 flex-grow">
                                     <span class="w-11 h-11 flex-shrink-0 rounded-2xl bg-white border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-sm shadow-xs transition-colors group-hover:border-[#4A6B5D]/30 group-hover:bg-[#FAF7F2]">
                                         <i class="fa fa-phone-alt"></i>
                                     </span>
                                     <div class="space-y-0.5">
                                         <span class="font-bold text-[#2D3330] block text-xs uppercase tracking-wider">{{ t('hotline_label') }}</span>
-                                        <span class="text-sm text-[#5C6460] font-light group-hover:text-[#4A6B5D] transition-colors">{{ $page.props.settings.contact_phone || '019-2094670' }}</span>
+                                        <span class="text-sm text-[#5C6460] font-light group-hover:text-[#4A6B5D] transition-colors">{{ $page.props.settings.contact_phone || '012-3456789' }}</span>
                                     </div>
                                 </a>
                                 <div class="pr-2 flex items-center">
@@ -148,7 +148,7 @@ const mapUrl = computed(() => {
 
                             <!-- WhatsApp -->
                             <li class="flex items-center justify-between gap-4 p-3 -mx-3 rounded-2xl hover:bg-white hover:shadow-xs border border-transparent hover:border-[#E6E1DA] transition-all duration-300 group">
-                                <a :href="'https://wa.me/' + ($page.props.settings.contact_phone || '019-2094670').replace(/[^0-9]/g, '').replace(/^0/, '60')" target="_blank" class="flex items-start gap-4 flex-grow">
+                                <a :href="'https://wa.me/' + ($page.props.settings.contact_phone || '012-3456789').replace(/[^0-9]/g, '').replace(/^0/, '60')" target="_blank" class="flex items-start gap-4 flex-grow">
                                     <span class="w-11 h-11 flex-shrink-0 rounded-2xl bg-white border border-[#E6E1DA] text-emerald-600 flex items-center justify-center text-sm shadow-xs transition-colors group-hover:border-emerald-500/30 group-hover:bg-emerald-50/50">
                                         <i class="fab fa-whatsapp"></i>
                                     </span>
