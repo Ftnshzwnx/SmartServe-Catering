@@ -199,6 +199,12 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        // Guarantee contact_email is seeded
+        DB::table('settings')->updateOrInsert(
+            ['setting_key' => 'contact_email'],
+            ['setting_value' => 'fshazwina223@gmail.com', 'created_at' => now(), 'updated_at' => now()]
+        );
+
         // 6. Seed default dishes and associate them with all packages
         $defaultDishes = [
             ['name' => 'Nasi Minyak', 'category' => 'Nasi', 'active' => true],
