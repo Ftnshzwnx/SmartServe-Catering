@@ -290,7 +290,8 @@ const formatTimeAgo = (dateStr) => {
                 >
                     <div class="flex items-center gap-2.5 overflow-hidden">
                         <!-- User avatar circle -->
-                        <div class="w-8 h-8 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-xs shadow-sm shrink-0">
+                        <img v-if="$page.props.auth.user.profile_image" :src="'/storage/' + $page.props.auth.user.profile_image" class="w-8 h-8 rounded-full object-cover shrink-0 shadow-sm" />
+                        <div v-else class="w-8 h-8 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-xs shadow-sm shrink-0">
                             {{ ($page.props.auth.user.name || 'C').charAt(0).toUpperCase() }}
                         </div>
                         <!-- Profile details -->
@@ -466,7 +467,8 @@ const formatTimeAgo = (dateStr) => {
                                         </div>
                                         <div class="text-[9px] font-medium text-[#8C8275] leading-none uppercase tracking-wider text-center">{{ t('role_customer') }}</div>
                                     </div>
-                                    <div class="w-8 h-8 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center font-bold text-xs shadow-xs shrink-0 select-none">
+                                    <img v-if="$page.props.auth.user.profile_image" :src="'/storage/' + $page.props.auth.user.profile_image" class="w-8 h-8 rounded-full object-cover shrink-0 shadow-xs border border-[#E6E1DA]" />
+                                    <div v-else class="w-8 h-8 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center font-bold text-xs shadow-xs shrink-0 select-none">
                                         {{ ($page.props.auth.user.name || 'C').charAt(0).toUpperCase() }}
                                     </div>
                                 </button>
@@ -599,7 +601,8 @@ const formatTimeAgo = (dateStr) => {
                 <div class="border-t border-[#E6E1DA] pt-4">
                     <div class="flex items-center justify-between p-3 bg-[#FAF7F2] border border-[#E6E1DA] rounded-xl">
                         <div class="flex items-center gap-2.5">
-                            <div class="w-8 h-8 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                            <img v-if="$page.props.auth.user.profile_image" :src="'/storage/' + $page.props.auth.user.profile_image" class="w-8 h-8 rounded-full object-cover shadow-sm shrink-0" />
+                            <div v-else class="w-8 h-8 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-xs shadow-sm shrink-0">
                                 {{ ($page.props.auth.user.name || 'C').charAt(0).toUpperCase() }}
                             </div>
                             <div>

@@ -319,7 +319,8 @@ const formatTimeAgo = (dateStr) => {
                 >
                     <div class="flex items-center gap-2.5 overflow-hidden">
                         <!-- Avatar -->
-                        <div class="w-8 h-8 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0 select-none">
+                        <img v-if="user?.profile_image" :src="'/storage/' + user.profile_image" class="w-8 h-8 rounded-full object-cover shrink-0 shadow-sm" />
+                        <div v-else class="w-8 h-8 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0 select-none">
                             {{ (user?.name || 'A').charAt(0).toUpperCase() }}
                         </div>
                         <!-- Profile details -->
@@ -482,7 +483,8 @@ const formatTimeAgo = (dateStr) => {
                                         </div>
                                         <div class="text-[9px] font-medium text-[#8C8275] leading-none uppercase tracking-wider text-center">{{ t('admin_role') }}</div>
                                     </div>
-                                    <div class="w-8 h-8 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center font-bold text-xs shadow-xs shrink-0 select-none">
+                                    <img v-if="user?.profile_image" :src="'/storage/' + user.profile_image" class="w-8 h-8 rounded-full object-cover shrink-0 shadow-xs border border-[#E6E1DA]" />
+                                    <div v-else class="w-8 h-8 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center font-bold text-xs shadow-xs shrink-0 select-none">
                                         {{ (user?.name || 'A').charAt(0).toUpperCase() }}
                                     </div>
                                 </button>
@@ -629,7 +631,8 @@ const formatTimeAgo = (dateStr) => {
                 <div class="border-t border-white/10 pt-4">
                     <div class="flex items-center justify-between p-3 bg-white/5 border border-white/10 rounded-xl">
                         <div class="flex items-center gap-2.5">
-                            <div class="w-8 h-8 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
+                            <img v-if="user?.profile_image" :src="'/storage/' + user.profile_image" class="w-8 h-8 rounded-full object-cover shadow-sm shrink-0" />
+                            <div v-else class="w-8 h-8 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
                                 {{ (user?.name || 'A').charAt(0).toUpperCase() }}
                             </div>
                             <div>

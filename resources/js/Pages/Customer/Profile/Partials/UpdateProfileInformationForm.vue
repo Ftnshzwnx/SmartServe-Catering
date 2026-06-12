@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -24,7 +25,23 @@ const form = useForm({
     email: user.email || '',
     phone: user.phone || '',
     address: user.address || '',
+    profile_image: null,
 });
+
+const imagePreview = ref(null);
+const fileInput = ref(null);
+
+const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        form.profile_image = file;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            imagePreview.value = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+};
 </script>
 
 <template>
@@ -40,9 +57,51 @@ const form = useForm({
         </header>
 
         <form
-            @submit.prevent="form.patch(route('profile.update'))"
+            @submit.prevent="form.post(route('profile.update'))"
             class="space-y-6"
         >
+            <!-- Profile Image Upload Section -->
+            <div class="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-[#E6E1DA]/60">
+                <div class="relative group">
+                    <img 
+                        v-if="imagePreview || user.profile_image" 
+                        :src="imagePreview || '/storage/' + user.profile_image" 
+                        class="w-24 h-24 rounded-full object-cover border-2 border-[#4A6B5D]/20 shadow-sm" 
+                    />
+                    <div v-else class="w-24 h-24 rounded-full bg-[#FAF7F2] border-2 border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center font-bold text-2xl shadow-xs">
+                        {{ (form.name || 'C').charAt(0).toUpperCase() }}
+                    </div>
+                    
+                    <button 
+                        type="button" 
+                        @click="fileInput.click()" 
+                        class="absolute inset-0 bg-[#1C201E]/40 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-semibold transition-opacity duration-200 cursor-pointer"
+                    >
+                        <i class="fas fa-camera text-base"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-1 text-center sm:text-left">
+                    <h3 class="text-sm font-bold text-[#2D3330]">{{ t('profile_picture') || 'Profile Picture' }}</h3>
+                    <p class="text-[11px] text-[#8C8275]">{{ t('profile_picture_desc') || 'Upload a JPG, PNG or WEBP image (Max 2MB)' }}</p>
+                    <button 
+                        type="button" 
+                        @click="fileInput.click()" 
+                        class="mt-2 text-xs font-bold text-[#4A6B5D] hover:text-[#3D574B] transition-colors"
+                    >
+                        {{ t('choose_file') || 'Choose Photo' }}
+                    </button>
+                    <input 
+                        ref="fileInput" 
+                        type="file" 
+                        class="hidden" 
+                        accept="image/*" 
+                        @change="handleFileChange" 
+                    />
+                    <InputError class="mt-2" :message="form.errors.profile_image" />
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Short Name / Username -->
                 <div class="space-y-1.5">

@@ -21,6 +21,7 @@ class ProfileUpdateRequest extends FormRequest
             'full_name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:20'],
             'address' => ['required', 'string'],
+            'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
             'email' => [
                 'required',
                 'string',
