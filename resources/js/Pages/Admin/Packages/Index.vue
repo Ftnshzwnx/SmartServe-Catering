@@ -172,6 +172,24 @@ async function deletePackage(id) {
     }
 }
 
+// --- Select All Dishes Helper ---
+const activeDishes = computed(() => {
+    return props.dishes.filter(d => d.active);
+});
+
+const isAllDishesSelected = computed(() => {
+    if (activeDishes.value.length === 0) return false;
+    return activeDishes.value.every(dish => packageForm.dishes.includes(dish.id));
+});
+
+function toggleSelectAllDishes() {
+    if (isAllDishesSelected.value) {
+        packageForm.dishes = [];
+    } else {
+        packageForm.dishes = activeDishes.value.map(dish => dish.id);
+    }
+}
+
 // ─── Add-on Helper Methods ───────────────────────────────────────────────────
 
 function openCreateAddon() {
@@ -1440,7 +1458,16 @@ watch([categorySearchQuery], () => {
 
                                 <!-- Dishes Checklist -->
                                 <div class="space-y-2">
-                                    <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_select_available_dishes') }}</label>
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_select_available_dishes') }}</label>
+                                        <button 
+                                            type="button" 
+                                            @click="toggleSelectAllDishes" 
+                                            class="text-[10px] font-bold text-[#4A6B5D] hover:text-[#3D574B] hover:underline cursor-pointer focus:outline-none"
+                                        >
+                                            {{ isAllDishesSelected ? (currentLanguage === 'en' ? 'Deselect All' : 'Nyahpilih Semua') : (currentLanguage === 'en' ? 'Select All' : 'Pilih Semua') }}
+                                        </button>
+                                    </div>
                                     <div class="space-y-4 max-h-60 overflow-y-auto border border-[#E6E1DA] rounded-xl p-4 bg-[#FAF7F2]/40">
                                         <div v-for="cat in dishCategories" :key="cat" class="space-y-2">
                                             <span class="text-[10px] font-extrabold text-[#4A6B5D] uppercase tracking-wider block border-b border-[#E6E1DA] pb-1">{{ cat }} (Limit: {{ packageForm.dish_limits[cat] || 0 }})</span>
