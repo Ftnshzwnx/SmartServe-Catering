@@ -78,7 +78,7 @@ Route::post('/contact', function (\Illuminate\Http\Request $request) {
         ?? config('mail.from.address');
 
     \Illuminate\Support\Facades\Mail::to($adminEmail)
-        ->queue(new \App\Mail\ContactInquiry($validated));
+        ->send(new \App\Mail\ContactInquiry($validated));
 
     return back()->with('success', 'Mesej anda telah dihantar! Kami akan menghubungi anda tidak lama lagi.');
 })->name('contact.send');
