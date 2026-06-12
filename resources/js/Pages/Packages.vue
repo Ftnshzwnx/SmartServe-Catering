@@ -18,7 +18,7 @@ function getPackageImage(pkg) {
         return pkg.image.startsWith('/') ? pkg.image : '/' + pkg.image;
     }
     const lower = pkg.package_name.toLowerCase();
-    if (lower.includes('wedding') || lower.includes('kahwin') || lower.includes('sanding')) {
+    if (lower.includes('wedding') || lower.includes('kahwin') || lower.includes('sanding') || lower.includes('tunang') || lower.includes('engagement')) {
         return '/img/hero_catering.png';
     }
     if (lower.includes('aqiqah') || lower.includes('cukur') || lower.includes('baby') || lower.includes('birthday') || lower.includes('lahir') || lower.includes('kenduri') || lower.includes('family')) {

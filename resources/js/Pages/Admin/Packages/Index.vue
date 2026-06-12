@@ -365,7 +365,7 @@ const activeAddons = computed(() => {
 // Category categorization helpers (identical to Customer Menu index)
 function getCategoryKey(packageName) {
     const lower = packageName.toLowerCase();
-    if (lower.includes('wedding') || lower.includes('kahwin') || lower.includes('sanding')) {
+    if (lower.includes('wedding') || lower.includes('kahwin') || lower.includes('sanding') || lower.includes('tunang') || lower.includes('engagement')) {
         return 'wedding';
     }
     if (lower.includes('corporate') || lower.includes('korporat') || lower.includes('seminar') || lower.includes('office') || lower.includes('mesyuarat')) {
@@ -379,7 +379,7 @@ function getCategoryKey(packageName) {
 
 function getCategoryIcon(name) {
     const lower = name.toLowerCase();
-    if (lower.includes('wedding') || lower.includes('kahwin') || lower.includes('sanding')) {
+    if (lower.includes('wedding') || lower.includes('kahwin') || lower.includes('sanding') || lower.includes('tunang') || lower.includes('engagement')) {
         return {
             icon: 'fa-heart',
             colors: 'text-[#8C3A3A] bg-[#FDF2F2] border-[#FADCDD]'
@@ -408,7 +408,7 @@ function getPackageImage(pkg) {
         return pkg.image.startsWith('/') ? pkg.image : '/' + pkg.image;
     }
     const lower = pkg.package_name.toLowerCase();
-    if (lower.includes('wedding') || lower.includes('kahwin') || lower.includes('sanding')) {
+    if (lower.includes('wedding') || lower.includes('kahwin') || lower.includes('sanding') || lower.includes('tunang') || lower.includes('engagement')) {
         return '/img/hero_catering.png';
     }
     if (lower.includes('aqiqah') || lower.includes('cukur') || lower.includes('baby') || lower.includes('birthday') || lower.includes('lahir') || lower.includes('kenduri') || lower.includes('family')) {
