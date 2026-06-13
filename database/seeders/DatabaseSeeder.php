@@ -171,18 +171,19 @@ class DatabaseSeeder extends Seeder
         }
 
         // Guarantee fshazwina223@gmail.com is seeded as admin
-        DB::table('users')->updateOrInsert(
-            ['email' => 'fshazwina223@gmail.com'],
-            [
-                'name' => 'admin',
+        if (!DB::table('users')->where('email', 'fshazwina223@gmail.com')->exists()) {
+            DB::table('users')->insert([
+                'name' => 'Admin',
                 'full_name' => 'SmartServe Admin',
+                'email' => 'fshazwina223@gmail.com',
                 'email_verified_at' => now(),
                 'password' => Hash::make('Fashaa02!'),
                 'role' => 'admin',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
-        );
+            ]);
+        }
+
 
         // Guarantee contact_email is seeded
         DB::table('settings')->updateOrInsert(
