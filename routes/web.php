@@ -148,47 +148,50 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Menu / Packages
-    Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
-    Route::get('/menu/quotation/pdf', [MenuController::class, 'downloadQuotation'])->name('menu.quotation');
-    Route::get('/menu/{category}', [MenuController::class, 'show'])->name('menu.show')->where('category', '.*');
+    // Customer-only routes
+    Route::middleware(['customer'])->group(function () {
+        // Menu / Packages
+        Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
+        Route::get('/menu/quotation/pdf', [MenuController::class, 'downloadQuotation'])->name('menu.quotation');
+        Route::get('/menu/{category}', [MenuController::class, 'show'])->name('menu.show')->where('category', '.*');
 
-    // Budget Planner
-    Route::get('/budget-planner', [BudgetPlannerController::class, 'index'])->name('budget.planner');
-    Route::post('/budget-planner', [BudgetPlannerController::class, 'calculate'])->name('budget.calculate');
+        // Budget Planner
+        Route::get('/budget-planner', [BudgetPlannerController::class, 'index'])->name('budget.planner');
+        Route::post('/budget-planner', [BudgetPlannerController::class, 'calculate'])->name('budget.calculate');
 
-    // Cart
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add', [CartController::class, 'store'])->name('cart.add');
-    Route::get('/cart/customize/{package_id}', [CartController::class, 'customize'])->name('cart.customize');
-    Route::post('/cart/add-custom', [CartController::class, 'storeCustom'])->name('cart.addCustom');
-    Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('/cart/delete/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+        // Cart
+        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+        Route::post('/cart/add', [CartController::class, 'store'])->name('cart.add');
+        Route::get('/cart/customize/{package_id}', [CartController::class, 'customize'])->name('cart.customize');
+        Route::post('/cart/add-custom', [CartController::class, 'storeCustom'])->name('cart.addCustom');
+        Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+        Route::delete('/cart/delete/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 
-    // Checkout
-    Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout.index');
-    Route::post('/checkout/place', [OrderController::class, 'placeOrder'])->name('checkout.place');
+        // Checkout
+        Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout.index');
+        Route::post('/checkout/place', [OrderController::class, 'placeOrder'])->name('checkout.place');
 
-    // Orders
-    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-    Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
-    Route::post('/orders/{id}/reupload', [OrderController::class, 'reupload'])->name('orders.reupload');
-    Route::get('/orders/{id}/invoice', [OrderController::class, 'downloadInvoice'])->name('orders.invoice.pdf');
-    Route::get('/orders/{id}/receipt', [OrderController::class, 'downloadReceipt'])->name('orders.receipt.pdf');
-    Route::post('/orders/{id}/review', [\App\Http\Controllers\ReviewController::class, 'store'])->name('orders.review');
-    
-    // Promo Code validation
-    Route::post('/checkout/apply-promo', [OrderController::class, 'applyPromo'])->name('checkout.apply-promo');
+        // Orders
+        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+        Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+        Route::post('/orders/{id}/reupload', [OrderController::class, 'reupload'])->name('orders.reupload');
+        Route::get('/orders/{id}/invoice', [OrderController::class, 'downloadInvoice'])->name('orders.invoice.pdf');
+        Route::get('/orders/{id}/receipt', [OrderController::class, 'downloadReceipt'])->name('orders.receipt.pdf');
+        Route::post('/orders/{id}/review', [\App\Http\Controllers\ReviewController::class, 'store'])->name('orders.review');
+        
+        // Promo Code validation
+        Route::post('/checkout/apply-promo', [OrderController::class, 'applyPromo'])->name('checkout.apply-promo');
 
-    // Custom Proposals
-    Route::post('/orders/custom-proposal', [CustomProposalController::class, 'store'])->name('orders.custom-proposal.store');
-    Route::post('/orders/{id}/approve-proposal', [CustomProposalController::class, 'approve'])->name('orders.proposal.approve');
-    Route::post('/orders/{id}/reject-proposal', [CustomProposalController::class, 'reject'])->name('orders.proposal.reject');
+        // Custom Proposals
+        Route::post('/orders/custom-proposal', [CustomProposalController::class, 'store'])->name('orders.custom-proposal.store');
+        Route::post('/orders/{id}/approve-proposal', [CustomProposalController::class, 'approve'])->name('orders.proposal.approve');
+        Route::post('/orders/{id}/reject-proposal', [CustomProposalController::class, 'reject'])->name('orders.proposal.reject');
 
-    // Notifications
-    Route::post('/notifications/{id}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
-    Route::post('/notifications/read-all', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
+        // Notifications
+        Route::post('/notifications/{id}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
+        Route::post('/notifications/read-all', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
+    });
 });
 
 // Admin panel routes
