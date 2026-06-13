@@ -42,17 +42,6 @@ Route::get('/', function () {
 });
 
 
-// Temporary route to update admin username to 'Admin'
-Route::get('/fix-admin-name', function() {
-    $user = \App\Models\User::where('email', 'fshazwina223@gmail.com')->first();
-    if ($user) {
-        $user->name = 'Admin';
-        $user->save();
-        return 'Admin name updated to Admin successfully!';
-    }
-    return 'Admin not found.';
-});
-
 // About Us page
 Route::get('/about', function () {
     return Inertia::render('About', [
