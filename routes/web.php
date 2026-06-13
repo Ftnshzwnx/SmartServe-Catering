@@ -64,6 +64,16 @@ Route::get('/settings/qr-code', function() {
     return response()->file(public_path('img/logo.png'));
 })->name('settings.qr-code');
 
+// Temporary route to view production logs
+Route::get('/view-production-logs', function() {
+    $logPath = storage_path('logs/laravel.log');
+    if (!file_exists($logPath)) {
+        return 'No logs found.';
+    }
+    $logs = file_get_contents($logPath);
+    return '<pre>' . htmlspecialchars(substr($logs, -10000)) . '</pre>';
+});
+
 // About Us page
 Route::get('/about', function () {
     return Inertia::render('About', [
