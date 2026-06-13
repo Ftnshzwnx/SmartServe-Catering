@@ -64,15 +64,16 @@ Route::get('/settings/qr-code', function() {
     return response()->file(public_path('img/logo.png'));
 })->name('settings.qr-code');
 
-// Temporary route to view production logs
-Route::get('/view-production-logs', function() {
-    $logPath = storage_path('logs/laravel.log');
-    if (!file_exists($logPath)) {
-        return 'No logs found.';
-    }
-    $logs = file_get_contents($logPath);
-    return '<pre>' . htmlspecialchars(substr($logs, -10000)) . '</pre>';
+// Temporary route to check production mail config
+Route::get('/check-mail-config', function() {
+    return [
+        'default_mailer' => config('mail.default'),
+        'from_address' => config('mail.from.address'),
+        'has_resend_key' => !empty(config('services.resend.key') ?: config('mail.mailers.resend.key')),
+        'resend_key_length' => strlen(config('services.resend.key') ?: config('mail.mailers.resend.key') ?: ''),
+    ];
 });
+
 
 // About Us page
 Route::get('/about', function () {
