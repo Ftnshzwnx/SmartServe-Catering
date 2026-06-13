@@ -141,7 +141,7 @@ class DatabaseSeeder extends Seeder
             if (!DB::table('users')->where('email', 'customer@example.com')->exists()) {
                 DB::table('users')->insert([
                     'name' => 'customer',
-                    'full_name' => 'John Doe',
+                    'full_name' => 'Customer',
                     'email' => 'customer@example.com',
                     'email_verified_at' => now(),
                     'password' => Hash::make('password'),
