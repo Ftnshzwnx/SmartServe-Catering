@@ -26,6 +26,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Vite::prefetch(concurrency: 3);
 
+        if (config('app.env') === 'production') {
+            \Illuminate\Support\Facades\URL::forceRootUrl(config('app.url'));
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         // Set global password validation complexity rules
         Password::defaults(function () {
             return Password::min(8)
