@@ -862,8 +862,11 @@ const translations = {
         // JS strings
         'admin_confirm_activate_desc': 'Are you sure you want to restore active status for {name}?',
         'admin_confirm_suspend_desc': 'Are you sure you want to suspend access for {name}?',
+        'admin_confirm_delete_customer_desc': 'Are you sure you want to permanently delete customer {name}? All their orders, reviews, and carts will be deleted.',
+        'admin_delete_customer': 'Delete Customer',
         'admin_toast_customer_activated': 'Customer account activated successfully.',
         'admin_toast_customer_suspended': 'Customer account suspended successfully.',
+        'admin_toast_customer_deleted': 'Customer account deleted successfully.',
 
         // Admin Month Names
         'month_1': 'January',
@@ -2063,8 +2066,11 @@ const translations = {
         // JS strings
         'admin_confirm_activate_desc': 'Adakah anda pasti mahu mengaktifkan semula status akaun untuk {name}?',
         'admin_confirm_suspend_desc': 'Adakah anda pasti mahu menggantung akses akaun untuk {name}?',
+        'admin_confirm_delete_customer_desc': 'Adakah anda pasti mahu memadam akaun pelanggan {name} secara kekal? Semua tempahan, ulasan, dan troli berkaitan akan dipadamkan.',
+        'admin_delete_customer': 'Padam Pelanggan',
         'admin_toast_customer_activated': 'Akaun pelanggan berjaya diaktifkan semula.',
         'admin_toast_customer_suspended': 'Akaun pelanggan berjaya digantung.',
+        'admin_toast_customer_deleted': 'Akaun pelanggan berjaya dipadamkan.',
 
         // Admin Month Names
         'month_1': 'Januari',

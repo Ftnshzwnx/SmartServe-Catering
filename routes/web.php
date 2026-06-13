@@ -244,6 +244,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // Admin Customers
     Route::get('/customers', [AdminDashboardController::class, 'customers'])->name('admin.customers');
     Route::post('/customers/{id}/toggle-status', [AdminDashboardController::class, 'toggleCustomerStatus'])->name('admin.customers.toggle');
+    Route::delete('/customers/{id}/delete', [AdminDashboardController::class, 'deleteCustomer'])->name('admin.customers.delete');
 });
 
 require __DIR__.'/auth.php';

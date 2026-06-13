@@ -1169,4 +1169,12 @@ class AdminDashboardController extends Controller
         $status = $user->is_blacklisted ? 'suspended' : 'activated';
         return redirect()->back()->with('success', "Customer has been {$status} successfully.");
     }
+
+    public function deleteCustomer(int $id): RedirectResponse
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->back()->with('success', 'Customer account has been permanently deleted.');
+    }
 }

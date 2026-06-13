@@ -78,6 +78,19 @@ async function toggleAccess(user) {
         });
     }
 }
+
+async function deleteCustomer(user) {
+    const confirmTitle = t('admin_delete_customer');
+    const confirmMessage = t('admin_confirm_delete_customer_desc').replace('{name}', user.full_name || user.name);
+    
+    if (await confirm(confirmMessage, confirmTitle)) {
+        form.delete(route('admin.customers.delete', { id: user.id }), {
+            onSuccess: () => {
+                toast(t('admin_toast_customer_deleted'));
+            }
+        });
+    }
+}
 </script>
 
 <template>
@@ -183,16 +196,25 @@ async function toggleAccess(user) {
                                 </span>
                             </td>
                             <td class="py-4 text-right pr-2">
-                                <button 
-                                    @click="toggleAccess(user)"
-                                    class="w-8 h-8 rounded-xl flex items-center justify-center transition-colors shadow-xs border cursor-pointer mx-auto md:ml-auto md:mr-0"
-                                    :class="user.is_blacklisted 
-                                        ? 'bg-emerald-50 hover:bg-emerald-100 border-emerald-200 text-[#4A6B5D]' 
-                                        : 'bg-rose-50 hover:bg-rose-100 border-rose-200 text-rose-600'"
-                                    :title="user.is_blacklisted ? t('admin_activate_account') : t('admin_suspend_account')"
-                                >
-                                    <i class="fas text-xs" :class="user.is_blacklisted ? 'fa-user-check' : 'fa-user-slash'"></i>
-                                </button>
+                                <div class="flex justify-end gap-2">
+                                    <button 
+                                        @click="toggleAccess(user)"
+                                        class="w-8 h-8 rounded-xl flex items-center justify-center transition-colors shadow-xs border cursor-pointer"
+                                        :class="user.is_blacklisted 
+                                            ? 'bg-emerald-50 hover:bg-emerald-100 border-emerald-200 text-[#4A6B5D]' 
+                                            : 'bg-rose-50 hover:bg-rose-100 border-rose-200 text-rose-600'"
+                                        :title="user.is_blacklisted ? t('admin_activate_account') : t('admin_suspend_account')"
+                                    >
+                                        <i class="fas text-xs" :class="user.is_blacklisted ? 'fa-user-check' : 'fa-user-slash'"></i>
+                                    </button>
+                                    <button 
+                                        @click="deleteCustomer(user)"
+                                        class="w-8 h-8 rounded-xl flex items-center justify-center transition-colors shadow-xs border cursor-pointer bg-red-50 hover:bg-red-100 border-red-200 text-red-600"
+                                        :title="t('admin_delete_customer')"
+                                    >
+                                        <i class="fas fa-trash-alt text-xs"></i>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
