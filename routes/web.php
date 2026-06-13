@@ -41,15 +41,6 @@ Route::get('/', function () {
     ]);
 });
 
-// Temporary route to delete customer@example.com
-Route::get('/delete-customer-temp', function() {
-    $user = \App\Models\User::where('email', 'customer@example.com')->first();
-    if ($user) {
-        $user->delete();
-        return 'User customer@example.com deleted successfully!';
-    }
-    return 'User not found.';
-});
 
 // About Us page
 Route::get('/about', function () {
