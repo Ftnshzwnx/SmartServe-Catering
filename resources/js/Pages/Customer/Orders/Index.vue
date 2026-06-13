@@ -278,10 +278,11 @@ function handleReceiptSelect(event, orderId, type) {
                     >
                         <span>{{ t('all') }}</span>
                         <span 
+                            v-if="notifications.all > 0"
                             class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
                             :class="activeTab === 'all' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
                         >
-                            {{ notifications.all || 0 }}
+                            {{ notifications.all }}
                         </span>
                     </button>
                     <button 
@@ -291,10 +292,11 @@ function handleReceiptSelect(event, orderId, type) {
                     >
                         <span>{{ t('custom_proposal_tab') }}</span>
                         <span 
+                            v-if="notifications.proposals > 0"
                             class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
                             :class="activeTab === 'proposals' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
                         >
-                            {{ notifications.proposals || 0 }}
+                            {{ notifications.proposals }}
                         </span>
                     </button>
                     <button 
@@ -304,10 +306,11 @@ function handleReceiptSelect(event, orderId, type) {
                     >
                         <span>{{ t('pending_rejected') }}</span>
                         <span 
+                            v-if="notifications.pending > 0"
                             class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
                             :class="activeTab === 'pending' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
                         >
-                            {{ notifications.pending || 0 }}
+                            {{ notifications.pending }}
                         </span>
                     </button>
                     <button 
@@ -317,10 +320,11 @@ function handleReceiptSelect(event, orderId, type) {
                     >
                         <span>{{ t('confirmed') }}</span>
                         <span 
+                            v-if="notifications.confirmed > 0"
                             class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
                             :class="activeTab === 'confirmed' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
                         >
-                            {{ notifications.confirmed || 0 }}
+                            {{ notifications.confirmed }}
                         </span>
                     </button>
                     <button 
@@ -330,10 +334,11 @@ function handleReceiptSelect(event, orderId, type) {
                     >
                         <span>{{ t('delivered_tab') }}</span>
                         <span 
+                            v-if="notifications.delivered > 0"
                             class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
                             :class="activeTab === 'delivered' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
                         >
-                            {{ notifications.delivered || 0 }}
+                            {{ notifications.delivered }}
                         </span>
                     </button>
                     <button 
@@ -343,10 +348,11 @@ function handleReceiptSelect(event, orderId, type) {
                     >
                         <span>{{ t('awaiting_verification') }}</span>
                         <span 
+                            v-if="notifications.payment_submitted > 0"
                             class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
                             :class="activeTab === 'payment_submitted' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
                         >
-                            {{ notifications.payment_submitted || 0 }}
+                            {{ notifications.payment_submitted }}
                         </span>
                     </button>
                     <button 
@@ -356,10 +362,11 @@ function handleReceiptSelect(event, orderId, type) {
                     >
                         <span>{{ t('completed_tab') }}</span>
                         <span 
+                            v-if="notifications.completed > 0"
                             class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
                             :class="activeTab === 'completed' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
                         >
-                            {{ notifications.completed || 0 }}
+                            {{ notifications.completed }}
                         </span>
                     </button>
                     <button 
@@ -369,10 +376,11 @@ function handleReceiptSelect(event, orderId, type) {
                     >
                         <span>{{ t('cancelled_tab') }}</span>
                         <span 
+                            v-if="notifications.cancelled > 0"
                             class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
                             :class="activeTab === 'cancelled' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
                         >
-                            {{ notifications.cancelled || 0 }}
+                            {{ notifications.cancelled }}
                         </span>
                     </button>
                 </div>
