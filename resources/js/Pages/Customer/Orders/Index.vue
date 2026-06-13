@@ -24,7 +24,7 @@ const props = defineProps({
     },
     notifications: {
         type: Object,
-        default: () => ({ pending: 0, confirmed: 0, delivered: 0, proposals: 0, total: 0 }),
+        default: () => ({ all: 0, pending: 0, confirmed: 0, delivered: 0, proposals: 0, payment_submitted: 0, completed: 0, cancelled: 0, total: 0 }),
     },
 });
 
@@ -273,65 +273,107 @@ function handleReceiptSelect(event, orderId, type) {
                 <div class="flex flex-wrap items-center gap-1.5 border-b border-[#E6E1DA] pb-4">
                     <button 
                         @click="handleTabChange('all')" 
-                        class="tab-btn" 
+                        class="tab-btn flex items-center gap-2" 
                         :class="{ 'active': activeTab === 'all' }"
                     >
-                        {{ t('all') }}
+                        <span>{{ t('all') }}</span>
+                        <span 
+                            class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
+                            :class="activeTab === 'all' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
+                        >
+                            {{ notifications.all || 0 }}
+                        </span>
                     </button>
                     <button 
                         @click="handleTabChange('proposals')" 
-                        class="tab-btn flex items-center gap-1.5" 
+                        class="tab-btn flex items-center gap-2" 
                         :class="{ 'active': activeTab === 'proposals' }"
                     >
-                        {{ t('custom_proposal_tab') }}
-                        <span v-if="notifications.proposals > 0" class="bg-[#8C3A3A] text-white text-[9px] font-bold px-1.5 py-0.5">
-                            {{ notifications.proposals }}
+                        <span>{{ t('custom_proposal_tab') }}</span>
+                        <span 
+                            class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
+                            :class="activeTab === 'proposals' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
+                        >
+                            {{ notifications.proposals || 0 }}
                         </span>
                     </button>
                     <button 
                         @click="handleTabChange('pending')" 
-                        class="tab-btn flex items-center gap-1.5" 
+                        class="tab-btn flex items-center gap-2" 
                         :class="{ 'active': activeTab === 'pending' }"
                     >
-                        {{ t('pending_rejected') }}
-                        <span v-if="notifications.pending > 0" class="bg-[#8C3A3A] text-white text-[9px] font-bold px-1.5 py-0.5">
-                            {{ notifications.pending }}
+                        <span>{{ t('pending_rejected') }}</span>
+                        <span 
+                            class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
+                            :class="activeTab === 'pending' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
+                        >
+                            {{ notifications.pending || 0 }}
                         </span>
                     </button>
                     <button 
                         @click="handleTabChange('confirmed')" 
-                        class="tab-btn" 
+                        class="tab-btn flex items-center gap-2" 
                         :class="{ 'active': activeTab === 'confirmed' }"
                     >
-                        {{ t('confirmed') }}
+                        <span>{{ t('confirmed') }}</span>
+                        <span 
+                            class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
+                            :class="activeTab === 'confirmed' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
+                        >
+                            {{ notifications.confirmed || 0 }}
+                        </span>
                     </button>
                     <button 
                         @click="handleTabChange('delivered')" 
-                        class="tab-btn" 
+                        class="tab-btn flex items-center gap-2" 
                         :class="{ 'active': activeTab === 'delivered' }"
                     >
-                        {{ t('delivered_tab') }}
+                        <span>{{ t('delivered_tab') }}</span>
+                        <span 
+                            class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
+                            :class="activeTab === 'delivered' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
+                        >
+                            {{ notifications.delivered || 0 }}
+                        </span>
                     </button>
                     <button 
                         @click="handleTabChange('payment_submitted')" 
-                        class="tab-btn" 
+                        class="tab-btn flex items-center gap-2" 
                         :class="{ 'active': activeTab === 'payment_submitted' }"
                     >
-                        {{ t('awaiting_verification') }}
+                        <span>{{ t('awaiting_verification') }}</span>
+                        <span 
+                            class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
+                            :class="activeTab === 'payment_submitted' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
+                        >
+                            {{ notifications.payment_submitted || 0 }}
+                        </span>
                     </button>
                     <button 
                         @click="handleTabChange('completed')" 
-                        class="tab-btn" 
+                        class="tab-btn flex items-center gap-2" 
                         :class="{ 'active': activeTab === 'completed' }"
                     >
-                        {{ t('completed_tab') }}
+                        <span>{{ t('completed_tab') }}</span>
+                        <span 
+                            class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
+                            :class="activeTab === 'completed' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
+                        >
+                            {{ notifications.completed || 0 }}
+                        </span>
                     </button>
                     <button 
                         @click="handleTabChange('cancelled')" 
-                        class="tab-btn" 
+                        class="tab-btn flex items-center gap-2" 
                         :class="{ 'active': activeTab === 'cancelled' }"
                     >
-                        {{ t('cancelled_tab') }}
+                        <span>{{ t('cancelled_tab') }}</span>
+                        <span 
+                            class="px-2 py-0.5 text-[9px] font-bold rounded-full transition-colors"
+                            :class="activeTab === 'cancelled' ? 'bg-white text-[#4A6B5D]' : 'bg-[#E6E1DA]/60 text-[#8C8275]'"
+                        >
+                            {{ notifications.cancelled || 0 }}
+                        </span>
                     </button>
                 </div>
 

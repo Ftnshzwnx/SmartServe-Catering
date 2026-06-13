@@ -45,25 +45,33 @@ class OrderController extends Controller
 
         $orders = $query->with('items.package')->get();
 
-        // Calculate counts for badges
-        $notifPending = Order::where('user_id', $user->id)->whereIn('status', ['Pending', 'Deposit Rejected'])->count();
-        $notifConfirmed = Order::where('user_id', $user->id)->where('status', 'Confirmed')->count();
-        $notifDelivered = Order::where('user_id', $user->id)->whereIn('status', ['Delivered', 'Balance Rejected'])->count();
+        // Calculate counts for all tabs/statuses
+        $notifAll = Order::where('user_id', $user->id)->count();
         $notifProposals = Order::where('user_id', $user->id)
             ->where('is_custom_proposal', true)
             ->whereIn('status', ['Pending Proposal', 'Proposal Sent'])
             ->count();
+        $notifPending = Order::where('user_id', $user->id)->whereIn('status', ['Pending', 'Deposit Rejected'])->count();
+        $notifConfirmed = Order::where('user_id', $user->id)->where('status', 'Confirmed')->count();
+        $notifDelivered = Order::where('user_id', $user->id)->whereIn('status', ['Delivered', 'Balance Rejected'])->count();
+        $notifPaymentSubmitted = Order::where('user_id', $user->id)->where('status', 'Payment Submitted')->count();
+        $notifCompleted = Order::where('user_id', $user->id)->where('status', 'Completed')->count();
+        $notifCancelled = Order::where('user_id', $user->id)->where('status', 'Cancelled')->count();
 
         return Inertia::render('Customer/Orders/Index', [
             'orders' => $orders,
             'cartCount' => $cartCount,
             'tab' => $tab,
             'notifications' => [
+                'all' => $notifAll,
+                'proposals' => $notifProposals,
                 'pending' => $notifPending,
                 'confirmed' => $notifConfirmed,
                 'delivered' => $notifDelivered,
-                'proposals' => $notifProposals,
-                'total' => $notifPending + $notifConfirmed + $notifDelivered + $notifProposals,
+                'payment_submitted' => $notifPaymentSubmitted,
+                'completed' => $notifCompleted,
+                'cancelled' => $notifCancelled,
+                'total' => $notifAll,
             ]
         ]);
     }
