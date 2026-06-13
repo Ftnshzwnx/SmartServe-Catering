@@ -38,6 +38,9 @@ class OrderController extends Controller
             $query->where('status', 'Completed');
         } elseif ($tab === 'cancelled') {
             $query->where('status', 'Cancelled');
+        } elseif ($tab === 'proposals') {
+            $query->where('is_custom_proposal', true)
+                  ->whereIn('status', ['Pending Proposal', 'Proposal Sent']);
         }
 
         $orders = $query->with('items.package')->get();
@@ -46,6 +49,10 @@ class OrderController extends Controller
         $notifPending = Order::where('user_id', $user->id)->whereIn('status', ['Pending', 'Deposit Rejected'])->count();
         $notifConfirmed = Order::where('user_id', $user->id)->where('status', 'Confirmed')->count();
         $notifDelivered = Order::where('user_id', $user->id)->whereIn('status', ['Delivered', 'Balance Rejected'])->count();
+        $notifProposals = Order::where('user_id', $user->id)
+            ->where('is_custom_proposal', true)
+            ->where('status', 'Proposal Sent')
+            ->count();
 
         return Inertia::render('Customer/Orders/Index', [
             'orders' => $orders,
@@ -55,7 +62,8 @@ class OrderController extends Controller
                 'pending' => $notifPending,
                 'confirmed' => $notifConfirmed,
                 'delivered' => $notifDelivered,
-                'total' => $notifPending + $notifConfirmed + $notifDelivered,
+                'proposals' => $notifProposals,
+                'total' => $notifPending + $notifConfirmed + $notifDelivered + $notifProposals,
             ]
         ]);
     }

@@ -24,7 +24,7 @@ const props = defineProps({
     },
     notifications: {
         type: Object,
-        default: () => ({ pending: 0, confirmed: 0, delivered: 0, total: 0 }),
+        default: () => ({ pending: 0, confirmed: 0, delivered: 0, proposals: 0, total: 0 }),
     },
 });
 
@@ -269,6 +269,16 @@ function handleReceiptSelect(event, orderId, type) {
                         :class="{ 'active': activeTab === 'all' }"
                     >
                         {{ t('all') }}
+                    </button>
+                    <button 
+                        @click="handleTabChange('proposals')" 
+                        class="tab-btn flex items-center gap-1.5" 
+                        :class="{ 'active': activeTab === 'proposals' }"
+                    >
+                        {{ t('custom_proposal_tab') }}
+                        <span v-if="notifications.proposals > 0" class="bg-[#8C3A3A] text-white text-[9px] font-bold px-1.5 py-0.5">
+                            {{ notifications.proposals }}
+                        </span>
                     </button>
                     <button 
                         @click="handleTabChange('pending')" 
