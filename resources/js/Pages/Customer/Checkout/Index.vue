@@ -42,6 +42,15 @@ const props = defineProps({
 const { t, currentLanguage } = useLocalization();
 const page = usePage();
 
+function resolveQrPath(path) {
+    if (!path) return '';
+    if (path.startsWith('data:') || path.startsWith('http://') || path.startsWith('https://') || path.startsWith('/')) {
+        return path;
+    }
+    return '/' + path;
+}
+
+
 const depositPercent = computed(() => {
     return parseFloat(page.props.settings?.deposit_percentage || 30);
 });
@@ -744,7 +753,7 @@ function copyAccountNumber() {
                                             <!-- Dynamically load the QR file if it exists -->
                                             <img 
                                                 v-if="qrCodeFile" 
-                                                :src="'/' + qrCodeFile" 
+                                                :src="resolveQrPath(qrCodeFile)" 
                                                 alt="QR Code" 
                                                 class="w-40 h-40 object-contain mx-auto transition-transform group-hover:scale-105 duration-300"
                                             />
@@ -1047,7 +1056,7 @@ function copyAccountNumber() {
                         <div class="p-4 bg-white border border-[#E6E1DA] rounded-2xl shadow-sm">
                             <img 
                                 v-if="qrCodeFile"
-                                :src="'/' + qrCodeFile" 
+                                :src="resolveQrPath(qrCodeFile)" 
                                 alt="DuitNow QR Code" 
                                 class="w-72 h-72 object-contain mx-auto"
                             />
