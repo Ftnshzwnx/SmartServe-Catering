@@ -42,6 +42,28 @@ Route::get('/', function () {
 });
 
 
+// Public QR code image streaming route
+Route::get('/settings/qr-code', function() {
+    $setting = \App\Models\Setting::where('setting_key', 'qr_code_path')->first();
+    if ($setting && str_starts_with($setting->setting_value, 'data:')) {
+        $parts = explode(',', $setting->setting_value);
+        if (count($parts) > 1) {
+            $content = base64_decode($parts[1]);
+            $prefix = explode(';', $parts[0]);
+            $mime = str_replace('data:', '', $prefix[0]);
+            return response($content)
+                ->header('Content-Type', $mime)
+                ->header('Cache-Control', 'public, max-age=31536000');
+        }
+    }
+    
+    $fallbackPath = public_path('admin/uploads/qr_default.png');
+    if (file_exists($fallbackPath)) {
+        return response()->file($fallbackPath);
+    }
+    return response()->file(public_path('img/logo.png'));
+})->name('settings.qr-code');
+
 // About Us page
 Route::get('/about', function () {
     return Inertia::render('About', [

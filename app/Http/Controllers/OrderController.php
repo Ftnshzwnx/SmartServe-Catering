@@ -98,6 +98,9 @@ class OrderController extends Controller
         // Get QR Code
         $qrSetting = Setting::where('setting_key', 'qr_code_path')->first();
         $qrCodeFile = $qrSetting ? $qrSetting->setting_value : 'admin/uploads/qr_default.png';
+        if (str_starts_with($qrCodeFile, 'data:')) {
+            $qrCodeFile = 'settings/qr-code';
+        }
 
         $blockedDates = \App\Models\BlockedDate::pluck('blocked_date')->map(function($date) {
             return is_string($date) ? $date : $date->format('Y-m-d');
@@ -224,6 +227,9 @@ class OrderController extends Controller
         // Get QR Code
         $qrSetting = Setting::where('setting_key', 'qr_code_path')->first();
         $qrCodeFile = $qrSetting ? $qrSetting->setting_value : 'admin/uploads/qr_default.png';
+        if (str_starts_with($qrCodeFile, 'data:')) {
+            $qrCodeFile = 'settings/qr-code';
+        }
 
         // Save Order
         $order = DB::transaction(function () use ($user, $packageNames, $request, $grandTotal, $paymentProof, $qrCodeFile, $cartItems, $selectedItems, $promoCodeId, $discountAmount, $deliveryZone, $deliveryFee) {

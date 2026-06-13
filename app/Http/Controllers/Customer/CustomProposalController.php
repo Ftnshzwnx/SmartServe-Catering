@@ -52,6 +52,9 @@ class CustomProposalController extends Controller
         // Get QR Code default
         $qrSetting = Setting::where('setting_key', 'qr_code_path')->first();
         $qrCodeFile = $qrSetting ? $qrSetting->setting_value : 'admin/uploads/qr_default.png';
+        if (str_starts_with($qrCodeFile, 'data:')) {
+            $qrCodeFile = 'settings/qr-code';
+        }
 
         // 3. Create the Custom Proposal Order
         $order = DB::transaction(function () use ($user, $request, $dishes, $qrCodeFile) {

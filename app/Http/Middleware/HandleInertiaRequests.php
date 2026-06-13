@@ -60,7 +60,13 @@ class HandleInertiaRequests extends Middleware
                 'contact_email' => 'admin@smartservecatering.com',
                 'qr_code_path' => 'admin/uploads/qr_default.png',
             ], \Illuminate\Support\Facades\Schema::hasTable('settings')
-                ? \App\Models\Setting::all()->pluck('setting_value', 'setting_key')->toArray()
+                ? collect(\App\Models\Setting::all()->pluck('setting_value', 'setting_key')->toArray())
+                    ->map(function ($value, $key) {
+                        if ($key === 'qr_code_path' && str_starts_with($value, 'data:')) {
+                            return 'settings/qr-code';
+                        }
+                        return $value;
+                    })->toArray()
                 : []),
         ];
     }
