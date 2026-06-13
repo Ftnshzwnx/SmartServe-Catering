@@ -21,10 +21,16 @@ class BudgetPlannerController extends Controller
         // Get active dishes for custom proposal wishlist
         $dishes = \App\Models\Dish::where('active', true)->orderBy('category')->orderBy('name')->get();
 
+        // Get blocked dates
+        $blockedDates = \App\Models\BlockedDate::pluck('blocked_date')->map(function($date) {
+            return is_string($date) ? $date : $date->format('Y-m-d');
+        })->toArray();
+
         return Inertia::render('Customer/Budget/Planner', [
             'packages' => $packages,
             'cartCount' => $cartCount,
             'dishes' => $dishes,
+            'blockedDates' => $blockedDates,
         ]);
     }
 
@@ -86,12 +92,18 @@ class BudgetPlannerController extends Controller
         $cartCount = Cart::where('user_id', $user->id)->count();
         $dishes = \App\Models\Dish::where('active', true)->orderBy('category')->orderBy('name')->get();
 
+        // Get blocked dates
+        $blockedDates = \App\Models\BlockedDate::pluck('blocked_date')->map(function($date) {
+            return is_string($date) ? $date : $date->format('Y-m-d');
+        })->toArray();
+
         return Inertia::render('Customer/Budget/Planner', [
             'packages' => $packages,
             'cartCount' => $cartCount,
             'results' => $results,
             'searched' => true,
             'dishes' => $dishes,
+            'blockedDates' => $blockedDates,
             'input' => [
                 'mode' => $mode,
                 'budget' => $budget,

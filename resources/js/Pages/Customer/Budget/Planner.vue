@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useLocalization } from '@/Composables/useLocalization';
 
 const props = defineProps({
@@ -26,6 +26,10 @@ const props = defineProps({
         default: () => ({ mode: 'guest', budget: '', guest_count: '' }),
     },
     dishes: {
+        type: Array,
+        default: () => [],
+    },
+    blockedDates: {
         type: Array,
         default: () => [],
     },
@@ -223,6 +227,140 @@ const bookRedirectUrl = computed(() => {
         url += `&addons=${addonsParam}`;
     }
     return url;
+});
+
+// Custom Calendar Dropdown Logic
+const showCalendar = ref(false);
+const todayDate = new Date();
+const calendarYear = ref(todayDate.getFullYear());
+const calendarMonth = ref(todayDate.getMonth());
+
+const monthNames = computed(() => [
+    t('month_jan'), t('month_feb'), t('month_mar'), t('month_apr'), t('month_may'), t('month_jun'),
+    t('month_jul'), t('month_aug'), t('month_sep'), t('month_oct'), t('month_nov'), t('month_dec')
+]);
+
+const weekdays = computed(() => [
+    t('day_sun'), t('day_mon'), t('day_tue'), t('day_wed'), t('day_thu'), t('day_fri'), t('day_sat')
+]);
+
+function prevMonth() {
+    if (calendarMonth.value === 0) {
+        calendarMonth.value = 11;
+        calendarYear.value--;
+    } else {
+        calendarMonth.value--;
+    }
+}
+
+function nextMonth() {
+    if (calendarMonth.value === 11) {
+        calendarMonth.value = 0;
+        calendarYear.value++;
+    } else {
+        calendarMonth.value++;
+    }
+}
+
+const calendarDays = computed(() => {
+    const year = calendarYear.value;
+    const month = calendarMonth.value;
+
+    const firstDay = new Date(year, month, 1);
+    const startDay = firstDay.getDay();
+
+    const totalDays = new Date(year, month + 1, 0).getDate();
+    const prevTotalDays = new Date(year, month, 0).getDate();
+
+    const days = [];
+
+    // Add padding days from previous month
+    for (let i = startDay - 1; i >= 0; i--) {
+        const d = prevTotalDays - i;
+        const prevMonthVal = month === 0 ? 11 : month - 1;
+        const prevYearVal = month === 0 ? year - 1 : year;
+        const dateStr = `${prevYearVal}-${String(prevMonthVal + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        days.push({
+            dateStr,
+            dayNumber: d,
+            isCurrentMonth: false,
+            isDisabled: true,
+            isBlocked: false,
+            isSelected: false,
+        });
+    }
+
+    // Add days of current month
+    for (let d = 1; d <= totalDays; d++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const dateObj = new Date(year, month, d);
+        dateObj.setHours(0, 0, 0, 0);
+        
+        const minDateLimit = new Date();
+        minDateLimit.setDate(minDateLimit.getDate() + 7);
+        minDateLimit.setHours(0, 0, 0, 0);
+
+        const isBeforeMin = dateObj < minDateLimit;
+        const isBlocked = props.blockedDates.includes(dateStr);
+        const isSelected = customForm.value.delivery_date === dateStr;
+
+        days.push({
+            dateStr,
+            dayNumber: d,
+            isCurrentMonth: true,
+            isDisabled: isBeforeMin || isBlocked,
+            isBlocked,
+            isSelected,
+        });
+    }
+
+    const remainingCells = 42 - days.length;
+    for (let d = 1; d <= remainingCells; d++) {
+        const nextMonthVal = month === 11 ? 0 : month + 1;
+        const nextYearVal = month === 11 ? year + 1 : year;
+        const dateStr = `${nextYearVal}-${String(nextMonthVal + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        days.push({
+            dateStr,
+            dayNumber: d,
+            isCurrentMonth: false,
+            isDisabled: true,
+            isBlocked: false,
+            isSelected: false,
+        });
+    }
+
+    return days;
+});
+
+function selectDate(day) {
+    if (day.isDisabled) return;
+    customForm.value.delivery_date = day.dateStr;
+    showCalendar.value = false;
+}
+
+function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const parts = dateStr.split('-');
+    if (parts.length !== 3) return dateStr;
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const day = parseInt(parts[2], 10);
+    const dateObj = new Date(year, month, day);
+    return dateObj.toLocaleDateString((currentLanguage.value || currentLanguage) === 'en' ? 'en-US' : 'ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+const formattedSelectedDate = computed(() => {
+    return formatDate(customForm.value.delivery_date);
+});
+
+onMounted(() => {
+    if (customForm.value.delivery_date) {
+        const parts = customForm.value.delivery_date.split('-');
+        if (parts.length === 3) {
+            calendarYear.value = parseInt(parts[0], 10);
+            calendarMonth.value = parseInt(parts[1], 10) - 1;
+        }
+    }
 });
 </script>
 
@@ -805,12 +943,81 @@ const bookRedirectUrl = computed(() => {
                                 <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">
                                     {{ t('event_date_label') }} *
                                 </label>
-                                <input 
-                                    type="date" 
-                                    v-model="customForm.delivery_date" 
-                                    class="w-full px-4 py-3 border border-[#E6E1DA] rounded-xl focus:outline-none focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF9F6]/40 text-xs font-semibold text-[#2D3330]"
-                                    required
-                                 />
+                                
+                                <div class="relative">
+                                    <!-- Click-Outside Overlay -->
+                                    <div v-if="showCalendar" class="fixed inset-0 z-40" @click="showCalendar = false"></div>
+
+                                    <!-- Custom Trigger Button (Looks like an input field) -->
+                                    <button 
+                                        type="button"
+                                        @click="showCalendar = !showCalendar"
+                                        class="w-full px-4 py-3 border border-[#E6E1DA] rounded-xl focus:outline-none focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF9F6]/40 text-xs font-semibold text-[#2D3330] text-left flex justify-between items-center cursor-pointer h-11 relative z-10"
+                                    >
+                                        <span :class="customForm.delivery_date ? 'text-[#2D3330]' : 'text-gray-400'">
+                                            {{ formattedSelectedDate || t('select_date') }}
+                                        </span>
+                                        <i class="fas fa-calendar-alt text-[#8C8275]"></i>
+                                    </button>
+
+                                    <!-- Custom Calendar Dropdown Panel -->
+                                    <div 
+                                        v-if="showCalendar" 
+                                        class="absolute left-0 mt-2 p-4 bg-white border border-[#E6E1DA] rounded-2xl shadow-xl z-50 w-72 space-y-4 font-sans-modern"
+                                    >
+                                        <!-- Header: Prev, Month/Year, Next -->
+                                        <div class="flex justify-between items-center">
+                                            <button type="button" @click="prevMonth" class="w-8 h-8 rounded-lg hover:bg-[#FAF7F2] border border-[#E6E1DA] flex items-center justify-center text-xs text-[#8C8275] cursor-pointer">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                            <span class="text-xs font-bold text-[#2D3330] font-sans-modern">
+                                                {{ monthNames[calendarMonth] }} {{ calendarYear }}
+                                            </span>
+                                            <button type="button" @click="nextMonth" class="w-8 h-8 rounded-lg hover:bg-[#FAF7F2] border border-[#E6E1DA] flex items-center justify-center text-xs text-[#8C8275] cursor-pointer">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- Weekdays -->
+                                        <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-[#8C8275]">
+                                            <span v-for="day in weekdays" :key="day">{{ day }}</span>
+                                        </div>
+
+                                        <!-- Days Grid -->
+                                        <div class="grid grid-cols-7 gap-1">
+                                            <button
+                                                v-for="(day, index) in calendarDays"
+                                                :key="index"
+                                                type="button"
+                                                @click="selectDate(day)"
+                                                :disabled="day.isDisabled"
+                                                class="h-8 w-8 rounded-lg text-xs font-semibold flex items-center justify-center transition-all cursor-pointer relative"
+                                                :class="[
+                                                    !day.isCurrentMonth ? 'text-gray-300 pointer-events-none' : '',
+                                                    day.isCurrentMonth && !day.isDisabled && !day.isSelected ? 'text-[#2D3330] hover:bg-[#FAF7F2] hover:text-[#4A6B5D]' : '',
+                                                    day.isBlocked ? 'bg-rose-50 text-rose-500 border border-rose-200 cursor-not-allowed hover:bg-rose-50 hover:text-rose-500' : '',
+                                                    day.isSelected ? 'bg-[#4A6B5D] text-white' : '',
+                                                    day.isCurrentMonth && day.isDisabled && !day.isBlocked ? 'text-gray-300 cursor-not-allowed' : '',
+                                                ]"
+                                            >
+                                                {{ day.dayNumber }}
+                                                <span v-if="day.isBlocked" class="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                                            </button>
+                                        </div>
+
+                                        <!-- Legend -->
+                                        <div class="flex items-center justify-center gap-4 border-t border-[#EBEFEF] pt-2.5 text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">
+                                            <div class="flex items-center gap-1">
+                                                <span class="w-2.5 h-2.5 rounded bg-rose-50 border border-rose-200 block"></span>
+                                                <span>{{ t('legend_full') }}</span>
+                                            </div>
+                                            <div class="flex items-center gap-1">
+                                                <span class="w-2.5 h-2.5 rounded bg-[#4A6B5D] block"></span>
+                                                <span>{{ t('legend_selected') }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <p v-if="formErrors.delivery_date" class="text-xs text-red-600 font-semibold">{{ formErrors.delivery_date }}</p>
                                 <p class="text-[10px] text-[#8C8275] mt-1">{{ t('book_advance_notice') }}</p>
                             </div>
