@@ -32,6 +32,7 @@ function translateFlashMessage(message) {
         'Item removed from cart.': 'toast_item_removed',
         'Order status updated and customer notified.': 'admin_toast_status_updated',
         'Tempahan telah ditandakan sebagai sedang dihantar dan pelanggan telah dimaklumkan.': 'admin_toast_delivered_updated',
+        'Order status has been updated to Delivered and customer notified.': 'admin_toast_delivered_updated',
         'Custom menu proposal sent successfully to customer.': 'admin_proposal_sent_toast',
         'Category added successfully.': 'admin_toast_cat_created',
         'Category updated successfully.': 'admin_toast_cat_updated',
@@ -54,6 +55,11 @@ function translateFlashMessage(message) {
         'Blocked date removed.': 'admin_calendar_toast_unblocked',
         'Promo code created successfully.': 'admin_toast_promo_created',
         'Promo code deleted.': 'admin_toast_promo_deleted',
+        'Your message has been sent successfully. We will get back to you soon!': 'inquiry_success',
+        'All categories have been successfully deleted.': 'admin_toast_all_categories_deleted',
+        'All packages have been successfully deleted.': 'admin_toast_all_packages_deleted',
+        'All add-ons have been successfully deleted.': 'admin_toast_all_addons_deleted',
+        'All dishes have been successfully deleted.': 'admin_toast_all_dishes_deleted',
         
         // Errors / other statuses
         'Please select items to checkout.': 'checkout_select_items',

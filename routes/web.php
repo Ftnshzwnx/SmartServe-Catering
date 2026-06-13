@@ -115,7 +115,7 @@ Route::post('/contact', function (\Illuminate\Http\Request $request) {
     \Illuminate\Support\Facades\Mail::to($adminEmail)
         ->send(new \App\Mail\ContactInquiry($validated));
 
-    return back()->with('success', 'Mesej anda telah dihantar! Kami akan menghubungi anda tidak lama lagi.');
+    return back()->with('success', 'Your message has been sent successfully. We will get back to you soon!');
 })->name('contact.send');
 
 // Packages page
@@ -283,6 +283,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/customers', [AdminDashboardController::class, 'customers'])->name('admin.customers');
     Route::post('/customers/{id}/toggle-status', [AdminDashboardController::class, 'toggleCustomerStatus'])->name('admin.customers.toggle');
     Route::delete('/customers/{id}/delete', [AdminDashboardController::class, 'deleteCustomer'])->name('admin.customers.delete');
+    Route::post('/customers/{id}/verify-email', [AdminDashboardController::class, 'verifyCustomerEmail'])->name('admin.customers.verify-email');
 });
 
 require __DIR__.'/auth.php';

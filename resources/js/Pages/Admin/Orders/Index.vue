@@ -186,11 +186,7 @@ async function handleVerify(orderId, actionType) {
 async function handleDeliver(orderId) {
     if (!(await confirm(t('admin_confirm_deliver'), t('admin_mark_delivered_title')))) return;
     
-    router.post(route('admin.orders.deliver', { id: orderId }), {}, {
-        onSuccess: () => {
-            toast(t('admin_toast_delivered_updated'));
-        }
-    });
+    router.post(route('admin.orders.deliver', { id: orderId }));
 }
 
 function getStatusBadge(status) {

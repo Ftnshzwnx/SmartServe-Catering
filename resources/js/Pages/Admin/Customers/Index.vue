@@ -91,6 +91,21 @@ async function deleteCustomer(user) {
         });
     }
 }
+
+async function verifyEmail(user) {
+    const confirmTitle = currentLanguage.value === 'en' ? 'Verify Customer Email' : 'Sahkan Email Pelanggan';
+    const confirmMessage = currentLanguage.value === 'en'
+        ? `Are you sure you want to manually verify the email address for ${user.full_name || user.name}?`
+        : `Adakah anda pasti mahu mengesahkan alamat email untuk ${user.full_name || user.name} secara manual?`;
+    
+    if (await confirm(confirmMessage, confirmTitle)) {
+        form.post(route('admin.customers.verify-email', { id: user.id }), {
+            onSuccess: () => {
+                toast(currentLanguage.value === 'en' ? 'Customer email marked as verified.' : 'Email pelanggan telah disahkan.');
+            }
+        });
+    }
+}
 </script>
 
 <template>
@@ -179,7 +194,15 @@ async function deleteCustomer(user) {
                                 {{ user.full_name || user.name }}
                             </td>
                             <td class="py-4 text-[#5C6460] font-medium">
-                                {{ user.email }}
+                                <div class="flex flex-col">
+                                    <span>{{ user.email }}</span>
+                                    <span v-if="user.email_verified_at" class="text-[10px] text-emerald-600 font-semibold flex items-center gap-1 mt-0.5" :title="user.email_verified_at">
+                                        <i class="fas fa-check-circle text-[9px]"></i> {{ currentLanguage === 'en' ? 'Verified' : 'Telah Disahkan' }}
+                                    </span>
+                                    <span v-else class="text-[10px] text-amber-600 font-semibold flex items-center gap-1 mt-0.5">
+                                        <i class="fas fa-clock text-[9px]"></i> {{ currentLanguage === 'en' ? 'Unverified' : 'Belum Disahkan' }}
+                                    </span>
+                                </div>
                             </td>
                             <td class="py-4 text-[#8C8275] font-semibold">
                                 {{ user.phone || 'N/A' }}
@@ -197,6 +220,14 @@ async function deleteCustomer(user) {
                             </td>
                             <td class="py-4 text-right pr-2">
                                 <div class="flex justify-end gap-2">
+                                    <button 
+                                        v-if="!user.email_verified_at"
+                                        @click="verifyEmail(user)"
+                                        class="w-8 h-8 rounded-xl flex items-center justify-center transition-colors shadow-xs border cursor-pointer bg-amber-50 hover:bg-amber-100 border-amber-200 text-amber-600"
+                                        :title="currentLanguage === 'en' ? 'Manually Verify Email' : 'Sahkan Email Pelanggan'"
+                                    >
+                                        <i class="fas fa-envelope-open text-xs"></i>
+                                    </button>
                                     <button 
                                         @click="toggleAccess(user)"
                                         class="w-8 h-8 rounded-xl flex items-center justify-center transition-colors shadow-xs border cursor-pointer"

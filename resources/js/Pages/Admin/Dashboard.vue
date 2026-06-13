@@ -76,7 +76,6 @@ async function handleDeliver(orderId) {
     
     router.post(route('admin.orders.deliver', { id: orderId }), {}, {
         onSuccess: () => {
-            toast(t('admin_toast_delivered_updated'));
             closeDetailsModal();
         }
     });

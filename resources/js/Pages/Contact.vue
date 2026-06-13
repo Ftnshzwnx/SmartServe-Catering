@@ -34,7 +34,6 @@ const handleContactSubmit = () => {
     contactForm.post(route('contact.send'), {
         preserveScroll: true,
         onSuccess: () => {
-            toast(page.props.flash?.success || t('inquiry_success'));
             contactForm.reset();
         },
     });

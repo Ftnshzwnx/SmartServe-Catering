@@ -174,9 +174,7 @@ async function deletePackage(id) {
 
 async function deleteAllPackages() {
     if (await confirm(t('admin_confirm_clear_all_packages_desc'), t('admin_confirm_clear_all_packages_title'))) {
-        router.delete(route('admin.packages.clear-all'), {
-            onSuccess: () => toast(t('admin_toast_all_packages_deleted'))
-        });
+        router.delete(route('admin.packages.clear-all'));
     }
 }
 
@@ -273,9 +271,7 @@ async function deleteAddon(id) {
 
 async function deleteAllAddons() {
     if (await confirm(t('admin_confirm_clear_all_addons_desc'), t('admin_confirm_clear_all_addons_title'))) {
-        router.delete(route('admin.addons.clear-all'), {
-            onSuccess: () => toast(t('admin_toast_all_addons_deleted'))
-        });
+        router.delete(route('admin.addons.clear-all'));
     }
 }
 
@@ -340,9 +336,7 @@ async function deleteDish(id) {
 
 async function deleteAllDishes() {
     if (await confirm(t('admin_confirm_clear_all_dishes_desc'), t('admin_confirm_clear_all_dishes_title'))) {
-        router.delete(route('admin.dishes.clear-all'), {
-            onSuccess: () => toast(t('admin_toast_all_dishes_deleted'))
-        });
+        router.delete(route('admin.dishes.clear-all'));
     }
 }
 
@@ -412,9 +406,6 @@ async function deleteCategory(id) {
 async function deleteAllCategories() {
     if (await confirm(t('admin_confirm_clear_all_categories_desc'), t('admin_confirm_clear_all_categories_title'))) {
         router.delete(route('admin.categories.clear-all'), {
-            onSuccess: () => {
-                toast(t('admin_toast_all_categories_deleted'));
-            },
             onError: (errors) => {
                 if (errors.category) {
                     toast(errors.category, 'error');

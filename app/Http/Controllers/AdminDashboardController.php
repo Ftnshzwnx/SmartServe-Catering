@@ -208,7 +208,7 @@ class AdminDashboardController extends Controller
             // fail-silent
         }
 
-        return redirect()->back()->with('success', 'Tempahan telah ditandakan sebagai sedang dihantar dan pelanggan telah dimaklumkan.');
+        return redirect()->back()->with('success', 'Order status has been updated to Delivered and customer notified.');
     }
 
     public function sendProposal(Request $request, int $id): RedirectResponse
@@ -396,7 +396,7 @@ class AdminDashboardController extends Controller
         }
 
         \App\Models\DishCategory::query()->delete();
-        return redirect()->back()->with('success', 'Semua kategori telah dipadam.');
+        return redirect()->back()->with('success', 'All categories have been successfully deleted.');
     }
 
     public function storePackage(Request $request): RedirectResponse
@@ -514,7 +514,7 @@ class AdminDashboardController extends Controller
             }
             $pkg->delete();
         }
-        return redirect()->back()->with('success', 'Semua pakej telah dipadam.');
+        return redirect()->back()->with('success', 'All packages have been successfully deleted.');
     }
 
     // Addons Management
@@ -562,7 +562,7 @@ class AdminDashboardController extends Controller
     public function clearAllAddons(): RedirectResponse
     {
         Addon::query()->delete();
-        return redirect()->back()->with('success', 'Semua add-on telah dipadam.');
+        return redirect()->back()->with('success', 'All add-ons have been successfully deleted.');
     }
 
     // Dishes Management
@@ -611,7 +611,7 @@ class AdminDashboardController extends Controller
     public function clearAllDishes(): RedirectResponse
     {
         \App\Models\Dish::query()->delete();
-        return redirect()->back()->with('success', 'Semua hidangan telah dipadam.');
+        return redirect()->back()->with('success', 'All dishes have been successfully deleted.');
     }
 
     // Reports & Analytics
@@ -1175,5 +1175,14 @@ class AdminDashboardController extends Controller
         $user->delete();
 
         return redirect()->back()->with('success', 'Customer account has been permanently deleted.');
+    }
+
+    public function verifyCustomerEmail(int $id): RedirectResponse
+    {
+        $user = User::findOrFail($id);
+        $user->email_verified_at = now();
+        $user->save();
+
+        return redirect()->back()->with('success', 'Customer email has been marked as verified successfully.');
     }
 }
