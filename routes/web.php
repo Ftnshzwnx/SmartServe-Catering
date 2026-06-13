@@ -151,7 +151,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Menu / Packages
     Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
     Route::get('/menu/quotation/pdf', [MenuController::class, 'downloadQuotation'])->name('menu.quotation');
-    Route::get('/menu/{category}', [MenuController::class, 'show'])->name('menu.show');
+    Route::get('/menu/{category}', [MenuController::class, 'show'])->name('menu.show')->where('category', '.*');
 
     // Budget Planner
     Route::get('/budget-planner', [BudgetPlannerController::class, 'index'])->name('budget.planner');
