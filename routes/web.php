@@ -64,15 +64,16 @@ Route::get('/settings/qr-code', function() {
     return response()->file(public_path('img/logo.png'));
 })->name('settings.qr-code');
 
-// Temporary route to check production mail config
-Route::get('/check-mail-config', function() {
+// Temporary route to check queue jobs
+Route::get('/check-failed-jobs', function() {
     return [
-        'default_mailer' => config('mail.default'),
-        'from_address' => config('mail.from.address'),
-        'has_resend_key' => !empty(config('services.resend.key') ?: config('mail.mailers.resend.key')),
-        'resend_key_length' => strlen(config('services.resend.key') ?: config('mail.mailers.resend.key') ?: ''),
+        'failed_jobs_count' => \DB::table('failed_jobs')->count(),
+        'failed_jobs' => \DB::table('failed_jobs')->take(5)->get(),
+        'pending_jobs_count' => \DB::table('jobs')->count(),
+        'pending_jobs' => \DB::table('jobs')->take(5)->get(),
     ];
 });
+
 
 
 // About Us page
