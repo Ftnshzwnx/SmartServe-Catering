@@ -41,6 +41,12 @@ Route::get('/', function () {
     ]);
 });
 
+// Temporary route to delete orders #1 and #2
+Route::get('/delete-test-orders-temp', function() {
+    \App\Models\Order::destroy([1, 2]);
+    return 'Orders #1 and #2 deleted successfully!';
+});
+
 // About Us page
 Route::get('/about', function () {
     return Inertia::render('About', [
