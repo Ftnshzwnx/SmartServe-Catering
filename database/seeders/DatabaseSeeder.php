@@ -138,21 +138,6 @@ class DatabaseSeeder extends Seeder
             }
 
 
-            if (!DB::table('users')->where('email', 'customer@example.com')->exists()) {
-                DB::table('users')->insert([
-                    'name' => 'customer',
-                    'full_name' => 'Customer',
-                    'email' => 'customer@example.com',
-                    'email_verified_at' => now(),
-                    'password' => Hash::make('password'),
-                    'role' => 'customer',
-                    'phone' => '0123456789',
-                    'address' => 'Gong Badak, Kuala Terengganu',
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
-
             // Seed default packages
             if (DB::table('packages')->count() === 0) {
                 DB::table('packages')->insertGetId([
