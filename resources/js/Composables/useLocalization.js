@@ -881,6 +881,7 @@ const translations = {
 
         // Admin Reports
         'admin_reports_dashboard_title': 'Reports & Analytics Dashboard',
+        'admin_reports_header_title': 'Reports & Analytics',
         'admin_reports_desc': 'Review company performance charts, sales analytics, and export bookings records.',
         'admin_reports_monthly': 'Monthly',
         'admin_reports_daily': 'Daily',
@@ -2081,6 +2082,7 @@ const translations = {
 
         // Admin Reports
         'admin_reports_dashboard_title': 'Papan Pemuka Laporan & Analisis',
+        'admin_reports_header_title': 'Laporan & Analisis',
         'admin_reports_desc': 'Semak carta prestasi syarikat, analisis jualan, dan muat turun rekod tempahan.',
         'admin_reports_monthly': 'Bulanan',
         'admin_reports_daily': 'Harian',
