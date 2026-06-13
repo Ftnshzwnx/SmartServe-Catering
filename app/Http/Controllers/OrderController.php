@@ -440,7 +440,7 @@ class OrderController extends Controller
 
         $settings = Setting::all()->pluck('setting_value', 'setting_key')->toArray();
         $pdf = Pdf::loadView('pdf.invoice', compact('order', 'settings'));
-        return $pdf->download('invoice_' . $order->id . '.pdf');
+        return $pdf->stream('invoice_' . $order->id . '.pdf');
     }
 
     public function downloadReceipt(Request $request, int $id)
@@ -459,7 +459,7 @@ class OrderController extends Controller
 
         $settings = Setting::all()->pluck('setting_value', 'setting_key')->toArray();
         $pdf = Pdf::loadView('pdf.receipt', compact('order', 'settings'));
-        return $pdf->download('receipt_' . $order->id . '.pdf');
+        return $pdf->stream('receipt_' . $order->id . '.pdf');
     }
 
     private function sendOrderEmail($email, $order, $deposit, $balance, $customerName)

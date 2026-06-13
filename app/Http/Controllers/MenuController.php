@@ -113,6 +113,6 @@ class MenuController extends Controller
         ));
 
         $filename = 'Quotation_' . str_replace(' ', '_', $package->package_name) . '_' . date('Ymd') . '.pdf';
-        return $pdf->download($filename);
+        return $pdf->stream($filename);
     }
 }

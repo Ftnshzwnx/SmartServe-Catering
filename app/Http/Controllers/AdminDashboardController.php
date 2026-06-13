@@ -942,7 +942,7 @@ class AdminDashboardController extends Controller
 
         if ($format === 'pdf') {
             $pdf = Pdf::loadView('pdf.admin_report', compact('orders', 'status', 'viewMode', 'year', 'month'));
-            return $pdf->download('sales_report_' . date('Ymd') . '.pdf');
+            return $pdf->stream('sales_report_' . date('Ymd') . '.pdf');
         }
 
         // CSV (Excel) Export
