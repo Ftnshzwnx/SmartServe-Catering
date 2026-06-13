@@ -381,6 +381,24 @@ class AdminDashboardController extends Controller
         return redirect()->back()->with('success', 'Category deleted successfully.');
     }
 
+    public function clearAllCategories(): RedirectResponse
+    {
+        $hasDishes = \App\Models\Dish::exists();
+        if ($hasDishes) {
+            return redirect()->back()->withErrors([
+                'category' => "Kategori tidak boleh dipadam kerana masih terdapat hidangan di dalam perpustakaan hidangan. Sila kosongkan/padam semua hidangan terlebih dahulu."
+            ]);
+        }
+
+        foreach (\App\Models\Package::all() as $pkg) {
+            $pkg->dish_limits = [];
+            $pkg->save();
+        }
+
+        \App\Models\DishCategory::query()->delete();
+        return redirect()->back()->with('success', 'Semua kategori telah dipadam.');
+    }
+
     public function storePackage(Request $request): RedirectResponse
     {
         $request->validate([
@@ -481,6 +499,24 @@ class AdminDashboardController extends Controller
         return redirect()->back()->with('success', 'Package deleted.');
     }
 
+    public function clearAllPackages(): RedirectResponse
+    {
+        $packages = Package::all();
+        foreach ($packages as $pkg) {
+            $oldImagePath = $pkg->image;
+            if ($oldImagePath) {
+                if (strpos($oldImagePath, 'menu/') !== 0) {
+                    $oldImagePath = 'menu/' . $oldImagePath;
+                }
+                if (file_exists(public_path($oldImagePath))) {
+                    @unlink(public_path($oldImagePath));
+                }
+            }
+            $pkg->delete();
+        }
+        return redirect()->back()->with('success', 'Semua pakej telah dipadam.');
+    }
+
     // Addons Management
     public function storeAddon(Request $request): RedirectResponse
     {
@@ -521,6 +557,12 @@ class AdminDashboardController extends Controller
         $addon = Addon::findOrFail($id);
         $addon->delete();
         return redirect()->back()->with('success', 'Addon deleted successfully.');
+    }
+
+    public function clearAllAddons(): RedirectResponse
+    {
+        Addon::query()->delete();
+        return redirect()->back()->with('success', 'Semua add-on telah dipadam.');
     }
 
     // Dishes Management
@@ -564,6 +606,12 @@ class AdminDashboardController extends Controller
         $dish->delete();
 
         return redirect()->back()->with('success', 'Dish deleted successfully.');
+    }
+
+    public function clearAllDishes(): RedirectResponse
+    {
+        \App\Models\Dish::query()->delete();
+        return redirect()->back()->with('success', 'Semua hidangan telah dipadam.');
     }
 
     // Reports & Analytics

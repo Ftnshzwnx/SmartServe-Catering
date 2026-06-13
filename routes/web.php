@@ -202,18 +202,22 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::post('/packages/store', [AdminDashboardController::class, 'storePackage'])->name('admin.packages.store');
     Route::post('/packages/update/{id}', [AdminDashboardController::class, 'updatePackage'])->name('admin.packages.update');
     Route::delete('/packages/delete/{id}', [AdminDashboardController::class, 'deletePackage'])->name('admin.packages.delete');
+    Route::delete('/packages/clear-all', [AdminDashboardController::class, 'clearAllPackages'])->name('admin.packages.clear-all');
     
     Route::post('/addons/store', [AdminDashboardController::class, 'storeAddon'])->name('admin.addons.store');
     Route::post('/addons/update/{id}', [AdminDashboardController::class, 'updateAddon'])->name('admin.addons.update');
     Route::delete('/addons/delete/{id}', [AdminDashboardController::class, 'deleteAddon'])->name('admin.addons.delete');
+    Route::delete('/addons/clear-all', [AdminDashboardController::class, 'clearAllAddons'])->name('admin.addons.clear-all');
     
     Route::post('/dishes/store', [AdminDashboardController::class, 'storeDish'])->name('admin.dishes.store');
     Route::post('/dishes/update/{id}', [AdminDashboardController::class, 'updateDish'])->name('admin.dishes.update');
     Route::delete('/dishes/delete/{id}', [AdminDashboardController::class, 'deleteDish'])->name('admin.dishes.delete');
+    Route::delete('/dishes/clear-all', [AdminDashboardController::class, 'clearAllDishes'])->name('admin.dishes.clear-all');
     
     Route::post('/categories/store', [AdminDashboardController::class, 'storeCategory'])->name('admin.categories.store');
     Route::post('/categories/update/{id}', [AdminDashboardController::class, 'updateCategory'])->name('admin.categories.update');
     Route::delete('/categories/delete/{id}', [AdminDashboardController::class, 'deleteCategory'])->name('admin.categories.delete');
+    Route::delete('/categories/clear-all', [AdminDashboardController::class, 'clearAllCategories'])->name('admin.categories.clear-all');
     
     Route::get('/settings', [AdminDashboardController::class, 'settings'])->name('admin.settings');
     Route::post('/settings/update', [AdminDashboardController::class, 'updateSettings'])->name('admin.settings.update');

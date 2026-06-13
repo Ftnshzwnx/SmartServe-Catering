@@ -172,6 +172,14 @@ async function deletePackage(id) {
     }
 }
 
+async function deleteAllPackages() {
+    if (await confirm(t('admin_confirm_clear_all_packages_desc'), t('admin_confirm_clear_all_packages_title'))) {
+        router.delete(route('admin.packages.clear-all'), {
+            onSuccess: () => toast(t('admin_toast_all_packages_deleted'))
+        });
+    }
+}
+
 // --- Select All Dishes Helper ---
 const activeDishes = computed(() => {
     return props.dishes.filter(d => d.active);
@@ -188,6 +196,28 @@ function toggleSelectAllDishes() {
     } else {
         packageForm.dishes = activeDishes.value.map(dish => dish.id);
     }
+}
+
+function selectDishesInCategory(categoryName) {
+    const categoryDishIds = props.dishes
+        .filter(d => d.category === categoryName && d.active)
+        .map(d => d.id);
+        
+    const updatedDishes = [...packageForm.dishes];
+    categoryDishIds.forEach(id => {
+        if (!updatedDishes.includes(id)) {
+            updatedDishes.push(id);
+        }
+    });
+    packageForm.dishes = updatedDishes;
+}
+
+function clearDishesInCategory(categoryName) {
+    const categoryDishIds = props.dishes
+        .filter(d => d.category === categoryName && d.active)
+        .map(d => d.id);
+        
+    packageForm.dishes = packageForm.dishes.filter(id => !categoryDishIds.includes(id));
 }
 
 // ─── Add-on Helper Methods ───────────────────────────────────────────────────
@@ -231,6 +261,14 @@ async function deleteAddon(id) {
     if (await confirm(t('admin_confirm_delete_addon'), t('admin_confirm_delete_addon_title'))) {
         router.delete(route('admin.addons.delete', { id }), {
             onSuccess: () => toast(t('admin_toast_addon_deleted'))
+        });
+    }
+}
+
+async function deleteAllAddons() {
+    if (await confirm(t('admin_confirm_clear_all_addons_desc'), t('admin_confirm_clear_all_addons_title'))) {
+        router.delete(route('admin.addons.clear-all'), {
+            onSuccess: () => toast(t('admin_toast_all_addons_deleted'))
         });
     }
 }
@@ -294,6 +332,14 @@ async function deleteDish(id) {
     }
 }
 
+async function deleteAllDishes() {
+    if (await confirm(t('admin_confirm_clear_all_dishes_desc'), t('admin_confirm_clear_all_dishes_title'))) {
+        router.delete(route('admin.dishes.clear-all'), {
+            onSuccess: () => toast(t('admin_toast_all_dishes_deleted'))
+        });
+    }
+}
+
 function toggleDishStatus(dish) {
     const toggledActive = !dish.active;
     router.post(route('admin.dishes.update', { id: dish.id }), {
@@ -347,6 +393,21 @@ async function deleteCategory(id) {
         router.delete(route('admin.categories.delete', { id }), {
             onSuccess: () => {
                 toast(t('admin_toast_cat_deleted'));
+            },
+            onError: (errors) => {
+                if (errors.category) {
+                    toast(errors.category, 'error');
+                }
+            }
+        });
+    }
+}
+
+async function deleteAllCategories() {
+    if (await confirm(t('admin_confirm_clear_all_categories_desc'), t('admin_confirm_clear_all_categories_title'))) {
+        router.delete(route('admin.categories.clear-all'), {
+            onSuccess: () => {
+                toast(t('admin_toast_all_categories_deleted'));
             },
             onError: (errors) => {
                 if (errors.category) {
@@ -623,13 +684,22 @@ watch([categorySearchQuery], () => {
                         <i class="fas fa-times text-xs"></i>
                     </button>
                 </div>
-                <!-- Action Button -->
-                <button
-                    @click="openCreatePackage"
-                    class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0"
-                >
-                    <i class="fas fa-plus"></i> {{ t('admin_create_package_btn') }}
-                </button>
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-2">
+                    <button
+                        v-if="packages.length > 0"
+                        @click="deleteAllPackages"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in"
+                    >
+                        <i class="fas fa-trash-alt"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
+                    </button>
+                    <button
+                        @click="openCreatePackage"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none"
+                    >
+                        <i class="fas fa-plus"></i> {{ t('admin_create_package_btn') }}
+                    </button>
+                </div>
             </div>
 
             <!-- Main Packages Panel (if any packages exist in database) -->
@@ -870,13 +940,22 @@ watch([categorySearchQuery], () => {
                         </span>
                     </div>
                 </div>
-                <!-- Action Button -->
-                <button
-                    @click="openCreateAddon"
-                    class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0"
-                >
-                    <i class="fas fa-plus"></i> {{ t('admin_add_new_global_item_btn') }}
-                </button>
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-2">
+                    <button
+                        v-if="addons.length > 0"
+                        @click="deleteAllAddons"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in"
+                    >
+                        <i class="fas fa-trash-alt"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
+                    </button>
+                    <button
+                        @click="openCreateAddon"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none"
+                    >
+                        <i class="fas fa-plus"></i> {{ t('admin_add_new_global_item_btn') }}
+                    </button>
+                </div>
             </div>
 
             <!-- Add-ons Data Table -->
@@ -1042,13 +1121,22 @@ watch([categorySearchQuery], () => {
                         </span>
                     </div>
                 </div>
-                <!-- Action Button -->
-                <button
-                    @click="openCreateDish"
-                    class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0"
-                >
-                    <i class="fas fa-plus"></i> {{ t('admin_add_new_dish_btn') }}
-                </button>
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-2">
+                    <button
+                        v-if="dishes.length > 0"
+                        @click="deleteAllDishes"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in"
+                    >
+                        <i class="fas fa-trash-alt"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
+                    </button>
+                    <button
+                        @click="openCreateDish"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none"
+                    >
+                        <i class="fas fa-plus"></i> {{ t('admin_add_new_dish_btn') }}
+                    </button>
+                </div>
             </div>
 
             <!-- Dishes Data Table -->
@@ -1183,13 +1271,22 @@ watch([categorySearchQuery], () => {
                         <i class="fas fa-times text-xs"></i>
                     </button>
                 </div>
-                <!-- Action Button -->
-                <button
-                    @click="openCreateCategory"
-                    class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0"
-                >
-                    <i class="fas fa-plus"></i> {{ t('admin_add_new_category_btn') }}
-                </button>
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-2">
+                    <button
+                        v-if="categories.length > 0"
+                        @click="deleteAllCategories"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in"
+                    >
+                        <i class="fas fa-trash-alt"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
+                    </button>
+                    <button
+                        @click="openCreateCategory"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0"
+                    >
+                        <i class="fas fa-plus"></i> {{ t('admin_add_new_category_btn') }}
+                    </button>
+                </div>
             </div>
 
             <!-- Categories Data Table -->
@@ -1470,7 +1567,26 @@ watch([categorySearchQuery], () => {
                                     </div>
                                     <div class="space-y-4 max-h-60 overflow-y-auto border border-[#E6E1DA] rounded-xl p-4 bg-[#FAF7F2]/40">
                                         <div v-for="cat in dishCategories" :key="cat" class="space-y-2">
-                                            <span class="text-[10px] font-extrabold text-[#4A6B5D] uppercase tracking-wider block border-b border-[#E6E1DA] pb-1">{{ cat }} (Limit: {{ packageForm.dish_limits[cat] || 0 }})</span>
+                                            <div class="flex items-center justify-between border-b border-[#E6E1DA] pb-1 mb-1.5">
+                                                <span class="text-[10px] font-extrabold text-[#4A6B5D] uppercase tracking-wider">{{ cat }} (Limit: {{ packageForm.dish_limits[cat] || 0 }})</span>
+                                                <div class="flex items-center gap-2">
+                                                    <button 
+                                                        type="button" 
+                                                        @click="selectDishesInCategory(cat)" 
+                                                        class="text-[9px] font-bold text-[#4A6B5D] hover:text-[#3D574B] hover:underline cursor-pointer focus:outline-none"
+                                                    >
+                                                        {{ currentLanguage === 'en' ? 'Select All' : 'Pilih Semua' }}
+                                                    </button>
+                                                    <span class="text-[9px] text-[#D1C8BD] font-normal">|</span>
+                                                    <button 
+                                                        type="button" 
+                                                        @click="clearDishesInCategory(cat)" 
+                                                        class="text-[9px] font-bold text-rose-500 hover:text-rose-700 hover:underline cursor-pointer focus:outline-none"
+                                                    >
+                                                        {{ currentLanguage === 'en' ? 'Clear' : 'Kosongkan' }}
+                                                    </button>
+                                                </div>
+                                            </div>
                                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                                 <label 
                                                     v-for="dish in dishes.filter(d => d.category === cat && d.active)" 
