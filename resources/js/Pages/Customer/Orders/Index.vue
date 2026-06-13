@@ -58,11 +58,19 @@ function isDepositPayment(order) {
 }
 
 const showQrModal = ref(false);
+function resolveQrPath(path) {
+    if (!path) return '';
+    if (path.startsWith('data:') || path.startsWith('http://') || path.startsWith('https://') || path.startsWith('/')) {
+        return path;
+    }
+    return '/' + path;
+}
+
 
 function downloadQr() {
     if (!qrCodePath) return;
     const link = document.createElement('a');
-    link.href = '/' + qrCodePath;
+    link.href = resolveQrPath(qrCodePath);
     link.download = 'SmartServe-Payment-QR.png';
     link.click();
 }
@@ -546,7 +554,7 @@ function handleReceiptSelect(event, orderId, type) {
                                 @click="showQrModal = true"
                                 title="Click to zoom"
                             >
-                                <img :src="'/' + qrCodePath" alt="Payment QR Code" class="w-full h-full object-contain transition-transform duration-200 group-hover:scale-105" />
+                                <img :src="resolveQrPath(qrCodePath)" alt="Payment QR Code" class="w-full h-full object-contain transition-transform duration-200 group-hover:scale-105" />
                                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200 flex items-center justify-center">
                                     <i class="fas fa-search-plus text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 drop-shadow-md text-lg"></i>
                                 </div>
@@ -652,7 +660,7 @@ function handleReceiptSelect(event, orderId, type) {
 
                     <!-- Large QR Image -->
                     <div class="w-64 h-64 rounded-2xl border-2 border-[#E6E1DA] overflow-hidden bg-white p-3 shadow-inner">
-                        <img :src="'/' + qrCodePath" alt="Payment QR Code" class="w-full h-full object-contain" />
+                        <img :src="resolveQrPath(qrCodePath)" alt="Payment QR Code" class="w-full h-full object-contain" />
                     </div>
 
                     <!-- Download Button -->

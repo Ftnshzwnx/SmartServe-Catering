@@ -874,12 +874,11 @@ class AdminDashboardController extends Controller
 
         if ($request->hasFile('qr_code')) {
             $file = $request->file('qr_code');
-            $fileName = 'qr_code_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('admin/uploads'), $fileName);
+            $base64 = 'data:' . $file->getMimeType() . ';base64,' . base64_encode(file_get_contents($file->getRealPath()));
 
             Setting::updateOrCreate(
                 ['setting_key' => 'qr_code_path'],
-                ['setting_value' => 'admin/uploads/' . $fileName]
+                ['setting_value' => $base64]
             );
         }
 

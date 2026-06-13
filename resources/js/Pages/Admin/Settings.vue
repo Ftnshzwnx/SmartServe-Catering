@@ -27,10 +27,17 @@ const { t, currentLanguage } = useLocalization();
 const activeTab = ref('company'); // 'company', 'zones', 'profile', 'security'
 const qrPreviewUrl = ref('');
 const showQrModal = ref(false);
+function resolveQrPath(path) {
+    if (!path) return '';
+    if (path.startsWith('data:') || path.startsWith('http://') || path.startsWith('https://') || path.startsWith('/')) {
+        return path;
+    }
+    return '/' + path;
+}
+
 const activeQrUrl = computed(() => {
     if (qrPreviewUrl.value) return qrPreviewUrl.value;
-    if (props.settings.qr_code_path) return '/' + props.settings.qr_code_path;
-    return null;
+    return resolveQrPath(props.settings.qr_code_path);
 });
 const fileError = ref('');
 
@@ -386,7 +393,7 @@ function submitPassword() {
                                                         />
                                                         <img 
                                                             v-else-if="settings.qr_code_path" 
-                                                            :src="'/' + settings.qr_code_path" 
+                                                            :src="resolveQrPath(settings.qr_code_path)" 
                                                             :alt="t('admin_settings_qr_preview_current')" 
                                                             class="w-24 h-24 object-contain mx-auto transition-transform duration-350 group-hover:scale-105"
                                                         />
