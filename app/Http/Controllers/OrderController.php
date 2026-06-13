@@ -51,7 +51,7 @@ class OrderController extends Controller
         $notifDelivered = Order::where('user_id', $user->id)->whereIn('status', ['Delivered', 'Balance Rejected'])->count();
         $notifProposals = Order::where('user_id', $user->id)
             ->where('is_custom_proposal', true)
-            ->where('status', 'Proposal Sent')
+            ->whereIn('status', ['Pending Proposal', 'Proposal Sent'])
             ->count();
 
         return Inertia::render('Customer/Orders/Index', [
