@@ -150,7 +150,7 @@ function submitSettings() {
 }
 
 function submitProfile() {
-    profileForm.patch(route('profile.update'), {
+    profileForm.post(route('profile.update'), {
         onSuccess: () => {
             toast(t('admin_settings_toast_profile_updated'));
         }
