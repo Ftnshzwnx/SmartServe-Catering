@@ -220,6 +220,12 @@ function clearDishesInCategory(categoryName) {
     packageForm.dishes = packageForm.dishes.filter(id => !categoryDishIds.includes(id));
 }
 
+const expandedPackageDishes = ref({});
+
+function togglePackageDishes(pkgId) {
+    expandedPackageDishes.value[pkgId] = !expandedPackageDishes.value[pkgId];
+}
+
 // ─── Add-on Helper Methods ───────────────────────────────────────────────────
 
 function openCreateAddon() {
@@ -795,7 +801,32 @@ watch([categorySearchQuery], () => {
                                             </span>
                                         </div>
                                     </div>
-                                    <div v-if="pkg.dishes && pkg.dishes.length > 0" class="flex flex-wrap gap-1.5 text-xs">
+                                    <!-- Toggle Collapse Button -->
+                                    <div v-if="pkg.dishes && pkg.dishes.length > 0" class="flex items-center">
+                                        <button
+                                            type="button"
+                                            @click="togglePackageDishes(pkg.id)"
+                                            class="inline-flex items-center gap-1.5 text-xs font-bold text-[#4A6B5D] hover:text-[#3D574B] hover:underline cursor-pointer focus:outline-none"
+                                        >
+                                            <i 
+                                                class="fas text-[9px] transition-transform duration-200"
+                                                :class="expandedPackageDishes[pkg.id] ? 'fa-chevron-up' : 'fa-chevron-down'"
+                                            ></i>
+                                            <span>
+                                                {{ expandedPackageDishes[pkg.id] 
+                                                    ? (currentLanguage === 'en' ? 'Hide Available Dishes' : 'Sembunyikan Pilihan Hidangan')
+                                                    : (currentLanguage === 'en' ? `Show Available Dishes (${pkg.dishes.length})` : `Lihat Pilihan Hidangan (${pkg.dishes.length})`) 
+                                                }}
+                                            </span>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Collapsible Dishes List -->
+                                    <div 
+                                        v-if="pkg.dishes && pkg.dishes.length > 0" 
+                                        v-show="expandedPackageDishes[pkg.id]" 
+                                        class="flex flex-wrap gap-1.5 text-xs pt-1 animate-fade-in"
+                                    >
                                         <span
                                             v-for="dish in pkg.dishes"
                                             :key="dish.id"
