@@ -46,6 +46,24 @@ class SystemNotification extends Model
         $admins = User::where('role', 'admin')->get();
         foreach ($admins as $admin) {
             self::send($admin->id, $title, $message, $type, $link);
+
+            // Send email notification to admin
+            try {
+                $url = $link ? url($link) : null;
+                $adminName = $admin->full_name ?: $admin->name;
+                \Illuminate\Support\Facades\Mail::to($admin->email)->send(
+                    new \App\Mail\CateringNotificationMail(
+                        $title,
+                        "Hi, {$adminName}!",
+                        [$message],
+                        $link ? 'View Details' : null,
+                        $url
+                    )
+                );
+            } catch (\Exception $e) {
+                // Log the mail failure so it doesn't break the application runtime
+                \Illuminate\Support\Facades\Log::error("Failed to send admin notification email to {$admin->email}: " . $e->getMessage());
+            }
         }
     }
 }
