@@ -486,8 +486,7 @@ function copyAccountNumber() {
                 <form @submit.prevent="submitCheckout" class="grid lg:grid-cols-12 gap-8 items-start">
                     
                     <!-- Left: Details (8 cols) -->
-                    <div class="lg:col-span-8 space-y-8">
-                        
+                    <div class="lg:col-span-8">
                         <div class="checkout-card space-y-6">
                             <h3 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#EBEFEF] pb-3 flex items-center gap-2">
                                 <i class="fas fa-calendar-check text-[#4A6B5D] text-sm"></i> {{ t('event_delivery_details') }}
@@ -721,8 +720,114 @@ function copyAccountNumber() {
                                 <span v-if="form.errors.notes" class="text-xs text-red-500 font-semibold">{{ form.errors.notes }}</span>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Payment Instructions & Receipt Upload -->
+                    <!-- Middle (on mobile) / Right (on desktop): Summary (4 cols) -->
+                    <div class="lg:col-span-4 lg:row-span-2 lg:sticky lg:top-24 space-y-6 font-sans-modern">
+                        <div class="checkout-card space-y-6">
+                            <h3 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider border-b border-[#EBEFEF] pb-3">{{ t('selected_packages') }}</h3>
+
+                            <div class="divide-y divide-[#EBEFEF] max-h-80 overflow-y-auto pr-1">
+                                <div v-for="item in cartItems" :key="item.id" class="py-4 space-y-2.5 first:pt-0">
+                                    <div class="flex justify-between items-start gap-2">
+                                        <div>
+                                            <span class="font-normal text-[#2D3330] font-serif-luxury text-base uppercase tracking-wide block leading-tight">{{ item.package_name }}</span>
+                                            <span class="text-[10px] text-[#8C8275] font-semibold uppercase tracking-wider block mt-0.5">{{ item.quantity }} {{ t('pax') }}</span>
+                                        </div>
+                                        <span class="font-normal font-serif-luxury text-sm text-[#2D3330] whitespace-nowrap">
+                                            RM {{ (parseFloat(item.price) * parseInt(item.quantity)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+                                        </span>
+                                    </div>
+                                    <!-- Selected Add-ons -->
+                                    <div v-if="item.selected_addons && item.selected_addons.length > 0" class="flex flex-wrap gap-1.5">
+                                        <span 
+                                            v-for="addon in item.selected_addons" 
+                                            :key="addon"
+                                            class="bg-[#FAF8F5] text-[9px] text-[#D98A29] font-medium px-2 py-0.5 border border-[#F5E6CD]"
+                                        >
+                                            + {{ addon }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Promo Code Area -->
+                            <div class="border-t border-[#E6E1DA] pt-4 space-y-2.5 font-sans-modern">
+                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('promo_code') }}</label>
+                                <div class="flex gap-2">
+                                    <input 
+                                        type="text" 
+                                        v-model="promoCode" 
+                                        class="form-input text-xs uppercase" 
+                                        placeholder="ENTER CODE"
+                                        :disabled="appliedPromo"
+                                        @keydown.enter.prevent="verifyPromo"
+                                    />
+                                    <button 
+                                        type="button" 
+                                        @click="verifyPromo" 
+                                        class="bg-[#2D3330] hover:bg-[#1C201E] text-white text-xs font-semibold px-4 rounded-xl transition-all uppercase tracking-wider cursor-pointer"
+                                        :disabled="!promoCode || appliedPromo"
+                                    >
+                                        {{ t('apply_promo_btn') }}
+                                    </button>
+                                </div>
+                                <div v-if="activePromos && activePromos.length > 0 && !appliedPromo" class="mt-1">
+                                    <button 
+                                        type="button" 
+                                        @click="showPromoModal = true"
+                                        class="inline-flex items-center gap-1.5 text-[10px] font-bold text-[#C5A880] hover:text-[#b89047] transition-colors cursor-pointer"
+                                    >
+                                        <i class="fas fa-ticket-alt text-[9px]"></i> {{ t('view_available_promos') || 'Lihat Kod Promo Tersedia' }}
+                                    </button>
+                                </div>
+                                <div v-if="promoMessage" class="text-[10px] font-bold mt-1" :class="appliedPromo ? 'text-emerald-700' : 'text-[#8C3A3A]'">
+                                    {{ promoMessage }}
+                                </div>
+                                <div v-if="appliedPromo" class="flex justify-between items-center text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-100 rounded px-2.5 py-1.5 mt-2">
+                                    <span>Applied: <strong>{{ appliedPromo.code }}</strong></span>
+                                    <button type="button" @click="removePromo" class="text-red-500 hover:text-red-700 font-bold uppercase text-[9px] tracking-wider ml-2">Remove</button>
+                                </div>
+                            </div>
+
+                            <!-- Invoice Pricing breakdown -->
+                            <div class="price-summary-box space-y-1.5 font-sans-modern">
+                                <div class="price-row">
+                                    <span>{{ t('subtotal') || 'Subjumlah' }}</span>
+                                    <span class="font-bold text-[#2D3330]">
+                                        RM {{ cartItems.reduce((sum, item) => sum + parseFloat(item.price) * parseInt(item.quantity), 0.00).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+                                    </span>
+                                </div>
+                                <div class="price-row">
+                                    <span>Caj Penghantaran ({{ form.delivery_zone }}):</span>
+                                    <span class="font-bold text-[#2D3330]">
+                                        RM {{ deliveryFee.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+                                    </span>
+                                </div>
+                                <div v-if="appliedPromo" class="price-row text-emerald-700 font-semibold">
+                                    <span>{{ t('discount') || 'Diskaun' }}</span>
+                                    <span>- RM {{ discountAmount.toFixed(2) }}</span>
+                                </div>
+                                <div class="price-row flex justify-between items-center py-1">
+                                    <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('grand_total') }}:</span>
+                                    <span class="text-xl font-normal text-[#4A6B5D] font-serif-luxury tracking-wide">
+                                        RM {{ grandTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+                                    </span>
+                                </div>
+                                <div class="price-row text-[#8C3A3A] font-semibold">
+                                    <span>{{ t('deposit_booking_percent').replace('{percent}', depositPercent) }}</span>
+                                    <span>RM {{ depositAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+                                </div>
+                                <div class="price-row text-[#8C8275]">
+                                    <span>{{ t('balance_due_percent').replace('{percent}', 100 - depositPercent) }}</span>
+                                    <span>RM {{ balanceAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Left: Payment (8 cols) -->
+                    <div class="lg:col-span-8">
                         <div class="checkout-card space-y-6">
                             <h3 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#EBEFEF] pb-3 flex items-center gap-2">
                                 <i class="fas fa-receipt text-[#4A6B5D] text-sm"></i> {{ t('payment_slip_deposit') }}
@@ -839,109 +944,6 @@ function copyAccountNumber() {
                         </div>
                     </div>
 
-                    <!-- Right: Checkout Items Summary (4 cols) -->
-                    <div class="lg:col-span-4 lg:row-span-2 lg:sticky lg:top-24 space-y-6 font-sans-modern">
-                        <div class="checkout-card space-y-6">
-                            <h3 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider border-b border-[#EBEFEF] pb-3">{{ t('selected_packages') }}</h3>
-
-                            <div class="divide-y divide-[#EBEFEF] max-h-80 overflow-y-auto pr-1">
-                                <div v-for="item in cartItems" :key="item.id" class="py-4 space-y-2.5 first:pt-0">
-                                    <div class="flex justify-between items-start gap-2">
-                                        <div>
-                                            <span class="font-normal text-[#2D3330] font-serif-luxury text-base uppercase tracking-wide block leading-tight">{{ item.package_name }}</span>
-                                            <span class="text-[10px] text-[#8C8275] font-semibold uppercase tracking-wider block mt-0.5">{{ item.quantity }} {{ t('pax') }}</span>
-                                        </div>
-                                        <span class="font-normal font-serif-luxury text-sm text-[#2D3330] whitespace-nowrap">
-                                            RM {{ (parseFloat(item.price) * parseInt(item.quantity)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
-                                        </span>
-                                    </div>
-                                    <!-- Selected Add-ons -->
-                                    <div v-if="item.selected_addons && item.selected_addons.length > 0" class="flex flex-wrap gap-1.5">
-                                        <span 
-                                            v-for="addon in item.selected_addons" 
-                                            :key="addon"
-                                            class="bg-[#FAF8F5] text-[9px] text-[#D98A29] font-medium px-2 py-0.5 border border-[#F5E6CD]"
-                                        >
-                                            + {{ addon }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Promo Code Area -->
-                            <div class="border-t border-[#E6E1DA] pt-4 space-y-2.5 font-sans-modern">
-                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('promo_code') }}</label>
-                                <div class="flex gap-2">
-                                    <input 
-                                        type="text" 
-                                        v-model="promoCode" 
-                                        class="form-input text-xs uppercase" 
-                                        placeholder="ENTER CODE"
-                                        :disabled="appliedPromo"
-                                        @keydown.enter.prevent="verifyPromo"
-                                    />
-                                    <button 
-                                        type="button" 
-                                        @click="verifyPromo" 
-                                        class="bg-[#2D3330] hover:bg-[#1C201E] text-white text-xs font-semibold px-4 rounded-xl transition-all uppercase tracking-wider cursor-pointer"
-                                        :disabled="!promoCode || appliedPromo"
-                                    >
-                                        {{ t('apply_promo_btn') }}
-                                    </button>
-                                </div>
-                                <div v-if="activePromos && activePromos.length > 0 && !appliedPromo" class="mt-1">
-                                    <button 
-                                        type="button" 
-                                        @click="showPromoModal = true"
-                                        class="inline-flex items-center gap-1.5 text-[10px] font-bold text-[#C5A880] hover:text-[#b89047] transition-colors cursor-pointer"
-                                    >
-                                        <i class="fas fa-ticket-alt text-[9px]"></i> {{ t('view_available_promos') || 'Lihat Kod Promo Tersedia' }}
-                                    </button>
-                                </div>
-                                <div v-if="promoMessage" class="text-[10px] font-bold mt-1" :class="appliedPromo ? 'text-emerald-700' : 'text-[#8C3A3A]'">
-                                    {{ promoMessage }}
-                                </div>
-                                <div v-if="appliedPromo" class="flex justify-between items-center text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-100 rounded px-2.5 py-1.5 mt-2">
-                                    <span>Applied: <strong>{{ appliedPromo.code }}</strong></span>
-                                    <button type="button" @click="removePromo" class="text-red-500 hover:text-red-700 font-bold uppercase text-[9px] tracking-wider ml-2">Remove</button>
-                                </div>
-                            </div>
-
-                            <!-- Invoice Pricing breakdown -->
-                            <div class="price-summary-box space-y-1.5 font-sans-modern">
-                                <div class="price-row">
-                                    <span>{{ t('subtotal') || 'Subjumlah' }}</span>
-                                    <span class="font-bold text-[#2D3330]">
-                                        RM {{ cartItems.reduce((sum, item) => sum + parseFloat(item.price) * parseInt(item.quantity), 0.00).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
-                                    </span>
-                                </div>
-                                <div class="price-row">
-                                    <span>Caj Penghantaran ({{ form.delivery_zone }}):</span>
-                                    <span class="font-bold text-[#2D3330]">
-                                        RM {{ deliveryFee.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
-                                    </span>
-                                </div>
-                                <div v-if="appliedPromo" class="price-row text-emerald-700 font-semibold">
-                                    <span>{{ t('discount') || 'Diskaun' }}</span>
-                                    <span>- RM {{ discountAmount.toFixed(2) }}</span>
-                                </div>
-                                <div class="price-row flex justify-between items-center py-1">
-                                    <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('grand_total') }}:</span>
-                                    <span class="text-xl font-normal text-[#4A6B5D] font-serif-luxury tracking-wide">
-                                        RM {{ grandTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
-                                    </span>
-                                </div>
-                                <div class="price-row text-[#8C3A3A] font-semibold">
-                                    <span>{{ t('deposit_booking_percent').replace('{percent}', depositPercent) }}</span>
-                                    <span>RM {{ depositAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
-                                </div>
-                                <div class="price-row text-[#8C8275]">
-                                    <span>{{ t('balance_due_percent').replace('{percent}', 100 - depositPercent) }}</span>
-                                    <span>RM {{ balanceAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </form>
 
             </div>
