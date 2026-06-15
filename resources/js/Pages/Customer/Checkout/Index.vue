@@ -483,369 +483,364 @@ function copyAccountNumber() {
                     </div>
                 </div>
 
-                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <form @submit.prevent="submitCheckout" class="grid lg:grid-cols-12 gap-8 items-start">
                     
-                    <!-- Left: Details & Payment (8 cols) -->
+                    <!-- Left: Details (8 cols) -->
                     <div class="lg:col-span-8 space-y-8">
                         
-                        <!-- Event Details Form -->
-                        <form @submit.prevent="submitCheckout" class="space-y-6">
-                            
-                            <div class="checkout-card space-y-6">
-                                <h3 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#EBEFEF] pb-3 flex items-center gap-2">
-                                    <i class="fas fa-calendar-check text-[#4A6B5D] text-sm"></i> {{ t('event_delivery_details') }}
-                                </h3>
+                        <div class="checkout-card space-y-6">
+                            <h3 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#EBEFEF] pb-3 flex items-center gap-2">
+                                <i class="fas fa-calendar-check text-[#4A6B5D] text-sm"></i> {{ t('event_delivery_details') }}
+                            </h3>
 
-                                <!-- Delivery/Pickup Segmented Control -->
-                                <div class="flex bg-[#FCFAF7] border border-[#E6E1DA] rounded-xl p-1 font-sans-modern">
-                                    <button 
-                                        type="button"
-                                        @click="setCheckoutMethod('delivery')"
-                                        class="flex-grow flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2"
-                                        :class="checkoutMethod === 'delivery' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#2D3330]'"
-                                    >
-                                        <i class="fas fa-truck text-[10px]"></i> {{ t('delivery_tab') || 'Penghantaran' }}
-                                    </button>
-                                    <button 
-                                        type="button"
-                                        @click="setCheckoutMethod('pickup')"
-                                        class="flex-grow flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2"
-                                        :class="checkoutMethod === 'pickup' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#2D3330]'"
-                                    >
-                                        <i class="fas fa-store text-[10px]"></i> {{ t('self_pickup_label') }}
-                                    </button>
-                                </div>
+                            <!-- Delivery/Pickup Segmented Control -->
+                            <div class="flex bg-[#FCFAF7] border border-[#E6E1DA] rounded-xl p-1 font-sans-modern">
+                                <button 
+                                    type="button"
+                                    @click="setCheckoutMethod('delivery')"
+                                    class="flex-grow flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2"
+                                    :class="checkoutMethod === 'delivery' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#2D3330]'"
+                                >
+                                    <i class="fas fa-truck text-[10px]"></i> {{ t('delivery_tab') || 'Penghantaran' }}
+                                </button>
+                                <button 
+                                    type="button"
+                                    @click="setCheckoutMethod('pickup')"
+                                    class="flex-grow flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2"
+                                    :class="checkoutMethod === 'pickup' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#2D3330]'"
+                                >
+                                    <i class="fas fa-store text-[10px]"></i> {{ t('self_pickup_label') }}
+                                </button>
+                            </div>
 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <!-- Full Name -->
-                                    <div class="space-y-2">
-                                        <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                            <i class="fas fa-user text-[10px] text-[#4A6B5D]"></i>
-                                            {{ t('customer_name') }}
-                                        </label>
-                                        <input 
-                                            type="text" 
-                                            v-model="form.name" 
-                                            class="form-input"
-                                            placeholder="Your full name"
-                                            required
-                                        />
-                                        <span v-if="form.errors.name" class="text-xs text-red-500 font-semibold">{{ form.errors.name }}</span>
-                                    </div>
-
-                                    <!-- Phone Number -->
-                                    <div class="space-y-2">
-                                        <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                            <i class="fas fa-phone text-[10px] text-[#4A6B5D]"></i>
-                                            {{ t('phone_number') }}
-                                        </label>
-                                        <input 
-                                            type="text" 
-                                            v-model="form.phone" 
-                                            class="form-input"
-                                            placeholder="e.g. 0123456789"
-                                            required
-                                        />
-                                        <span v-if="form.errors.phone" class="text-xs text-red-500 font-semibold">{{ form.errors.phone }}</span>
-                                    </div>
-
-                                    <!-- Delivery Date -->
-                                    <div class="space-y-2">
-                                        <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                            <i class="fas fa-calendar-alt text-[10px] text-[#4A6B5D]"></i>
-                                            {{ t('delivery_event_date') }}
-                                        </label>
-                                        
-                                        <div class="relative">
-                                            <!-- Click-Outside Overlay -->
-                                            <div v-if="showCalendar" class="fixed inset-0 z-40" @click="showCalendar = false"></div>
-
-                                            <!-- Custom Trigger Button (Looks like an input field) -->
-                                            <button 
-                                                type="button"
-                                                @click="showCalendar = !showCalendar"
-                                                class="form-input text-left flex justify-between items-center cursor-pointer h-11 relative z-10 w-full"
-                                            >
-                                                <span :class="form.delivery_date ? 'text-[#2D3330]' : 'text-gray-400'">
-                                                    {{ formattedSelectedDate || t('select_date') }}
-                                                </span>
-                                                <i class="fas fa-calendar-alt text-[#8C8275]"></i>
-                                            </button>
-
-                                            <!-- Custom Calendar Dropdown Panel -->
-                                            <div 
-                                                v-if="showCalendar" 
-                                                class="absolute left-0 mt-2 p-4 bg-white border border-[#E6E1DA] rounded-2xl shadow-xl z-50 w-72 space-y-4 font-sans-modern"
-                                            >
-                                                <!-- Header: Prev, Month/Year, Next -->
-                                                <div class="flex justify-between items-center">
-                                                    <button type="button" @click="prevMonth" class="w-8 h-8 rounded-lg hover:bg-[#FAF7F2] border border-[#E6E1DA] flex items-center justify-center text-xs text-[#8C8275] cursor-pointer">
-                                                        <i class="fas fa-chevron-left"></i>
-                                                    </button>
-                                                    <span class="text-xs font-bold text-[#2D3330] font-sans-modern">
-                                                        {{ monthNames[calendarMonth] }} {{ calendarYear }}
-                                                    </span>
-                                                    <button type="button" @click="nextMonth" class="w-8 h-8 rounded-lg hover:bg-[#FAF7F2] border border-[#E6E1DA] flex items-center justify-center text-xs text-[#8C8275] cursor-pointer">
-                                                        <i class="fas fa-chevron-right"></i>
-                                                    </button>
-                                                </div>
-
-                                                <!-- Weekdays -->
-                                                <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-[#8C8275]">
-                                                    <span v-for="day in weekdays" :key="day">{{ day }}</span>
-                                                </div>
-
-                                                <!-- Days Grid -->
-                                                <div class="grid grid-cols-7 gap-1">
-                                                    <button
-                                                        v-for="(day, index) in calendarDays"
-                                                        :key="index"
-                                                        type="button"
-                                                        @click="selectDate(day)"
-                                                        :disabled="day.isDisabled"
-                                                        class="h-8 w-8 rounded-lg text-xs font-semibold flex items-center justify-center transition-all cursor-pointer relative"
-                                                        :class="[
-                                                            !day.isCurrentMonth ? 'text-gray-300 pointer-events-none' : '',
-                                                            day.isCurrentMonth && !day.isDisabled && !day.isSelected ? 'text-[#2D3330] hover:bg-[#FAF7F2] hover:text-[#4A6B5D]' : '',
-                                                            day.isBlocked ? 'bg-rose-50 text-rose-500 border border-rose-200 cursor-not-allowed hover:bg-rose-50 hover:text-rose-500' : '',
-                                                            day.isSelected ? 'bg-[#4A6B5D] text-white' : '',
-                                                            day.isCurrentMonth && day.isDisabled && !day.isBlocked ? 'text-gray-300 cursor-not-allowed' : '',
-                                                        ]"
-                                                    >
-                                                        {{ day.dayNumber }}
-                                                        <span v-if="day.isBlocked" class="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-rose-500"></span>
-                                                    </button>
-                                                </div>
-
-                                                <!-- Legend -->
-                                                <div class="flex items-center justify-center gap-4 border-t border-[#EBEFEF] pt-2.5 text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">
-                                                    <div class="flex items-center gap-1">
-                                                        <span class="w-2.5 h-2.5 rounded bg-rose-50 border border-rose-200 block"></span>
-                                                        <span>{{ t('legend_full') }}</span>
-                                                    </div>
-                                                    <div class="flex items-center gap-1">
-                                                        <span class="w-2.5 h-2.5 rounded bg-[#4A6B5D] block"></span>
-                                                        <span>{{ t('legend_selected') }}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <span class="text-[9px] text-[#8C8275] font-semibold uppercase tracking-wider block mt-1">
-                                            <i class="fas fa-info-circle"></i> {{ t('cancel_policy_info') }}
-                                        </span>
-                                        <span v-if="form.errors.delivery_date" class="text-xs text-red-500 font-semibold">{{ form.errors.delivery_date }}</span>
-                                    </div>
-
-                                    <!-- Delivery Time -->
-                                    <div class="space-y-2">
-                                        <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                            <i class="fas fa-clock text-[10px] text-[#4A6B5D]"></i>
-                                            {{ checkoutMethod === 'pickup' ? (t('pickup_time') || 'Masa Pengambilan') : t('preferred_delivery_time') }}
-                                        </label>
-                                        <input 
-                                            type="time" 
-                                            v-model="form.delivery_time" 
-                                            class="form-input"
-                                            required
-                                        />
-                                        <span v-if="form.errors.delivery_time" class="text-xs text-red-500 font-semibold">{{ form.errors.delivery_time }}</span>
-                                    </div>
-                                </div>
-
-                                <!-- Delivery Zone -->
-                                <div v-if="checkoutMethod === 'delivery'" class="space-y-2">
-                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                        <i class="fas fa-truck text-[10px] text-[#4A6B5D]"></i>
-                                        Kawasan Penghantaran
-                                    </label>
-                                    <select 
-                                        v-model="form.delivery_zone" 
-                                        class="form-input cursor-pointer"
-                                        required
-                                    >
-                                        <option v-for="zone in deliveryZones" :key="zone.value" :value="zone.value">
-                                            {{ zone.label }}
-                                        </option>
-                                    </select>
-                                    <span v-if="form.errors.delivery_zone" class="text-xs text-red-500 font-semibold block">{{ form.errors.delivery_zone }}</span>
-                                </div>
-
-                                <!-- Delivery Address -->
-                                <div v-if="checkoutMethod === 'delivery'" class="space-y-2">
-                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                        <i class="fas fa-map-marker-alt text-[10px] text-[#4A6B5D]"></i>
-                                        {{ t('event_venue_address') }}
-                                    </label>
-                                    <textarea 
-                                        v-model="form.address" 
-                                        rows="3" 
-                                        class="form-input"
-                                        placeholder="Enter the complete address for catering delivery"
-                                        required
-                                    ></textarea>
-                                    <span v-if="form.errors.address" class="text-xs text-red-500 font-semibold">{{ form.errors.address }}</span>
-                                </div>
-
-                                <!-- Pickup Location Info Card -->
-                                <div v-if="checkoutMethod === 'pickup'" class="p-5 bg-[#FAF6F0] border border-[#E6E1DA] rounded-2xl space-y-2.5 font-sans-modern">
-                                    <span class="font-bold text-[#4A6B5D] text-xs uppercase tracking-widest block flex items-center gap-1.5">
-                                        <i class="fas fa-map-marked-alt text-xs"></i> Lokasi Pengambilan (Pickup Location):
-                                    </span>
-                                    <p class="text-xs text-[#2D3330] font-semibold leading-relaxed">
-                                        {{ page.props.settings?.business_address || 'SmartServe Catering, Gong Badak, Kuala Nerus, Terengganu, Malaysia' }}
-                                    </p>
-                                    
-                                    <!-- Interactive Map -->
-                                    <iframe 
-                                        class="w-full h-48 rounded-xl border border-[#E6E1DA] shadow-inner mt-2"
-                                        :src="'https://maps.google.com/maps?q=' + encodeURIComponent(page.props.settings?.business_address || 'SmartServe Catering, Gong Badak, Kuala Terengganu, Terengganu') + '&t=&z=15&ie=UTF8&iwloc=&output=embed'"
-                                        allowfullscreen="" 
-                                        loading="lazy"
-                                    ></iframe>
-                                    
-                                    <span class="text-[9px] text-[#8C8275] uppercase tracking-wider block font-semibold pt-1">
-                                        <i class="fas fa-info-circle text-[#C5A880]"></i> {{ t('pickup_notice') }}
-                                    </span>
-                                </div>
-
-                                <!-- Customer Notes -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Full Name -->
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                        <i class="fas fa-sticky-note text-[10px] text-[#4A6B5D]"></i>
-                                        {{ t('customer_notes') }}
+                                        <i class="fas fa-user text-[10px] text-[#4A6B5D]"></i>
+                                        {{ t('customer_name') }}
                                     </label>
-                                    <textarea 
-                                        v-model="form.notes" 
-                                        rows="3" 
+                                    <input 
+                                        type="text" 
+                                        v-model="form.name" 
                                         class="form-input"
-                                        :placeholder="t('customer_notes_placeholder')"
-                                    ></textarea>
-                                    <span v-if="form.errors.notes" class="text-xs text-red-500 font-semibold">{{ form.errors.notes }}</span>
-                                </div>
-                            </div>
-
-                            <!-- Payment Instructions & Receipt Upload -->
-                            <div class="checkout-card space-y-6">
-                                <h3 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#EBEFEF] pb-3 flex items-center gap-2">
-                                    <i class="fas fa-receipt text-[#4A6B5D] text-sm"></i> {{ t('payment_slip_deposit') }}
-                                </h3>
-
-                                <div class="p-5 bg-rose-50 border border-rose-100 rounded-2xl space-y-2.5">
-                                    <span class="font-bold text-[#8C3A3A] text-xs uppercase tracking-widest block flex items-center gap-1.5">
-                                        <i class="fas fa-exclamation-circle text-xs"></i> {{ t('deposit_required_label').replace('{percent}', depositPercent) }}
-                                    </span>
-                                    <p class="text-xs text-[#5C6460] leading-relaxed font-medium">
-                                        {{ t('deposit_required_desc').replace('{percent}', depositPercent) }}
-                                        <strong class="text-[#8C3A3A] text-lg font-normal font-serif-luxury block mt-1 tracking-wide">RM {{ depositAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</strong>
-                                    </p>
+                                        placeholder="Your full name"
+                                        required
+                                    />
+                                    <span v-if="form.errors.name" class="text-xs text-red-500 font-semibold">{{ form.errors.name }}</span>
                                 </div>
 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-                                    <!-- QR Card (DuitNow & Maybank details) -->
-                                    <div class="qr-card p-6 flex flex-col justify-between space-y-4">
-                                        <div class="flex justify-between items-center border-b border-white/10 pb-3">
-                                            <span class="text-[10px] font-bold text-[#C5A880] uppercase tracking-widest">{{ t('scan_to_pay') }}</span>
-                                            <span class="text-[9px] font-bold uppercase tracking-widest text-[#E6CBA3] bg-white/5 border border-white/10 px-2 py-0.5 rounded">DuitNow QR</span>
-                                        </div>
+                                <!-- Phone Number -->
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                        <i class="fas fa-phone text-[10px] text-[#4A6B5D]"></i>
+                                        {{ t('phone_number') }}
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        v-model="form.phone" 
+                                        class="form-input"
+                                        placeholder="e.g. 0123456789"
+                                        required
+                                    />
+                                    <span v-if="form.errors.phone" class="text-xs text-red-500 font-semibold">{{ form.errors.phone }}</span>
+                                </div>
 
-                                        <div class="p-3 bg-white rounded-xl flex flex-col items-center justify-center shadow-inner self-center cursor-pointer group hover:bg-zinc-50 border border-transparent hover:border-[#C5A880]/30 transition-all duration-300" @click="showQRModal = true">
-                                            <!-- Dynamically load the QR file if it exists -->
-                                            <img 
-                                                v-if="qrCodeFile" 
-                                                :src="resolveQrPath(qrCodeFile)" 
-                                                alt="QR Code" 
-                                                class="w-40 h-40 object-contain mx-auto transition-transform group-hover:scale-105 duration-300"
-                                            />
-                                            <div v-else class="w-40 h-40 bg-[#FAF7F2] flex flex-col items-center justify-center text-[#8C8275]">
-                                                <i class="fas fa-qrcode text-4xl mb-2"></i>
-                                                <span class="text-[10px] font-bold uppercase tracking-widest">{{ t('qr_not_configured') }}</span>
-                                            </div>
-                                            <!-- Magnifying glass / Click to enlarge indicator -->
-                                            <span v-if="qrCodeFile" class="text-[9px] text-[#8C8275] group-hover:text-[#4A6B5D] font-semibold uppercase tracking-wider mt-1.5 flex items-center gap-1 transition-colors">
-                                                <i class="fas fa-search-plus text-[8px]"></i> {{ t('click_to_enlarge') || 'Klik untuk besarkan' }}
+                                <!-- Delivery Date -->
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                        <i class="fas fa-calendar-alt text-[10px] text-[#4A6B5D]"></i>
+                                        {{ t('delivery_event_date') }}
+                                    </label>
+                                    
+                                    <div class="relative">
+                                        <!-- Click-Outside Overlay -->
+                                        <div v-if="showCalendar" class="fixed inset-0 z-40" @click="showCalendar = false"></div>
+
+                                        <!-- Custom Trigger Button (Looks like an input field) -->
+                                        <button 
+                                            type="button"
+                                            @click="showCalendar = !showCalendar"
+                                            class="form-input text-left flex justify-between items-center cursor-pointer h-11 relative z-10 w-full"
+                                        >
+                                            <span :class="form.delivery_date ? 'text-[#2D3330]' : 'text-gray-400'">
+                                                {{ formattedSelectedDate || t('select_date') }}
                                             </span>
-                                        </div>
+                                            <i class="fas fa-calendar-alt text-[#8C8275]"></i>
+                                        </button>
 
-                                        <div class="space-y-2 border-t border-white/10 pt-3">
-                                            <div class="text-[10px] text-[#E6E1DA] uppercase tracking-wider font-semibold">
-                                                <span class="text-[#C5A880] block text-xs font-bold leading-tight mb-1">
-                                                    {{ page.props.settings?.bank_account_name || 'SmartServe Catering Enterprise' }}
+                                        <!-- Custom Calendar Dropdown Panel -->
+                                        <div 
+                                            v-if="showCalendar" 
+                                            class="absolute left-0 mt-2 p-4 bg-white border border-[#E6E1DA] rounded-2xl shadow-xl z-50 w-72 space-y-4 font-sans-modern"
+                                        >
+                                            <!-- Header: Prev, Month/Year, Next -->
+                                            <div class="flex justify-between items-center">
+                                                <button type="button" @click="prevMonth" class="w-8 h-8 rounded-lg hover:bg-[#FAF7F2] border border-[#E6E1DA] flex items-center justify-center text-xs text-[#8C8275] cursor-pointer">
+                                                    <i class="fas fa-chevron-left"></i>
+                                                </button>
+                                                <span class="text-xs font-bold text-[#2D3330] font-sans-modern">
+                                                    {{ monthNames[calendarMonth] }} {{ calendarYear }}
                                                 </span>
-                                                {{ page.props.settings?.bank_name || 'Maybank' }} Account:
-                                            </div>
-                                            <div class="flex items-center justify-between bg-white/5 border border-white/10 rounded-lg p-2 text-xs">
-                                                <span class="font-mono font-bold tracking-widest text-[#FAF7F2]">
-                                                    {{ page.props.settings?.bank_account_no || '563064123456' }}
-                                                </span>
-                                                <button 
-                                                    type="button" 
-                                                    @click="copyAccountNumber" 
-                                                    class="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md transition-all cursor-pointer"
-                                                    :class="copySuccess ? 'bg-emerald-600 text-white' : 'bg-[#C5A880] text-[#2D3330] hover:bg-[#b89047]'"
-                                                >
-                                                    <i class="fas" :class="copySuccess ? 'fa-check' : 'fa-copy'"></i> {{ copySuccess ? 'Copied' : 'Copy' }}
+                                                <button type="button" @click="nextMonth" class="w-8 h-8 rounded-lg hover:bg-[#FAF7F2] border border-[#E6E1DA] flex items-center justify-center text-xs text-[#8C8275] cursor-pointer">
+                                                    <i class="fas fa-chevron-right"></i>
                                                 </button>
                                             </div>
-                                        </div>
-                                    </div>
 
-                                    <!-- File Upload Form -->
-                                    <div class="flex flex-col justify-center space-y-4">
-                                        <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('upload_payment_slip') }}</label>
-                                        
-                                        <div 
-                                            class="file-upload-area"
-                                            :class="{ 'has-file': form.receipt }"
-                                        >
-                                            <input 
-                                                type="file" 
-                                                @change="handleFileChange"
-                                                accept="image/jpeg,image/png,image/jpg,application/pdf"
-                                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                                required
-                                            />
-                                            <div class="space-y-3 pointer-events-none">
-                                                <div class="w-12 h-12 bg-white rounded-full text-[#4A6B5D] flex items-center justify-center mx-auto text-lg border border-[#E6E1DA] shadow-2xs">
-                                                    <i class="fas fa-cloud-upload-alt"></i>
+                                            <!-- Weekdays -->
+                                            <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-[#8C8275]">
+                                                <span v-for="day in weekdays" :key="day">{{ day }}</span>
+                                            </div>
+
+                                            <!-- Days Grid -->
+                                            <div class="grid grid-cols-7 gap-1">
+                                                <button
+                                                    v-for="(day, index) in calendarDays"
+                                                    :key="index"
+                                                    type="button"
+                                                    @click="selectDate(day)"
+                                                    :disabled="day.isDisabled"
+                                                    class="h-8 w-8 rounded-lg text-xs font-semibold flex items-center justify-center transition-all cursor-pointer relative"
+                                                    :class="[
+                                                        !day.isCurrentMonth ? 'text-gray-300 pointer-events-none' : '',
+                                                        day.isCurrentMonth && !day.isDisabled && !day.isSelected ? 'text-[#2D3330] hover:bg-[#FAF7F2] hover:text-[#4A6B5D]' : '',
+                                                        day.isBlocked ? 'bg-rose-50 text-rose-500 border border-rose-200 cursor-not-allowed hover:bg-rose-50 hover:text-rose-500' : '',
+                                                        day.isSelected ? 'bg-[#4A6B5D] text-white' : '',
+                                                        day.isCurrentMonth && day.isDisabled && !day.isBlocked ? 'text-gray-300 cursor-not-allowed' : '',
+                                                    ]"
+                                                >
+                                                    {{ day.dayNumber }}
+                                                    <span v-if="day.isBlocked" class="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                                                </button>
+                                            </div>
+
+                                            <!-- Legend -->
+                                            <div class="flex items-center justify-center gap-4 border-t border-[#EBEFEF] pt-2.5 text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">
+                                                <div class="flex items-center gap-1">
+                                                    <span class="w-2.5 h-2.5 rounded bg-rose-50 border border-rose-200 block"></span>
+                                                    <span>{{ t('legend_full') }}</span>
                                                 </div>
-                                                <div class="space-y-1">
-                                                    <span class="text-xs font-bold text-[#2D3330] block uppercase tracking-wide">
-                                                        {{ form.receipt ? form.receipt.name : t('select_receipt_file') }}
-                                                    </span>
-                                                    <span class="text-[9px] text-[#8C8275] uppercase tracking-wider block font-medium">
-                                                        {{ t('accepted_formats_desc') }}
-                                                    </span>
+                                                <div class="flex items-center gap-1">
+                                                    <span class="w-2.5 h-2.5 rounded bg-[#4A6B5D] block"></span>
+                                                    <span>{{ t('legend_selected') }}</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        <span v-if="fileError" class="text-xs text-red-500 font-semibold block">{{ fileError }}</span>
                                     </div>
+
+                                    <span class="text-[9px] text-[#8C8275] font-semibold uppercase tracking-wider block mt-1">
+                                        <i class="fas fa-info-circle"></i> {{ t('cancel_policy_info') }}
+                                    </span>
+                                    <span v-if="form.errors.delivery_date" class="text-xs text-red-500 font-semibold">{{ form.errors.delivery_date }}</span>
                                 </div>
 
-                                <div class="border-t border-[#E6E1DA] pt-6 flex flex-col sm:flex-row items-center gap-3">
-                                    <Link 
-                                        :href="route('cart.index')" 
-                                        class="w-full sm:flex-1 inline-flex items-center justify-center gap-2 bg-white hover:bg-rose-50 border border-rose-200 text-rose-600 font-semibold py-4 px-6 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer"
-                                    >
-                                        <i class="fas fa-times text-[10px]"></i> {{ t('cancel') || 'Batal' }}
-                                    </Link>
-                                    <button 
-                                        type="submit" 
-                                        class="btn-premium-primary w-full sm:flex-1 inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-4 px-6 rounded-xl text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
-                                        :disabled="form.processing"
-                                    >
-                                        <i class="fas fa-shield-alt text-[10px]"></i> {{ t('confirm_booking_submit') }}
-                                    </button>
+                                <!-- Delivery Time -->
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                        <i class="fas fa-clock text-[10px] text-[#4A6B5D]"></i>
+                                        {{ checkoutMethod === 'pickup' ? (t('pickup_time') || 'Masa Pengambilan') : t('preferred_delivery_time') }}
+                                    </label>
+                                    <input 
+                                        type="time" 
+                                        v-model="form.delivery_time" 
+                                        class="form-input"
+                                        required
+                                    />
+                                    <span v-if="form.errors.delivery_time" class="text-xs text-red-500 font-semibold">{{ form.errors.delivery_time }}</span>
                                 </div>
                             </div>
 
-                        </form>
+                            <!-- Delivery Zone -->
+                            <div v-if="checkoutMethod === 'delivery'" class="space-y-2">
+                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                    <i class="fas fa-truck text-[10px] text-[#4A6B5D]"></i>
+                                    Kawasan Penghantaran
+                                </label>
+                                <select 
+                                    v-model="form.delivery_zone" 
+                                    class="form-input cursor-pointer"
+                                    required
+                                >
+                                    <option v-for="zone in deliveryZones" :key="zone.value" :value="zone.value">
+                                        {{ zone.label }}
+                                    </option>
+                                </select>
+                                <span v-if="form.errors.delivery_zone" class="text-xs text-red-500 font-semibold block">{{ form.errors.delivery_zone }}</span>
+                            </div>
+
+                            <!-- Delivery Address -->
+                            <div v-if="checkoutMethod === 'delivery'" class="space-y-2">
+                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                    <i class="fas fa-map-marker-alt text-[10px] text-[#4A6B5D]"></i>
+                                    {{ t('event_venue_address') }}
+                                </label>
+                                <textarea 
+                                    v-model="form.address" 
+                                    rows="3" 
+                                    class="form-input"
+                                    placeholder="Enter the complete address for catering delivery"
+                                    required
+                                ></textarea>
+                                <span v-if="form.errors.address" class="text-xs text-red-500 font-semibold">{{ form.errors.address }}</span>
+                            </div>
+
+                            <!-- Pickup Location Info Card -->
+                            <div v-if="checkoutMethod === 'pickup'" class="p-5 bg-[#FAF6F0] border border-[#E6E1DA] rounded-2xl space-y-2.5 font-sans-modern">
+                                <span class="font-bold text-[#4A6B5D] text-xs uppercase tracking-widest block flex items-center gap-1.5">
+                                    <i class="fas fa-map-marked-alt text-xs"></i> Lokasi Pengambilan (Pickup Location):
+                                </span>
+                                <p class="text-xs text-[#2D3330] font-semibold leading-relaxed">
+                                    {{ page.props.settings?.business_address || 'SmartServe Catering, Gong Badak, Kuala Nerus, Terengganu, Malaysia' }}
+                                </p>
+                                
+                                <!-- Interactive Map -->
+                                <iframe 
+                                    class="w-full h-48 rounded-xl border border-[#E6E1DA] shadow-inner mt-2"
+                                    :src="'https://maps.google.com/maps?q=' + encodeURIComponent(page.props.settings?.business_address || 'SmartServe Catering, Gong Badak, Kuala Terengganu, Terengganu') + '&t=&z=15&ie=UTF8&iwloc=&output=embed'"
+                                    allowfullscreen="" 
+                                    loading="lazy"
+                                ></iframe>
+                                
+                                <span class="text-[9px] text-[#8C8275] uppercase tracking-wider block font-semibold pt-1">
+                                    <i class="fas fa-info-circle text-[#C5A880]"></i> {{ t('pickup_notice') }}
+                                </span>
+                            </div>
+
+                            <!-- Customer Notes -->
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                    <i class="fas fa-sticky-note text-[10px] text-[#4A6B5D]"></i>
+                                    {{ t('customer_notes') }}
+                                </label>
+                                <textarea 
+                                    v-model="form.notes" 
+                                    rows="3" 
+                                    class="form-input"
+                                    :placeholder="t('customer_notes_placeholder')"
+                                ></textarea>
+                                <span v-if="form.errors.notes" class="text-xs text-red-500 font-semibold">{{ form.errors.notes }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Payment Instructions & Receipt Upload -->
+                        <div class="checkout-card space-y-6">
+                            <h3 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#EBEFEF] pb-3 flex items-center gap-2">
+                                <i class="fas fa-receipt text-[#4A6B5D] text-sm"></i> {{ t('payment_slip_deposit') }}
+                            </h3>
+
+                            <div class="p-5 bg-rose-50 border border-rose-100 rounded-2xl space-y-2.5">
+                                <span class="font-bold text-[#8C3A3A] text-xs uppercase tracking-widest block flex items-center gap-1.5">
+                                    <i class="fas fa-exclamation-circle text-xs"></i> {{ t('deposit_required_label').replace('{percent}', depositPercent) }}
+                                </span>
+                                <p class="text-xs text-[#5C6460] leading-relaxed font-medium">
+                                    {{ t('deposit_required_desc').replace('{percent}', depositPercent) }}
+                                    <strong class="text-[#8C3A3A] text-lg font-normal font-serif-luxury block mt-1 tracking-wide">RM {{ depositAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</strong>
+                                </p>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                                <!-- QR Card (DuitNow & Maybank details) -->
+                                <div class="qr-card p-6 flex flex-col justify-between space-y-4">
+                                    <div class="flex justify-between items-center border-b border-white/10 pb-3">
+                                        <span class="text-[10px] font-bold text-[#C5A880] uppercase tracking-widest">{{ t('scan_to_pay') }}</span>
+                                        <span class="text-[9px] font-bold uppercase tracking-widest text-[#E6CBA3] bg-white/5 border border-white/10 px-2 py-0.5 rounded">DuitNow QR</span>
+                                    </div>
+
+                                    <div class="p-3 bg-white rounded-xl flex flex-col items-center justify-center shadow-inner self-center cursor-pointer group hover:bg-zinc-50 border border-transparent hover:border-[#C5A880]/30 transition-all duration-300" @click="showQRModal = true">
+                                        <!-- Dynamically load the QR file if it exists -->
+                                        <img 
+                                            v-if="qrCodeFile" 
+                                            :src="resolveQrPath(qrCodeFile)" 
+                                            alt="QR Code" 
+                                            class="w-40 h-40 object-contain mx-auto transition-transform group-hover:scale-105 duration-300"
+                                        />
+                                        <div v-else class="w-40 h-40 bg-[#FAF7F2] flex flex-col items-center justify-center text-[#8C8275]">
+                                            <i class="fas fa-qrcode text-4xl mb-2"></i>
+                                            <span class="text-[10px] font-bold uppercase tracking-widest">{{ t('qr_not_configured') }}</span>
+                                        </div>
+                                        <!-- Magnifying glass / Click to enlarge indicator -->
+                                        <span v-if="qrCodeFile" class="text-[9px] text-[#8C8275] group-hover:text-[#4A6B5D] font-semibold uppercase tracking-wider mt-1.5 flex items-center gap-1 transition-colors">
+                                            <i class="fas fa-search-plus text-[8px]"></i> {{ t('click_to_enlarge') || 'Klik untuk besarkan' }}
+                                        </span>
+                                    </div>
+
+                                    <div class="space-y-2 border-t border-white/10 pt-3">
+                                        <div class="text-[10px] text-[#E6E1DA] uppercase tracking-wider font-semibold">
+                                            <span class="text-[#C5A880] block text-xs font-bold leading-tight mb-1">
+                                                {{ page.props.settings?.bank_account_name || 'SmartServe Catering Enterprise' }}
+                                            </span>
+                                            {{ page.props.settings?.bank_name || 'Maybank' }} Account:
+                                        </div>
+                                        <div class="flex items-center justify-between bg-white/5 border border-white/10 rounded-lg p-2 text-xs">
+                                            <span class="font-mono font-bold tracking-widest text-[#FAF7F2]">
+                                                {{ page.props.settings?.bank_account_no || '563064123456' }}
+                                            </span>
+                                            <button 
+                                                type="button" 
+                                                @click="copyAccountNumber" 
+                                                class="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md transition-all cursor-pointer"
+                                                :class="copySuccess ? 'bg-emerald-600 text-white' : 'bg-[#C5A880] text-[#2D3330] hover:bg-[#b89047]'"
+                                            >
+                                                <i class="fas" :class="copySuccess ? 'fa-check' : 'fa-copy'"></i> {{ copySuccess ? 'Copied' : 'Copy' }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- File Upload Form -->
+                                <div class="flex flex-col justify-center space-y-4">
+                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('upload_payment_slip') }}</label>
+                                    
+                                    <div 
+                                        class="file-upload-area"
+                                        :class="{ 'has-file': form.receipt }"
+                                    >
+                                        <input 
+                                            type="file" 
+                                            @change="handleFileChange"
+                                            accept="image/jpeg,image/png,image/jpg,application/pdf"
+                                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                            required
+                                        />
+                                        <div class="space-y-3 pointer-events-none">
+                                            <div class="w-12 h-12 bg-white rounded-full text-[#4A6B5D] flex items-center justify-center mx-auto text-lg border border-[#E6E1DA] shadow-2xs">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                            </div>
+                                            <div class="space-y-1">
+                                                <span class="text-xs font-bold text-[#2D3330] block uppercase tracking-wide">
+                                                    {{ form.receipt ? form.receipt.name : t('select_receipt_file') }}
+                                                </span>
+                                                <span class="text-[9px] text-[#8C8275] uppercase tracking-wider block font-medium">
+                                                    {{ t('accepted_formats_desc') }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <span v-if="fileError" class="text-xs text-red-500 font-semibold block">{{ fileError }}</span>
+                                </div>
+                            </div>
+
+                            <div class="border-t border-[#E6E1DA] pt-6 flex flex-col sm:flex-row items-center gap-3">
+                                <Link 
+                                    :href="route('cart.index')" 
+                                    class="w-full sm:flex-1 inline-flex items-center justify-center gap-2 bg-white hover:bg-rose-50 border border-rose-200 text-rose-600 font-semibold py-4 px-6 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer"
+                                >
+                                    <i class="fas fa-times text-[10px]"></i> {{ t('cancel') || 'Batal' }}
+                                </Link>
+                                <button 
+                                    type="submit" 
+                                    class="btn-premium-primary w-full sm:flex-1 inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-4 px-6 rounded-xl text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
+                                    :disabled="form.processing"
+                                >
+                                    <i class="fas fa-shield-alt text-[10px]"></i> {{ t('confirm_booking_submit') }}
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Right: Checkout Items Summary (4 cols) -->
-                    <div class="lg:col-span-4 sticky top-24 space-y-6 font-sans-modern">
+                    <div class="lg:col-span-4 lg:row-span-2 lg:sticky lg:top-24 space-y-6 font-sans-modern">
                         <div class="checkout-card space-y-6">
                             <h3 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider border-b border-[#EBEFEF] pb-3">{{ t('selected_packages') }}</h3>
 
@@ -883,6 +878,7 @@ function copyAccountNumber() {
                                         class="form-input text-xs uppercase" 
                                         placeholder="ENTER CODE"
                                         :disabled="appliedPromo"
+                                        @keydown.enter.prevent="verifyPromo"
                                     />
                                     <button 
                                         type="button" 
@@ -946,8 +942,7 @@ function copyAccountNumber() {
                             </div>
                         </div>
                     </div>
-
-                </div>
+                </form>
 
             </div>
         </div>
