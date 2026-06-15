@@ -26,6 +26,7 @@ const { t, setLanguage, currentLanguage } = useLocalization();
 const { toast } = useToast();
 
 const currentDrawer = ref(null); // 'login', 'register', 'forgot-password', 'reset-password'
+const isMobileMenuOpen = ref(false);
 
 // Password visibility toggles
 const showLoginPassword = ref(false);
@@ -236,15 +237,14 @@ watch(() => window.location.search, () => {
                     </Link>
                 </div>
 
-                <!-- Navigation Links / Auth Actions -->
-                <div class="flex items-center gap-4 lg:gap-6">
-                    <Link href="/" class="text-xs font-semibold uppercase tracking-widest text-[#5C6460] hover:text-[#4A6B5D] transition-colors duration-200 hidden md:block">{{ t('home_nav') }}</Link>
-                    <Link href="/about" class="text-xs font-semibold uppercase tracking-widest text-[#5C6460] hover:text-[#4A6B5D] transition-colors duration-200 hidden md:block">{{ t('about_nav') }}</Link>
-                    <Link href="/packages" class="text-xs font-semibold uppercase tracking-widest text-[#5C6460] hover:text-[#4A6B5D] transition-colors duration-200 hidden md:block">{{ t('package_nav') }}</Link>
-                    <Link href="/faq" class="text-xs font-semibold uppercase tracking-widest text-[#5C6460] hover:text-[#4A6B5D] transition-colors duration-200 hidden md:block">{{ t('faq_nav') }}</Link>
-                    <Link href="/contact" class="text-xs font-semibold uppercase tracking-widest text-[#5C6460] hover:text-[#4A6B5D] transition-colors duration-200 hidden md:block">{{ t('contact_nav') }}</Link>
+                <!-- Navigation Links / Auth Actions (Desktop Only) -->
+                <div class="hidden md:flex items-center gap-4 lg:gap-6">
+                    <Link href="/" class="text-xs font-semibold uppercase tracking-widest text-[#5C6460] hover:text-[#4A6B5D] transition-colors duration-200">{{ t('home_nav') }}</Link>
+                    <Link href="/about" class="text-xs font-semibold uppercase tracking-widest text-[#5C6460] hover:text-[#4A6B5D] transition-colors duration-200">{{ t('about_nav') }}</Link>
+                    <Link href="/packages" class="text-xs font-semibold uppercase tracking-widest text-[#5C6460] hover:text-[#4A6B5D] transition-colors duration-200">{{ t('package_nav') }}</Link>
+                    <Link href="/faq" class="text-xs font-semibold uppercase tracking-widest text-[#5C6460] hover:text-[#4A6B5D] transition-colors duration-200">{{ t('faq_nav') }}</Link>
+                    <Link href="/contact" class="text-xs font-semibold uppercase tracking-widest text-[#5C6460] hover:text-[#4A6B5D] transition-colors duration-200">{{ t('contact_nav') }}</Link>
 
-                    
                     <!-- Language Toggle -->
                     <div class="flex items-center gap-1.5 border-l border-[#E6E1DA] pl-6 h-6 ml-2 font-sans-modern">
                         <button 
@@ -264,6 +264,7 @@ watch(() => window.location.search, () => {
                         </button>
                     </div>
 
+                    <!-- Auth Actions -->
                     <div v-if="canLogin" class="flex items-center gap-4 border-l border-[#E6E1DA] pl-6 h-6">
                         <Link
                             v-if="$page.props.auth.user"
@@ -290,6 +291,23 @@ watch(() => window.location.search, () => {
                             </button>
                         </template>
                     </div>
+                </div>
+
+                <!-- Hamburger Button (Mobile Only) -->
+                <div class="flex items-center md:hidden gap-3">
+                    <button 
+                        @click="setLanguage(currentLanguage === 'en' ? 'my' : 'en')"
+                        class="text-[10px] font-bold uppercase tracking-wider border border-[#E6E1DA] px-2.5 py-1 rounded-lg text-[#8C8275] hover:text-[#2D3330] bg-white shadow-2xs transition-colors"
+                    >
+                        {{ currentLanguage.toUpperCase() }}
+                    </button>
+
+                    <button 
+                        @click="isMobileMenuOpen = true"
+                        class="w-10 h-10 border border-[#E6E1DA] rounded-xl flex items-center justify-center text-[#8C8275] hover:text-[#4A6B5D] bg-white transition-colors cursor-pointer"
+                    >
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
             </div>
         </nav>
@@ -429,6 +447,155 @@ watch(() => window.location.search, () => {
             </div>
         </footer>
 
+        <!-- Mobile Navigation Drawer -->
+        <Transition
+            enter-active-class="transition duration-300 ease-out"
+            enter-from-class="opacity-0"
+            enter-to-class="opacity-100"
+            leave-active-class="transition duration-200 ease-in"
+            leave-from-class="opacity-100"
+            leave-to-class="opacity-0"
+        >
+            <div 
+                v-if="isMobileMenuOpen" 
+                class="fixed inset-0 z-55 bg-black/40 backdrop-blur-xs font-sans-modern md:hidden"
+                @click.self="isMobileMenuOpen = false"
+            >
+                <Transition
+                    enter-active-class="transition duration-300 ease-out transform"
+                    enter-from-class="-translate-x-full"
+                    enter-to-class="translate-x-0"
+                    leave-active-class="transition duration-200 ease-in transform"
+                    leave-from-class="translate-x-0"
+                    leave-to-class="-translate-x-full"
+                >
+                    <div 
+                        v-if="isMobileMenuOpen"
+                        class="w-full max-w-[280px] bg-[#FAF7F2] h-full shadow-2xl border-r border-[#E6E1DA] p-6 flex flex-col justify-between overflow-y-auto relative z-55 text-[#2D3330]"
+                    >
+                        <div class="space-y-8">
+                            <!-- Logo and Close Button -->
+                            <div class="flex items-center justify-between border-b border-[#E6E1DA] pb-4">
+                                <Link href="/" @click="isMobileMenuOpen = false">
+                                    <ApplicationLogo />
+                                </Link>
+                                <button 
+                                    @click="isMobileMenuOpen = false"
+                                    class="w-8 h-8 border border-[#E6E1DA] rounded-lg flex items-center justify-center text-[#8C8275] hover:text-[#2D3330] cursor-pointer"
+                                >
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+
+                            <!-- Menu Links -->
+                            <nav class="flex flex-col gap-4">
+                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-1 block select-none">{{ t('explore_title') }}</span>
+                                <Link 
+                                    href="/" 
+                                    @click="isMobileMenuOpen = false"
+                                    class="text-sm font-semibold uppercase tracking-wider py-2 px-3 rounded-xl hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
+                                    :class="$page.url === '/' ? 'text-[#4A6B5D] bg-[#4A6B5D]/8 font-bold' : 'text-[#5C6460]'"
+                                >
+                                    {{ t('home_nav') }}
+                                </Link>
+                                <Link 
+                                    href="/about" 
+                                    @click="isMobileMenuOpen = false"
+                                    class="text-sm font-semibold uppercase tracking-wider py-2 px-3 rounded-xl hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
+                                    :class="$page.url.startsWith('/about') ? 'text-[#4A6B5D] bg-[#4A6B5D]/8 font-bold' : 'text-[#5C6460]'"
+                                >
+                                    {{ t('about_nav') }}
+                                </Link>
+                                <Link 
+                                    href="/packages" 
+                                    @click="isMobileMenuOpen = false"
+                                    class="text-sm font-semibold uppercase tracking-wider py-2 px-3 rounded-xl hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
+                                    :class="$page.url.startsWith('/packages') ? 'text-[#4A6B5D] bg-[#4A6B5D]/8 font-bold' : 'text-[#5C6460]'"
+                                >
+                                    {{ t('package_nav') }}
+                                </Link>
+                                <Link 
+                                    href="/faq" 
+                                    @click="isMobileMenuOpen = false"
+                                    class="text-sm font-semibold uppercase tracking-wider py-2 px-3 rounded-xl hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
+                                    :class="$page.url.startsWith('/faq') ? 'text-[#4A6B5D] bg-[#4A6B5D]/8 font-bold' : 'text-[#5C6460]'"
+                                >
+                                    {{ t('faq_nav') }}
+                                </Link>
+                                <Link 
+                                    href="/contact" 
+                                    @click="isMobileMenuOpen = false"
+                                    class="text-sm font-semibold uppercase tracking-wider py-2 px-3 rounded-xl hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
+                                    :class="$page.url.startsWith('/contact') ? 'text-[#4A6B5D] bg-[#4A6B5D]/8 font-bold' : 'text-[#5C6460]'"
+                                >
+                                    {{ t('contact_nav') }}
+                                </Link>
+                            </nav>
+
+                            <!-- Language selector for mobile -->
+                            <div class="space-y-2 pt-4 border-t border-[#E6E1DA]/60">
+                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-1 block select-none">Pilihan Bahasa / Language</span>
+                                <div class="flex items-center gap-2 px-1">
+                                    <button 
+                                        @click="setLanguage('en'); isMobileMenuOpen = false;" 
+                                        class="flex-1 text-[10px] font-bold py-2 px-3 rounded-lg border transition-colors text-center"
+                                        :class="currentLanguage === 'en' ? 'text-[#4A6B5D] border-[#4A6B5D] bg-[#4A6B5D]/5' : 'text-[#8C8275] border-[#E6E1DA] hover:text-[#2D3330]'"
+                                    >
+                                        English
+                                    </button>
+                                    <button 
+                                        @click="setLanguage('my'); isMobileMenuOpen = false;" 
+                                        class="flex-1 text-[10px] font-bold py-2 px-3 rounded-lg border transition-colors text-center"
+                                        :class="currentLanguage === 'my' ? 'text-[#4A6B5D] border-[#4A6B5D] bg-[#4A6B5D]/5' : 'text-[#8C8275] border-[#E6E1DA] hover:text-[#2D3330]'"
+                                    >
+                                        B. Melayu
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- User Profile or Auth Buttons in Drawer Footer -->
+                        <div class="pt-6 border-t border-[#E6E1DA] mt-auto">
+                            <div v-if="$page.props.auth.user" class="space-y-3">
+                                <div class="flex items-center gap-3 p-3 bg-white border border-[#E6E1DA] rounded-2xl">
+                                    <img v-if="$page.props.auth.user.profile_image" :src="'/storage/' + $page.props.auth.user.profile_image" class="w-9 h-9 rounded-full object-cover shadow-sm shrink-0" />
+                                    <div v-else class="w-9 h-9 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-sm shadow-sm shrink-0">
+                                        {{ ($page.props.auth.user.name || 'C').charAt(0).toUpperCase() }}
+                                    </div>
+                                    <div class="overflow-hidden">
+                                        <h4 class="text-xs font-semibold text-[#2D3330] truncate">{{ $page.props.auth.user.name }}</h4>
+                                        <p class="text-[9px] text-[#8C8275] uppercase font-semibold">{{ t('role_customer') }}</p>
+                                    </div>
+                                </div>
+                                <Link 
+                                    :href="route('dashboard')"
+                                    @click="isMobileMenuOpen = false"
+                                    class="w-full block text-center bg-[#4A6B5D] hover:bg-[#3D574B] text-white py-3 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200"
+                                >
+                                    {{ t('dashboard') }}
+                                </Link>
+                            </div>
+                            <div v-else class="flex flex-col gap-2">
+                                <button
+                                    @click="openDrawer('login'); isMobileMenuOpen = false;"
+                                    class="w-full text-center bg-white border border-[#E6E1DA] text-[#2D3330] hover:text-[#4A6B5D] py-3 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
+                                >
+                                    {{ t('sign_in') }}
+                                </button>
+                                <button
+                                    v-if="canRegister"
+                                    @click="openDrawer('register'); isMobileMenuOpen = false;"
+                                    class="w-full text-center bg-[#4A6B5D] hover:bg-[#3D574B] text-white py-3 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
+                                >
+                                    {{ t('register') }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </Transition>
+            </div>
+        </Transition>
+
         <!-- Drawer Component overlay -->
         <Transition
             enter-active-class="transition duration-300 ease-out"
@@ -454,7 +621,7 @@ watch(() => window.location.search, () => {
                 >
                     <div 
                         v-if="currentDrawer"
-                        class="w-full max-w-md bg-[#FAF7F2] h-full shadow-2xl border-l border-[#E6E1DA] rounded-l-3xl p-8 md:p-10 flex flex-col justify-between overflow-y-auto relative z-50 text-[#2D3330]"
+                        class="w-full max-w-md bg-[#FAF7F2] h-full shadow-2xl border-l border-[#E6E1DA] rounded-l-3xl p-6 sm:p-10 flex flex-col justify-between overflow-y-auto relative z-50 text-[#2D3330]"
                     >
                         <!-- Close button -->
                         <button 
