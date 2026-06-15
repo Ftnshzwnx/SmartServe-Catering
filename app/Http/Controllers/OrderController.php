@@ -499,7 +499,11 @@ class OrderController extends Controller
                 $message->to($email)->subject($subject);
             });
         } catch (\Exception $e) {
-            // Log mail failure but do not break checkout
+            \Illuminate\Support\Facades\Log::error('Mail sending failed (Order Confirmation): ' . $e->getMessage(), [
+                'exception' => $e,
+                'email' => $email,
+                'order_id' => $order->id,
+            ]);
         }
     }
 
@@ -516,7 +520,11 @@ class OrderController extends Controller
                 $message->to($email)->subject($subject);
             });
         } catch (\Exception $e) {
-            // Log
+            \Illuminate\Support\Facades\Log::error('Mail sending failed (Order Cancellation): ' . $e->getMessage(), [
+                'exception' => $e,
+                'email' => $email,
+                'order_id' => $order->id,
+            ]);
         }
     }
 }

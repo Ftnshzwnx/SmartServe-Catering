@@ -205,7 +205,11 @@ class AdminDashboardController extends Controller
                 $message->to($email)->subject($subject);
             });
         } catch (\Exception $e) {
-            // fail-silent
+            \Illuminate\Support\Facades\Log::error('Mail sending failed (Delivery Update): ' . $e->getMessage(), [
+                'exception' => $e,
+                'email' => $email,
+                'order_id' => $order->id,
+            ]);
         }
 
         return redirect()->back()->with('success', 'Order status has been updated to Delivered and customer notified.');
@@ -269,7 +273,11 @@ class AdminDashboardController extends Controller
                 $message->to($email)->subject($subject);
             });
         } catch (\Exception $e) {
-            // fail silently
+            \Illuminate\Support\Facades\Log::error('Mail sending failed (Custom Proposal): ' . $e->getMessage(), [
+                'exception' => $e,
+                'email' => $email,
+                'order_id' => $order->id,
+            ]);
         }
 
         return redirect()->back()->with('success', 'Custom menu proposal sent successfully to customer.');
@@ -1009,7 +1017,11 @@ class AdminDashboardController extends Controller
                 $message->to($email)->subject($subject);
             });
         } catch (\Exception $e) {
-            // fail-silent
+            \Illuminate\Support\Facades\Log::error('Mail sending failed (Status Update): ' . $e->getMessage(), [
+                'exception' => $e,
+                'email' => $email,
+                'order_id' => $order->id,
+            ]);
         }
     }
 
