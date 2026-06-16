@@ -145,7 +145,7 @@ const formatTimeAgo = (dateStr) => {
         <!-- Google Fonts loading directly -->
         <component :is="'style'">
             @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-            .font-serif-luxury { font-family: 'Cormorant Garamond', serif; }
+            .font-serif-luxury { font-family: 'Plus Jakarta Sans', sans-serif; }
             .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
             
             /* Sidebar styles matching Tajdid VMS (Light/White theme) */

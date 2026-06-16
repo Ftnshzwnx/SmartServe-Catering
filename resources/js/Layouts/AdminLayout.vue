@@ -96,7 +96,7 @@ const formatTimeAgo = (dateStr) => {
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
         .font-serif-luxury {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
         
         /* Premium Scrollbar */
