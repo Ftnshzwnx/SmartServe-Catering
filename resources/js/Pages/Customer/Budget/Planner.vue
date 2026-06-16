@@ -394,20 +394,32 @@ onMounted(() => {
         
         .simulator-container {
             background: white;
-            border-radius: 24px;
-            padding: 24px;
+            border-radius: 12px;
+            padding: 16px;
             border: 1px solid #E6E1DA;
+        }
+        @media (min-width: 640px) {
+            .simulator-container {
+                border-radius: 24px;
+                padding: 24px;
+            }
         }
         
         .package-select-card {
             border: 1px solid #E6E1DA;
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 14px;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             background: white;
             position: relative;
             overflow: hidden;
+        }
+        @media (min-width: 640px) {
+            .package-select-card {
+                border-radius: 20px;
+                padding: 20px;
+            }
         }
         .package-select-card:hover {
             border-color: #4A6B5D;
@@ -437,14 +449,21 @@ onMounted(() => {
 
         .addon-item-card {
             border: 1px solid #E6E1DA;
-            border-radius: 16px;
-            padding: 14px 18px;
+            border-radius: 12px;
+            padding: 10px 14px;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             background: white;
+        }
+        @media (min-width: 640px) {
+            .addon-item-card {
+                border-radius: 16px;
+                padding: 14px 18px;
+                gap: 12px;
+            }
         }
         .addon-item-card:hover {
             border-color: #4A6B5D;
@@ -478,17 +497,32 @@ onMounted(() => {
         .receipt-card {
             background: #FFFFFF;
             border: 1px solid #E6E1DA;
-            border-radius: 24px;
+            border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 4px 20px -6px rgba(15, 23, 42, 0.03);
+        }
+        @media (min-width: 640px) {
+            .receipt-card {
+                border-radius: 24px;
+            }
         }
         .receipt-header {
             background: #4A6B5D;
             color: #FAF7F2;
-            padding: 20px 24px;
+            padding: 14px 16px;
+        }
+        @media (min-width: 640px) {
+            .receipt-header {
+                padding: 20px 24px;
+            }
         }
         .receipt-body {
-            padding: 24px;
+            padding: 16px;
+        }
+        @media (min-width: 640px) {
+            .receipt-body {
+                padding: 24px;
+            }
         }
         .receipt-divider {
             border-top: 1px dashed #E6E1DA;
@@ -539,33 +573,33 @@ onMounted(() => {
     >
 
         <div class="font-sans-modern">
-            <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
                 
                 <!-- Gourmet Hero Banner Card -->
-                <div class="bg-[#2D3330] text-[#FAF7F2] rounded-3xl p-8 md:p-10 border border-[#E6E1DA] shadow-sm flex flex-col md:flex-row justify-between items-center gap-6 mb-10 overflow-hidden relative">
+                <div class="bg-[#2D3330] text-[#FAF7F2] rounded-xl sm:rounded-3xl p-5 sm:p-8 md:p-10 border border-[#E6E1DA] shadow-sm flex flex-col md:flex-row justify-between items-center gap-6 mb-6 sm:mb-10 overflow-hidden relative">
                     <!-- Oatmeal blur decorative circle -->
                     <div class="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-white/5 blur-2xl"></div>
                     
                     <div class="space-y-3 relative z-10 max-w-2xl">
                         <span class="text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#FAF9F6]/20 px-3 py-1 rounded-full uppercase tracking-widest inline-block select-none">{{ t('budget_planner') }}</span>
-                        <h3 class="text-3xl lg:text-4xl font-light font-serif-luxury tracking-wide">
+                        <h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light font-serif-luxury tracking-wide">
                             {{ t('live_estimate') }}
                         </h3>
                         <p class="text-xs text-[#E6E1DA]/80 font-light leading-relaxed">
                             {{ t('budget_planner_desc') }}
                         </p>
                     </div>
-
+ 
                     <!-- Right side illustration image thumbnail -->
                     <div class="hidden md:block w-36 h-36 rounded-2xl overflow-hidden shrink-0 border border-[#FAF7F2]/10 shadow-lg relative z-10">
                         <img src="/img/catering_dish.png" class="w-full h-full object-cover" alt="Gourmet dish" />
                     </div>
                 </div>
-
+ 
                 <!-- Custom Proposal Toggle Banner -->
-                <div class="bg-[#FAF9F6] border border-[#E6E1DA] rounded-3xl p-6 flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
-                    <div class="space-y-1">
-                        <h4 class="font-serif-luxury text-xl font-normal text-[#2D3330]">
+                <div class="bg-[#FAF9F6] border border-[#E6E1DA] rounded-xl sm:rounded-3xl p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+                    <div class="space-y-1 w-full sm:w-auto">
+                        <h4 class="font-serif-luxury text-base sm:text-xl font-normal text-[#2D3330]">
                             {{ t('prefer_custom_budget') }}
                         </h4>
                         <p class="text-xs text-[#8C8275] font-light">
@@ -575,7 +609,7 @@ onMounted(() => {
                     <button 
                         type="button"
                         @click="showCustomForm = !showCustomForm"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer w-full sm:w-auto text-center"
                     >
                         {{ showCustomForm ? t('back_to_budget_calc') : t('request_custom_proposal_btn') }}
                     </button>
