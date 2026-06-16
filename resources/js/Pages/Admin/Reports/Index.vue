@@ -396,52 +396,60 @@ watch(() => props.salesData, () => {
         </template>
 
         <!-- KPI Metrics Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
             <!-- Total Revenue -->
-            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex items-center justify-between animate-fade-in">
-                <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reports_total_revenue') }}</span>
-                    <span class="text-xl md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury">RM {{ parseFloat(kpis.totalRevenue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
-                    <span class="text-[9px] text-[#8C8275] block mt-1.5 font-semibold">{{ t('admin_reports_timeframe_desc') }}</span>
+            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs p-3 md:p-6 flex flex-col justify-between gap-2.5 animate-fade-in">
+                <div class="flex items-center justify-between gap-1.5">
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_reports_total_revenue')">{{ t('admin_reports_total_revenue') }}</span>
+                    <div class="w-8 h-8 bg-emerald-50 text-[#4A6B5D] rounded-lg border border-emerald-100 flex items-center justify-center text-xs shrink-0">
+                        <i class="fas fa-coins"></i>
+                    </div>
                 </div>
-                <div class="w-10 h-10 md:w-12 md:h-12 bg-emerald-50 text-[#4A6B5D] rounded-xl border border-emerald-100 flex items-center justify-center text-base md:text-lg shrink-0">
-                    <i class="fas fa-coins"></i>
+                <div>
+                    <span class="text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">RM {{ parseFloat(kpis.totalRevenue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
+                    <span class="text-[8px] text-[#8C8275] block mt-1 font-semibold truncate">{{ t('admin_reports_timeframe_desc') }}</span>
                 </div>
             </div>
 
             <!-- Average Order Value -->
-            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 50ms;">
-                <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reports_avg_order_value') }}</span>
-                    <span class="text-xl md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury">RM {{ parseFloat(kpis.averageOrderValue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
-                    <span class="text-[9px] text-[#8C8275] block mt-1.5 font-semibold">{{ t('admin_reports_avg_order_desc') }}</span>
+            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs p-3 md:p-6 flex flex-col justify-between gap-2.5 animate-fade-in" style="animation-delay: 50ms;">
+                <div class="flex items-center justify-between gap-1.5">
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_reports_avg_order_value')">{{ t('admin_reports_avg_order_value') }}</span>
+                    <div class="w-8 h-8 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 flex items-center justify-center text-xs shrink-0">
+                        <i class="fas fa-calculator"></i>
+                    </div>
                 </div>
-                <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-50 text-blue-600 rounded-xl border border-blue-100 flex items-center justify-center text-base md:text-lg shrink-0">
-                    <i class="fas fa-calculator"></i>
+                <div>
+                    <span class="text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">RM {{ parseFloat(kpis.averageOrderValue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
+                    <span class="text-[8px] text-[#8C8275] block mt-1 font-semibold truncate">{{ t('admin_reports_avg_order_desc') }}</span>
                 </div>
             </div>
 
             <!-- Cancellation Rate -->
-            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 100ms;">
-                <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reports_cancellation_rate') }}</span>
-                    <span class="text-xl md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ kpis.cancellationRate }}%</span>
-                    <span class="text-[9px] text-rose-500 block mt-1.5 font-bold">{{ t('admin_reports_cancellation_desc').replace('{count}', kpis.totalBookings) }}</span>
+            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs p-3 md:p-6 flex flex-col justify-between gap-2.5 animate-fade-in" style="animation-delay: 100ms;">
+                <div class="flex items-center justify-between gap-1.5">
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_reports_cancellation_rate')">{{ t('admin_reports_cancellation_rate') }}</span>
+                    <div class="w-8 h-8 bg-rose-50 text-rose-600 rounded-lg border border-rose-100 flex items-center justify-center text-xs shrink-0">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
                 </div>
-                <div class="w-10 h-10 md:w-12 md:h-12 bg-rose-50 text-rose-600 rounded-xl border border-rose-100 flex items-center justify-center text-base md:text-lg shrink-0">
-                    <i class="fas fa-chart-pie"></i>
+                <div>
+                    <span class="text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">{{ kpis.cancellationRate }}%</span>
+                    <span class="text-[8px] text-rose-500 block mt-1 font-bold truncate">{{ t('admin_reports_cancellation_desc').replace('{count}', kpis.totalBookings) }}</span>
                 </div>
             </div>
 
             <!-- Best Seller -->
-            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 150ms;">
-                <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reports_top_package') }}</span>
-                    <span class="text-base md:text-lg font-bold text-[#2D3330] block truncate max-w-[170px]" :title="kpis.topPackage">{{ kpis.topPackage }}</span>
-                    <span class="text-[9px] text-[#C5A880] block mt-1 font-bold uppercase tracking-wider">{{ t('admin_reports_top_package_desc') }}</span>
+            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs p-3 md:p-6 flex flex-col justify-between gap-2.5 animate-fade-in" style="animation-delay: 150ms;">
+                <div class="flex items-center justify-between gap-1.5">
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_reports_top_package')">{{ t('admin_reports_top_package') }}</span>
+                    <div class="w-8 h-8 bg-amber-50 text-[#C5A880] rounded-lg border border-amber-100 flex items-center justify-center text-xs shrink-0">
+                        <i class="fas fa-crown"></i>
+                    </div>
                 </div>
-                <div class="w-10 h-10 md:w-12 md:h-12 bg-amber-50 text-[#C5A880] rounded-xl border border-amber-100 flex items-center justify-center text-base md:text-lg shrink-0">
-                    <i class="fas fa-crown"></i>
+                <div>
+                    <span class="text-xs md:text-lg font-bold text-[#2D3330] block truncate" :title="kpis.topPackage">{{ kpis.topPackage }}</span>
+                    <span class="text-[8px] text-[#C5A880] block mt-1 font-bold uppercase tracking-wider truncate">{{ t('admin_reports_top_package_desc') }}</span>
                 </div>
             </div>
         </div>
