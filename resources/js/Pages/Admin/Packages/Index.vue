@@ -723,19 +723,19 @@ watch([categorySearchQuery], () => {
                     </button>
                 </div>
                 <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
+                <div class="flex flex-row items-center gap-2 w-full md:w-auto">
                     <button
                         v-if="packages.length > 0"
                         @click="deleteAllPackages"
-                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in w-full sm:w-auto"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-3 sm:px-4 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-trash-alt"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
+                        <i class="fas fa-trash-alt text-[10px] sm:text-xs"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
                     </button>
                     <button
                         @click="openCreatePackage"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none w-full sm:w-auto"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3.5 sm:px-5 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-plus"></i> {{ t('admin_create_package_btn') }}
+                        <i class="fas fa-plus text-[10px] sm:text-xs"></i> {{ t('admin_create_package_btn') }}
                     </button>
                 </div>
             </div>
@@ -1004,19 +1004,19 @@ watch([categorySearchQuery], () => {
                     </div>
                 </div>
                 <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
+                <div class="flex flex-row items-center gap-2 w-full md:w-auto">
                     <button
                         v-if="addons.length > 0"
                         @click="deleteAllAddons"
-                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in w-full sm:w-auto"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-3 sm:px-4 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-trash-alt"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
+                        <i class="fas fa-trash-alt text-[10px] sm:text-xs"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
                     </button>
                     <button
                         @click="openCreateAddon"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none w-full sm:w-auto"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3.5 sm:px-5 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-plus"></i> {{ t('admin_add_new_global_item_btn') }}
+                        <i class="fas fa-plus text-[10px] sm:text-xs"></i> {{ t('admin_add_new_global_item_btn') }}
                     </button>
                 </div>
             </div>
@@ -1185,19 +1185,19 @@ watch([categorySearchQuery], () => {
                     </div>
                 </div>
                 <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full lg:w-auto">
+                <div class="flex flex-row items-center gap-2 w-full lg:w-auto">
                     <button
                         v-if="dishes.length > 0"
                         @click="deleteAllDishes"
-                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in w-full sm:w-auto"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-3 sm:px-4 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-trash-alt"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
+                        <i class="fas fa-trash-alt text-[10px] sm:text-xs"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
                     </button>
                     <button
                         @click="openCreateDish"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none w-full sm:w-auto"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3.5 sm:px-5 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-plus"></i> {{ t('admin_add_new_dish_btn') }}
+                        <i class="fas fa-plus text-[10px] sm:text-xs"></i> {{ t('admin_add_new_dish_btn') }}
                     </button>
                 </div>
             </div>
@@ -1335,19 +1335,19 @@ watch([categorySearchQuery], () => {
                     </button>
                 </div>
                 <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
+                <div class="flex flex-row items-center gap-2 w-full md:w-auto">
                     <button
                         v-if="categories.length > 0"
                         @click="deleteAllCategories"
-                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in w-full sm:w-auto"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-3 sm:px-4 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-trash-alt"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
+                        <i class="fas fa-trash-alt text-[10px] sm:text-xs"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
                     </button>
                     <button
                         @click="openCreateCategory"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer shrink-0 w-full sm:w-auto"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3.5 sm:px-5 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-plus"></i> {{ t('admin_add_new_category_btn') }}
+                        <i class="fas fa-plus text-[10px] sm:text-xs"></i> {{ t('admin_add_new_category_btn') }}
                     </button>
                 </div>
             </div>
