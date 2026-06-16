@@ -396,58 +396,58 @@ watch(() => props.salesData, () => {
         </template>
 
         <!-- KPI Metrics Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             <!-- Total Revenue -->
-            <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in">
+            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex items-center justify-between animate-fade-in">
                 <div>
                     <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reports_total_revenue') }}</span>
-                    <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">RM {{ parseFloat(kpis.totalRevenue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
+                    <span class="text-xl md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury">RM {{ parseFloat(kpis.totalRevenue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
                     <span class="text-[9px] text-[#8C8275] block mt-1.5 font-semibold">{{ t('admin_reports_timeframe_desc') }}</span>
                 </div>
-                <div class="w-12 h-12 bg-emerald-50 text-[#4A6B5D] rounded-xl border border-emerald-100 flex items-center justify-center text-lg shrink-0">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-emerald-50 text-[#4A6B5D] rounded-xl border border-emerald-100 flex items-center justify-center text-base md:text-lg shrink-0">
                     <i class="fas fa-coins"></i>
                 </div>
             </div>
 
             <!-- Average Order Value -->
-            <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 50ms;">
+            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 50ms;">
                 <div>
                     <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reports_avg_order_value') }}</span>
-                    <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">RM {{ parseFloat(kpis.averageOrderValue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
+                    <span class="text-xl md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury">RM {{ parseFloat(kpis.averageOrderValue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
                     <span class="text-[9px] text-[#8C8275] block mt-1.5 font-semibold">{{ t('admin_reports_avg_order_desc') }}</span>
                 </div>
-                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl border border-blue-100 flex items-center justify-center text-lg shrink-0">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-50 text-blue-600 rounded-xl border border-blue-100 flex items-center justify-center text-base md:text-lg shrink-0">
                     <i class="fas fa-calculator"></i>
                 </div>
             </div>
 
             <!-- Cancellation Rate -->
-            <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 100ms;">
+            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 100ms;">
                 <div>
                     <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reports_cancellation_rate') }}</span>
-                    <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ kpis.cancellationRate }}%</span>
+                    <span class="text-xl md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ kpis.cancellationRate }}%</span>
                     <span class="text-[9px] text-rose-500 block mt-1.5 font-bold">{{ t('admin_reports_cancellation_desc').replace('{count}', kpis.totalBookings) }}</span>
                 </div>
-                <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-xl border border-rose-100 flex items-center justify-center text-lg shrink-0">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-rose-50 text-rose-600 rounded-xl border border-rose-100 flex items-center justify-center text-base md:text-lg shrink-0">
                     <i class="fas fa-chart-pie"></i>
                 </div>
             </div>
 
             <!-- Best Seller -->
-            <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 150ms;">
+            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 150ms;">
                 <div>
                     <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reports_top_package') }}</span>
-                    <span class="text-lg font-bold text-[#2D3330] block truncate max-w-[170px]" :title="kpis.topPackage">{{ kpis.topPackage }}</span>
+                    <span class="text-base md:text-lg font-bold text-[#2D3330] block truncate max-w-[170px]" :title="kpis.topPackage">{{ kpis.topPackage }}</span>
                     <span class="text-[9px] text-[#C5A880] block mt-1 font-bold uppercase tracking-wider">{{ t('admin_reports_top_package_desc') }}</span>
                 </div>
-                <div class="w-12 h-12 bg-amber-50 text-[#C5A880] rounded-xl border border-amber-100 flex items-center justify-center text-lg shrink-0">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-amber-50 text-[#C5A880] rounded-xl border border-amber-100 flex items-center justify-center text-base md:text-lg shrink-0">
                     <i class="fas fa-crown"></i>
                 </div>
             </div>
         </div>
 
         <!-- Business Health & Audit Board -->
-        <div class="bg-[#FAF7F2] rounded-3xl border border-[#E6E1DA] p-5 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-2xs select-none">
+        <div class="bg-[#FAF7F2] rounded-2xl md:rounded-3xl border border-[#E6E1DA] p-4 md:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6 shadow-2xs select-none">
             <div class="space-y-1">
                 <h3 class="text-xs font-bold text-[#4A6B5D] uppercase tracking-widest flex items-center gap-1.5">
                     <i class="fas fa-shield-alt text-[#C5A880]"></i>
@@ -487,11 +487,11 @@ watch(() => props.salesData, () => {
         </div>
 
         <!-- Charts Layout Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
             <!-- Monthly / Daily Sales Chart (7 cols) -->
-            <div class="lg:col-span-7 bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-4 flex flex-col justify-between">
+            <div class="lg:col-span-7 bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 space-y-4 flex flex-col justify-between">
                 <div>
-                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
+                    <h2 class="text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
                         {{ filters.viewMode === 'daily' ? t('admin_reports_daily_revenue') : t('admin_reports_monthly_revenue') }}
                     </h2>
                     <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">
@@ -502,19 +502,19 @@ watch(() => props.salesData, () => {
                     </p>
                 </div>
 
-                <div class="relative h-64 w-full">
+                <div class="relative h-60 w-full">
                     <canvas ref="salesChartCanvas" v-show="salesData.length > 0"></canvas>
-                    <div v-if="salesData.length === 0" class="absolute inset-0 flex flex-col items-center justify-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl">
-                        <i class="fas fa-chart-line text-3xl mb-2"></i>
+                    <div v-if="salesData.length === 0" class="absolute inset-0 flex flex-col items-center justify-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-xl">
+                        <i class="fas fa-chart-line text-2xl mb-1.5"></i>
                         <span class="text-xs font-bold">{{ t('admin_reports_no_sales_data') }}</span>
                     </div>
                 </div>
             </div>
 
             <!-- Booking Status Distribution Doughnut Chart & Custom Legend Grid (5 cols) -->
-            <div class="lg:col-span-5 bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 flex flex-col justify-between space-y-5">
+            <div class="lg:col-span-5 bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex flex-col justify-between space-y-4 md:space-y-5">
                 <div>
-                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_booking_statuses') }}</h2>
+                    <h2 class="text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_booking_statuses') }}</h2>
                     <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_booking_statuses_desc') }}</p>
                 </div>
  
@@ -555,45 +555,45 @@ watch(() => props.salesData, () => {
             </div>
 
             <!-- Package Popularity Split Layout (Leaderboard + Share Distribution) (12 cols) -->
-            <div class="lg:col-span-12 bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
+            <div class="lg:col-span-12 bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 space-y-4 md:space-y-6">
                 <div>
-                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_pkg_popularity_title') }}</h2>
+                    <h2 class="text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_pkg_popularity_title') }}</h2>
                     <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_pkg_popularity_desc') }}</p>
                 </div>
 
-                <div v-show="packagePopularity.length > 0" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div v-show="packagePopularity.length > 0" class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-center">
                     <!-- Left: Leaderboard (7 cols) -->
                     <div class="lg:col-span-7 space-y-4">
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse">
+                        <div class="overflow-x-auto rounded-xl border border-[#E6E1DA]">
+                            <table class="w-full min-w-[650px] text-left border-collapse">
                                 <thead>
-                                    <tr class="border-b border-[#E6E1DA]">
-                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_rank') }}</th>
-                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_package_name') }}</th>
-                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-center">{{ t('admin_reports_bookings') }}</th>
-                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-1/3">{{ t('admin_reports_popularity_share') }}</th>
-                                        <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-right">{{ t('admin_reports_revenue_rm') }}</th>
+                                    <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
+                                        <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_rank') }}</th>
+                                        <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_package_name') }}</th>
+                                        <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-center">{{ t('admin_reports_bookings') }}</th>
+                                        <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-1/3">{{ t('admin_reports_popularity_share') }}</th>
+                                        <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-right">{{ t('admin_reports_revenue_rm') }}</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-[#FAF7F2]">
+                                <tbody class="divide-y divide-[#E6E1DA]">
                                     <tr v-for="(p, index) in packagePopularity" :key="p.package_name" class="hover:bg-[#FAF7F2]/50 transition-colors">
                                         <!-- Rank badge -->
-                                        <td class="py-3.5 pr-2">
+                                        <td class="p-3">
                                             <span v-if="index === 0" class="w-6 h-6 rounded-full bg-amber-100 border border-amber-200 text-amber-800 flex items-center justify-center font-bold text-xs select-none" title="1st Best Seller">🥇</span>
                                             <span v-else-if="index === 1" class="w-6 h-6 rounded-full bg-slate-100 border border-slate-200 text-slate-800 flex items-center justify-center font-bold text-xs select-none" title="2nd Place">🥈</span>
                                             <span v-else-if="index === 2" class="w-6 h-6 rounded-full bg-orange-100 border border-orange-200 text-orange-800 flex items-center justify-center font-bold text-xs select-none" title="3rd Place">🥉</span>
                                             <span v-else class="w-6 h-6 rounded-full bg-gray-50 border border-gray-200 text-gray-600 flex items-center justify-center font-bold text-[10px] select-none">#{{ index + 1 }}</span>
                                         </td>
                                         <!-- Package Name -->
-                                        <td class="py-3.5 pr-2 font-bold text-[#2D3330] text-xs">
+                                        <td class="p-3 font-bold text-[#2D3330] text-xs">
                                             {{ p.package_name }}
                                         </td>
                                         <!-- Bookings count -->
-                                        <td class="py-3.5 px-2 text-center font-semibold text-[#2D3330] text-xs">
+                                        <td class="p-3 text-center font-semibold text-[#2D3330] text-xs">
                                             {{ p.bookings_count }}
                                         </td>
                                         <!-- Progress bar -->
-                                        <td class="py-3.5 px-2">
+                                        <td class="p-3">
                                             <div class="flex items-center gap-2">
                                                 <div class="h-1.5 bg-[#FAF7F2] rounded-full flex-grow border border-[#E6E1DA] overflow-hidden">
                                                     <div 
@@ -608,7 +608,7 @@ watch(() => props.salesData, () => {
                                             </div>
                                         </td>
                                         <!-- Total Revenue -->
-                                        <td class="py-3.5 pl-2 text-right font-extrabold text-[#4A6B5D] text-xs">
+                                        <td class="p-3 text-right font-extrabold text-[#4A6B5D] text-xs">
                                             RM {{ parseFloat(p.total_revenue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                                         </td>
                                     </tr>
@@ -633,42 +633,42 @@ watch(() => props.salesData, () => {
             </div>
 
             <!-- Add-on Popularity Analysis Leaderboard (12 cols) -->
-            <div class="lg:col-span-12 bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
+            <div class="lg:col-span-12 bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 space-y-4 md:space-y-6">
                 <div>
-                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_addon_popularity_title') }}</h2>
+                    <h2 class="text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_addon_popularity_title') }}</h2>
                     <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_addon_popularity_desc') }}</p>
                 </div>
 
-                <div v-show="addonPopularity.length > 0" class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                <div v-show="addonPopularity.length > 0" class="overflow-x-auto rounded-xl border border-[#E6E1DA]">
+                    <table class="w-full min-w-[650px] text-left border-collapse">
                         <thead>
-                            <tr class="border-b border-[#E6E1DA]">
-                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-16">{{ t('admin_reports_rank') }}</th>
-                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_addon_item_name') }}</th>
-                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-center w-32">{{ t('admin_reports_times_selected') }}</th>
-                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-1/3">{{ t('admin_reports_popularity_share') }}</th>
-                                <th class="pb-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-right w-40">{{ t('admin_reports_revenue_generated') }}</th>
+                            <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
+                                <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-16">{{ t('admin_reports_rank') }}</th>
+                                <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_addon_item_name') }}</th>
+                                <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-center w-32">{{ t('admin_reports_times_selected') }}</th>
+                                <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-1/3">{{ t('admin_reports_popularity_share') }}</th>
+                                <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-right w-40">{{ t('admin_reports_revenue_generated') }}</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-[#FAF7F2]">
+                        <tbody class="divide-y divide-[#E6E1DA]">
                             <tr v-for="(a, index) in addonPopularity" :key="a.addon_name" class="hover:bg-[#FAF7F2]/50 transition-colors">
                                 <!-- Rank Badge -->
-                                <td class="py-4">
+                                <td class="p-3">
                                     <span v-if="index === 0" class="w-6 h-6 rounded-full bg-amber-100 border border-amber-200 text-amber-800 flex items-center justify-center font-bold text-xs select-none" title="Top Add-on">🥇</span>
                                     <span v-else-if="index === 1" class="w-6 h-6 rounded-full bg-slate-100 border border-slate-200 text-slate-800 flex items-center justify-center font-bold text-xs select-none" title="2nd Place">🥈</span>
                                     <span v-else-if="index === 2" class="w-6 h-6 rounded-full bg-orange-100 border border-orange-200 text-orange-800 flex items-center justify-center font-bold text-xs select-none" title="3rd Place">🥉</span>
                                     <span v-else class="w-6 h-6 rounded-full bg-gray-50 border border-gray-200 text-gray-600 flex items-center justify-center font-bold text-[10px] select-none">#{{ index + 1 }}</span>
                                 </td>
                                 <!-- Addon name -->
-                                <td class="py-4 font-bold text-xs text-[#2D3330]">
+                                <td class="p-3 font-bold text-xs text-[#2D3330]">
                                     {{ a.addon_name }}
                                 </td>
                                 <!-- Bookings count -->
-                                <td class="py-4 text-center text-xs font-semibold text-[#2D3330]">
+                                <td class="p-3 text-center text-xs font-semibold text-[#2D3330]">
                                     {{ a.bookings_count }}
                                 </td>
                                 <!-- Progress bar -->
-                                <td class="py-4">
+                                <td class="p-3">
                                     <div class="flex items-center gap-2">
                                         <div class="h-1.5 bg-[#FAF7F2] rounded-full flex-grow border border-[#E6E1DA] overflow-hidden">
                                             <div 
@@ -683,7 +683,7 @@ watch(() => props.salesData, () => {
                                     </div>
                                 </td>
                                 <!-- Revenue Generated -->
-                                <td class="py-4 text-right text-xs font-extrabold text-[#4A6B5D]">
+                                <td class="p-3 text-right text-xs font-extrabold text-[#4A6B5D]">
                                     RM {{ parseFloat(a.total_revenue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                                 </td>
                             </tr>
@@ -699,9 +699,9 @@ watch(() => props.salesData, () => {
         </div>
 
         <!-- Export Center Panel Card -->
-        <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
+        <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 space-y-4 md:space-y-6">
             <div>
-                <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_export_center') }}</h2>
+                <h2 class="text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_export_center') }}</h2>
                 <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_export_center_desc') }}</p>
             </div>
 

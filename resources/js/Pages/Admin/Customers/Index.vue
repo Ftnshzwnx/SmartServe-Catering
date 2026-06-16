@@ -172,8 +172,8 @@ async function verifyEmail(user) {
         <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 md:p-8 shadow-xs space-y-6">
             <h3 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_registered_customers') }}</h3>
 
-            <div v-if="users.data.length > 0" class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-xs text-[#5C6460]">
+            <div v-if="users.data.length > 0" class="overflow-x-auto scrollbar-none pb-2">
+                <table class="w-full text-left border-collapse text-xs text-[#5C6460] min-w-[800px]">
                     <thead>
                         <tr class="border-b border-[#E6E1DA] text-[#8C8275] font-bold uppercase tracking-wider">
                             <th class="py-3.5 pl-2 text-center w-12">{{ t('admin_number_col') }}</th>

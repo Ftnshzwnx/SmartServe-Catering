@@ -456,8 +456,8 @@ function needsAction(status) {
         <!-- Orders Data Table -->
         <div v-if="orders.data.length > 0" class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs overflow-hidden">
             
-            <!-- Table Header -->
-            <div class="grid grid-cols-12 gap-3 px-6 py-3 border-b border-[#E6E1DA] bg-[#FAF7F2]">
+            <!-- Table Header (Desktop Only) -->
+            <div class="hidden md:grid grid-cols-12 gap-3 px-6 py-3 border-b border-[#E6E1DA] bg-[#FAF7F2]">
                 <div class="col-span-1 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_number_col') }}</div>
                 <div class="col-span-1 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_id') }}</div>
                 <div class="col-span-2 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_customer') }}</div>
@@ -471,10 +471,10 @@ function needsAction(status) {
             <!-- Table Rows -->
             <div v-for="(order, index) in orders.data" :key="order.id" class="border-b border-[#E6E1DA] last:border-0">
                 
-                <!-- Main Row -->
+                <!-- Main Row (Desktop Only) -->
                 <div
                     @click="toggleRow(order.id)"
-                    class="grid grid-cols-12 gap-3 px-6 py-4 items-center cursor-pointer transition-colors hover:bg-[#FAFAF9] group"
+                    class="hidden md:grid grid-cols-12 gap-3 px-6 py-4 items-center cursor-pointer transition-colors hover:bg-[#FAFAF9] group"
                     :class="expandedRow === order.id ? 'bg-[#FAF7F2]' : ''"
                 >
                     <!-- No. -->
@@ -557,6 +557,55 @@ function needsAction(status) {
                     </div>
                 </div>
 
+                <!-- Shopee-style Card (Mobile Only) -->
+                <div
+                    @click="toggleRow(order.id)"
+                    class="flex md:hidden flex-col gap-3 p-4 cursor-pointer transition-colors hover:bg-[#FAFAF9] border-b border-[#E6E1DA]/50 last:border-0 bg-white"
+                    :class="expandedRow === order.id ? 'bg-[#FAF7F2]/50' : ''"
+                >
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-xs font-extrabold text-[#4A6B5D]">#SSC-{{ order.id }}</span>
+                            <span v-if="needsAction(order.status)" class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                        </div>
+                        <span class="inline-flex items-center gap-1 text-[8px] font-extrabold px-2.5 py-0.5 rounded-full border uppercase tracking-wider" :class="getStatusBadge(order.status)">
+                            <i class="fas text-[6px]" :class="getStatusIcon(order.status)"></i>
+                            {{ getTranslatedStatus(order.status) }}
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-[#4A6B5D]/10 text-[#4A6B5D] flex items-center justify-center font-bold text-[10px] shrink-0 border border-[#4A6B5D]/20">
+                            {{ (order.user?.full_name || order.user?.name || 'C').charAt(0).toUpperCase() }}
+                        </div>
+                        <div class="min-w-0 flex-grow">
+                            <p class="text-xs font-extrabold text-[#2D3330] truncate">
+                                {{ order.user?.full_name || order.user?.name || 'Customer' }}
+                            </p>
+                            <p class="text-[9px] text-[#8C8275] font-semibold truncate">
+                                {{ order.user?.phone || order.user?.email }}
+                            </p>
+                        </div>
+                        <div class="text-right shrink-0 pl-2">
+                            <span class="text-xs font-black text-[#C5A880] block">RM {{ parseFloat(order.total_price).toFixed(2) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-[#FAF7F2] px-3 py-2 rounded-xl border border-[#E6E1DA]/60 text-[9px] font-bold">
+                        <div class="truncate pr-2 text-[#5C6460]">
+                            <span v-if="order.is_custom_proposal" class="text-[8px] bg-white text-[#4A6B5D] border border-[#C5A880]/40 px-1 py-0.5 rounded uppercase mr-1 inline-block">Custom</span>
+                            {{ order.package_name }}
+                        </div>
+                        <div class="shrink-0 text-right text-[#8C8275]">
+                            <i class="far fa-calendar-alt text-[#C5A880] mr-1"></i>{{ order.delivery_date }}
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center pt-1.5">
+                        <i class="fas fa-chevron-down text-[9px] text-[#8C8275] transition-transform duration-200" :class="expandedRow === order.id ? 'rotate-180 text-[#4A6B5D]' : ''"></i>
+                    </div>
+                </div>
+
                 <!-- Expanded Detail Panel -->
                 <Transition
                     enter-active-class="transition-all duration-200 ease-out"
@@ -566,7 +615,7 @@ function needsAction(status) {
                     leave-from-class="opacity-100 translate-y-0"
                     leave-to-class="opacity-0 -translate-y-1"
                 >
-                    <div v-if="expandedRow === order.id" class="px-6 pb-5 bg-[#FAF7F2] border-t border-[#E6E1DA]/60">
+                    <div v-if="expandedRow === order.id" class="px-4 md:px-6 pb-5 bg-[#FAF7F2] border-t border-[#E6E1DA]/60">
                         <div class="pt-5 grid grid-cols-1 md:grid-cols-3 gap-5">
 
                             <!-- Venue -->

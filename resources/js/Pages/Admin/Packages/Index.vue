@@ -668,31 +668,31 @@ watch([categorySearchQuery], () => {
         :header-desc="t('admin_packages_desc')"
     >
         <!-- Tab Navigation Bar -->
-        <div class="flex border-b border-[#E6E1DA] mb-6">
+        <div class="flex border-b border-[#E6E1DA] mb-6 overflow-x-auto flex-nowrap whitespace-nowrap scrollbar-none pb-0.5">
             <button
                 @click="activeTab = 'packages'"
-                class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none"
+                class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none shrink-0"
                 :class="activeTab === 'packages' ? 'border-[#4A6B5D] text-[#4A6B5D]' : 'border-transparent text-[#8C8275] hover:text-[#5C6460]'"
             >
                 {{ t('admin_tab_packages') }} ({{ packages.length }})
             </button>
             <button
                 @click="activeTab = 'addons'"
-                class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none"
+                class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none shrink-0"
                 :class="activeTab === 'addons' ? 'border-[#4A6B5D] text-[#4A6B5D]' : 'border-transparent text-[#8C8275] hover:text-[#5C6460]'"
             >
                 {{ t('admin_tab_addons') }} ({{ addons.length }})
             </button>
             <button
                 @click="activeTab = 'dishes'"
-                class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none"
+                class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none shrink-0"
                 :class="activeTab === 'dishes' ? 'border-[#4A6B5D] text-[#4A6B5D]' : 'border-transparent text-[#8C8275] hover:text-[#5C6460]'"
             >
                 {{ t('admin_tab_dishes') }} ({{ dishes.length }})
             </button>
             <button
                 @click="activeTab = 'categories'"
-                class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none"
+                class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none shrink-0"
                 :class="activeTab === 'categories' ? 'border-[#4A6B5D] text-[#4A6B5D]' : 'border-transparent text-[#8C8275] hover:text-[#5C6460]'"
             >
                 {{ t('admin_tab_categories') }} ({{ categories.length }})
@@ -743,38 +743,38 @@ watch([categorySearchQuery], () => {
             <!-- Main Packages Panel (if any packages exist in database) -->
             <div v-if="packages.length > 0" class="space-y-6">
                 <!-- Sub-tabs for Package Categories -->
-                <div class="flex flex-wrap gap-2 pt-2 border-b border-[#FAF6F0] pb-4">
+                <div class="flex overflow-x-auto flex-nowrap gap-2 pt-2 border-b border-[#FAF6F0] pb-4 scrollbar-none whitespace-nowrap">
                     <button 
                         @click="activePackageFilter = 'all'" 
-                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none"
+                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
                         :class="activePackageFilter === 'all' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
                         {{ t('admin_all_packages') }} ({{ packages.length }})
                     </button>
                     <button 
                         @click="activePackageFilter = 'wedding'" 
-                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none"
+                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
                         :class="activePackageFilter === 'wedding' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
                         {{ t('admin_pkg_cat_wedding') }} ({{ packages.filter(p => getCategoryKey(p.package_name) === 'wedding').length }})
                     </button>
                     <button 
                         @click="activePackageFilter = 'corporate'" 
-                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none"
+                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
                         :class="activePackageFilter === 'corporate' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
                         {{ t('admin_pkg_cat_corporate') }} ({{ packages.filter(p => getCategoryKey(p.package_name) === 'corporate').length }})
                     </button>
                     <button 
                         @click="activePackageFilter = 'aqiqah'" 
-                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none"
+                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
                         :class="activePackageFilter === 'aqiqah' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
                         {{ t('admin_pkg_cat_aqiqah') }} ({{ packages.filter(p => getCategoryKey(p.package_name) === 'aqiqah').length }})
                     </button>
                     <button 
                         @click="activePackageFilter = 'other'" 
-                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none"
+                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
                         :class="activePackageFilter === 'other' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
                         {{ t('admin_pkg_cat_other') }} ({{ packages.filter(p => getCategoryKey(p.package_name) === 'other').length }})

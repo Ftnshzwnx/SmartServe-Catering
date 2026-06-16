@@ -258,8 +258,8 @@ async function deletePromo(id) {
                 </div>
             </div>
 
-            <div v-if="filteredPromos.length > 0" class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-xs text-[#5C6460]">
+            <div v-if="filteredPromos.length > 0" class="overflow-x-auto scrollbar-none pb-2">
+                <table class="w-full text-left border-collapse text-xs text-[#5C6460] min-w-[800px]">
                     <thead>
                         <tr class="border-b border-[#E6E1DA] text-[#8C8275] font-bold uppercase tracking-wider">
                             <th class="py-3.5 pl-2 text-center w-12">{{ t('admin_number_col') }}</th>

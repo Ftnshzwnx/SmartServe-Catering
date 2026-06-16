@@ -284,7 +284,7 @@ function getGroupedDishes(item) {
                                 </p>
                             </div>
 
-                            <div class="flex items-center gap-2 shrink-0">
+                            <div class="flex flex-wrap items-center gap-2 shrink-0">
                                 <!-- View Receipt slip -->
                                 <a 
                                     :href="'/' + order.payment_proof" 
@@ -330,8 +330,8 @@ function getGroupedDishes(item) {
                         <Link :href="route('admin.orders')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">{{ t('admin_view_calendar') }}</Link>
                     </div>
 
-                    <div v-if="upcomingEvents.length > 0" class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
+                    <div v-if="upcomingEvents.length > 0" class="overflow-x-auto scrollbar-none pb-2">
+                        <table class="w-full text-left border-collapse min-w-[650px]">
                             <thead>
                                 <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
                                     <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_id') }}</th>

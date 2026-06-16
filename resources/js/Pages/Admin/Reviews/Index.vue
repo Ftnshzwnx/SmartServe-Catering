@@ -208,8 +208,8 @@ function submitReply() {
         <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 md:p-8 shadow-xs space-y-6">
             <h3 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reviews_logs_title') }}</h3>
 
-            <div v-if="filteredReviews.length > 0" class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
+            <div v-if="filteredReviews.length > 0" class="overflow-x-auto scrollbar-none pb-2">
+                <table class="w-full text-left border-collapse min-w-[850px]">
                     <thead>
                         <tr class="border-b border-[#E6E1DA] text-[#8C8275] text-xs font-bold uppercase tracking-wider">
                             <th class="py-3.5 pl-2 text-center w-12">{{ t('admin_reviews_no_col') }}</th>

@@ -161,40 +161,44 @@ function hideDetails() {
                     </div>
 
                     <!-- Cells Grid -->
-                    <div class="grid grid-cols-7 gap-2">
+                    <div class="grid grid-cols-7 gap-1 md:gap-2">
                         <div 
                             v-for="(dayObj, idx) in calendarDays" 
                             :key="idx" 
-                            class="min-h-[110px] rounded-2xl p-2.5 flex flex-col justify-between transition-all border"
+                            class="min-h-[50px] md:min-h-[110px] rounded-xl md:rounded-2xl p-1 md:p-2.5 flex flex-col justify-between transition-all border"
                             :class="[
                                 dayObj.day ? 'bg-white border-[#E6E1DA]' : 'bg-[#FAF7F2]/40 border-transparent',
                                 dayObj.isBlocked ? 'bg-rose-50/60 border-rose-100' : ''
                             ]"
                         >
-                            <span v-if="dayObj.day" class="text-xs font-bold text-[#8C8275]" :class="{ 'text-rose-500': dayObj.isBlocked }">
+                            <span v-if="dayObj.day" class="text-[10px] md:text-xs font-bold text-[#8C8275]" :class="{ 'text-rose-500': dayObj.isBlocked }">
                                 {{ dayObj.day }}
                             </span>
 
-                            <div v-if="dayObj.day" class="flex-grow flex flex-col justify-end gap-1 mt-2.5">
+                            <div v-if="dayObj.day" class="flex-grow flex flex-col justify-end gap-1 mt-1 md:mt-2.5">
                                 <!-- Blocked Badge -->
-                                <span 
-                                    v-if="dayObj.isBlocked" 
-                                    class="bg-rose-100 text-rose-700 text-[8px] font-extrabold uppercase px-1.5 py-0.5 rounded-lg text-center truncate"
-                                    :title="dayObj.blockedReason"
-                                >
-                                    {{ t('admin_calendar_blocked_badge') }}
-                                </span>
+                                <div v-if="dayObj.isBlocked" class="flex justify-center md:justify-start">
+                                    <span 
+                                        class="bg-rose-100 text-rose-700 text-[8px] font-extrabold uppercase px-1.5 py-0.5 rounded-lg text-center truncate flex items-center justify-center shrink-0 w-1.5 h-1.5 p-0 bg-rose-500 rounded-full md:w-auto md:h-auto md:bg-rose-100 md:text-rose-700 md:px-1.5 md:py-0.5 md:rounded-lg"
+                                        :title="dayObj.blockedReason"
+                                    >
+                                        <span class="hidden md:inline">{{ t('admin_calendar_blocked_badge') }}</span>
+                                    </span>
+                                </div>
 
                                 <!-- Confirmed Booking Badges -->
-                                <button 
-                                    v-for="booking in dayObj.bookings" 
-                                    :key="booking.id"
-                                    @click="showDetails(booking)"
-                                    class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-100 text-[#4A6B5D] text-[8px] font-bold uppercase p-1 rounded-lg text-left truncate transition-colors flex items-center gap-1 cursor-pointer"
-                                >
-                                    <i class="fas fa-circle text-[4px] text-[#4A6B5D]"></i>
-                                    <span>#SSC-{{ booking.id }}</span>
-                                </button>
+                                <div class="flex flex-wrap gap-1 justify-center md:justify-start">
+                                    <button 
+                                        v-for="booking in dayObj.bookings" 
+                                        :key="booking.id"
+                                        @click="showDetails(booking)"
+                                        class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase transition-colors flex items-center justify-center shrink-0 w-1.5 h-1.5 p-0 border-0 rounded-full md:bg-emerald-50 md:hover:bg-emerald-100 md:border md:border-emerald-100 md:text-[#4A6B5D] md:text-[8px] md:p-1 md:rounded-lg md:text-left md:truncate md:w-full md:h-auto md:gap-1 cursor-pointer"
+                                        :title="'Booking #SSC-' + booking.id"
+                                    >
+                                        <i class="fas fa-circle text-[4px] text-[#4A6B5D] hidden md:inline-block"></i>
+                                        <span class="hidden md:inline">#SSC-{{ booking.id }}</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
