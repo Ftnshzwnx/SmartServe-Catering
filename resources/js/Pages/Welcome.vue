@@ -63,16 +63,16 @@ const marqueeDuration = computed(() => {
                         </p>
 
                         <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                            <button
+                            <Link
                                 v-if="!$page.props.auth.user"
-                                @click="openDrawer('login')"
-                                class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-8 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md cursor-pointer"
+                                :href="route('login')"
+                                class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-8 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md"
                             >
                                 {{ t('begin_experience') }}
-                            </button>
+                            </Link>
                             <Link
                                 v-else
-                                :href="route('dashboard')"
+                                :href="route('packages')"
                                 class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-8 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md"
                             >
                                 {{ t('begin_experience') }}

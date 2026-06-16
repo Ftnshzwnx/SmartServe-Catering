@@ -134,15 +134,7 @@ function getPackageImage(pkg) {
                                     <span class="text-[9px] text-[#8C8275] uppercase tracking-wider font-semibold block">{{ t('starting_from') }}</span>
                                     <span class="text-lg font-bold text-[#4A6B5D]">RM {{ parseFloat(pkg.price).toFixed(2) }}<span class="text-xs font-normal text-[#8C8275]">/pax</span></span>
                                 </div>
-                                <button
-                                    v-if="!$page.props.auth.user"
-                                    @click="openDrawer('login')"
-                                    class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-3 sm:py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 cursor-pointer text-center"
-                                >
-                                    {{ t('select_package') }}
-                                </button>
                                 <Link
-                                    v-else
                                     :href="route('menu.show', pkg.package_name)"
                                     class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-3 sm:py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 text-center"
                                 >
@@ -178,7 +170,7 @@ function getPackageImage(pkg) {
                                     <span class="text-[9px] text-[#8C8275] uppercase tracking-wider font-semibold block">{{ t('starting_from') }}</span>
                                     <span class="text-lg font-bold text-[#4A6B5D]">RM 15.00<span class="text-xs font-normal text-[#8C8275]">/pax</span></span>
                                 </div>
-                                <button @click="openDrawer('login')" class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-3 sm:py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 cursor-pointer text-center">{{ t('select_package') }}</button>
+                                <Link :href="route('menu.index')" class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-3 sm:py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 text-center">{{ t('select_package') }}</Link>
                             </div>
                         </div>
 
@@ -204,7 +196,7 @@ function getPackageImage(pkg) {
                                     <span class="text-[9px] text-[#8C8275] uppercase tracking-wider font-semibold block">{{ t('starting_from') }}</span>
                                     <span class="text-lg font-bold text-[#4A6B5D]">RM 25.00<span class="text-xs font-normal text-[#8C8275]">/pax</span></span>
                                 </div>
-                                <button @click="openDrawer('login')" class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-3 sm:py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 cursor-pointer text-center">{{ t('select_package') }}</button>
+                                <Link :href="route('menu.index')" class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-3 sm:py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 text-center">{{ t('select_package') }}</Link>
                             </div>
                         </div>
 
@@ -230,7 +222,7 @@ function getPackageImage(pkg) {
                                     <span class="text-[9px] text-[#8C8275] uppercase tracking-wider font-semibold block">{{ t('starting_from') }}</span>
                                     <span class="text-lg font-bold text-[#4A6B5D]">RM 18.00<span class="text-xs font-normal text-[#8C8275]">/pax</span></span>
                                 </div>
-                                <button @click="openDrawer('login')" class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-3 sm:py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 cursor-pointer text-center">{{ t('select_package') }}</button>
+                                <Link :href="route('menu.index')" class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-3 sm:py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 text-center">{{ t('select_package') }}</Link>
                             </div>
                         </div>
                     </div>
