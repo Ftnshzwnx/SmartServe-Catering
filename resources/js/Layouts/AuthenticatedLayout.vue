@@ -490,13 +490,13 @@ const formatTimeAgo = (dateStr) => {
             </header>
 
             <!-- Main Page Content Slot -->
-            <main class="flex-grow p-6 md:p-8 space-y-6">
+            <main class="flex-grow p-4 sm:p-6 md:p-8 space-y-4 md:space-y-6">
                 <!-- Page Title Card (Tajdid style, in body) -->
-                <div v-if="headerTitle" class="bg-white rounded-3xl border border-[#E6E1DA] p-6 md:p-8 shadow-xs space-y-2">
-                    <h1 class="text-xl font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide leading-none">
+                <div v-if="headerTitle" class="bg-white rounded-xl sm:rounded-3xl border border-[#E6E1DA] p-4 sm:p-6 md:p-8 shadow-xs space-y-2">
+                    <h1 class="text-lg sm:text-xl font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide leading-none">
                         {{ headerTitle }}
                     </h1>
-                    <p v-if="headerDesc" class="text-xs text-[#8C8275] font-semibold leading-relaxed tracking-wide">
+                    <p v-if="headerDesc" class="text-[10px] sm:text-xs text-[#8C8275] font-semibold leading-relaxed tracking-wide">
                         {{ headerDesc }}
                     </p>
                 </div>

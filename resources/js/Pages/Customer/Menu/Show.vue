@@ -204,7 +204,7 @@ const getDishIcon = (dishName) => {
     >
 
         <div class="font-sans-modern">
-            <div class="max-w-5xl mx-auto px-6">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6">
                 <!-- Back Link -->
                 <div class="mb-4">
                     <Link 
@@ -217,17 +217,17 @@ const getDishIcon = (dishName) => {
                 </div>
                 
                 <!-- Luxury Cover Banner -->
-                <div class="mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] p-8 md:p-10 text-white border border-[#E6E1DA]/10 shadow-lg relative">
+                <div class="mb-6 sm:mb-8 overflow-hidden rounded-xl sm:rounded-3xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] p-5 sm:p-8 md:p-10 text-white border border-[#E6E1DA]/10 shadow-lg relative">
                     <!-- Decor blurs -->
                     <div class="absolute -right-16 -top-16 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
                     <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-[#C5A880]/10 rounded-full blur-2xl pointer-events-none"></div>
-
+ 
                     <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                         <div class="space-y-3">
                             <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#C5A880]/20 border border-[#C5A880]/30 rounded-full text-[10px] font-bold text-[#E6CBA3] uppercase tracking-widest">
                                 <i class="fas fa-utensils"></i> {{ t('catering_packages') }}
                             </div>
-                            <h1 class="text-3xl md:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
+                            <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
                                 {{ category }}
                             </h1>
                             <p class="text-xs md:text-sm text-[#E6E1DA]/80 max-w-2xl font-light leading-relaxed">
@@ -242,39 +242,39 @@ const getDishIcon = (dishName) => {
                         </div>
                     </div>
                 </div>
-
-                <div v-if="variations.length > 0" class="space-y-10">
+ 
+                <div v-if="variations.length > 0" class="space-y-6 sm:space-y-10">
                     <!-- Package Card -->
                     <div 
                         v-for="pkg in variations" 
                         :key="pkg.id || pkg.package_id"
-                        class="bg-white p-8 rounded-3xl border border-[#E6E1DA] shadow-sm package-card"
+                        class="bg-white p-4 sm:p-6 md:p-8 rounded-xl sm:rounded-3xl border border-[#E6E1DA] shadow-sm package-card"
                     >
-                        <div class="grid lg:grid-cols-12 gap-8 items-start">
+                        <div class="grid lg:grid-cols-12 gap-6 sm:gap-8 items-start">
                             
                             <!-- Left Info Section (7 cols) -->
                             <div class="lg:col-span-7 space-y-6">
                                 <div class="flex items-center justify-between flex-wrap gap-4">
-                                    <h3 class="text-2xl font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide">
+                                    <h3 class="text-lg sm:text-xl md:text-2xl font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide">
                                         {{ pkg.package_name }}
                                     </h3>
                                     <!-- Price Badge -->
-                                    <span class="text-sm font-semibold text-[#4A6B5D] bg-[#EBEFEF] border border-[#D1DEDB] px-4 py-2 rounded-full shadow-xs">
+                                    <span class="text-xs sm:text-sm font-semibold text-[#4A6B5D] bg-[#EBEFEF] border border-[#D1DEDB] px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-xs">
                                         RM {{ parseFloat(pkg.price).toFixed(2) }} <span class="text-xs text-[#8C8275] font-normal">/ {{ t('pax') }}</span>
                                     </span>
                                 </div>
-
+ 
                                 <!-- Package Menu Items list -->
-                                <div class="border-t border-[#E6E1DA] pt-6">
-                                    <p class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest mb-4 flex items-center gap-1.5">
+                                <div class="border-t border-[#E6E1DA] pt-4 sm:pt-6">
+                                    <p class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest mb-3 flex items-center gap-1.5">
                                         <i class="fas fa-list-ul text-xs text-[#4A6B5D]"></i> {{ t('included_dishes') }}:
                                     </p>
                                     
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                                         <div 
                                             v-for="item in pkg.description.split('\n').map(i => i.trim()).filter(i => i !== '')"
                                             :key="item"
-                                            class="flex items-center gap-3 p-3 bg-[#FAF8F5]/80 hover:bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl transition-all duration-300 hover:shadow-xs group hover:-translate-y-0.5"
+                                            class="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-[#FAF8F5]/80 hover:bg-[#FAF8F5] border border-[#E6E1DA] rounded-lg sm:rounded-xl transition-all duration-300 hover:shadow-xs group hover:-translate-y-0.5"
                                         >
                                             <span 
                                                 class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 shadow-xs"
@@ -287,9 +287,9 @@ const getDishIcon = (dishName) => {
                                     </div>
                                 </div>
                             </div>
-
+ 
                             <!-- Right Calculator Section (5 cols) -->
-                            <div class="lg:col-span-5 bg-[#FAF8F5] p-6 rounded-2xl border border-[#E6E1DA] flex flex-col justify-between gap-6 self-stretch shadow-xs">
+                            <div class="lg:col-span-5 bg-[#FAF8F5] p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-[#E6E1DA] flex flex-col justify-between gap-4 sm:gap-6 self-stretch shadow-xs">
                                 <div class="space-y-5">
                                     <div class="flex items-center justify-between text-xs tracking-wide">
                                         <span class="font-bold text-[#8C8275] uppercase">{{ t('min_requirement') }}:</span>
@@ -297,7 +297,7 @@ const getDishIcon = (dishName) => {
                                             {{ pkg.min_order || 20 }} {{ t('pax') }}
                                         </span>
                                     </div>
-
+ 
                                     <!-- Stepper Quantity Input -->
                                     <div class="space-y-2">
                                         <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('select_quantity') }}</label>

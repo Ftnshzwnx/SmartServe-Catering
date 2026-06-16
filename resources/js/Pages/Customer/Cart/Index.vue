@@ -183,20 +183,20 @@ function proceedToCheckout() {
     >
 
         <div class="font-sans-modern">
-            <div class="max-w-6xl mx-auto px-6">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
                 
                 <!-- Luxury Cover Banner -->
-                <div class="mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] p-8 md:p-10 text-white border border-[#E6E1DA]/10 shadow-lg relative">
+                <div class="mb-6 sm:mb-8 overflow-hidden rounded-xl sm:rounded-3xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] p-5 sm:p-8 md:p-10 text-white border border-[#E6E1DA]/10 shadow-lg relative">
                     <!-- Decor blurs -->
                     <div class="absolute -right-16 -top-16 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
                     <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-[#C5A880]/10 rounded-full blur-2xl pointer-events-none"></div>
-
+ 
                     <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                         <div class="space-y-3">
                             <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#C5A880]/20 border border-[#C5A880]/30 rounded-full text-[10px] font-bold text-[#E6CBA3] uppercase tracking-widest">
                                 <i class="fas fa-shopping-basket"></i> {{ t('shopping_cart') || 'Troli Tempahan' }}
                             </div>
-                            <h1 class="text-3xl md:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
+                            <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
                                 {{ t('shopping_cart') || 'Troli Tempahan' }}
                             </h1>
                             <p class="text-xs md:text-sm text-[#E6E1DA]/80 max-w-2xl font-light leading-relaxed">
@@ -211,13 +211,13 @@ function proceedToCheckout() {
                         </div>
                     </div>
                 </div>
-
-                <div v-if="cartItems.length > 0" class="grid lg:grid-cols-12 gap-8 items-start">
+ 
+                <div v-if="cartItems.length > 0" class="grid lg:grid-cols-12 gap-4 sm:gap-8 items-start">
                     
                     <!-- Left: Cart Items Table (8 cols) -->
                     <div class="lg:col-span-8 space-y-4">
                         <!-- Select All Header Card -->
-                        <div class="bg-white p-5 rounded-2xl border border-[#E6E1DA] shadow-2xs flex items-center justify-between">
+                        <div class="bg-white p-4 sm:p-5 rounded-xl sm:rounded-2xl border border-[#E6E1DA] shadow-2xs flex items-center justify-between">
                             <label class="flex items-center gap-3 cursor-pointer text-xs font-semibold text-[#5C6460] select-none">
                                 <input 
                                     type="checkbox" 
@@ -231,13 +231,13 @@ function proceedToCheckout() {
                                 {{ t('selected_count').replace('{count}', selectedCartIds.length) }}
                             </span>
                         </div>
-
+ 
                         <!-- Card List of Packages -->
                         <div class="space-y-4">
                             <div 
                                 v-for="item in cartItems" 
                                 :key="item.id"
-                                class="bg-white p-6 rounded-3xl border border-[#E6E1DA] shadow-xs hover:border-[#4A6B5D]/50 hover:shadow-sm transition-all duration-300 relative group"
+                                class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-3xl border border-[#E6E1DA] shadow-xs hover:border-[#4A6B5D]/50 hover:shadow-sm transition-all duration-300 relative group"
                                 :class="{ 'border-[#4A6B5D]/30 bg-[#FAFBFB]': selectedCartIds.includes(item.id) }"
                             >
                                 <div class="flex flex-col md:flex-row md:items-start justify-between gap-6">
@@ -358,7 +358,7 @@ function proceedToCheckout() {
                                         <!-- Subtotal Display -->
                                         <div class="text-right">
                                             <div class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('subtotal') }}:</div>
-                                            <div class="text-lg font-normal text-[#2D3330] font-serif-luxury tracking-wide whitespace-nowrap">
+                                            <div class="text-base sm:text-lg font-normal text-[#2D3330] font-serif-luxury tracking-wide whitespace-nowrap">
                                                 RM {{ (parseFloat(item.price) * parseInt(item.quantity)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                             </div>
                                         </div>
@@ -370,8 +370,8 @@ function proceedToCheckout() {
 
                     <!-- Right: Summary Card (4 cols) -->
                     <div class="lg:col-span-4 sticky top-24">
-                        <div class="bg-white p-6 rounded-3xl border border-[#E6E1DA] shadow-sm space-y-6">
-                            <h4 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider border-b border-[#E6E1DA] pb-4">
+                        <div class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-3xl border border-[#E6E1DA] shadow-sm space-y-4 sm:space-y-6">
+                            <h4 class="text-base sm:text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider border-b border-[#E6E1DA] pb-4">
                                 {{ t('order_summary') }}
                             </h4>
                             

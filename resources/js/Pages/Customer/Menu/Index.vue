@@ -221,10 +221,10 @@ function getPackageImage(pkg) {
     >
 
         <div class="font-sans-modern">
-            <div class="max-w-7xl mx-auto px-6 space-y-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-6">
                 
                 <!-- 1. CATERING STEPPER PROGRESS BAR -->
-                <div class="bg-white border border-[#E6E1DA] rounded-3xl py-4 px-6 shadow-xs max-w-3xl mx-auto">
+                <div class="bg-white border border-[#E6E1DA] rounded-xl sm:rounded-3xl py-3 px-4 sm:py-4 sm:px-6 shadow-xs max-w-3xl mx-auto">
                     <div class="flex items-center justify-between w-full relative">
                         <!-- Step 1 -->
                         <div class="stepper-item active">
@@ -249,20 +249,20 @@ function getPackageImage(pkg) {
                         </div>
                     </div>
                 </div>
-
+ 
                 <!-- 2. SPLIT LAYOUT -->
                 <div class="grid lg:grid-cols-12 gap-6 items-start">
                     
                     <!-- Left Column: Occasion Catalog (8 cols) -->
                     <div class="lg:col-span-8 space-y-6">
-                        <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 shadow-xs space-y-6">
+                        <div class="bg-white border border-[#E6E1DA] rounded-xl sm:rounded-3xl p-4 sm:p-6 shadow-xs space-y-4 sm:space-y-6">
                             
                             <!-- Search & Filter Header -->
                             <div class="space-y-4">
                                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                     <div>
-                                        <span class="text-[10px] font-bold text-[#4A6B5D] uppercase tracking-widest block mb-1.5">{{ t('premium_selection') }}</span>
-                                        <h3 class="text-2xl font-light text-[#2D3330] font-serif-luxury tracking-wide">
+                                        <span class="text-[10px] font-bold text-[#4A6B5D] uppercase tracking-widest block mb-1">{{ t('premium_selection') }}</span>
+                                        <h3 class="text-xl sm:text-2xl font-light text-[#2D3330] font-serif-luxury tracking-wide">
                                             {{ t('select_occasion') }}
                                         </h3>
                                     </div>
@@ -284,57 +284,57 @@ function getPackageImage(pkg) {
                                 <p class="text-xs text-[#8C8275] font-light leading-relaxed">
                                     {{ t('select_event_type_desc') }}
                                 </p>
-
+ 
                                 <!-- Category Tab Filters -->
                                 <div class="flex flex-wrap gap-2 pt-2 border-b border-[#FAF6F0] pb-4">
                                     <button 
                                         @click="activeTab = 'all'" 
-                                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
+                                        class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
                                         :class="activeTab === 'all' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                                     >
                                         {{ t('all_packages') }}
                                     </button>
                                     <button 
                                         @click="activeTab = 'wedding'" 
-                                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
+                                        class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
                                         :class="activeTab === 'wedding' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                                     >
                                         {{ t('wedding_packages') }}
                                     </button>
                                     <button 
                                         @click="activeTab = 'corporate'" 
-                                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
+                                        class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
                                         :class="activeTab === 'corporate' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                                     >
                                         {{ t('corporate_packages') }}
                                     </button>
                                     <button 
                                         @click="activeTab = 'aqiqah'" 
-                                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
+                                        class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
                                         :class="activeTab === 'aqiqah' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                                     >
                                         {{ t('aqiqah_family') }}
                                     </button>
                                 </div>
                             </div>
-
+ 
                             <!-- Package Grid -->
                             <div v-if="filteredPackages.length > 0" class="grid grid-cols-1 gap-6" :class="filteredPackages.length > 1 ? 'md:grid-cols-2' : 'max-w-sm mx-auto w-full'">
                                 <!-- Package Category Card -->
                                 <div 
                                     v-for="pkg in filteredPackages" 
                                     :key="pkg.package_name"
-                                    class="bg-white rounded-2xl border border-[#E6E1DA] flex flex-col justify-between overflow-hidden menu-card relative"
+                                    class="bg-white rounded-xl sm:rounded-2xl border border-[#E6E1DA] flex flex-col justify-between overflow-hidden menu-card relative"
                                 >
                                     <!-- Top Image Banner & floating badge -->
-                                    <div class="relative h-44 w-full bg-slate-100 overflow-hidden">
+                                    <div class="relative h-32 sm:h-44 w-full bg-slate-100 overflow-hidden">
                                         <img :src="getPackageImage(pkg)" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" alt="Package image" />
                                         
                                         <!-- Floating Icon Badge (Left) -->
                                         <div class="absolute top-3 left-3 w-8 h-8 rounded-lg flex items-center justify-center text-sm border shadow-sm" :class="getCategoryIcon(pkg.package_name).colors">
                                             <i class="fas" :class="getCategoryIcon(pkg.package_name).icon"></i>
                                         </div>
-
+ 
                                         <!-- Floating Popularity Badge (Right) -->
                                         <span 
                                             v-if="getPackageBadge(pkg)" 
@@ -344,18 +344,18 @@ function getPackageImage(pkg) {
                                             {{ getPackageBadge(pkg).text }}
                                         </span>
                                     </div>
-
-                                    <div class="p-5 flex-grow flex flex-col justify-between">
+ 
+                                    <div class="p-4 sm:p-5 flex-grow flex flex-col justify-between">
                                         <div class="space-y-3">
                                             <div>
-                                                <h4 class="text-base font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide">
+                                                <h4 class="text-sm sm:text-base font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide">
                                                     {{ pkg.package_name }}
                                                 </h4>
                                                 <p class="text-[10px] text-[#8C8275] uppercase tracking-wider font-light mt-0.5">
                                                     {{ t('min_requirement') }}: {{ pkg.min_order }} {{ t('pax') }}
                                                 </p>
                                             </div>
-
+ 
                                             <!-- Menu highlights checklist (First 4 dishes) -->
                                             <div class="border-t border-[#FAF6F0] pt-3">
                                                 <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-2">{{ t('menu_highlights') }}</span>
@@ -365,20 +365,20 @@ function getPackageImage(pkg) {
                                                         :key="dish"
                                                         class="flex items-center gap-1.5 truncate"
                                                         :title="dish"
-                                                    >
+                                                     >
                                                         <i class="fas fa-check text-[#4A6B5D] text-[9px]"></i>
                                                         <span class="font-light truncate">{{ dish }}</span>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
-
+ 
                                         <div class="space-y-3 mt-5">
                                             <div class="text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#E6E1DA] py-2 px-3 rounded-lg flex justify-between items-center">
                                                 <span>{{ t('starting_from') }}</span>
                                                 <span>RM {{ parseFloat(pkg.price).toFixed(2) }} / {{ t('pax') }}</span>
                                             </div>
-
+ 
                                             <Link 
                                                 :href="route('menu.show', { category: pkg.package_name })"
                                                 class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2.5 px-4 rounded-xl text-xs uppercase tracking-widest transition-colors duration-200"
@@ -389,7 +389,7 @@ function getPackageImage(pkg) {
                                     </div>
                                 </div>
                             </div>
-
+ 
                             <!-- Empty State -->
                             <div v-else class="py-16 text-center">
                                 <i class="fas fa-search fa-2x text-[#8C8275] mb-4"></i>
@@ -402,17 +402,17 @@ function getPackageImage(pkg) {
                             </div>
                         </div>
                     </div>
-
+ 
                     <!-- Right Column: Brand Guarantees & Simulator (4 cols) -->
                     <div class="lg:col-span-4 space-y-6">
                         
                         <!-- Dynamic Budget Planner Promo Card (FIXED contrast issue with bg-[#2D3330]) -->
-                        <div class="pillar-card bg-[#2D3330] border-[#E6E1DA] text-[#FAF7F2] space-y-5">
+                        <div class="bg-[#2D3330] border border-[#E6E1DA] rounded-xl sm:rounded-2xl p-4 sm:p-6 text-[#FAF7F2] space-y-4 sm:space-y-5">
                             <div class="w-10 h-10 rounded-xl bg-[#4A6B5D]/20 text-[#4A6B5D] border border-[#4A6B5D]/30 flex items-center justify-center text-base">
                                 <i class="fas fa-calculator text-white"></i>
                             </div>
                             <div class="space-y-2">
-                                <h4 class="text-base font-normal font-serif-luxury uppercase tracking-wider text-[#FAF7F2]">
+                                <h4 class="text-sm sm:text-base font-normal font-serif-luxury uppercase tracking-wider text-[#FAF7F2]">
                                     {{ t('budget_planner') }}
                                 </h4>
                                 <p class="text-[11px] text-[#FAF7F2]/80 leading-relaxed font-light">
@@ -426,9 +426,9 @@ function getPackageImage(pkg) {
                                 {{ t('open_planner') }} <i class="fas fa-arrow-right text-[10px]"></i>
                             </Link>
                         </div>
-
+ 
                         <!-- Brand Guarantees Pillars (bg-white explicitly added) -->
-                        <div class="pillar-card bg-white space-y-6">
+                        <div class="bg-white border border-[#E6E1DA] rounded-xl sm:rounded-2xl p-4 sm:p-6 space-y-4 sm:space-y-6">
                             <h4 class="text-xs font-bold text-[#2D3330] uppercase tracking-widest border-b border-[#E6E1DA] pb-3">
                                 {{ t('smartserve_guarantees') }}
                             </h4>
@@ -448,7 +448,7 @@ function getPackageImage(pkg) {
                                         </p>
                                     </div>
                                 </div>
-
+ 
                                 <!-- Pillar 2 -->
                                 <div class="flex gap-3">
                                     <div class="w-8 h-8 rounded-lg bg-[#FAF9F6] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-xs shrink-0 mt-0.5">
@@ -463,7 +463,7 @@ function getPackageImage(pkg) {
                                         </p>
                                     </div>
                                 </div>
-
+ 
                                 <!-- Pillar 3 -->
                                 <div class="flex gap-3">
                                     <div class="w-8 h-8 rounded-lg bg-[#FAF9F6] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-xs shrink-0 mt-0.5">
@@ -480,9 +480,9 @@ function getPackageImage(pkg) {
                                 </div>
                             </div>
                         </div>
-
+ 
                     </div>
-
+ 
                 </div>
 
             </div>

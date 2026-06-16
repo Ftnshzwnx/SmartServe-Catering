@@ -310,26 +310,26 @@ function getTranslatedStatus(status) {
     >
 
         <div class="font-sans-modern">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-10">
                 
                 <!-- Welcome Banner -->
-                <div class="banner-gradient rounded-3xl p-8 lg:p-12 text-white relative overflow-hidden shadow-md">
+                <div class="banner-gradient rounded-xl sm:rounded-3xl p-5 sm:p-8 lg:p-12 text-white relative overflow-hidden shadow-md">
                     <!-- Subtle oatmeal circle background element -->
                     <div class="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-white/5 blur-2xl"></div>
                     
                     <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div>
-                            <h3 class="text-3xl lg:text-4xl font-light font-serif-luxury mb-2 tracking-wide">
+                            <h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light font-serif-luxury mb-2 tracking-wide">
                                 {{ greeting }}, {{ $page.props.auth.user.name }}!
                             </h3>
-                            <p class="text-[#E2ECE8] text-xs lg:text-sm tracking-wide uppercase font-light max-w-xl">
+                            <p class="text-[#E2ECE8] text-[10px] sm:text-xs lg:text-sm tracking-wide uppercase font-light max-w-xl">
                                 {{ t('welcome_desc') }}
                             </p>
                         </div>
                         <div>
                             <Link 
                                 :href="route('menu.index')"
-                                class="inline-flex items-center gap-2 bg-[#FAF7F2] hover:bg-[#FAF7F2]/90 text-[#4A6B5D] text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-xl shadow-sm transition-all duration-200"
+                                class="inline-flex items-center gap-2 bg-[#FAF7F2] hover:bg-[#FAF7F2]/90 text-[#4A6B5D] text-[10px] sm:text-xs font-semibold uppercase tracking-widest px-4 py-2 sm:px-6 sm:py-3 rounded-xl shadow-sm transition-all duration-200"
                             >
                                 <i class="fas fa-utensils"></i> {{ t('order_now') }}
                             </Link>
@@ -338,7 +338,7 @@ function getTranslatedStatus(status) {
                 </div>
 
                 <!-- Active Order Tracker -->
-                <div v-if="activeOrder" class="bg-white rounded-3xl p-6 lg:p-8 border border-[#E6E1DA] shadow-sm space-y-6">
+                <div v-if="activeOrder" class="bg-white rounded-xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-[#E6E1DA] shadow-sm space-y-6">
                     <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#FAF6F0] pb-4">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg">
@@ -580,37 +580,35 @@ function getTranslatedStatus(status) {
                             {{ t('submit_review_btn') }}
                         </span>
                     </button>
-                </div>
-
-                <!-- Stats Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                </                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     <!-- Stat Card 1 -->
-                    <div class="bg-white p-6 rounded-2xl border border-[#E6E1DA] shadow-sm flex items-center justify-between">
+                    <div class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-[#E6E1DA] shadow-sm flex items-center justify-between">
                         <div>
-                            <span class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('shopping_cart') }}</span>
-                            <span class="text-2xl font-normal text-[#2D3330] font-serif-luxury">{{ cartCount }} {{ t('packages') }}</span>
+                            <span class="text-[9px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('shopping_cart') }}</span>
+                            <span class="text-lg sm:text-xl md:text-2xl font-normal text-[#2D3330] font-serif-luxury">{{ cartCount }} {{ t('packages') }}</span>
                         </div>
-                        <div class="w-12 h-12 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base sm:text-lg">
                             <i class="fas fa-shopping-basket"></i>
                         </div>
                     </div>
-
+ 
                     <!-- Stat Card 2 -->
-                    <div class="bg-white p-6 rounded-2xl border border-[#E6E1DA] shadow-sm flex items-center justify-between">
+                    <div class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-[#E6E1DA] shadow-sm flex items-center justify-between">
                         <div>
-                            <span class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('total_bookings') }}</span>
-                            <span class="text-2xl font-normal text-[#2D3330] font-serif-luxury">{{ ordersCount }} {{ t('orders') }}</span>
+                            <span class="text-[9px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('total_bookings') }}</span>
+                            <span class="text-lg sm:text-xl md:text-2xl font-normal text-[#2D3330] font-serif-luxury">{{ ordersCount }} {{ t('orders') }}</span>
                         </div>
-                        <div class="w-12 h-12 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base sm:text-lg">
                             <i class="fas fa-receipt"></i>
                         </div>
                     </div>
-                </div>
+                </div></div>
 
                 <!-- Dynamic Sections -->
                 <div v-if="activeOrder" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- 1. Upcoming Event Countdown Card -->
-                    <div class="bg-white p-6 rounded-3xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-80 lg:col-span-1">
+                    <div class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-auto lg:h-80 lg:col-span-1">
                         <div>
                             <div class="flex items-center justify-between mb-4">
                                 <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('upcoming_event') }}</span>
@@ -621,7 +619,7 @@ function getTranslatedStatus(status) {
                                 </span>
                             </div>
                             
-                            <h4 class="font-normal text-[#2D3330] text-xl font-serif-luxury tracking-wide mb-3 leading-snug">
+                            <h4 class="font-normal text-[#2D3330] text-base sm:text-lg md:text-xl font-serif-luxury tracking-wide mb-3 leading-snug">
                                 {{ activeOrder.package_name }}
                             </h4>
                             
@@ -649,20 +647,20 @@ function getTranslatedStatus(status) {
                     </div>
 
                     <!-- 2. Financial Summary & Balance Slip Upload Widget -->
-                    <div class="bg-white p-6 rounded-3xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-80 lg:col-span-2">
+                    <div class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-auto lg:h-80 lg:col-span-2">
                         <div>
                             <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-4">{{ t('financial_summary') }}</span>
                             
-                            <div class="grid grid-cols-2 gap-4 mb-4">
-                                <div class="bg-[#FAF7F2] p-4 border border-[#E6E1DA] rounded-2xl">
-                                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('deposit_paid') }}</span>
-                                    <span class="text-lg font-bold text-[#4A6B5D] font-serif-luxury">
+                            <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-4">
+                                <div class="bg-[#FAF7F2] p-3 sm:p-4 border border-[#E6E1DA] rounded-xl">
+                                    <span class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('deposit_paid') }}</span>
+                                    <span class="text-sm sm:text-base md:text-lg font-bold text-[#4A6B5D] font-serif-luxury">
                                         RM {{ (parseFloat(activeOrder.total_price) * 0.3).toFixed(2) }}
                                     </span>
                                 </div>
-                                <div class="bg-[#FAF7F2] p-4 border border-[#E6E1DA] rounded-2xl">
-                                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('balance_due_payment') }}</span>
-                                    <span class="text-lg font-bold text-[#2D3330] font-serif-luxury">
+                                <div class="bg-[#FAF7F2] p-3 sm:p-4 border border-[#E6E1DA] rounded-xl">
+                                    <span class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('balance_due_payment') }}</span>
+                                    <span class="text-sm sm:text-base md:text-lg font-bold text-[#2D3330] font-serif-luxury">
                                         RM {{ (parseFloat(activeOrder.total_price) * 0.7).toFixed(2) }}
                                     </span>
                                 </div>
@@ -710,25 +708,25 @@ function getTranslatedStatus(status) {
                     </div>
                 </div>
 
-                <div v-else class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div v-else class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
                     <!-- Left: Recommended Packages (Takes 2 columns on desktop) -->
-                    <div class="lg:col-span-2 space-y-6">
+                    <div class="lg:col-span-2 space-y-4 sm:space-y-6">
                         <div>
                             <h4 class="text-xs font-bold text-[#8C8275] uppercase tracking-widest mb-1">{{ t('featured_packages_title') }}</h4>
                             <p class="text-xs text-[#8C8275] font-light">{{ t('featured_packages_subtitle') }}</p>
                         </div>
                         
-                        <div class="grid grid-cols-1 gap-6" :class="featuredPackages.length >= 2 ? 'md:grid-cols-2' : ''">
+                        <div class="grid grid-cols-1 gap-4 sm:gap-6" :class="featuredPackages.length >= 2 ? 'md:grid-cols-2' : ''">
                             <div 
                                 v-for="pkg in featuredPackages" 
                                 :key="pkg.id" 
-                                class="bg-white p-6 rounded-3xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-80 action-card"
+                                class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-auto lg:h-80 action-card"
                             >
                                 <div>
                                     <div class="w-10 h-10 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg mb-4">
                                         <i class="fas fa-utensils"></i>
                                     </div>
-                                    <h5 class="font-normal text-[#2D3330] text-lg font-serif-luxury tracking-wide mb-2 truncate">{{ pkg.package_name }}</h5>
+                                    <h5 class="font-normal text-[#2D3330] text-base sm:text-lg font-serif-luxury tracking-wide mb-2 truncate">{{ pkg.package_name }}</h5>
                                     <p class="text-xs text-[#8C8275] leading-relaxed font-light line-clamp-3 mb-3">{{ pkg.description }}</p>
                                     
                                     <div class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest space-y-1">
@@ -747,7 +745,7 @@ function getTranslatedStatus(status) {
                     </div>
 
                     <!-- Right: Catering Guidelines FAQ (Takes 1 column on desktop) -->
-                    <div class="lg:col-span-1 bg-white rounded-3xl p-6 border border-[#E6E1DA] shadow-sm flex flex-col justify-between">
+                    <div class="lg:col-span-1 bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-[#E6E1DA] shadow-sm flex flex-col justify-between">
                         <div>
                             <div class="flex items-center gap-3 border-b border-[#FAF6F0] pb-4 mb-4">
                                 <div class="w-10 h-10 rounded-xl bg-[#FAF6F0] text-[#8C8275] flex items-center justify-center text-lg border border-[#E6E1DA] shrink-0">
@@ -778,7 +776,7 @@ function getTranslatedStatus(status) {
                 </div>
 
                 <!-- Recent Bookings Widget -->
-                <div class="bg-white rounded-3xl p-6 lg:p-8 border border-[#E6E1DA] shadow-sm space-y-6">
+                <div class="bg-white rounded-xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-[#E6E1DA] shadow-sm space-y-6">
                     <div class="flex items-center justify-between border-b border-[#FAF6F0] pb-4">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg">

@@ -298,21 +298,34 @@ function handleDownloadQuotation() {
         .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
         .section-card {
             background: #ffffff;
-            border-radius: 16px;
-            padding: 30px;
+            border-radius: 12px;
+            padding: 16px;
             border: 1px solid #E6E1DA;
             box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.01);
         }
+        @media (min-width: 640px) {
+            .section-card {
+                border-radius: 16px;
+                padding: 30px;
+            }
+        }
         .addon-card {
             border: 1px solid #E6E1DA;
-            border-radius: 16px;
-            padding: 16px 20px;
+            border-radius: 12px;
+            padding: 12px 14px;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
             background: white;
+        }
+        @media (min-width: 640px) {
+            .addon-card {
+                border-radius: 16px;
+                padding: 16px 20px;
+                gap: 14px;
+            }
         }
         .addon-card:hover {
             border-color: #4A6B5D;
@@ -338,18 +351,26 @@ function handleDownloadQuotation() {
             color: white;
         }
         .pax-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
             border: 1px solid #E6E1DA;
             background: #ffffff;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        @media (min-width: 640px) {
+            .pax-btn {
+                width: 44px;
+                height: 44px;
+                border-radius: 16px;
+                font-size: 0.9rem;
+            }
         }
         .pax-btn:hover {
             background: #4A6B5D;
@@ -359,8 +380,14 @@ function handleDownloadQuotation() {
         .price-summary {
             background: #FAF6F0;
             border: 1px solid #E6E1DA;
-            border-radius: 16px;
-            padding: 25px;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        @media (min-width: 640px) {
+            .price-summary {
+                border-radius: 16px;
+                padding: 25px;
+            }
         }
         .price-row {
             display: flex;
@@ -404,7 +431,7 @@ function handleDownloadQuotation() {
     >
 
         <div class="font-sans-modern">
-            <div class="max-w-6xl mx-auto px-6">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
                 <!-- Back Link -->
                 <div class="mb-4">
                     <Link 
@@ -417,30 +444,30 @@ function handleDownloadQuotation() {
                 </div>
                 
                 <!-- Header Card -->
-                <div class="bg-[#2D3330] text-[#FAF7F2] p-8 rounded-2xl mb-8 border border-[#E6E1DA]">
+                <div class="bg-[#2D3330] text-[#FAF7F2] p-5 sm:p-8 rounded-xl sm:rounded-2xl mb-6 sm:mb-8 border border-[#E6E1DA]">
                     <span class="text-[#4A6B5D] text-[10px] font-bold uppercase tracking-widest block mb-1">{{ t('catering_packages') }}</span>
-                    <h3 class="text-3xl font-normal font-serif-luxury uppercase tracking-wide">{{ package.package_name }}</h3>
+                    <h3 class="text-xl sm:text-2xl md:text-3xl font-normal font-serif-luxury uppercase tracking-wide">{{ package.package_name }}</h3>
                     <p class="text-[#E6E1DA] text-xs font-light mt-2 tracking-wide">{{ t('base_pkg_price') }}: RM {{ basePrice.toFixed(2) }} / {{ t('pax') }} &nbsp;·&nbsp; {{ t('min_requirement') }}: {{ minPax }} {{ t('pax') }}</p>
                 </div>
 
-                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <div class="grid lg:grid-cols-12 gap-6 sm:gap-8 items-start">
                     
                     <!-- Left Columns (7 cols) -->
-                    <div class="lg:col-span-7 space-y-8">
+                    <div class="lg:col-span-7 space-y-6 sm:space-y-8">
                         
                         <!-- Pax Selector -->
-                        <div class="section-card">
-                            <h4 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <div class="bg-white border border-[#E6E1DA] rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-xs">
+                            <h4 class="text-base sm:text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider mb-4 flex items-center gap-2">
                                 <i class="fas fa-users text-[#4A6B5D] text-sm"></i> {{ t('select_guest_count') }}
                             </h4>
-                            <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-1.5 sm:gap-2">
                                 <button type="button" class="pax-btn font-light" @click="changeQty(-10)">-10</button>
                                 <button type="button" class="pax-btn font-light" @click="changeQty(-1)">-</button>
                                 <input 
                                     type="number" 
                                     v-model="quantity" 
                                     :min="package.min_order || 20"
-                                    class="w-32 text-center font-bold text-lg border border-[#E6E1DA] rounded-lg p-3 focus:outline-none focus:border-[#4A6B5D] focus:ring-0 transition-colors bg-white text-[#2D3330]"
+                                    class="w-24 sm:w-32 text-center font-bold text-base sm:text-lg border border-[#E6E1DA] rounded-lg p-2 sm:p-3 focus:outline-none focus:border-[#4A6B5D] focus:ring-0 transition-colors bg-white text-[#2D3330]"
                                 />
                                 <button type="button" class="pax-btn font-light" @click="changeQty(1)">+</button>
                                 <button type="button" class="pax-btn font-light" @click="changeQty(10)">+10</button>

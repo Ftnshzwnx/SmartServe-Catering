@@ -171,10 +171,16 @@ function getGroupedDishes(item) {
         .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
         .receipt-container {
             background: #ffffff;
-            border-radius: 20px;
+            border-radius: 12px;
             border: 1px solid #E6E1DA;
             box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.01);
-            padding: 40px;
+            padding: 16px;
+        }
+        @media (min-width: 640px) {
+            .receipt-container {
+                border-radius: 20px;
+                padding: 40px;
+            }
         }
         @media print {
             body * {
@@ -204,7 +210,7 @@ function getGroupedDishes(item) {
     >
 
         <div class="font-sans-modern">
-            <div class="max-w-4xl mx-auto px-6">
+            <div class="max-w-4xl mx-auto px-3 sm:px-6">
                 
                 <!-- Action Bar (print/PDF buttons) -->
                 <div class="flex flex-wrap items-center justify-end gap-2 mb-6 no-print">
@@ -236,7 +242,7 @@ function getGroupedDishes(item) {
                         {{ t('back_to_bookings') }}
                     </Link>
                 </div>
-
+ 
                 <!-- Print area container -->
                 <div class="receipt-container print-area space-y-8">
                     
@@ -255,7 +261,7 @@ function getGroupedDishes(item) {
                                 </p>
                             </div>
                         </div>
-
+ 
                         <!-- Admin explanation note if any -->
                         <div v-if="order.admin_note" class="bg-white border border-[#E6E1DA] rounded-xl p-4 text-xs text-[#5C6460] leading-relaxed">
                             <strong class="font-semibold text-[#2D3330] block mb-1">
@@ -263,7 +269,7 @@ function getGroupedDishes(item) {
                             </strong>
                             <p class="font-light">{{ order.admin_note }}</p>
                         </div>
-
+ 
                         <div class="flex flex-wrap gap-3 pt-2">
                             <button 
                                 type="button"
@@ -283,7 +289,7 @@ function getGroupedDishes(item) {
                             </button>
                         </div>
                     </div>
-
+ 
                     <!-- Proposal Pending Banner -->
                     <div v-if="order.status === 'Pending Proposal'" class="bg-[#FAF6F0] border border-[#E6E1DA] rounded-2xl p-6 no-print flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-white text-[#8C8275] flex items-center justify-center text-sm border border-[#E6E1DA] animate-pulse">
@@ -298,7 +304,7 @@ function getGroupedDishes(item) {
                             </p>
                         </div>
                     </div>
-
+ 
                     <!-- Invoice Header Brand -->
                     <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 border-b border-[#EBEFEF] pb-8">
                         <div>
@@ -316,7 +322,7 @@ function getGroupedDishes(item) {
                             <span class="text-[9px] text-[#8C8275] font-semibold">{{ t('issued') }}: {{ new Date(order.created_at).toLocaleDateString() }}</span>
                         </div>
                     </div>
-
+ 
                     <!-- Client & Venue Summary Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-[#EBEFEF] pb-8 text-xs font-sans-modern">
                         <div>
@@ -333,8 +339,7 @@ function getGroupedDishes(item) {
                                 <strong class="font-semibold text-[#2D3330]">{{ t('delivery_event_date_label') }}:</strong> {{ order.delivery_date }}<br>
                                 <strong class="font-semibold text-[#2D3330]">{{ t('setup_time') }}:</strong> {{ order.delivery_time }}<br>
                                 <strong class="font-semibold text-[#2D3330]">Kawasan Penghantaran:</strong> {{ order.delivery_zone || 'N/A' }} <span v-if="parseFloat(order.delivery_fee) > 0">(RM {{ parseFloat(order.delivery_fee).toFixed(2) }})</span><br>
-                                <strong class="font-semibold text-[#2D3330]">{{ t('venue_address') }}:</strong><br>
-                                <span class="block mt-0.5 whitespace-pre-line">{{ order.delivery_address }}</span>
+                                <strong class="font-semibold text-[#2D3330]">Destinasi:</strong> {{ order.delivery_address }}
                             </p>
                             <div v-if="order.notes" class="mt-3 pt-3 border-t border-[#EBEFEF]">
                                 <strong class="font-semibold text-[#2D3330] block mb-1">
@@ -345,12 +350,13 @@ function getGroupedDishes(item) {
                             </div>
                         </div>
                     </div>
-
+ 
                     <!-- Itemized Pricing Tables -->
                     <div class="space-y-4 font-sans-modern">
                         <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('itemized_breakdown') }}</span>
                         
-                        <div class="overflow-x-auto">
+                        <!-- Desktop View Table (hidden on mobile) -->
+                        <div class="hidden sm:block overflow-x-auto">
                             <table class="w-full text-left border-collapse align-middle">
                                 <thead>
                                     <tr class="border-b border-[#E6E1DA] text-[#8C8275] text-[10px] font-bold uppercase tracking-widest">
@@ -370,7 +376,7 @@ function getGroupedDishes(item) {
                                                 <div 
                                                     v-for="(dishes, category) in getGroupedDishes(item)" 
                                                     :key="category" 
-                                                    class="bg-[#FAF7F2] border border-[#EBEFEF] p-2.5 rounded-xl space-y-1"
+                                                    class="bg-[#FAF7F2] border border-[#EBEFEF] p-2 sm:p-2.5 rounded-lg sm:rounded-xl space-y-1"
                                                 >
                                                     <span class="text-[8px] font-extrabold text-[#4A6B5D] uppercase tracking-widest block border-b border-[#EBEFEF] pb-0.5">{{ category }}</span>
                                                     <ul class="space-y-0.5">
@@ -385,7 +391,7 @@ function getGroupedDishes(item) {
                                                     No dishes defined.
                                                 </div>
                                             </div>
-
+ 
                                             <!-- Selected Addons -->
                                             <div v-if="item.selected_addons && item.selected_addons.length > 0" class="mt-2.5 space-y-1.5 max-w-xl">
                                                 <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block">Add-ons:</span>
@@ -412,6 +418,66 @@ function getGroupedDishes(item) {
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+
+                        <!-- Mobile view card list (hidden on desktop) -->
+                        <div class="block sm:hidden space-y-4">
+                            <div v-for="item in order.items" :key="item.id" class="border border-[#E6E1DA] rounded-xl p-4 bg-[#FAF8F5]/30 space-y-3.5">
+                                <div>
+                                    <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('catering_service_package') }}</span>
+                                    <span class="text-xs font-bold text-[#2D3330] uppercase tracking-wider block">{{ item.package?.package_name || order.package_name }}</span>
+                                </div>
+                                
+                                <div class="flex justify-between text-xs border-t border-[#EBEFEF] pt-2">
+                                    <div>
+                                        <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('price_pax') }}</span>
+                                        <span class="text-xs text-[#5C6460]">RM {{ parseFloat(item.price).toFixed(2) }}</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('guest_qty') }}</span>
+                                        <span class="text-xs text-[#5C6460]">{{ item.quantity }} {{ t('pax') }}</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('subtotal') }}</span>
+                                        <span class="text-xs font-bold text-[#2D3330]">RM {{ parseFloat(item.subtotal).toFixed(2) }}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Dishes grouped by category -->
+                                <div class="border-t border-[#EBEFEF] pt-3 space-y-2">
+                                    <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('included_dishes') }}</span>
+                                    <div class="grid grid-cols-1 gap-2">
+                                        <div 
+                                            v-for="(dishes, category) in getGroupedDishes(item)" 
+                                            :key="category" 
+                                            class="bg-white border border-[#EBEFEF] p-2 rounded-lg space-y-1"
+                                        >
+                                            <span class="text-[8px] font-extrabold text-[#4A6B5D] uppercase tracking-widest block border-b border-[#EBEFEF] pb-0.5">{{ category }}</span>
+                                            <ul class="space-y-0.5">
+                                                <li v-for="dish in dishes" :key="dish.name" class="text-[9px] font-bold text-[#5C6460] flex items-center gap-1">
+                                                    <i class="fas fa-check text-[6px] text-[#4A6B5D]"></i> 
+                                                    <span>{{ dish.name }}</span>
+                                                    <span v-if="dish.isDefault" class="text-[7px] text-[#8C8275] italic font-normal">(Default)</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Selected Addons -->
+                                <div v-if="item.selected_addons && item.selected_addons.length > 0" class="border-t border-[#EBEFEF] pt-2.5 space-y-1.5">
+                                    <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block">Add-ons:</span>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span 
+                                            v-for="addon in item.selected_addons" 
+                                            :key="addon"
+                                            class="inline-flex items-center gap-1 bg-amber-50 border border-amber-200 text-[8px] text-amber-800 font-bold px-2 py-0.5 rounded-full"
+                                        >
+                                            <i class="fas fa-plus text-[6px] text-[#C5A880]"></i> {{ addon }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

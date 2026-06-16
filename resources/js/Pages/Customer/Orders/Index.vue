@@ -215,27 +215,41 @@ function handleReceiptSelect(event, orderId, type) {
         .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
         .order-card {
             background: #ffffff;
-            border-radius: 16px;
-            padding: 28px;
+            border-radius: 12px;
+            padding: 16px;
             border: 1px solid #E6E1DA;
             box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.01);
             transition: all 0.2s ease;
+        }
+        @media (min-width: 640px) {
+            .order-card {
+                border-radius: 16px;
+                padding: 28px;
+            }
         }
         .order-card:hover {
             border-color: #4A6B5D;
             box-shadow: 0 10px 20px -8px rgba(74, 107, 93, 0.08);
         }
         .tab-btn {
-            padding: 8px 16px;
-            font-size: 0.75rem;
+            padding: 6px 12px;
+            font-size: 0.65rem;
             font-weight: 600;
-            border-radius: 16px;
+            border-radius: 12px;
             border: 1px solid transparent;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.05em;
             transition: all 0.2s ease;
             color: #8C8275;
             cursor: pointer;
+        }
+        @media (min-width: 640px) {
+            .tab-btn {
+                padding: 8px 16px;
+                font-size: 0.75rem;
+                border-radius: 16px;
+                letter-spacing: 0.1em;
+            }
         }
         .tab-btn.active {
             background: #4A6B5D;
@@ -267,7 +281,7 @@ function handleReceiptSelect(event, orderId, type) {
     >
 
         <div class="font-sans-modern">
-            <div class="max-w-5xl mx-auto px-6 space-y-8">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-6 sm:space-y-8">
                 
                 <!-- Filters tabs row -->
                 <div class="flex flex-wrap items-center gap-1.5 border-b border-[#E6E1DA] pb-4">
