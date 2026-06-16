@@ -458,7 +458,7 @@ watch(() => window.location.search, () => {
         >
             <div 
                 v-if="isMobileMenuOpen" 
-                class="fixed inset-0 z-55 bg-black/40 backdrop-blur-xs font-sans-modern md:hidden"
+                class="fixed inset-0 z-[60] bg-black/40 backdrop-blur-xs font-sans-modern md:hidden"
                 @click.self="isMobileMenuOpen = false"
             >
                 <Transition
@@ -471,7 +471,7 @@ watch(() => window.location.search, () => {
                 >
                     <div 
                         v-if="isMobileMenuOpen"
-                        class="w-full max-w-[280px] bg-[#FAF7F2] h-full shadow-2xl border-r border-[#E6E1DA] p-6 flex flex-col justify-between overflow-y-auto relative z-55 text-[#2D3330]"
+                        class="w-full max-w-[280px] bg-[#FAF7F2] h-full shadow-2xl border-r border-[#E6E1DA] p-6 flex flex-col justify-between overflow-y-auto relative z-[60] text-[#2D3330]"
                     >
                         <div class="space-y-8">
                             <!-- Logo and Close Button -->
