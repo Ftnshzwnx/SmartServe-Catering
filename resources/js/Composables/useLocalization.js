@@ -915,7 +915,7 @@ const translations = {
         'admin_reports_booking_statuses_desc': '',
         'admin_reports_no_bookings_found': 'No booking records found in database.',
         'admin_reports_pkg_popularity_title': 'Package Popularity & Revenue Analysis',
-        'admin_reports_pkg_popularity_desc': 'Performance breakdown showing booking frequency leaderboard and percentage share distribution for this period.',
+        'admin_reports_pkg_popularity_desc': '',
         'admin_reports_rank': 'Rank',
         'admin_reports_package_name': 'Package Name',
         'admin_reports_bookings': 'Bookings',
@@ -2120,7 +2120,7 @@ const translations = {
         'admin_reports_booking_statuses_desc': '',
         'admin_reports_no_bookings_found': 'Tiada rekod tempahan ditemui dalam pangkalan data.',
         'admin_reports_pkg_popularity_title': 'Analisis Populariti & Hasil Pakej',
-        'admin_reports_pkg_popularity_desc': 'Pecahan prestasi menunjukkan kedudukan kekerapan tempahan dan peratusan pembahagian untuk tempoh ini.',
+        'admin_reports_pkg_popularity_desc': '',
         'admin_reports_rank': 'Kedudukan',
         'admin_reports_package_name': 'Nama Pakej',
         'admin_reports_bookings': 'Tempahan',
@@ -2416,7 +2416,11 @@ const translations = {
 
 export function useLocalization() {
     const t = (key) => {
-        return translations[locale.value]?.[key] || translations['en']?.[key] || key;
+        const localVal = translations[locale.value]?.[key];
+        if (localVal !== undefined) return localVal;
+        const enVal = translations['en']?.[key];
+        if (enVal !== undefined) return enVal;
+        return key;
     };
 
     const setLanguage = (lang) => {

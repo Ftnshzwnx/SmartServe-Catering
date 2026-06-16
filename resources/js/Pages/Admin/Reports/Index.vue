@@ -407,7 +407,7 @@ watch(() => props.salesData, () => {
                 </div>
                 <div>
                     <span class="text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">RM {{ parseFloat(kpis.totalRevenue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
-                    <span class="text-[8px] text-[#8C8275] block mt-1 font-semibold truncate">{{ t('admin_reports_timeframe_desc') }}</span>
+                    <span v-if="t('admin_reports_timeframe_desc')" class="text-[8px] text-[#8C8275] block mt-1 font-semibold truncate">{{ t('admin_reports_timeframe_desc') }}</span>
                 </div>
             </div>
 
@@ -421,7 +421,7 @@ watch(() => props.salesData, () => {
                 </div>
                 <div>
                     <span class="text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">RM {{ parseFloat(kpis.averageOrderValue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
-                    <span class="text-[8px] text-[#8C8275] block mt-1 font-semibold truncate">{{ t('admin_reports_avg_order_desc') }}</span>
+                    <span v-if="t('admin_reports_avg_order_desc')" class="text-[8px] text-[#8C8275] block mt-1 font-semibold truncate">{{ t('admin_reports_avg_order_desc') }}</span>
                 </div>
             </div>
 
@@ -435,7 +435,7 @@ watch(() => props.salesData, () => {
                 </div>
                 <div>
                     <span class="text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">{{ kpis.cancellationRate }}%</span>
-                    <span class="text-[8px] text-rose-500 block mt-1 font-bold truncate">{{ t('admin_reports_cancellation_desc').replace('{count}', kpis.totalBookings) }}</span>
+                    <span v-if="t('admin_reports_cancellation_desc')" class="text-[8px] text-rose-500 block mt-1 font-bold truncate">{{ t('admin_reports_cancellation_desc').replace('{count}', kpis.totalBookings) }}</span>
                 </div>
             </div>
 
@@ -449,7 +449,7 @@ watch(() => props.salesData, () => {
                 </div>
                 <div>
                     <span class="text-xs md:text-lg font-bold text-[#2D3330] block truncate" :title="kpis.topPackage">{{ kpis.topPackage }}</span>
-                    <span class="text-[8px] text-[#C5A880] block mt-1 font-bold uppercase tracking-wider truncate">{{ t('admin_reports_top_package_desc') }}</span>
+                    <span v-if="t('admin_reports_top_package_desc')" class="text-[8px] text-[#C5A880] block mt-1 font-bold uppercase tracking-wider truncate">{{ t('admin_reports_top_package_desc') }}</span>
                 </div>
             </div>
         </div>
@@ -461,7 +461,7 @@ watch(() => props.salesData, () => {
                     <i class="fas fa-shield-alt text-[#C5A880]"></i>
                     {{ t('admin_reports_business_health') }}
                 </h3>
-                <p class="text-[10px] text-[#8C8275] font-semibold">{{ t('admin_reports_business_health_desc') }}</p>
+                <p v-if="t('admin_reports_business_health_desc')" class="text-[10px] text-[#8C8275] font-semibold">{{ t('admin_reports_business_health_desc') }}</p>
             </div>
             
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 md:gap-12 flex-grow max-w-3xl justify-end">
@@ -502,7 +502,7 @@ watch(() => props.salesData, () => {
                     <h2 class="text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
                         {{ filters.viewMode === 'daily' ? t('admin_reports_daily_revenue') : t('admin_reports_monthly_revenue') }}
                     </h2>
-                    <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">
+                    <p v-if="t('admin_reports_sales_perf_daily') || t('admin_reports_sales_perf_monthly') || t('admin_reports_completed_orders_only')" class="text-[10px] text-[#8C8275] font-semibold mt-0.5">
                         {{ filters.viewMode === 'daily' 
                             ? t('admin_reports_sales_perf_daily').replace('{month}', getMonthName(filters.month)).replace('{year}', filters.year) 
                             : t('admin_reports_sales_perf_monthly').replace('{year}', filters.year) 
@@ -523,7 +523,7 @@ watch(() => props.salesData, () => {
             <div class="lg:col-span-5 bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex flex-col justify-between space-y-4 md:space-y-5">
                 <div>
                     <h2 class="text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_booking_statuses') }}</h2>
-                    <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_booking_statuses_desc') }}</p>
+                    <p v-if="t('admin_reports_booking_statuses_desc')" class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_booking_statuses_desc') }}</p>
                 </div>
  
                 <div class="relative h-44 w-full flex items-center justify-center">
@@ -566,7 +566,7 @@ watch(() => props.salesData, () => {
             <div class="lg:col-span-12 bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 space-y-4 md:space-y-6">
                 <div>
                     <h2 class="text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_pkg_popularity_title') }}</h2>
-                    <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_pkg_popularity_desc') }}</p>
+                    <p v-if="t('admin_reports_pkg_popularity_desc')" class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_pkg_popularity_desc') }}</p>
                 </div>
 
                 <div v-show="packagePopularity.length > 0" class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-center">
@@ -644,7 +644,7 @@ watch(() => props.salesData, () => {
             <div class="lg:col-span-12 bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 space-y-4 md:space-y-6">
                 <div>
                     <h2 class="text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_addon_popularity_title') }}</h2>
-                    <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_addon_popularity_desc') }}</p>
+                    <p v-if="t('admin_reports_addon_popularity_desc')" class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_addon_popularity_desc') }}</p>
                 </div>
 
                 <div v-show="addonPopularity.length > 0" class="overflow-x-auto rounded-xl border border-[#E6E1DA]">
@@ -710,7 +710,7 @@ watch(() => props.salesData, () => {
         <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 space-y-4 md:space-y-6">
             <div>
                 <h2 class="text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reports_export_center') }}</h2>
-                <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_export_center_desc') }}</p>
+                <p v-if="t('admin_reports_export_center_desc')" class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_reports_export_center_desc') }}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -721,7 +721,7 @@ watch(() => props.salesData, () => {
                     </div>
                     <div class="space-y-2.5 flex-grow">
                         <h4 class="text-xs font-bold text-[#2D3330] uppercase tracking-wide">{{ t('admin_reports_csv_title') }}</h4>
-                        <p class="text-[11px] text-[#8C8275] leading-relaxed">{{ t('admin_reports_csv_desc') }}</p>
+                        <p v-if="t('admin_reports_csv_desc')" class="text-[11px] text-[#8C8275] leading-relaxed">{{ t('admin_reports_csv_desc') }}</p>
                         <a 
                             :href="route('admin.reports.export', { format: 'csv', view_mode: filters.viewMode, year: filters.year, month: filters.month })"
                             class="inline-flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold px-4 py-2 rounded-xl text-[10px] uppercase tracking-widest border border-emerald-200 transition-colors cursor-pointer"
@@ -739,7 +739,7 @@ watch(() => props.salesData, () => {
                     </div>
                     <div class="space-y-2.5 flex-grow">
                         <h4 class="text-xs font-bold text-[#2D3330] uppercase tracking-wide">{{ t('admin_reports_pdf_title') }}</h4>
-                        <p class="text-[11px] text-[#8C8275] leading-relaxed">{{ t('admin_reports_pdf_desc') }}</p>
+                        <p v-if="t('admin_reports_pdf_desc')" class="text-[11px] text-[#8C8275] leading-relaxed">{{ t('admin_reports_pdf_desc') }}</p>
                         <a 
                             :href="route('admin.reports.export', { format: 'pdf', view_mode: filters.viewMode, year: filters.year, month: filters.month })"
                             class="inline-flex items-center gap-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold px-4 py-2 rounded-xl text-[10px] uppercase tracking-widest border border-rose-200 transition-colors cursor-pointer"

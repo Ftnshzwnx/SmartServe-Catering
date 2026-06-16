@@ -333,7 +333,7 @@ function getGroupedDishes(item) {
                     <div class="flex justify-between items-center">
                         <div>
                             <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_upcoming_event_gigs') }}</h2>
-                            <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_scheduled_bookings_desc') }}</p>
+                            <p v-if="t('admin_scheduled_bookings_desc')" class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_scheduled_bookings_desc') }}</p>
                         </div>
                         <Link :href="route('admin.orders')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">{{ t('admin_view_calendar') }}</Link>
                     </div>
