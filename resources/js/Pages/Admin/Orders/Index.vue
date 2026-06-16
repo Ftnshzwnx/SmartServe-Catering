@@ -324,52 +324,60 @@ function needsAction(status) {
         </template>
 
         <!-- Status Stats Cards Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 select-none">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 select-none">
             <!-- Total Orders -->
-            <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 flex items-center justify-between shadow-xs hover:border-[#C5A880]/30 transition-all">
-                <div class="space-y-1">
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_total_bookings') }}</span>
-                    <span class="text-3xl font-extrabold text-[#2D3330] font-serif-luxury block">{{ statusCounts.all }}</span>
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-3 md:p-6 flex flex-col justify-between gap-2.5 shadow-xs hover:border-[#C5A880]/30 transition-all">
+                <div class="flex items-center justify-between gap-1.5">
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_total_bookings')">{{ t('admin_total_bookings') }}</span>
+                    <div class="w-8 h-8 bg-[#FAF7F2] text-[#4A6B5D] border border-[#E6E1DA] rounded-lg flex items-center justify-center text-xs shadow-2xs shrink-0">
+                        <i class="fas fa-receipt"></i>
+                    </div>
                 </div>
-                <div class="w-12 h-12 bg-[#FAF7F2] text-[#4A6B5D] border border-[#E6E1DA] rounded-2xl flex items-center justify-center text-lg shadow-2xs">
-                    <i class="fas fa-receipt text-sm"></i>
+                <div>
+                    <span class="text-sm md:text-3xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">{{ statusCounts.all }}</span>
                 </div>
             </div>
 
             <!-- Confirmed / Active -->
-            <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 flex items-center justify-between shadow-xs hover:border-[#4A6B5D]/30 transition-all">
-                <div class="space-y-1">
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_confirmed_events') }}</span>
-                    <span class="text-3xl font-extrabold text-[#4A6B5D] font-serif-luxury block">
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-3 md:p-6 flex flex-col justify-between gap-2.5 shadow-xs hover:border-[#4A6B5D]/30 transition-all">
+                <div class="flex items-center justify-between gap-1.5">
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_confirmed_events')">{{ t('admin_confirmed_events') }}</span>
+                    <div class="w-8 h-8 bg-emerald-50 text-[#4A6B5D] border border-emerald-100 rounded-lg flex items-center justify-center text-xs shadow-2xs shrink-0">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-sm md:text-3xl font-extrabold text-[#4A6B5D] font-serif-luxury block truncate">
                         {{ statusCounts.confirmed + statusCounts.delivered }}
                     </span>
-                </div>
-                <div class="w-12 h-12 bg-emerald-50 text-[#4A6B5D] border border-emerald-100 rounded-2xl flex items-center justify-center text-lg shadow-2xs">
-                    <i class="fas fa-check-circle text-sm"></i>
                 </div>
             </div>
 
             <!-- Pending / Action Required -->
-            <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 flex items-center justify-between shadow-xs hover:border-amber-500/30 transition-all">
-                <div class="space-y-1">
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_awaiting_action') }}</span>
-                    <span class="text-3xl font-extrabold text-amber-600 font-serif-luxury block">
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-3 md:p-6 flex flex-col justify-between gap-2.5 shadow-xs hover:border-amber-500/30 transition-all">
+                <div class="flex items-center justify-between gap-1.5">
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_awaiting_action')">{{ t('admin_awaiting_action') }}</span>
+                    <div class="w-8 h-8 bg-amber-50 text-amber-500 border border-amber-100 rounded-lg flex items-center justify-center text-xs shadow-2xs shrink-0">
+                        <i class="fas fa-clock animate-pulse"></i>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-sm md:text-3xl font-extrabold text-amber-600 font-serif-luxury block truncate">
                         {{ statusCounts.pending_proposal + statusCounts.pending_deposit + statusCounts.payment_submitted }}
                     </span>
-                </div>
-                <div class="w-12 h-12 bg-amber-50 text-amber-500 border border-amber-100 rounded-2xl flex items-center justify-center text-lg shadow-2xs">
-                    <i class="fas fa-clock text-sm animate-pulse"></i>
                 </div>
             </div>
 
             <!-- Completed -->
-            <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 flex items-center justify-between shadow-xs hover:border-blue-500/30 transition-all">
-                <div class="space-y-1">
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_completed_jobs') }}</span>
-                    <span class="text-3xl font-extrabold text-blue-700 font-serif-luxury block">{{ statusCounts.completed }}</span>
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-3 md:p-6 flex flex-col justify-between gap-2.5 shadow-xs hover:border-blue-500/30 transition-all">
+                <div class="flex items-center justify-between gap-1.5">
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_completed_jobs')">{{ t('admin_completed_jobs') }}</span>
+                    <div class="w-8 h-8 bg-blue-50 text-blue-600 border border-blue-100 rounded-lg flex items-center justify-center text-xs shadow-2xs shrink-0">
+                        <i class="fas fa-trophy"></i>
+                    </div>
                 </div>
-                <div class="w-12 h-12 bg-blue-50 text-blue-600 border border-blue-100 rounded-2xl flex items-center justify-center text-lg shadow-2xs">
-                    <i class="fas fa-trophy text-sm"></i>
+                <div>
+                    <span class="text-sm md:text-3xl font-extrabold text-blue-700 font-serif-luxury block truncate">{{ statusCounts.completed }}</span>
                 </div>
             </div>
         </div>
