@@ -576,32 +576,32 @@ watch(() => props.salesData, () => {
                             <table class="w-full min-w-[650px] text-left border-collapse">
                                 <thead>
                                     <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                        <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_rank') }}</th>
-                                        <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_package_name') }}</th>
-                                        <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-center">{{ t('admin_reports_bookings') }}</th>
-                                        <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-1/3">{{ t('admin_reports_popularity_share') }}</th>
-                                        <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-right">{{ t('admin_reports_revenue_rm') }}</th>
+                                        <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_rank') }}</th>
+                                        <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_package_name') }}</th>
+                                        <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-center">{{ t('admin_reports_bookings') }}</th>
+                                        <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-1/3">{{ t('admin_reports_popularity_share') }}</th>
+                                        <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-right">{{ t('admin_reports_revenue_rm') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-[#E6E1DA]">
                                     <tr v-for="(p, index) in packagePopularity" :key="p.package_name" class="hover:bg-[#FAF7F2]/50 transition-colors">
                                         <!-- Rank badge -->
-                                        <td class="p-3">
+                                        <td class="px-3 sm:px-4 py-2.5 sm:py-3">
                                             <span v-if="index === 0" class="w-6 h-6 rounded-full bg-amber-100 border border-amber-200 text-amber-800 flex items-center justify-center font-bold text-xs select-none" title="1st Best Seller">🥇</span>
                                             <span v-else-if="index === 1" class="w-6 h-6 rounded-full bg-slate-100 border border-slate-200 text-slate-800 flex items-center justify-center font-bold text-xs select-none" title="2nd Place">🥈</span>
                                             <span v-else-if="index === 2" class="w-6 h-6 rounded-full bg-orange-100 border border-orange-200 text-orange-800 flex items-center justify-center font-bold text-xs select-none" title="3rd Place">🥉</span>
                                             <span v-else class="w-6 h-6 rounded-full bg-gray-50 border border-gray-200 text-gray-600 flex items-center justify-center font-bold text-[10px] select-none">#{{ index + 1 }}</span>
                                         </td>
                                         <!-- Package Name -->
-                                        <td class="p-3 font-bold text-[#2D3330] text-xs">
+                                        <td class="px-3 sm:px-4 py-2.5 sm:py-3 font-bold text-[#2D3330] text-xs">
                                             {{ p.package_name }}
                                         </td>
                                         <!-- Bookings count -->
-                                        <td class="p-3 text-center font-semibold text-[#2D3330] text-xs">
+                                        <td class="px-3 sm:px-4 py-2.5 sm:py-3 text-center font-semibold text-[#2D3330] text-xs">
                                             {{ p.bookings_count }}
                                         </td>
                                         <!-- Progress bar -->
-                                        <td class="p-3">
+                                        <td class="px-3 sm:px-4 py-2.5 sm:py-3">
                                             <div class="flex items-center gap-2">
                                                 <div class="h-1.5 bg-[#FAF7F2] rounded-full flex-grow border border-[#E6E1DA] overflow-hidden">
                                                     <div 
@@ -616,7 +616,7 @@ watch(() => props.salesData, () => {
                                             </div>
                                         </td>
                                         <!-- Total Revenue -->
-                                        <td class="p-3 text-right font-extrabold text-[#4A6B5D] text-xs">
+                                        <td class="px-3 sm:px-4 py-2.5 sm:py-3 text-right font-extrabold text-[#4A6B5D] text-xs">
                                             RM {{ parseFloat(p.total_revenue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                                         </td>
                                     </tr>
@@ -651,32 +651,32 @@ watch(() => props.salesData, () => {
                     <table class="w-full min-w-[650px] text-left border-collapse">
                         <thead>
                             <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-16">{{ t('admin_reports_rank') }}</th>
-                                <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_addon_item_name') }}</th>
-                                <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-center w-32">{{ t('admin_reports_times_selected') }}</th>
-                                <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-1/3">{{ t('admin_reports_popularity_share') }}</th>
-                                <th class="p-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-right w-40">{{ t('admin_reports_revenue_generated') }}</th>
+                                <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-16">{{ t('admin_reports_rank') }}</th>
+                                <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('admin_reports_addon_item_name') }}</th>
+                                <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-center w-32">{{ t('admin_reports_times_selected') }}</th>
+                                <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider w-1/3">{{ t('admin_reports_popularity_share') }}</th>
+                                <th class="px-3 sm:px-4 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-wider text-right w-40">{{ t('admin_reports_revenue_generated') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[#E6E1DA]">
                             <tr v-for="(a, index) in addonPopularity" :key="a.addon_name" class="hover:bg-[#FAF7F2]/50 transition-colors">
                                 <!-- Rank Badge -->
-                                <td class="p-3">
+                                <td class="px-3 sm:px-4 py-2.5 sm:py-3">
                                     <span v-if="index === 0" class="w-6 h-6 rounded-full bg-amber-100 border border-amber-200 text-amber-800 flex items-center justify-center font-bold text-xs select-none" title="Top Add-on">🥇</span>
                                     <span v-else-if="index === 1" class="w-6 h-6 rounded-full bg-slate-100 border border-slate-200 text-slate-800 flex items-center justify-center font-bold text-xs select-none" title="2nd Place">🥈</span>
                                     <span v-else-if="index === 2" class="w-6 h-6 rounded-full bg-orange-100 border border-orange-200 text-orange-800 flex items-center justify-center font-bold text-xs select-none" title="3rd Place">🥉</span>
                                     <span v-else class="w-6 h-6 rounded-full bg-gray-50 border border-gray-200 text-gray-600 flex items-center justify-center font-bold text-[10px] select-none">#{{ index + 1 }}</span>
                                 </td>
                                 <!-- Addon name -->
-                                <td class="p-3 font-bold text-xs text-[#2D3330]">
+                                <td class="px-3 sm:px-4 py-2.5 sm:py-3 font-bold text-xs text-[#2D3330]">
                                     {{ a.addon_name }}
                                 </td>
                                 <!-- Bookings count -->
-                                <td class="p-3 text-center text-xs font-semibold text-[#2D3330]">
+                                <td class="px-3 sm:px-4 py-2.5 sm:py-3 text-center text-xs font-semibold text-[#2D3330]">
                                     {{ a.bookings_count }}
                                 </td>
                                 <!-- Progress bar -->
-                                <td class="p-3">
+                                <td class="px-3 sm:px-4 py-2.5 sm:py-3">
                                     <div class="flex items-center gap-2">
                                         <div class="h-1.5 bg-[#FAF7F2] rounded-full flex-grow border border-[#E6E1DA] overflow-hidden">
                                             <div 
@@ -691,7 +691,7 @@ watch(() => props.salesData, () => {
                                     </div>
                                 </td>
                                 <!-- Revenue Generated -->
-                                <td class="p-3 text-right text-xs font-extrabold text-[#4A6B5D]">
+                                <td class="px-3 sm:px-4 py-2.5 sm:py-3 text-right text-xs font-extrabold text-[#4A6B5D]">
                                     RM {{ parseFloat(a.total_revenue).toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                                 </td>
                             </tr>

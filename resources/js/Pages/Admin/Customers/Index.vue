@@ -176,24 +176,24 @@ async function verifyEmail(user) {
                 <table class="w-full text-left border-collapse text-xs text-[#5C6460] min-w-[800px]">
                     <thead>
                         <tr class="border-b border-[#E6E1DA] text-[#8C8275] font-bold uppercase tracking-wider">
-                            <th class="py-3.5 pl-2 text-center w-12">{{ t('admin_number_col') }}</th>
-                            <th class="py-3.5 pl-2">{{ t('admin_full_name_col') }}</th>
-                            <th class="py-3.5">{{ t('admin_email_address_col') }}</th>
-                            <th class="py-3.5">{{ t('admin_phone_col') }}</th>
-                            <th class="py-3.5">{{ t('admin_default_address_col') }}</th>
-                            <th class="py-3.5 text-center">{{ t('admin_access_status_col') }}</th>
-                            <th class="py-3.5 text-right pr-2">{{ t('action') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-center w-12">{{ t('admin_number_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_full_name_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_email_address_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_phone_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_default_address_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">{{ t('admin_access_status_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">{{ t('action') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#E6E1DA]">
                         <tr v-for="(user, index) in users.data" :key="user.id" class="hover:bg-[#FAF7F2]/40 transition-colors">
-                            <td class="py-4 pl-2 text-center font-semibold text-[#8C8275]">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center font-semibold text-[#8C8275]">
                                 {{ users.from + index }}
                             </td>
-                            <td class="py-4 pl-2 font-semibold text-[#2D3330]">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 font-semibold text-[#2D3330]">
                                 {{ user.full_name || user.name }}
                             </td>
-                            <td class="py-4 text-[#5C6460] font-medium">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-[#5C6460] font-medium">
                                 <div class="flex flex-col">
                                     <span>{{ user.email }}</span>
                                     <span v-if="user.email_verified_at" class="text-[10px] text-emerald-600 font-semibold flex items-center gap-1 mt-0.5" :title="user.email_verified_at">
@@ -204,13 +204,13 @@ async function verifyEmail(user) {
                                     </span>
                                 </div>
                             </td>
-                            <td class="py-4 text-[#8C8275] font-semibold">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-[#8C8275] font-semibold">
                                 {{ user.phone || 'N/A' }}
                             </td>
-                            <td class="py-4 text-[#8C8275] font-semibold max-w-xs truncate" :title="user.address">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-[#8C8275] font-semibold max-w-xs truncate" :title="user.address">
                                 {{ user.address || 'N/A' }}
                             </td>
-                            <td class="py-4 text-center">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
                                 <span 
                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider"
                                     :class="user.is_blacklisted ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-emerald-50 text-[#4A6B5D] border-emerald-200'"
@@ -218,7 +218,7 @@ async function verifyEmail(user) {
                                     {{ user.is_blacklisted ? t('admin_suspended') : t('admin_active') }}
                                 </span>
                             </td>
-                            <td class="py-4 text-right pr-2">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">
                                 <div class="flex justify-end gap-2">
                                     <button 
                                         v-if="!user.email_verified_at"

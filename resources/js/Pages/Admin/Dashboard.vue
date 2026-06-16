@@ -342,16 +342,16 @@ function getGroupedDishes(item) {
                         <table class="w-full text-left border-collapse min-w-[650px]">
                             <thead>
                                 <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_id') }}</th>
-                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_customer') }}</th>
-                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_package_details') }}</th>
-                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_event_date') }}</th>
-                                    <th class="px-5 py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('status_label') }}</th>
+                                    <th class="px-3 sm:px-5 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_id') }}</th>
+                                    <th class="px-3 sm:px-5 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_customer') }}</th>
+                                    <th class="px-3 sm:px-5 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_package_details') }}</th>
+                                    <th class="px-3 sm:px-5 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_event_date') }}</th>
+                                    <th class="px-3 sm:px-5 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('status_label') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
                                 <tr v-for="order in upcomingEvents" :key="order.id" class="hover:bg-[#FAFAF9] transition-colors">
-                                    <td class="px-5 py-3.5">
+                                    <td class="px-3 sm:px-5 py-2.5 sm:py-3.5">
                                         <button 
                                             @click="openDetailsModal(order)"
                                             class="font-extrabold text-[#4A6B5D] font-serif-luxury hover:text-[#3D574B] hover:underline cursor-pointer"
@@ -360,10 +360,10 @@ function getGroupedDishes(item) {
                                             #SSC-{{ order.id }}
                                         </button>
                                     </td>
-                                    <td class="px-5 py-3.5 font-bold text-[#2D3330]">{{ order.user?.full_name || order.user?.name || 'Customer' }}</td>
-                                    <td class="px-5 py-3.5 max-w-[150px] truncate" :title="order.package_name">{{ order.package_name }}</td>
-                                    <td class="px-5 py-3.5 font-medium">{{ order.delivery_date }} ({{ order.delivery_time }})</td>
-                                    <td class="px-5 py-3.5 text-center">
+                                    <td class="px-3 sm:px-5 py-2.5 sm:py-3.5 font-bold text-[#2D3330]">{{ order.user?.full_name || order.user?.name || 'Customer' }}</td>
+                                    <td class="px-3 sm:px-5 py-2.5 sm:py-3.5 max-w-[150px] truncate" :title="order.package_name">{{ order.package_name }}</td>
+                                    <td class="px-3 sm:px-5 py-2.5 sm:py-3.5 font-medium">{{ order.delivery_date }} ({{ order.delivery_time }})</td>
+                                    <td class="px-3 sm:px-5 py-2.5 sm:py-3.5 text-center">
                                         <span class="inline-flex text-[9px] font-bold px-2 py-0.5 rounded-full border" :class="getStatusBadge(order.status)">
                                             {{ getTranslatedStatus(order.status) }}
                                         </span>

@@ -215,48 +215,48 @@ function submitReply() {
                 <table class="w-full text-left border-collapse min-w-[850px]">
                     <thead>
                         <tr class="border-b border-[#E6E1DA] text-[#8C8275] text-xs font-bold uppercase tracking-wider">
-                            <th class="py-3.5 pl-2 text-center w-12">{{ t('admin_reviews_no_col') }}</th>
-                            <th class="py-3.5 pl-2">{{ t('admin_reviews_customer_col') }}</th>
-                            <th class="py-3.5">{{ t('admin_reviews_order_col') }}</th>
-                            <th class="py-3.5 text-center">{{ t('admin_reviews_rating_col') }}</th>
-                            <th class="py-3.5">{{ t('admin_reviews_comment_col') }}</th>
-                            <th class="py-3.5">{{ t('admin_reviews_response_col') }}</th>
-                            <th class="py-3.5 text-right pr-2">{{ t('admin_reviews_action_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-center w-12">{{ t('admin_reviews_no_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_reviews_customer_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_reviews_order_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">{{ t('admin_reviews_rating_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_reviews_comment_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_reviews_response_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">{{ t('admin_reviews_action_col') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
                         <tr v-for="(review, index) in paginatedReviews" :key="review.id" class="hover:bg-[#FAF7F2]/40 transition-colors">
-                            <td class="py-4 pl-2 text-center font-semibold text-[#8C8275]">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center font-semibold text-[#8C8275]">
                                 {{ (currentPage - 1) * reviewsPerPage + index + 1 }}
                             </td>
-                            <td class="py-4 pl-2">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4">
                                 <div class="font-bold text-[#2D3330]">{{ review.user?.full_name || 'N/A' }}</div>
                                 <div class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ review.user?.email }}</div>
                             </td>
-                            <td class="py-4">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4">
                                 <div class="font-semibold text-[#2D3330]">#SSC-{{ review.order_id }}</div>
                                 <div class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ review.order?.package_name }}</div>
                             </td>
-                            <td class="py-4 text-center">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
                                 <div class="flex justify-center text-amber-400 gap-0.5">
                                     <i v-for="s in 5" :key="s" class="fa-star text-[10px]" :class="s <= review.rating ? 'fas' : 'far'"></i>
                                 </div>
                                 <span class="text-[10px] text-[#8C8275] font-semibold block mt-1.5">({{ review.rating }}/5)</span>
                             </td>
-                            <td class="py-4 max-w-xs whitespace-normal break-words italic text-[#5C6460]">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 max-w-xs whitespace-normal break-words italic text-[#5C6460]">
                                 "{{ review.review_text || t('admin_reviews_no_comment') }}"
                                 <div class="text-[9px] text-[#8C8275] font-bold not-italic mt-2">{{ t('admin_reviews_submitted_at').replace('{date}', new Date(review.created_at).toLocaleDateString()) }}</div>
                             </td>
-                            <td class="py-4 max-w-xs whitespace-normal break-words">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 max-w-xs whitespace-normal break-words">
                                 <span v-if="review.admin_reply" class="text-[#4A6B5D] font-semibold bg-[#FAF7F2] border border-[#E6E1DA] rounded-xl px-3 py-1.5 block">
                                     {{ review.admin_reply }}
                                 </span>
                                 <span v-else class="text-[#8C8275] italic">{{ t('admin_reviews_no_response') }}</span>
                             </td>
-                            <td class="py-4 text-right pr-2">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">
                                 <button 
                                     @click="openReplyModal(review)" 
-                                    class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-3 py-2 rounded-xl text-[10px] uppercase tracking-wider transition-colors inline-flex items-center gap-1.5 shadow-xs cursor-pointer"
+                                    class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[10px] uppercase tracking-wider transition-colors inline-flex items-center gap-1 shadow-xs cursor-pointer"
                                 >
                                     <i class="fas" :class="review.admin_reply ? 'fa-edit' : 'fa-reply'"></i>
                                     <span>{{ review.admin_reply ? t('admin_reviews_edit_reply_btn') : t('admin_reviews_reply_btn') }}</span>

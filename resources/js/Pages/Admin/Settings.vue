@@ -191,42 +191,42 @@ function submitPassword() {
     >
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             
-            <!-- Left Side: Tabs Navigation Selector -->
-            <div class="md:col-span-1 bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] p-3 md:p-4 shadow-xs flex flex-row md:flex-col gap-2 md:gap-0 md:space-y-1 overflow-x-auto whitespace-nowrap scrollbar-none h-fit">
+            <!-- Left Side: Tabs Navigation Selector (Pill Segmented Control on Mobile) -->
+            <div class="md:col-span-1 bg-[#FAF7F2] md:bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-1 md:p-4 shadow-xs flex flex-row md:flex-col gap-1 md:gap-0 md:space-y-1 overflow-x-auto whitespace-nowrap scrollbar-none select-none md:select-text h-fit mb-6 md:mb-0">
                 <button 
                     type="button"
                     @click="activeTab = 'company'"
-                    class="w-auto shrink-0 md:w-full flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer text-left"
-                    :class="activeTab === 'company' ? 'bg-[#4A6B5D]/10 text-[#4A6B5D]' : 'text-[#8C8275] hover:bg-[#FAF7F2] hover:text-[#2D3330]'"
+                    class="flex-1 md:w-full flex items-center justify-center md:justify-start gap-1.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl text-[10px] sm:text-xs font-extrabold md:font-bold transition-all duration-200 cursor-pointer text-center md:text-left shrink-0 uppercase md:normal-case tracking-wider md:tracking-normal focus:outline-none"
+                    :class="activeTab === 'company' ? 'bg-[#4A6B5D] text-white shadow-xs md:bg-[#4A6B5D]/10 md:text-[#4A6B5D] md:shadow-none' : 'text-[#8C8275] hover:text-[#5C6460] md:hover:bg-[#FAF7F2] md:hover:text-[#2D3330]'"
                 >
-                    <i class="fas fa-building text-sm w-5 text-center"></i>
+                    <i class="fas fa-building text-xs md:text-sm w-4 md:w-5 text-center shrink-0"></i>
                     {{ t('admin_settings_tab_company') }}
                 </button>
                 <button 
                     type="button"
                     @click="activeTab = 'zones'"
-                    class="w-auto shrink-0 md:w-full flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer text-left"
-                    :class="activeTab === 'zones' ? 'bg-[#4A6B5D]/10 text-[#4A6B5D]' : 'text-[#8C8275] hover:bg-[#FAF7F2] hover:text-[#2D3330]'"
+                    class="flex-1 md:w-full flex items-center justify-center md:justify-start gap-1.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl text-[10px] sm:text-xs font-extrabold md:font-bold transition-all duration-200 cursor-pointer text-center md:text-left shrink-0 uppercase md:normal-case tracking-wider md:tracking-normal focus:outline-none"
+                    :class="activeTab === 'zones' ? 'bg-[#4A6B5D] text-white shadow-xs md:bg-[#4A6B5D]/10 md:text-[#4A6B5D] md:shadow-none' : 'text-[#8C8275] hover:text-[#5C6460] md:hover:bg-[#FAF7F2] md:hover:text-[#2D3330]'"
                 >
-                    <i class="fas fa-truck text-sm w-5 text-center"></i>
+                    <i class="fas fa-truck text-xs md:text-sm w-4 md:w-5 text-center shrink-0"></i>
                     {{ t('admin_settings_tab_zones') }}
                 </button>
                 <button 
                     type="button"
                     @click="activeTab = 'profile'"
-                    class="w-auto shrink-0 md:w-full flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer text-left"
-                    :class="activeTab === 'profile' ? 'bg-[#4A6B5D]/10 text-[#4A6B5D]' : 'text-[#8C8275] hover:bg-[#FAF7F2] hover:text-[#2D3330]'"
+                    class="flex-1 md:w-full flex items-center justify-center md:justify-start gap-1.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl text-[10px] sm:text-xs font-extrabold md:font-bold transition-all duration-200 cursor-pointer text-center md:text-left shrink-0 uppercase md:normal-case tracking-wider md:tracking-normal focus:outline-none"
+                    :class="activeTab === 'profile' ? 'bg-[#4A6B5D] text-white shadow-xs md:bg-[#4A6B5D]/10 md:text-[#4A6B5D] md:shadow-none' : 'text-[#8C8275] hover:text-[#5C6460] md:hover:bg-[#FAF7F2] md:hover:text-[#2D3330]'"
                 >
-                    <i class="fas fa-user text-sm w-5 text-center"></i>
+                    <i class="fas fa-user text-xs md:text-sm w-4 md:w-5 text-center shrink-0"></i>
                     {{ t('admin_settings_tab_profile') }}
                 </button>
                 <button 
                     type="button"
                     @click="activeTab = 'security'"
-                    class="w-auto shrink-0 md:w-full flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer text-left"
-                    :class="activeTab === 'security' ? 'bg-[#4A6B5D]/10 text-[#4A6B5D]' : 'text-[#8C8275] hover:bg-[#FAF7F2] hover:text-[#2D3330]'"
+                    class="flex-1 md:w-full flex items-center justify-center md:justify-start gap-1.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl text-[10px] sm:text-xs font-extrabold md:font-bold transition-all duration-200 cursor-pointer text-center md:text-left shrink-0 uppercase md:normal-case tracking-wider md:tracking-normal focus:outline-none"
+                    :class="activeTab === 'security' ? 'bg-[#4A6B5D] text-white shadow-xs md:bg-[#4A6B5D]/10 md:text-[#4A6B5D] md:shadow-none' : 'text-[#8C8275] hover:text-[#5C6460] md:hover:bg-[#FAF7F2] md:hover:text-[#2D3330]'"
                 >
-                    <i class="fas fa-shield-alt text-sm w-5 text-center"></i>
+                    <i class="fas fa-shield-alt text-xs md:text-sm w-4 md:w-5 text-center shrink-0"></i>
                     {{ t('admin_settings_tab_security') }}
                 </button>
             </div>
@@ -701,16 +701,16 @@ function submitPassword() {
                             <table class="w-full min-w-[500px] text-left border-collapse text-xs">
                                 <thead>
                                     <tr class="bg-[#FAF7F2] text-[#8C8275] border-b border-[#E6E1DA] font-bold uppercase tracking-wider">
-                                        <th class="p-4">{{ t('admin_settings_zone_name_col') }}</th>
-                                        <th class="p-4">{{ t('admin_settings_delivery_fee_col') }}</th>
-                                        <th class="p-4 text-center w-32">{{ t('admin_settings_actions_col') }}</th>
+                                        <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_settings_zone_name_col') }}</th>
+                                        <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_settings_delivery_fee_col') }}</th>
+                                        <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-center w-32">{{ t('admin_settings_actions_col') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-[#E6E1DA] font-semibold text-[#2D3330]">
                                     <tr v-for="zone in props.deliveryZones" :key="zone.id" class="hover:bg-[#FAF7F2]/40 transition-colors">
-                                        <td class="p-4">{{ zone.name }}</td>
-                                        <td class="p-4">RM {{ parseFloat(zone.fee).toFixed(2) }}</td>
-                                        <td class="p-4 text-center">
+                                        <td class="px-3 sm:px-6 py-2.5 sm:py-4">{{ zone.name }}</td>
+                                        <td class="px-3 sm:px-6 py-2.5 sm:py-4">RM {{ parseFloat(zone.fee).toFixed(2) }}</td>
+                                        <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
                                             <div class="flex justify-center gap-3">
                                                 <button
                                                     type="button"

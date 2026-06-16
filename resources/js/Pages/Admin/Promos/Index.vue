@@ -262,36 +262,36 @@ async function deletePromo(id) {
                 <table class="w-full text-left border-collapse text-xs text-[#5C6460] min-w-[800px]">
                     <thead>
                         <tr class="border-b border-[#E6E1DA] text-[#8C8275] font-bold uppercase tracking-wider">
-                            <th class="py-3.5 pl-2 text-center w-12">{{ t('admin_number_col') }}</th>
-                            <th class="py-3.5 pl-2">{{ t('admin_voucher_code_col') }}</th>
-                            <th class="py-3.5">{{ currentLanguage === 'en' ? 'Type' : 'Jenis' }}</th>
-                            <th class="py-3.5">{{ currentLanguage === 'en' ? 'Value' : 'Nilai' }}</th>
-                            <th class="py-3.5">{{ t('min_spend_label') }}</th>
-                            <th class="py-3.5">{{ t('admin_expires_at_col') }}</th>
-                            <th class="py-3.5 text-right pr-2">{{ t('admin_actions_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-center w-12">{{ t('admin_number_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_voucher_code_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ currentLanguage === 'en' ? 'Type' : 'Jenis' }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ currentLanguage === 'en' ? 'Value' : 'Nilai' }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('min_spend_label') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_expires_at_col') }}</th>
+                            <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">{{ t('admin_actions_col') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#E6E1DA]">
                         <tr v-for="(promo, index) in paginatedPromos" :key="promo.id" class="hover:bg-[#FAF7F2]/40 transition-colors">
-                            <td class="py-4 pl-2 text-center font-semibold text-[#8C8275]">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center font-semibold text-[#8C8275]">
                                 {{ (currentPage - 1) * promosPerPage + index + 1 }}
                             </td>
-                            <td class="py-4 pl-2 font-mono font-bold text-[#2D3330] text-sm tracking-wide">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 font-mono font-bold text-[#2D3330] text-sm tracking-wide">
                                 {{ promo.code }}
                             </td>
-                            <td class="py-4 uppercase font-semibold text-[#8C8275] text-[10px]">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 uppercase font-semibold text-[#8C8275] text-[10px]">
                                 {{ promo.type }}
                             </td>
-                            <td class="py-4 font-bold text-[#2D3330]">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 font-bold text-[#2D3330]">
                                 {{ promo.type === 'percent' ? parseFloat(promo.value) + '%' : 'RM ' + parseFloat(promo.value).toFixed(2) }}
                             </td>
-                            <td class="py-4 text-[#5C6460]">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-[#5C6460]">
                                 RM {{ parseFloat(promo.min_spend).toFixed(2) }}
                             </td>
-                            <td class="py-4 text-[#5C6460]">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-[#5C6460]">
                                 {{ promo.expires_at ? new Date(promo.expires_at).toLocaleString() : (currentLanguage === 'en' ? 'Never' : 'Tiada Had') }}
                             </td>
-                            <td class="py-4 text-right pr-2">
+                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">
                                 <button 
                                     @click="deletePromo(promo.id)"
                                     class="text-[#8C8275] hover:text-rose-700 p-2 text-xs rounded-lg hover:bg-rose-50 transition-colors cursor-pointer"
