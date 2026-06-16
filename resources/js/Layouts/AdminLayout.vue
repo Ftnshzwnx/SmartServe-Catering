@@ -529,130 +529,145 @@ const formatTimeAgo = (dateStr) => {
 
         <!-- 4. MOBILE SIDEBAR DRAWER OVERLAY -->
         <Transition
-            enter-active-class="transition duration-300 ease-out transform"
-            enter-from-class="-translate-x-full"
-            enter-to-class="translate-x-0"
-            leave-active-class="transition duration-200 ease-in transform"
-            leave-from-class="translate-x-0"
-            leave-to-class="-translate-x-full"
+            enter-active-class="transition duration-300 ease-out"
+            enter-from-class="opacity-0"
+            enter-to-class="opacity-100"
+            leave-active-class="transition duration-200 ease-in"
+            leave-from-class="opacity-100"
+            leave-to-class="opacity-0"
         >
-            <aside v-if="isMobileOpen" class="md:hidden fixed top-0 bottom-0 left-0 w-64 bg-[#1B2A22] text-white border-r border-[#24372D] z-50 p-5 flex flex-col justify-between overflow-y-auto">
-                <div class="space-y-6">
-                    <!-- Branding logo & close button -->
-                    <div class="flex items-center justify-between pb-5 border-b border-[#24372D]">
-                        <Link :href="route('admin.dashboard')" class="flex items-center text-white gap-2">
-                            <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 shrink-0">
-                                <!-- Crisp Vector SVG Icon -->
-                                <svg class="h-5 w-5 shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <!-- Spoon (Gold) -->
-                                    <path d="M56 26 C56 18, 64 18, 64 26 C64 34, 56 34, 56 26 Z" fill="#C5A880" />
-                                    <path d="M60 32 L60 58" stroke="#C5A880" stroke-width="3" stroke-linecap="round" />
-                                    
-                                    <!-- Fork (Sage Green) -->
-                                    <path d="M40 28 L40 39" stroke="#4A6B5D" stroke-width="3" stroke-linecap="round" />
-                                    <path d="M34 28 C34 36, 46 36, 46 28" stroke="#4A6B5D" stroke-width="3" stroke-linecap="round" fill="none" />
-                                    <path d="M34 22 L34 28" stroke="#4A6B5D" stroke-width="3" stroke-linecap="round" />
-                                    <path d="M46 22 L46 28" stroke="#4A6B5D" stroke-width="3" stroke-linecap="round" />
-                                    <path d="M40 22 L40 28" stroke="#4A6B5D" stroke-width="3" stroke-linecap="round" />
-                                    
-                                    <!-- Leaves / Organic accents -->
-                                    <!-- Left leaf -->
-                                    <path d="M22 38 C26 34, 30 40, 24 44 C20 46, 18 42, 22 38 Z" fill="#4A6B5D" opacity="0.85" />
-                                    <!-- Right leaf -->
-                                    <path d="M78 38 C74 34, 70 40, 76 44 C80 46, 82 42, 78 38 Z" fill="#C5A880" opacity="0.85" />
-                                    
-                                    <!-- Elegant connecting horizontal line with a small diamond in center -->
-                                    <path d="M15 52 L85 52" stroke="#E6E1DA" stroke-width="1.5" />
-                                    <path d="M50 49 L53 52 L50 55 L47 52 Z" fill="#C5A880" />
-                                </svg>
+            <div 
+                v-if="isMobileOpen" 
+                class="fixed inset-0 z-[60] bg-black/40 backdrop-blur-xs md:hidden"
+                @click.self="isMobileOpen = false"
+            >
+                <Transition
+                    enter-active-class="transition duration-300 ease-out transform"
+                    enter-from-class="-translate-x-full"
+                    enter-to-class="translate-x-0"
+                    leave-active-class="transition duration-200 ease-in transform"
+                    leave-from-class="translate-x-0"
+                    leave-to-class="-translate-x-full"
+                >
+                    <aside v-if="isMobileOpen" class="fixed top-0 bottom-0 left-0 w-64 bg-[#1B2A22] text-white border-r border-[#24372D] z-50 p-5 flex flex-col justify-between overflow-y-auto">
+                        <div class="space-y-6">
+                            <!-- Branding logo & close button -->
+                            <div class="flex items-center justify-between pb-5 border-b border-[#24372D]">
+                                <Link :href="route('admin.dashboard')" class="flex items-center text-white gap-2">
+                                    <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 shrink-0">
+                                        <!-- Crisp Vector SVG Icon -->
+                                        <svg class="h-5 w-5 shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Spoon (Gold) -->
+                                            <path d="M56 26 C56 18, 64 18, 64 26 C64 34, 56 34, 56 26 Z" fill="#C5A880" />
+                                            <path d="M60 32 L60 58" stroke="#C5A880" stroke-width="3" stroke-linecap="round" />
+                                            
+                                            <!-- Fork (Sage Green) -->
+                                            <path d="M40 28 L40 39" stroke="#4A6B5D" stroke-width="3" stroke-linecap="round" />
+                                            <path d="M34 28 C34 36, 46 36, 46 28" stroke="#4A6B5D" stroke-width="3" stroke-linecap="round" fill="none" />
+                                            <path d="M34 22 L34 28" stroke="#4A6B5D" stroke-width="3" stroke-linecap="round" />
+                                            <path d="M46 22 L46 28" stroke="#4A6B5D" stroke-width="3" stroke-linecap="round" />
+                                            <path d="M40 22 L40 28" stroke="#4A6B5D" stroke-width="3" stroke-linecap="round" />
+                                            
+                                            <!-- Leaves / Organic accents -->
+                                            <!-- Left leaf -->
+                                            <path d="M22 38 C26 34, 30 40, 24 44 C20 46, 18 42, 22 38 Z" fill="#4A6B5D" opacity="0.85" />
+                                            <!-- Right leaf -->
+                                            <path d="M78 38 C74 34, 70 40, 76 44 C80 46, 82 42, 78 38 Z" fill="#C5A880" opacity="0.85" />
+                                            
+                                            <!-- Elegant connecting horizontal line with a small diamond in center -->
+                                            <path d="M15 52 L85 52" stroke="#E6E1DA" stroke-width="1.5" />
+                                            <path d="M50 49 L53 52 L50 55 L47 52 Z" fill="#C5A880" />
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm font-bold font-serif-luxury leading-none">Smart<span class="text-[#C5A880]">Serve</span> Admin</span>
+                                </Link>
+                                <button 
+                                    @click="isMobileOpen = false"
+                                    class="w-8 h-8 border border-white/10 rounded-lg flex items-center justify-center text-white/60 hover:text-white"
+                                >
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
-                            <span class="text-sm font-bold font-serif-luxury leading-none">Smart<span class="text-[#C5A880]">Serve</span> Admin</span>
-                        </Link>
-                        <button 
-                            @click="isMobileOpen = false"
-                            class="w-8 h-8 border border-white/10 rounded-lg flex items-center justify-center text-white/60 hover:text-white"
-                        >
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
 
-                    <!-- Nav Menu Links (Mobile) -->
-                    <div class="space-y-4" @click="isMobileOpen = false">
-                        <div>
-                            <span class="text-[9px] uppercase tracking-widest font-bold text-white/40 px-3 mb-2 block select-none">{{ t('admin_management') }}</span>
-                            <nav class="space-y-1">
-                                <Link :href="route('admin.dashboard')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
-                                    <i class="fas fa-chart-line text-sm w-5 text-center"></i>
-                                    <span>{{ t('admin_dashboard') }}</span>
-                                </Link>
-                                <Link :href="route('admin.customers')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
-                                    <i class="fas fa-users text-sm w-5 text-center"></i>
-                                    <span>{{ t('admin_customers') }}</span>
-                                </Link>
-                                <Link :href="route('admin.orders')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
-                                    <i class="fas fa-receipt text-sm w-5 text-center"></i>
-                                    <span>{{ t('admin_manage_orders') }}</span>
-                                </Link>
-                                <Link :href="route('admin.packages')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
-                                    <i class="fas fa-utensils text-sm w-5 text-center"></i>
-                                    <span>{{ t('admin_catering_packages') }}</span>
-                                </Link>
-                                <Link :href="route('admin.calendar')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
-                                    <i class="fas fa-calendar text-sm w-5 text-center"></i>
-                                    <span>{{ t('admin_booking_calendar') }}</span>
-                                </Link>
-                                <Link :href="route('admin.reviews')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
-                                    <i class="fas fa-star text-sm w-5 text-center"></i>
-                                    <span>{{ t('admin_customer_reviews') }}</span>
-                                </Link>
-                                <Link :href="route('admin.promos')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
-                                    <i class="fas fa-ticket-alt text-sm w-5 text-center"></i>
-                                    <span>{{ t('admin_promo_codes') }}</span>
-                                </Link>
-                                <Link :href="route('admin.reports')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
-                                    <i class="fas fa-chart-bar text-sm w-5 text-center"></i>
-                                    <span>{{ t('admin_reports_analytics') }}</span>
-                                </Link>
-                            </nav>
+                            <!-- Nav Menu Links (Mobile) -->
+                            <div class="space-y-4" @click="isMobileOpen = false">
+                                <div>
+                                    <span class="text-[9px] uppercase tracking-widest font-bold text-white/40 px-3 mb-2 block select-none">{{ t('admin_management') }}</span>
+                                    <nav class="space-y-1">
+                                        <Link :href="route('admin.dashboard')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
+                                            <i class="fas fa-chart-line text-sm w-5 text-center"></i>
+                                            <span>{{ t('admin_dashboard') }}</span>
+                                        </Link>
+                                        <Link :href="route('admin.customers')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
+                                            <i class="fas fa-users text-sm w-5 text-center"></i>
+                                            <span>{{ t('admin_customers') }}</span>
+                                        </Link>
+                                        <Link :href="route('admin.orders')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
+                                            <i class="fas fa-receipt text-sm w-5 text-center"></i>
+                                            <span>{{ t('admin_manage_orders') }}</span>
+                                        </Link>
+                                        <Link :href="route('admin.packages')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
+                                            <i class="fas fa-utensils text-sm w-5 text-center"></i>
+                                            <span>{{ t('admin_catering_packages') }}</span>
+                                        </Link>
+                                        <Link :href="route('admin.calendar')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
+                                            <i class="fas fa-calendar text-sm w-5 text-center"></i>
+                                            <span>{{ t('admin_booking_calendar') }}</span>
+                                        </Link>
+                                        <Link :href="route('admin.reviews')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
+                                            <i class="fas fa-star text-sm w-5 text-center"></i>
+                                            <span>{{ t('admin_customer_reviews') }}</span>
+                                        </Link>
+                                        <Link :href="route('admin.promos')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
+                                            <i class="fas fa-ticket-alt text-sm w-5 text-center"></i>
+                                            <span>{{ t('admin_promo_codes') }}</span>
+                                        </Link>
+                                        <Link :href="route('admin.reports')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
+                                            <i class="fas fa-chart-bar text-sm w-5 text-center"></i>
+                                            <span>{{ t('admin_reports_analytics') }}</span>
+                                        </Link>
+                                    </nav>
+                                </div>
+                                <div>
+                                    <span class="text-[9px] uppercase tracking-widest font-bold text-white/40 px-3 mb-2 block select-none">{{ t('admin_configuration') }}</span>
+                                    <nav class="space-y-1">
+                                        <Link :href="route('admin.settings')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
+                                            <i class="fas fa-cogs text-sm w-5 text-center"></i>
+                                            <span>{{ t('admin_system_settings') }}</span>
+                                        </Link>
+                                    </nav>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <span class="text-[9px] uppercase tracking-widest font-bold text-white/40 px-3 mb-2 block select-none">{{ t('admin_configuration') }}</span>
-                            <nav class="space-y-1">
-                                <Link :href="route('admin.settings')" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white hover:bg-white/5">
-                                    <i class="fas fa-cogs text-sm w-5 text-center"></i>
-                                    <span>{{ t('admin_system_settings') }}</span>
-                                </Link>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- User profile bottom Mobile -->
-                <div class="border-t border-white/10 pt-4">
-                    <div class="flex items-center justify-between p-3 bg-white/5 border border-white/10 rounded-xl">
-                        <div class="flex items-center gap-2.5">
-                            <img v-if="user?.profile_image" :src="'/storage/' + user.profile_image" class="w-8 h-8 rounded-full object-cover shadow-sm shrink-0" />
-                            <div v-else class="w-8 h-8 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
-                                {{ (user?.name || 'A').charAt(0).toUpperCase() }}
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-bold text-white">{{ user?.name || 'Admin' }}</h4>
-                                <p class="text-[9px] text-[#C5A880] uppercase tracking-wider font-semibold">{{ t('admin_role') }}</p>
+                        <!-- User profile bottom Mobile -->
+                        <div class="border-t border-white/10 pt-4">
+                            <div class="flex items-center justify-between p-3 bg-white/5 border border-white/10 rounded-xl">
+                                <div class="flex items-center gap-2.5">
+                                    <img v-if="user?.profile_image" :src="'/storage/' + user.profile_image" class="w-8 h-8 rounded-full object-cover shadow-sm shrink-0" />
+                                    <div v-else class="w-8 h-8 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
+                                        {{ (user?.name || 'A').charAt(0).toUpperCase() }}
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-white">{{ user?.name || 'Admin' }}</h4>
+                                        <p class="text-[9px] text-[#C5A880] uppercase tracking-wider font-semibold">{{ t('admin_role') }}</p>
+                                    </div>
+                                </div>
+                                <Link 
+                                    :href="route('logout')" 
+                                    method="post" 
+                                    as="button" 
+                                    class="text-white/60 hover:text-rose-400 p-1.5 rounded-lg hover:bg-rose-500/10 transition-colors cursor-pointer"
+                                    @click="isMobileOpen = false"
+                                    :title="t('admin_logout')"
+                                >
+                                    <i class="fas fa-sign-out-alt text-xs"></i>
+                                </Link>
                             </div>
                         </div>
-                        <Link 
-                            :href="route('logout')" 
-                            method="post" 
-                            as="button" 
-                            class="text-white/60 hover:text-rose-400 p-1.5 rounded-lg hover:bg-rose-500/10 transition-colors cursor-pointer"
-                            @click="isMobileOpen = false"
-                            :title="t('admin_logout')"
-                        >
-                            <i class="fas fa-sign-out-alt text-xs"></i>
-                        </Link>
-                    </div>
-                </div>
-            </aside>
+                    </aside>
+                </Transition>
+            </div>
         </Transition>
 
         <!-- Dynamic Toast Notification Banners -->

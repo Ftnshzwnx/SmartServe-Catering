@@ -507,121 +507,136 @@ const formatTimeAgo = (dateStr) => {
 
         <!-- 4. MOBILE SIDEBAR DRAWER -->
         <Transition
-            enter-active-class="transition duration-300 ease-out transform"
-            enter-from-class="-translate-x-full"
-            enter-to-class="translate-x-0"
-            leave-active-class="transition duration-200 ease-in transform"
-            leave-from-class="translate-x-0"
-            leave-to-class="-translate-x-full"
+            enter-active-class="transition duration-300 ease-out"
+            enter-from-class="opacity-0"
+            enter-to-class="opacity-100"
+            leave-active-class="transition duration-200 ease-in"
+            leave-from-class="opacity-100"
+            leave-to-class="opacity-0"
         >
-            <aside v-if="isMobileOpen" class="md:hidden fixed top-0 bottom-0 left-0 w-64 sidebar-light text-[#2D3330] border-r border-[#E6E1DA] z-50 p-5 flex flex-col justify-between overflow-y-auto">
-                <div class="space-y-6">
-                    <!-- Branding logo & close button -->
-                    <div class="flex items-center justify-between pb-5 border-b border-[#E6E1DA]">
-                        <Link :href="route('dashboard')" class="flex items-center text-[#2D3330]">
-                            <ApplicationLogo />
-                        </Link>
-                        <button 
-                            @click="isMobileOpen = false"
-                            class="w-8 h-8 border border-[#E6E1DA] rounded-lg flex items-center justify-center text-[#8C8275]"
-                        >
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-
-                    <!-- Nav Menu Links grouped -->
-                    <div class="space-y-4" @click="isMobileOpen = false">
-                        <!-- Overview -->
-                        <div>
-                            <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block">{{ t('nav_group_overview') }}</span>
-                            <nav class="space-y-1">
-                                <Link 
-                                    :href="route('dashboard')" 
-                                    class="sidebar-link-light flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs"
-                                    :class="route().current('dashboard') ? 'active' : ''"
-                                >
-                                    <i class="fas fa-th-large text-sm w-5 flex justify-center"></i>
-                                    <span>{{ t('dashboard') }}</span>
+            <div 
+                v-if="isMobileOpen" 
+                class="fixed inset-0 z-[60] bg-black/40 backdrop-blur-xs md:hidden"
+                @click.self="isMobileOpen = false"
+            >
+                <Transition
+                    enter-active-class="transition duration-300 ease-out transform"
+                    enter-from-class="-translate-x-full"
+                    enter-to-class="translate-x-0"
+                    leave-active-class="transition duration-200 ease-in transform"
+                    leave-from-class="translate-x-0"
+                    leave-to-class="-translate-x-full"
+                >
+                    <aside v-if="isMobileOpen" class="fixed top-0 bottom-0 left-0 w-64 sidebar-light text-[#2D3330] border-r border-[#E6E1DA] z-50 p-5 flex flex-col justify-between overflow-y-auto">
+                        <div class="space-y-6">
+                            <!-- Branding logo & close button -->
+                            <div class="flex items-center justify-between pb-5 border-b border-[#E6E1DA]">
+                                <Link :href="route('dashboard')" class="flex items-center text-[#2D3330]">
+                                    <ApplicationLogo />
                                 </Link>
-                            </nav>
-                        </div>
-
-                        <!-- Catering Flow -->
-                        <div>
-                            <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block">{{ t('nav_group_catering') }}</span>
-                            <nav class="space-y-1">
-                                <Link 
-                                    :href="route('menu.index')" 
-                                    class="sidebar-link-light flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs"
-                                    :class="(route().current('menu.*') || route().current('cart.customize')) ? 'active' : ''"
+                                <button 
+                                    @click="isMobileOpen = false"
+                                    class="w-8 h-8 border border-[#E6E1DA] rounded-lg flex items-center justify-center text-[#8C8275]"
                                 >
-                                    <i class="fas fa-concierge-bell text-sm w-5 flex justify-center"></i>
-                                    <span>{{ t('our_menu') }}</span>
-                                </Link>
-
-                                <Link 
-                                    :href="route('budget.planner')" 
-                                    class="sidebar-link-light flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs"
-                                    :class="route().current('budget.*') ? 'active' : ''"
-                                >
-                                    <i class="fas fa-calculator text-sm w-5 flex justify-center"></i>
-                                    <span>{{ t('budget_planner') }}</span>
-                                </Link>
-
-
-                                <Link 
-                                    :href="route('orders.index')" 
-                                    class="sidebar-link-light flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs"
-                                    :class="route().current('orders.*') ? 'active' : ''"
-                                >
-                                    <i class="fas fa-receipt text-sm w-5 flex justify-center"></i>
-                                    <span>{{ t('my_orders') }}</span>
-                                </Link>
-                            </nav>
-                        </div>
-
-                        <!-- Account -->
-                        <div>
-                            <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block">{{ t('nav_group_account') }}</span>
-                            <nav class="space-y-1">
-                                <Link 
-                                    :href="route('profile.edit')" 
-                                    class="sidebar-link-light flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs"
-                                    :class="route().current('profile.*') ? 'active' : ''"
-                                >
-                                    <i class="fas fa-user-cog text-sm w-5 flex justify-center"></i>
-                                    <span>{{ t('settings') }}</span>
-                                </Link>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- User profile bottom Mobile -->
-                <div class="border-t border-[#E6E1DA] pt-4">
-                    <div class="flex items-center justify-between p-3 bg-[#FAF7F2] border border-[#E6E1DA] rounded-xl">
-                        <div class="flex items-center gap-2.5">
-                            <img v-if="$page.props.auth.user.profile_image" :src="'/storage/' + $page.props.auth.user.profile_image" class="w-8 h-8 rounded-full object-cover shadow-sm shrink-0" />
-                            <div v-else class="w-8 h-8 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-xs shadow-sm shrink-0">
-                                {{ ($page.props.auth.user.name || 'C').charAt(0).toUpperCase() }}
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
-                            <div>
-                                <h4 class="text-xs font-semibold text-[#2D3330]">{{ $page.props.auth.user.name }}</h4>
-                                <p class="text-[9px] text-[#8C8275] uppercase font-semibold">{{ t('role_customer') }}</p>
+
+                            <!-- Nav Menu Links grouped -->
+                            <div class="space-y-4" @click="isMobileOpen = false">
+                                <!-- Overview -->
+                                <div>
+                                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block">{{ t('nav_group_overview') }}</span>
+                                    <nav class="space-y-1">
+                                        <Link 
+                                            :href="route('dashboard')" 
+                                            class="sidebar-link-light flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs"
+                                            :class="route().current('dashboard') ? 'active' : ''"
+                                        >
+                                            <i class="fas fa-th-large text-sm w-5 flex justify-center"></i>
+                                            <span>{{ t('dashboard') }}</span>
+                                        </Link>
+                                    </nav>
+                                </div>
+
+                                <!-- Catering Flow -->
+                                <div>
+                                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block">{{ t('nav_group_catering') }}</span>
+                                    <nav class="space-y-1">
+                                        <Link 
+                                            :href="route('menu.index')" 
+                                            class="sidebar-link-light flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs"
+                                            :class="(route().current('menu.*') || route().current('cart.customize')) ? 'active' : ''"
+                                        >
+                                            <i class="fas fa-concierge-bell text-sm w-5 flex justify-center"></i>
+                                            <span>{{ t('our_menu') }}</span>
+                                        </Link>
+
+                                        <Link 
+                                            :href="route('budget.planner')" 
+                                            class="sidebar-link-light flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs"
+                                            :class="route().current('budget.*') ? 'active' : ''"
+                                        >
+                                            <i class="fas fa-calculator text-sm w-5 flex justify-center"></i>
+                                            <span>{{ t('budget_planner') }}</span>
+                                        </Link>
+
+
+                                        <Link 
+                                            :href="route('orders.index')" 
+                                            class="sidebar-link-light flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs"
+                                            :class="route().current('orders.*') ? 'active' : ''"
+                                        >
+                                            <i class="fas fa-receipt text-sm w-5 flex justify-center"></i>
+                                            <span>{{ t('my_orders') }}</span>
+                                        </Link>
+                                    </nav>
+                                </div>
+
+                                <!-- Account -->
+                                <div>
+                                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-3 mb-2 block">{{ t('nav_group_account') }}</span>
+                                    <nav class="space-y-1">
+                                        <Link 
+                                            :href="route('profile.edit')" 
+                                            class="sidebar-link-light flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs"
+                                            :class="route().current('profile.*') ? 'active' : ''"
+                                        >
+                                            <i class="fas fa-user-cog text-sm w-5 flex justify-center"></i>
+                                            <span>{{ t('settings') }}</span>
+                                        </Link>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
-                        <Link 
-                            :href="route('logout')" 
-                            method="post" 
-                            as="button" 
-                            class="text-[#8C8275] hover:text-rose-500 p-1.5 rounded-lg hover:bg-rose-500/5 transition-colors cursor-pointer"
-                            @click="isMobileOpen = false"
-                        >
-                            <i class="fas fa-sign-out-alt text-xs"></i>
-                        </Link>
-                    </div>
-                </div>
-            </aside>
+
+                        <!-- User profile bottom Mobile -->
+                        <div class="border-t border-[#E6E1DA] pt-4">
+                            <div class="flex items-center justify-between p-3 bg-[#FAF7F2] border border-[#E6E1DA] rounded-xl">
+                                <div class="flex items-center gap-2.5">
+                                    <img v-if="$page.props.auth.user.profile_image" :src="'/storage/' + $page.props.auth.user.profile_image" class="w-8 h-8 rounded-full object-cover shadow-sm shrink-0" />
+                                    <div v-else class="w-8 h-8 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-xs shadow-sm shrink-0">
+                                        {{ ($page.props.auth.user.name || 'C').charAt(0).toUpperCase() }}
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-semibold text-[#2D3330]">{{ $page.props.auth.user.name }}</h4>
+                                        <p class="text-[9px] text-[#8C8275] uppercase font-semibold">{{ t('role_customer') }}</p>
+                                    </div>
+                                </div>
+                                <Link 
+                                    :href="route('logout')" 
+                                    method="post" 
+                                    as="button" 
+                                    class="text-[#8C8275] hover:text-rose-500 p-1.5 rounded-lg hover:bg-rose-500/5 transition-colors cursor-pointer"
+                                    @click="isMobileOpen = false"
+                                >
+                                    <i class="fas fa-sign-out-alt text-xs"></i>
+                                </Link>
+                            </div>
+                        </div>
+                    </aside>
+                </Transition>
+            </div>
         </Transition>
 
         <!-- Session Timeout Warning Modal -->
