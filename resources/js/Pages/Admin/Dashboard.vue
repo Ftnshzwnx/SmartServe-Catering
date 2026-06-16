@@ -190,47 +190,47 @@ function getGroupedDishes(item) {
         :header-desc="t('admin_operational_desc')"
     >
         <!-- Metrics Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
             <!-- Revenue -->
-            <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in">
+            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex items-center justify-between animate-fade-in">
                 <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_total_revenue') }}</span>
-                    <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">RM {{ parseFloat(metrics.totalRevenue || 0).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('admin_total_revenue') }}</span>
+                    <span class="text-xl md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury">RM {{ parseFloat(metrics.totalRevenue || 0).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
                 </div>
-                <div class="w-12 h-12 bg-emerald-50 text-[#4A6B5D] rounded-xl border border-emerald-100 flex items-center justify-center text-lg">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-emerald-50 text-[#4A6B5D] rounded-xl border border-emerald-100 flex items-center justify-center text-base md:text-lg shrink-0">
                     <i class="fas fa-coins"></i>
                 </div>
             </div>
 
             <!-- Total Orders -->
-            <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 50ms;">
+            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 50ms;">
                 <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_total_bookings') }}</span>
-                    <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ metrics.totalOrders }}</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('admin_total_bookings') }}</span>
+                    <span class="text-xl md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ metrics.totalOrders }}</span>
                 </div>
-                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl border border-blue-100 flex items-center justify-center text-lg">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-50 text-blue-600 rounded-xl border border-blue-100 flex items-center justify-center text-base md:text-lg shrink-0">
                     <i class="fas fa-receipt"></i>
                 </div>
             </div>
 
             <!-- Pending Verification -->
-            <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 100ms;">
+            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 100ms;">
                 <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_pending_verify') }}</span>
-                    <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ metrics.pendingPayment }}</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('admin_pending_verify') }}</span>
+                    <span class="text-xl md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ metrics.pendingPayment }}</span>
                 </div>
-                <div class="w-12 h-12 bg-amber-50 text-[#C5A880] rounded-xl border border-amber-100 flex items-center justify-center text-lg">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-amber-50 text-[#C5A880] rounded-xl border border-amber-100 flex items-center justify-center text-base md:text-lg shrink-0">
                     <i class="fas fa-clock"></i>
                 </div>
             </div>
 
             <!-- Completed -->
-            <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 150ms;">
+            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-6 flex items-center justify-between animate-fade-in" style="animation-delay: 150ms;">
                 <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_completed_events') }}</span>
-                    <span class="text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ metrics.completedOrders }}</span>
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('admin_completed_events') }}</span>
+                    <span class="text-xl md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury">{{ metrics.completedOrders }}</span>
                 </div>
-                <div class="w-12 h-12 bg-green-50 text-green-600 rounded-xl border border-green-100 flex items-center justify-center text-lg">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-green-50 text-green-600 rounded-xl border border-green-100 flex items-center justify-center text-base md:text-lg shrink-0">
                     <i class="fas fa-calendar-check"></i>
                 </div>
             </div>
