@@ -702,9 +702,9 @@ watch([categorySearchQuery], () => {
         <!-- TAB 1: CATERING PACKAGES -->
         <div v-if="activeTab === 'packages'" class="space-y-6">
             <!-- Search & Action Bar -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-[#E6E1DA] rounded-3xl p-5 shadow-xs">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xs">
                 <!-- Search Input -->
-                <div class="relative flex-grow max-w-md">
+                <div class="relative flex-grow max-w-md w-full">
                     <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
                         <i class="fas fa-search text-xs"></i>
                     </span>
@@ -723,17 +723,17 @@ watch([categorySearchQuery], () => {
                     </button>
                 </div>
                 <!-- Action Buttons -->
-                <div class="flex items-center gap-2">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
                     <button
                         v-if="packages.length > 0"
                         @click="deleteAllPackages"
-                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in w-full sm:w-auto"
                     >
                         <i class="fas fa-trash-alt"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
                     </button>
                     <button
                         @click="openCreatePackage"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none w-full sm:w-auto"
                     >
                         <i class="fas fa-plus"></i> {{ t('admin_create_package_btn') }}
                     </button>
@@ -967,10 +967,10 @@ watch([categorySearchQuery], () => {
         <!-- TAB 2: GLOBAL ADD-ONS LIBRARY -->
         <div v-if="activeTab === 'addons'" class="space-y-6">
             <!-- Search & Filters Card -->
-            <div class="bg-white border border-[#E6E1DA] rounded-3xl p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-grow max-w-2xl">
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-grow max-w-2xl w-full">
                     <!-- Search Input -->
-                    <div class="relative flex-grow">
+                    <div class="relative flex-grow w-full">
                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
                             <i class="fas fa-search text-xs"></i>
                         </span>
@@ -1004,17 +1004,17 @@ watch([categorySearchQuery], () => {
                     </div>
                 </div>
                 <!-- Action Buttons -->
-                <div class="flex items-center gap-2">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
                     <button
                         v-if="addons.length > 0"
                         @click="deleteAllAddons"
-                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in w-full sm:w-auto"
                     >
                         <i class="fas fa-trash-alt"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
                     </button>
                     <button
                         @click="openCreateAddon"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none w-full sm:w-auto"
                     >
                         <i class="fas fa-plus"></i> {{ t('admin_add_new_global_item_btn') }}
                     </button>
@@ -1133,10 +1133,10 @@ watch([categorySearchQuery], () => {
         <!-- TAB 3: DISHES LIBRARY -->
         <div v-if="activeTab === 'dishes'" class="space-y-6">
             <!-- Search & Filters Card -->
-            <div class="bg-white border border-[#E6E1DA] rounded-3xl p-5 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-grow max-w-3xl">
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-grow max-w-3xl w-full">
                     <!-- Search Input -->
-                    <div class="relative flex-grow">
+                    <div class="relative flex-grow w-full">
                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
                             <i class="fas fa-search text-xs"></i>
                         </span>
@@ -1185,17 +1185,17 @@ watch([categorySearchQuery], () => {
                     </div>
                 </div>
                 <!-- Action Buttons -->
-                <div class="flex items-center gap-2">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full lg:w-auto">
                     <button
                         v-if="dishes.length > 0"
                         @click="deleteAllDishes"
-                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in w-full sm:w-auto"
                     >
                         <i class="fas fa-trash-alt"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
                     </button>
                     <button
                         @click="openCreateDish"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none w-full sm:w-auto"
                     >
                         <i class="fas fa-plus"></i> {{ t('admin_add_new_dish_btn') }}
                     </button>
@@ -1314,9 +1314,9 @@ watch([categorySearchQuery], () => {
         <!-- TAB 4: DISH CATEGORIES -->
         <div v-if="activeTab === 'categories'" class="space-y-6">
             <!-- Search & Action Bar -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-[#E6E1DA] rounded-3xl p-5 shadow-xs">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xs">
                 <!-- Search Input -->
-                <div class="relative flex-grow max-w-md">
+                <div class="relative flex-grow max-w-md w-full">
                     <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
                         <i class="fas fa-search text-xs"></i>
                     </span>
@@ -1335,17 +1335,17 @@ watch([categorySearchQuery], () => {
                     </button>
                 </div>
                 <!-- Action Buttons -->
-                <div class="flex items-center gap-2">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
                     <button
                         v-if="categories.length > 0"
                         @click="deleteAllCategories"
-                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in w-full sm:w-auto"
                     >
                         <i class="fas fa-trash-alt"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
                     </button>
                     <button
                         @click="openCreateCategory"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 shadow-md transition-all cursor-pointer shrink-0"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer shrink-0 w-full sm:w-auto"
                     >
                         <i class="fas fa-plus"></i> {{ t('admin_add_new_category_btn') }}
                     </button>
