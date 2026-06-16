@@ -1048,14 +1048,14 @@ watch([categorySearchQuery], () => {
                                     </div>
                                 </td>
                                 <td class="px-3 sm:px-6 py-2.5 sm:py-4">
-                                    <span class="text-[#C5A880] font-extrabold font-serif-luxury text-sm">
+                                    <span class="text-[#C5A880] font-bold text-xs">
                                         +RM {{ parseFloat(addon.price_per_pax).toFixed(2) }}
                                     </span>
                                 </td>
                                 <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
                                     <button 
                                         @click="toggleAddonStatus(addon)"
-                                        class="inline-flex items-center gap-1.5 text-[9px] font-bold px-2.5 py-1 rounded-full border cursor-pointer transition-all"
+                                        class="inline-flex items-center gap-1.5 text-[9px] font-bold px-2.5 py-1 rounded-full border cursor-pointer transition-all whitespace-nowrap"
                                         :class="addon.active 
                                             ? 'bg-emerald-50 text-[#4A6B5D] border-emerald-200 hover:bg-emerald-100' 
                                             : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'"
@@ -1229,14 +1229,14 @@ watch([categorySearchQuery], () => {
                                     </div>
                                 </td>
                                 <td class="px-3 sm:px-6 py-2.5 sm:py-4">
-                                    <span class="font-semibold px-2.5 py-0.5 rounded-full border bg-amber-50 text-amber-800 border-amber-200">
+                                    <span class="font-semibold px-2.5 py-0.5 rounded-full border bg-amber-50 text-amber-800 border-amber-200 whitespace-nowrap">
                                         {{ dish.category }}
                                     </span>
                                 </td>
                                 <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
                                     <button 
                                         @click="toggleDishStatus(dish)"
-                                        class="inline-flex items-center gap-1.5 text-[9px] font-bold px-2.5 py-1 rounded-full border cursor-pointer transition-all"
+                                        class="inline-flex items-center gap-1.5 text-[9px] font-bold px-2.5 py-1 rounded-full border cursor-pointer transition-all whitespace-nowrap"
                                         :class="dish.active 
                                             ? 'bg-emerald-50 text-[#4A6B5D] border-emerald-200 hover:bg-emerald-100' 
                                             : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'"
@@ -1378,7 +1378,7 @@ watch([categorySearchQuery], () => {
                                     </div>
                                 </td>
                                 <td class="px-3 sm:px-6 py-2.5 sm:py-4">
-                                    <span class="font-semibold px-2.5 py-0.5 rounded-full border bg-emerald-50 text-emerald-800 border-emerald-200">
+                                    <span class="font-semibold px-2.5 py-0.5 rounded-full border bg-emerald-50 text-emerald-800 border-emerald-200 whitespace-nowrap">
                                         {{ dishes.filter(d => d.category === cat.name).length }} {{ currentLanguage === 'en' ? 'Dishes' : 'Hidangan' }}
                                     </span>
                                 </td>
