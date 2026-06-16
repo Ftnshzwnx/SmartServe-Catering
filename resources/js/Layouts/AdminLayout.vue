@@ -352,9 +352,9 @@ const formatTimeAgo = (dateStr) => {
         >
             
             <!-- 3. TOP HEADER BAR (Sticky, VMS Style with notifications & profile dropdown) -->
-            <header class="bg-white border-b border-[#E6E1DA] h-16 px-6 md:px-8 flex items-center justify-between sticky top-0 z-40 w-full">
+            <header class="bg-white border-b border-[#E6E1DA] h-16 px-4 md:px-8 flex items-center justify-between sticky top-0 z-40 w-full">
                     <!-- Left Section: Toggle & Breadcrumbs -->
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 md:gap-4 min-w-0">
                         <!-- Desktop Sidebar Toggle -->
                         <button 
                             @click="toggleCollapse"
@@ -373,23 +373,23 @@ const formatTimeAgo = (dateStr) => {
                         </button>
  
                         <!-- Breadcrumbs (Tajdid style) -->
-                        <div class="flex items-center text-[10px] font-bold tracking-wider select-none font-sans-modern">
-                            <Link :href="route('admin.dashboard')" class="text-[#8C8275] hover:text-[#4A6B5D] uppercase transition-colors">
+                        <div class="flex items-center text-[10px] font-bold tracking-wider select-none font-sans-modern min-w-0">
+                            <Link :href="route('admin.dashboard')" class="hidden md:inline text-[#8C8275] hover:text-[#4A6B5D] uppercase transition-colors shrink-0">
                                 Dashboard
                             </Link>
-                            <span class="text-[#8C8275]/60 mx-2 text-xs font-normal">&rsaquo;</span>
-                            <span class="text-[#4A6B5D] uppercase">
+                            <span class="hidden md:inline text-[#8C8275]/60 mx-2 text-xs font-normal shrink-0">&rsaquo;</span>
+                            <span class="text-[#4A6B5D] uppercase truncate max-w-[100px] xs:max-w-[120px] sm:max-w-none">
                                 {{ headerTitle }}
                             </span>
                         </div>
                     </div>
  
                 <!-- Right Section: Language, Notification, Profile Dropdown -->
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
                     <!-- Language selector -->
                     <button 
                         @click="toggleLanguage"
-                        class="w-16 h-9 border border-[#E6E1DA] rounded-xl flex items-center justify-center gap-1.5 text-xs font-semibold text-[#8C8275] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] transition-colors cursor-pointer shrink-0"
+                        class="w-12 sm:w-16 h-9 border border-[#E6E1DA] rounded-xl flex items-center justify-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs font-semibold text-[#8C8275] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] transition-colors cursor-pointer shrink-0"
                         :title="`Switch to ${currentLanguage === 'en' ? 'Bahasa Melayu' : 'English'}`"
                     >
                         <i class="fas fa-globe text-[#8C8275]"></i>
@@ -473,7 +473,7 @@ const formatTimeAgo = (dateStr) => {
                     </div>
  
                     <!-- User Detail Avatar with Dropdown -->
-                    <div class="flex items-center border-l border-[#E6E1DA] pl-4 relative z-50">
+                    <div class="flex items-center border-l border-[#E6E1DA] pl-2.5 md:pl-4 relative z-50">
                         <Dropdown align="right" width="48">
                             <template #trigger>
                                 <button class="flex items-center gap-3 text-left cursor-pointer focus:outline-none select-none">
