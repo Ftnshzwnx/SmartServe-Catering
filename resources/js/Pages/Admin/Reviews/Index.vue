@@ -102,52 +102,55 @@ function submitReply() {
         :header-desc="t('admin_reviews_desc')"
     >
         <!-- Average stats overview -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 flex items-center justify-between shadow-xs">
-                <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reviews_avg_rating') }}</span>
-                    <div class="flex items-center gap-2">
-                        <span class="text-3xl font-extrabold text-[#2D3330] font-serif-luxury">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+            <!-- Avg Rating Card -->
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-4 md:p-6 flex items-center justify-between shadow-xs col-span-1">
+                <div class="min-w-0 flex-grow pr-2">
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1 truncate">{{ t('admin_reviews_avg_rating') }}</span>
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-2xl md:text-3xl font-extrabold text-[#2D3330] font-serif-luxury">
                             {{ reviews.length ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1) : '0.0' }}
                         </span>
-                        <div class="flex text-amber-400 text-sm">
+                        <div class="flex text-amber-400 text-xs md:text-sm">
                             <i class="fas fa-star"></i>
                         </div>
                     </div>
                 </div>
-                <div class="w-12 h-12 bg-amber-50 text-amber-500 border border-amber-100 rounded-xl flex items-center justify-center text-lg">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-amber-50 text-amber-500 border border-amber-100 rounded-xl flex items-center justify-center text-sm md:text-lg shrink-0">
                     <i class="fas fa-star"></i>
                 </div>
             </div>
 
-            <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 flex items-center justify-between shadow-xs">
-                <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reviews_total_testimonials') }}</span>
-                    <span class="text-3xl font-extrabold text-[#2D3330] font-serif-luxury">{{ reviews.length }}</span>
+            <!-- Total Testimonials Card -->
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-4 md:p-6 flex items-center justify-between shadow-xs col-span-1">
+                <div class="min-w-0 flex-grow pr-2">
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1 truncate">{{ t('admin_reviews_total_testimonials') }}</span>
+                    <span class="text-2xl md:text-3xl font-extrabold text-[#2D3330] font-serif-luxury">{{ reviews.length }}</span>
                 </div>
-                <div class="w-12 h-12 bg-blue-50 text-blue-500 border border-blue-100 rounded-xl flex items-center justify-center text-lg">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-50 text-blue-500 border border-blue-100 rounded-xl flex items-center justify-center text-sm md:text-lg shrink-0">
                     <i class="fas fa-comments"></i>
                 </div>
             </div>
 
-            <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 flex items-center justify-between shadow-xs">
-                <div>
-                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('admin_reviews_pending_replies') }}</span>
-                    <span class="text-3xl font-extrabold text-[#2D3330] font-serif-luxury">
+            <!-- Pending Replies Card -->
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-4 md:p-6 flex items-center justify-between shadow-xs col-span-2 md:col-span-1">
+                <div class="min-w-0 flex-grow pr-2">
+                    <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1 truncate">{{ t('admin_reviews_pending_replies') }}</span>
+                    <span class="text-2xl md:text-3xl font-extrabold text-[#2D3330] font-serif-luxury">
                         {{ reviews.filter(r => !r.admin_reply).length }}
                     </span>
                 </div>
-                <div class="w-12 h-12 bg-rose-50 text-rose-500 border border-rose-100 rounded-xl flex items-center justify-center text-lg">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-rose-50 text-rose-500 border border-rose-100 rounded-xl flex items-center justify-center text-sm md:text-lg shrink-0">
                     <i class="fas fa-reply"></i>
                 </div>
             </div>
         </div>
 
         <!-- Filters Card -->
-        <div class="bg-white border border-[#E6E1DA] rounded-3xl p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
-            <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-grow max-w-2xl">
+        <div class="bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-grow max-w-2xl w-full">
                 <!-- Search Input -->
-                <div class="relative flex-grow">
+                <div class="relative flex-grow w-full">
                     <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
                         <i class="fas fa-search text-xs"></i>
                     </span>
@@ -168,7 +171,7 @@ function submitReply() {
             </div>
 
             <!-- Filters -->
-            <div class="flex flex-wrap items-center gap-3 shrink-0">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto shrink-0">
                 <!-- Rating Filter -->
                 <div class="relative w-full sm:w-40">
                     <select 
@@ -205,7 +208,7 @@ function submitReply() {
         </div>
 
         <!-- Reviews Table Card -->
-        <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 md:p-8 shadow-xs space-y-6">
+        <div class="bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-xs space-y-6">
             <h3 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_reviews_logs_title') }}</h3>
 
             <div v-if="filteredReviews.length > 0" class="overflow-x-auto scrollbar-none pb-2">
