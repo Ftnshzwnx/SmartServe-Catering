@@ -667,33 +667,33 @@ watch([categorySearchQuery], () => {
         :header-title="t('admin_packages_title')"
         :header-desc="t('admin_packages_desc')"
     >
-        <!-- Tab Navigation Bar -->
-        <div class="flex border-b border-[#E6E1DA] mb-6 overflow-x-auto flex-nowrap whitespace-nowrap scrollbar-none pb-0.5">
+        <!-- Tab Navigation Bar (Pill Segmented Control) -->
+        <div class="flex bg-[#FAF7F2] border border-[#E6E1DA] rounded-2xl p-1 mb-6 overflow-x-auto flex-nowrap whitespace-nowrap scrollbar-none select-none">
             <button
                 @click="activeTab = 'packages'"
-                class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none shrink-0"
-                :class="activeTab === 'packages' ? 'border-[#4A6B5D] text-[#4A6B5D]' : 'border-transparent text-[#8C8275] hover:text-[#5C6460]'"
+                class="flex-1 text-center py-2.5 px-4 text-[10px] sm:text-xs uppercase tracking-wider font-extrabold rounded-xl transition-all duration-200 cursor-pointer focus:outline-none shrink-0"
+                :class="activeTab === 'packages' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#5C6460]'"
             >
                 {{ t('admin_tab_packages') }} ({{ packages.length }})
             </button>
             <button
                 @click="activeTab = 'addons'"
-                class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none shrink-0"
-                :class="activeTab === 'addons' ? 'border-[#4A6B5D] text-[#4A6B5D]' : 'border-transparent text-[#8C8275] hover:text-[#5C6460]'"
+                class="flex-1 text-center py-2.5 px-4 text-[10px] sm:text-xs uppercase tracking-wider font-extrabold rounded-xl transition-all duration-200 cursor-pointer focus:outline-none shrink-0"
+                :class="activeTab === 'addons' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#5C6460]'"
             >
                 {{ t('admin_tab_addons') }} ({{ addons.length }})
             </button>
             <button
                 @click="activeTab = 'dishes'"
-                class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none shrink-0"
-                :class="activeTab === 'dishes' ? 'border-[#4A6B5D] text-[#4A6B5D]' : 'border-transparent text-[#8C8275] hover:text-[#5C6460]'"
+                class="flex-1 text-center py-2.5 px-4 text-[10px] sm:text-xs uppercase tracking-wider font-extrabold rounded-xl transition-all duration-200 cursor-pointer focus:outline-none shrink-0"
+                :class="activeTab === 'dishes' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#5C6460]'"
             >
                 {{ t('admin_tab_dishes') }} ({{ dishes.length }})
             </button>
             <button
                 @click="activeTab = 'categories'"
-                class="px-6 py-3 text-xs uppercase tracking-wider font-bold border-b-2 transition-all cursor-pointer focus:outline-none shrink-0"
-                :class="activeTab === 'categories' ? 'border-[#4A6B5D] text-[#4A6B5D]' : 'border-transparent text-[#8C8275] hover:text-[#5C6460]'"
+                class="flex-1 text-center py-2.5 px-4 text-[10px] sm:text-xs uppercase tracking-wider font-extrabold rounded-xl transition-all duration-200 cursor-pointer focus:outline-none shrink-0"
+                :class="activeTab === 'categories' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#5C6460]'"
             >
                 {{ t('admin_tab_categories') }} ({{ categories.length }})
             </button>
@@ -790,32 +790,32 @@ watch([categorySearchQuery], () => {
                     >
                         <div class="grid lg:grid-cols-12 gap-0">
                             <!-- Left: Package Info (7 cols) -->
-                            <div class="lg:col-span-7 p-6 md:p-8 space-y-5">
+                            <div class="lg:col-span-7 p-4 sm:p-6 md:p-8 space-y-4 md:space-y-5">
                                 <div class="flex flex-wrap justify-between items-start gap-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="text-xs font-bold text-[#8C8275] bg-[#FAF8F5] border border-[#E6E1DA] rounded-lg w-7 h-7 flex items-center justify-center select-none shrink-0">
+                                    <div class="flex items-center gap-2.5">
+                                        <div class="text-[10px] sm:text-xs font-bold text-[#8C8275] bg-[#FAF8F5] border border-[#E6E1DA] rounded-lg w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center select-none shrink-0">
                                             {{ (packageCurrentPage - 1) * packagesPerPage + idx + 1 }}
                                         </div>
-                                        <img :src="getPackageImage(pkg)" class="w-12 h-12 rounded-xl object-cover shrink-0 border border-[#E6E1DA] shadow-xs" alt="Package image" />
+                                        <img :src="getPackageImage(pkg)" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover shrink-0 border border-[#E6E1DA] shadow-xs" alt="Package image" />
                                         <div>
-                                            <h3 class="text-xl font-bold text-[#2D3330] tracking-wide uppercase font-serif-luxury">{{ pkg.package_name }}</h3>
-                                            <p class="text-xs text-[#C5A880] font-bold mt-1.5 uppercase tracking-wider">
-                                                RM {{ parseFloat(pkg.price).toFixed(2) }} / pax &nbsp;·&nbsp; Min order: {{ pkg.min_order }} pax
+                                            <h3 class="text-sm sm:text-base md:text-xl font-bold text-[#2D3330] tracking-wide uppercase font-serif-luxury">{{ pkg.package_name }}</h3>
+                                            <p class="text-[10px] sm:text-xs text-[#C5A880] font-bold mt-1 uppercase tracking-wider">
+                                                RM {{ parseFloat(pkg.price).toFixed(2) }} / pax &nbsp;·&nbsp; Min: {{ pkg.min_order }} pax
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-1.5 shrink-0">
+                                    <div class="flex items-center gap-1.5 shrink-0 ml-auto sm:ml-0">
                                         <button
                                             @click="openEditPackage(pkg)"
-                                            class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold px-3.5 py-2 rounded-xl text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+                                            class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[10px] sm:text-xs transition-colors flex items-center gap-1 cursor-pointer"
                                         >
-                                            <i class="fas fa-edit text-[10px]"></i> {{ t('admin_edit') }}
+                                            <i class="fas fa-edit text-[9px] sm:text-[10px]"></i> {{ t('admin_edit') }}
                                         </button>
                                         <button
                                             @click="deletePackage(pkg.id)"
-                                            class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-3.5 py-2 rounded-xl text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+                                            class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[10px] sm:text-xs transition-colors flex items-center gap-1 cursor-pointer"
                                         >
-                                            <i class="fas fa-trash-alt text-[10px]"></i> {{ t('admin_delete') }}
+                                            <i class="fas fa-trash-alt text-[9px] sm:text-[10px]"></i> {{ t('admin_delete') }}
                                         </button>
                                     </div>
                                 </div>
@@ -875,7 +875,7 @@ watch([categorySearchQuery], () => {
                             </div>
 
                             <!-- Right: Associated Global Add-ons Info (5 cols) -->
-                            <div class="lg:col-span-5 bg-[#FAF7F2] border-l border-[#E6E1DA] p-6 flex flex-col justify-between gap-4">
+                            <div class="lg:col-span-5 bg-[#FAF7F2] border-t lg:border-t-0 lg:border-l border-[#E6E1DA] p-4 sm:p-6 flex flex-col justify-between gap-4">
                                 <div class="space-y-3">
                                     <div class="flex items-center justify-between">
                                         <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_active_global_addons') }}</span>
@@ -1027,19 +1027,19 @@ watch([categorySearchQuery], () => {
                     <table class="w-full border-collapse text-left">
                         <thead>
                             <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_addon_item_col') }}</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_price_pax_col') }}</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_status_col') }}</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_addon_item_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_price_pax_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_status_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
                             <tr v-for="(addon, index) in paginatedAddons" :key="addon.id" class="hover:bg-[#FAFAF9] transition-colors">
-                                <td class="px-6 py-4 text-center font-semibold text-[#8C8275]">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center font-semibold text-[#8C8275]">
                                     {{ (addonCurrentPage - 1) * addonsPerPage + index + 1 }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4">
                                     <div class="flex items-center gap-3">
                                         <div class="w-6 h-6 rounded-lg bg-[#C5A880]/10 text-[#C5A880] flex items-center justify-center text-[10px] shrink-0 border border-[#C5A880]/20">
                                             <i class="fas fa-star text-[9px]"></i>
@@ -1047,12 +1047,12 @@ watch([categorySearchQuery], () => {
                                         <span class="font-bold text-[#2D3330] uppercase tracking-wide">{{ addon.addon_name }}</span>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4">
                                     <span class="text-[#C5A880] font-extrabold font-serif-luxury text-sm">
                                         +RM {{ parseFloat(addon.price_per_pax).toFixed(2) }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-center">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
                                     <button 
                                         @click="toggleAddonStatus(addon)"
                                         class="inline-flex items-center gap-1.5 text-[9px] font-bold px-2.5 py-1 rounded-full border cursor-pointer transition-all"
@@ -1064,7 +1064,7 @@ watch([categorySearchQuery], () => {
                                         {{ addon.active ? t('admin_active') : t('admin_inactive') }}
                                     </button>
                                 </td>
-                                <td class="px-6 py-4 text-right">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">
                                     <div class="flex justify-end gap-1.5">
                                         <button
                                             @click="openEditAddon(addon)"
@@ -1208,19 +1208,19 @@ watch([categorySearchQuery], () => {
                     <table class="w-full border-collapse text-left">
                         <thead>
                             <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_dish_name_col') }}</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_category_col') }}</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_status_col') }}</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_dish_name_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_category_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_status_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
                             <tr v-for="(dish, index) in paginatedDishes" :key="dish.id" class="hover:bg-[#FAFAF9] transition-colors">
-                                <td class="px-6 py-4 text-center font-semibold text-[#8C8275]">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center font-semibold text-[#8C8275]">
                                     {{ (dishCurrentPage - 1) * dishesPerPage + index + 1 }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4">
                                     <div class="flex items-center gap-3">
                                         <div class="w-6 h-6 rounded-lg bg-[#4A6B5D]/10 text-[#4A6B5D] flex items-center justify-center text-[10px] shrink-0 border border-[#4A6B5D]/20">
                                             <i class="fas fa-utensils text-[9px]"></i>
@@ -1228,12 +1228,12 @@ watch([categorySearchQuery], () => {
                                         <span class="font-bold text-[#2D3330] uppercase tracking-wide">{{ dish.name }}</span>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4">
                                     <span class="font-semibold px-2.5 py-0.5 rounded-full border bg-amber-50 text-amber-800 border-amber-200">
                                         {{ dish.category }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-center">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
                                     <button 
                                         @click="toggleDishStatus(dish)"
                                         class="inline-flex items-center gap-1.5 text-[9px] font-bold px-2.5 py-1 rounded-full border cursor-pointer transition-all"
@@ -1245,7 +1245,7 @@ watch([categorySearchQuery], () => {
                                         {{ dish.active ? t('admin_active') : t('admin_inactive') }}
                                     </button>
                                 </td>
-                                <td class="px-6 py-4 text-right">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">
                                     <div class="flex justify-end gap-1.5">
                                         <button
                                             @click="openEditDish(dish)"
@@ -1358,18 +1358,18 @@ watch([categorySearchQuery], () => {
                     <table class="w-full border-collapse text-left">
                         <thead>
                             <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_category_name_col') }}</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_dishes_count_col') }}</th>
-                                <th class="px-6 py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_category_name_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_dishes_count_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
                             <tr v-for="(cat, index) in paginatedCategories" :key="cat.id" class="hover:bg-[#FAFAF9] transition-colors">
-                                <td class="px-6 py-4 text-center font-semibold text-[#8C8275]">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center font-semibold text-[#8C8275]">
                                     {{ (categoryCurrentPage - 1) * categoriesPerPage + index + 1 }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4">
                                     <div class="flex items-center gap-3">
                                         <div class="w-6 h-6 rounded-lg bg-[#4A6B5D]/10 text-[#4A6B5D] flex items-center justify-center text-[10px] shrink-0 border border-[#4A6B5D]/20">
                                             <i class="fas fa-folder text-[9px]"></i>
@@ -1377,12 +1377,12 @@ watch([categorySearchQuery], () => {
                                         <span class="font-bold text-[#2D3330] uppercase tracking-wide">{{ cat.name }}</span>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4">
                                     <span class="font-semibold px-2.5 py-0.5 rounded-full border bg-emerald-50 text-emerald-800 border-emerald-200">
                                         {{ dishes.filter(d => d.category === cat.name).length }} {{ currentLanguage === 'en' ? 'Dishes' : 'Hidangan' }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-right">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">
                                     <div class="flex justify-end gap-1.5">
                                         <button
                                             @click="openEditCategory(cat)"
