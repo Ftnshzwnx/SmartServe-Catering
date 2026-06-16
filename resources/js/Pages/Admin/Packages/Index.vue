@@ -1048,7 +1048,7 @@ watch([categorySearchQuery], () => {
                                     </div>
                                 </td>
                                 <td class="px-3 sm:px-6 py-2.5 sm:py-4">
-                                    <span class="text-[#C5A880] font-bold text-xs">
+                                    <span class="text-[#C5A880] font-bold text-[11px]">
                                         +RM {{ parseFloat(addon.price_per_pax).toFixed(2) }}
                                     </span>
                                 </td>
@@ -1210,7 +1210,7 @@ watch([categorySearchQuery], () => {
                             <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
                                 <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
                                 <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_dish_name_col') }}</th>
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_category_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_category_col') }}</th>
                                 <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_status_col') }}</th>
                                 <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
                             </tr>
@@ -1228,7 +1228,7 @@ watch([categorySearchQuery], () => {
                                         <span class="font-bold text-[#2D3330] uppercase tracking-wide">{{ dish.name }}</span>
                                     </div>
                                 </td>
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
                                     <span class="font-semibold px-2.5 py-0.5 rounded-full border bg-amber-50 text-amber-800 border-amber-200 whitespace-nowrap">
                                         {{ dish.category }}
                                     </span>
@@ -1360,7 +1360,7 @@ watch([categorySearchQuery], () => {
                             <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
                                 <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
                                 <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_category_name_col') }}</th>
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_dishes_count_col') }}</th>
+                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_dishes_count_col') }}</th>
                                 <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
                             </tr>
                         </thead>
@@ -1377,7 +1377,7 @@ watch([categorySearchQuery], () => {
                                         <span class="font-bold text-[#2D3330] uppercase tracking-wide">{{ cat.name }}</span>
                                     </div>
                                 </td>
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4">
+                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
                                     <span class="font-semibold px-2.5 py-0.5 rounded-full border bg-emerald-50 text-emerald-800 border-emerald-200 whitespace-nowrap">
                                         {{ dishes.filter(d => d.category === cat.name).length }} {{ currentLanguage === 'en' ? 'Dishes' : 'Hidangan' }}
                                     </span>
