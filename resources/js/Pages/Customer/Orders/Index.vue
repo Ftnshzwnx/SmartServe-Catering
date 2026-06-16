@@ -397,17 +397,17 @@ function handleReceiptSelect(event, orderId, type) {
                             </div>
                             <div>
                                 <span class="text-[9px] font-bold block mb-1">{{ t('delivery_event_date_label') }}</span>
-                                <span class="text-xs font-semibold text-[#2D3330]">
+                                <span class="text-xs font-semibold text-[#2D3330] whitespace-nowrap">
                                     <i class="far fa-calendar mr-1 text-[#4A6B5D]"></i> {{ order.delivery_date }} ({{ order.delivery_time }})
                                 </span>
                             </div>
                             <div>
                                 <span class="text-[9px] font-bold block mb-1">{{ t('total_price') }}</span>
-                                <span class="text-xs font-semibold text-[#4A6B5D] lowercase">RM <span class="text-sm font-semibold uppercase">{{ parseFloat(order.total_price).toFixed(2) }}</span></span>
+                                <span class="text-xs font-semibold text-[#4A6B5D] lowercase whitespace-nowrap">RM <span class="text-sm font-semibold uppercase">{{ parseFloat(order.total_price).toFixed(2) }}</span></span>
                             </div>
                             <div>
                                 <span class="text-[9px] font-bold block mb-1">{{ t('status_label') }}</span>
-                                <span class="inline-flex items-center px-3 py-1 text-[10px] font-semibold border rounded-full uppercase tracking-widest" :class="getStatusBadge(order.status)">
+                                <span class="inline-flex items-center px-3 py-1 text-[10px] font-semibold border rounded-full uppercase tracking-widest whitespace-nowrap" :class="getStatusBadge(order.status)">
                                     {{ getTranslatedStatus(order.status) }}
                                 </span>
                             </div>

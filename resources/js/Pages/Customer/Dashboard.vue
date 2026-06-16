@@ -352,7 +352,7 @@ function getTranslatedStatus(status) {
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
-                            <span class="inline-flex items-center px-3 py-1 text-[10px] font-semibold border rounded-full uppercase tracking-widest" :class="getStatusBadge(activeOrder.status)">
+                            <span class="inline-flex items-center px-3 py-1 text-[10px] font-semibold border rounded-full uppercase tracking-widest whitespace-nowrap" :class="getStatusBadge(activeOrder.status)">
                                 {{ getTranslatedStatus(activeOrder.status) }}
                             </span>
                             <Link 
@@ -818,7 +818,7 @@ function getTranslatedStatus(status) {
                                     </td>
                                     <td class="py-4 px-2 font-semibold text-[#4A6B5D]">RM {{ parseFloat(order.total_price).toFixed(2) }}</td>
                                     <td class="py-4 px-2">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 text-[9px] font-semibold border rounded-full uppercase tracking-wider" :class="getStatusBadge(order.status)">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 text-[9px] font-semibold border rounded-full uppercase tracking-wider whitespace-nowrap" :class="getStatusBadge(order.status)">
                                             {{ getTranslatedStatus(order.status) }}
                                         </span>
                                     </td>
