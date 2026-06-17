@@ -733,7 +733,7 @@ onMounted(() => {
                                 {{ t('step_base_package') }}
                             </h4>
 
-                            <div class="grid grid-cols-1 gap-4" :class="packages.length > 1 ? 'md:grid-cols-2' : 'grid-cols-1 max-w-md w-full'">
+                            <div class="grid grid-cols-2 gap-2 sm:gap-4" :class="packages.length === 1 ? 'max-w-md w-full grid-cols-1' : ''">
                                 <div 
                                     v-for="pkg in packages" 
                                     :key="pkg.id"
@@ -744,16 +744,16 @@ onMounted(() => {
                                     <div v-if="selectedPackageId === pkg.id" class="active-badge">
                                         <i class="fas fa-check"></i>
                                     </div>
-                                    <h5 class="text-xs sm:text-base font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide mb-1">
+                                    <h5 class="text-[9px] sm:text-base font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide mb-1 leading-tight">
                                         {{ pkg.package_name }}
                                     </h5>
-                                    <div class="text-[11px] sm:text-xs text-[#4A6B5D] font-bold mb-2">
+                                    <div class="text-[9px] sm:text-xs text-[#4A6B5D] font-bold mb-1 sm:mb-2">
                                         RM {{ parseFloat(pkg.price).toFixed(2) }} / {{ t('pax') }}
                                     </div>
-                                    <p class="text-[9px] sm:text-[10px] text-[#8C8275] uppercase tracking-wider mb-2">
+                                    <p class="text-[8px] sm:text-[10px] text-[#8C8275] uppercase tracking-wider mb-1.5 sm:mb-2">
                                         {{ t('min_requirement') }}: {{ pkg.min_order }} {{ t('pax') }}
                                     </p>
-                                    <div class="text-[10px] sm:text-[11px] text-[#5C6460] font-light line-clamp-3 border-t border-[#E6E1DA] pt-2.5 leading-relaxed">
+                                    <div class="text-[8.5px] sm:text-[11px] text-[#5C6460] font-light line-clamp-2 sm:line-clamp-3 border-t border-[#E6E1DA] pt-1.5 sm:pt-2.5 leading-relaxed">
                                         {{ pkg.description }}
                                     </div>
                                 </div>
