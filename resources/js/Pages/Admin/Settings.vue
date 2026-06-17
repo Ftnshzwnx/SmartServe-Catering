@@ -242,15 +242,15 @@ function submitPassword() {
                             <!-- Left: General & Payments -->
                             <div class="lg:col-span-2 space-y-4 md:space-y-6">
                                 <!-- General & Policies -->
-                                <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] p-4 md:p-8 shadow-xs space-y-4 md:space-y-6">
-                                    <h3 class="text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#E6E1DA] pb-2 md:pb-2.5">{{ t('admin_settings_company_title') }}</h3>
+                                <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] p-3.5 md:p-8 shadow-xs space-y-4 md:space-y-6">
+                                    <h3 class="text-xs sm:text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#E6E1DA] pb-2 md:pb-2.5">{{ t('admin_settings_company_title') }}</h3>
                                     
                                     <div class="space-y-1.5">
-                                        <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_business_name') }}</label>
+                                        <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_business_name') }}</label>
                                         <input 
                                             type="text" 
                                             v-model="form.business_name" 
-                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                             :placeholder="currentLanguage === 'en' ? 'e.g. SmartServe Catering Enterprise' : 'Contoh: SmartServe Catering Enterprise'"
                                             required
                                         />
@@ -260,11 +260,11 @@ function submitPassword() {
                                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
                                         <!-- Deposit Percentage -->
                                         <div class="space-y-1.5">
-                                            <label class="text-[10px] md:text-[11px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_deposit_percentage') }}</label>
+                                            <label class="text-[9.5px] sm:text-[10px] md:text-[11px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_deposit_percentage') }}</label>
                                             <input 
                                                 type="number" 
                                                 v-model="form.deposit_percentage" 
-                                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                                 min="0" 
                                                 max="100"
                                                 required
@@ -274,11 +274,11 @@ function submitPassword() {
 
                                         <!-- Cancellation Policy Days -->
                                         <div class="space-y-1.5">
-                                            <label class="text-[10px] md:text-[11px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_cancellation_policy') }}</label>
+                                            <label class="text-[9.5px] sm:text-[10px] md:text-[11px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_cancellation_policy') }}</label>
                                             <input 
                                                 type="number" 
                                                 v-model="form.cancellation_policy_days" 
-                                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                                 min="0" 
                                                 required
                                              />
@@ -287,11 +287,11 @@ function submitPassword() {
 
                                         <!-- Grace Period Days -->
                                         <div class="space-y-1.5">
-                                            <label class="text-[10px] md:text-[11px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_grace_period') }}</label>
+                                            <label class="text-[9.5px] sm:text-[10px] md:text-[11px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_grace_period') }}</label>
                                             <input 
                                                 type="number" 
                                                 v-model="form.grace_period_days" 
-                                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                                 min="0" 
                                                 required
                                             />
@@ -302,11 +302,11 @@ function submitPassword() {
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                                         <!-- Min Lead Time -->
                                         <div class="space-y-1.5">
-                                            <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_min_lead_time') }}</label>
+                                            <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_min_lead_time') }}</label>
                                             <input 
                                                 type="number" 
                                                 v-model="form.min_lead_time_days" 
-                                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                                 min="1" 
                                                 required
                                             />
@@ -315,11 +315,11 @@ function submitPassword() {
 
                                         <!-- Min Order Value -->
                                         <div class="space-y-1.5">
-                                            <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_min_order_value') }}</label>
+                                            <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_min_order_value') }}</label>
                                             <input 
                                                 type="number" 
                                                 v-model="form.min_order_value" 
-                                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                                 min="0" 
                                                 required
                                             />
@@ -329,43 +329,43 @@ function submitPassword() {
                                 </div>
 
                                 <!-- Payment Credentials -->
-                                <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] p-4 md:p-8 shadow-xs space-y-4 md:space-y-6">
-                                    <h3 class="text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#E6E1DA] pb-2 md:pb-2.5">{{ t('admin_settings_payment_credentials') }}</h3>
+                                <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] p-3.5 md:p-8 shadow-xs space-y-4 md:space-y-6">
+                                    <h3 class="text-xs sm:text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#E6E1DA] pb-2 md:pb-2.5">{{ t('admin_settings_payment_credentials') }}</h3>
                                     
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-start">
                                         <!-- Bank Account Info -->
-                                        <div class="space-y-4">
+                                        <div class="space-y-3.5">
                                             <span class="text-xs font-bold text-[#C5A880] uppercase tracking-widest block border-b border-[#E6E1DA] pb-1.5">{{ t('admin_settings_bank_transfer_info') }}</span>
                                             
-                                            <div class="space-y-3">
+                                            <div class="space-y-2.5">
                                                 <div class="space-y-1">
-                                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_bank_name') }}</label>
+                                                    <label class="text-[9.5px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_bank_name') }}</label>
                                                     <input 
                                                         type="text" 
                                                         v-model="form.bank_name" 
-                                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                                         placeholder="e.g. Maybank"
                                                         required
                                                     />
                                                     <span v-if="form.errors.bank_name" class="text-xs text-red-500 font-semibold block">{{ form.errors.bank_name }}</span>
                                                 </div>
                                                 <div class="space-y-1">
-                                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_account_no') }}</label>
+                                                    <label class="text-[9.5px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_account_no') }}</label>
                                                     <input 
                                                         type="text" 
                                                         v-model="form.bank_account_no" 
-                                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                                         placeholder="e.g. 164213456789"
                                                         required
                                                     />
                                                     <span v-if="form.errors.bank_account_no" class="text-xs text-red-500 font-semibold block">{{ form.errors.bank_account_no }}</span>
                                                 </div>
                                                 <div class="space-y-1">
-                                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_account_name') }}</label>
+                                                    <label class="text-[9.5px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_account_name') }}</label>
                                                     <input 
                                                         type="text" 
                                                         v-model="form.bank_account_name" 
-                                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                                         placeholder="e.g. SmartServe Catering"
                                                         required
                                                     />
@@ -375,12 +375,12 @@ function submitPassword() {
                                         </div>
 
                                         <!-- QR Code Info -->
-                                        <div class="space-y-4">
+                                        <div class="space-y-3.5">
                                             <span class="text-xs font-bold text-[#C5A880] uppercase tracking-widest block border-b border-[#E6E1DA] pb-1.5">{{ t('admin_settings_qr_title') }}</span>
                                             
-                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 items-center">
                                                 <div 
-                                                    class="border border-dashed border-[#C5A880]/30 hover:border-[#C5A880]/60 rounded-2xl bg-[#FAF7F2] p-3 text-center cursor-pointer group transition-all duration-300 relative hover:shadow-md"
+                                                    class="border border-dashed border-[#C5A880]/30 hover:border-[#C5A880]/60 rounded-2xl bg-[#FAF7F2] p-2.5 text-center cursor-pointer group transition-all duration-300 relative hover:shadow-md"
                                                     @click="activeQrUrl && (showQrModal = true)"
                                                     title="Klik untuk besarkan"
                                                 >
@@ -389,28 +389,28 @@ function submitPassword() {
                                                             v-if="qrPreviewUrl" 
                                                             :src="qrPreviewUrl" 
                                                             :alt="t('admin_settings_qr_preview_new')" 
-                                                            class="w-24 h-24 object-contain mx-auto transition-transform duration-350 group-hover:scale-105"
+                                                            class="w-20 h-20 object-contain mx-auto transition-transform duration-350 group-hover:scale-105"
                                                         />
                                                         <img 
                                                             v-else-if="settings.qr_code_path" 
                                                             :src="resolveQrPath(settings.qr_code_path)" 
                                                             :alt="t('admin_settings_qr_preview_current')" 
-                                                            class="w-24 h-24 object-contain mx-auto transition-transform duration-350 group-hover:scale-105"
+                                                            class="w-20 h-20 object-contain mx-auto transition-transform duration-350 group-hover:scale-105"
                                                         />
-                                                        <div v-else class="w-24 h-24 bg-[#FAF7F2] rounded-xl flex flex-col items-center justify-center text-[#8C8275]">
-                                                            <i class="fas fa-qrcode text-xl mb-1"></i>
+                                                        <div v-else class="w-20 h-20 bg-[#FAF7F2] rounded-xl flex flex-col items-center justify-center text-[#8C8275]">
+                                                            <i class="fas fa-qrcode text-lg mb-0.5"></i>
                                                             <span class="text-[8px] font-bold">{{ t('admin_settings_qr_no_file') }}</span>
                                                         </div>
                                                         <!-- Hover Magnifier Icon Overlay -->
                                                         <div v-if="activeQrUrl" class="absolute inset-0 bg-[#4A6B5D]/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
-                                                            <i class="fas fa-search-plus text-base"></i>
+                                                            <i class="fas fa-search-plus text-sm"></i>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="space-y-2">
-                                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_qr_preview') }}</label>
-                                                    <div class="border-2 border-dashed border-[#E6E1DA] hover:border-[#4A6B5D] rounded-xl p-3 text-center cursor-pointer transition-colors relative bg-[#FAF7F2]/30">
+                                                <div class="space-y-1.5">
+                                                    <label class="text-[9.5px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_qr_preview') }}</label>
+                                                    <div class="border-2 border-dashed border-[#E6E1DA] hover:border-[#4A6B5D] rounded-xl p-2.5 text-center cursor-pointer transition-colors relative bg-[#FAF7F2]/30">
                                                         <input 
                                                             type="file" 
                                                             @change="handleFileChange"
@@ -418,10 +418,10 @@ function submitPassword() {
                                                             class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                                         />
                                                         <div class="space-y-1 pointer-events-none text-xs">
-                                                            <div class="text-[#4A6B5D] text-sm mx-auto">
+                                                            <div class="text-[#4A6B5D] text-xs mx-auto">
                                                                     <i class="fas fa-image"></i>
                                                             </div>
-                                                            <span class="font-bold text-[#2D3330] text-[10px] block truncate">
+                                                            <span class="font-bold text-[#2D3330] text-[9.5px] block truncate">
                                                                 {{ form.qr_code ? form.qr_code.name : t('admin_settings_qr_choose_file') }}
                                                             </span>
                                                             <span class="text-[8px] text-[#8C8275] block">
@@ -429,8 +429,8 @@ function submitPassword() {
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <span v-if="fileError" class="text-[10px] text-red-500 font-semibold block">{{ fileError }}</span>
-                                                    <span v-if="form.errors.qr_code" class="text-[10px] text-red-500 font-semibold block">{{ form.errors.qr_code }}</span>
+                                                    <span v-if="fileError" class="text-[9.5px] text-red-500 font-semibold block">{{ fileError }}</span>
+                                                    <span v-if="form.errors.qr_code" class="text-[9.5px] text-red-500 font-semibold block">{{ form.errors.qr_code }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -439,16 +439,16 @@ function submitPassword() {
                             </div>
 
                             <!-- Right: Contact Details -->
-                            <div class="lg:col-span-1 bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] p-4 md:p-8 shadow-xs space-y-4 md:space-y-6">
-                                <h3 class="text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#E6E1DA] pb-2 md:pb-2.5">{{ t('admin_settings_contact_details') }}</h3>
+                            <div class="lg:col-span-1 bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] p-3.5 md:p-8 shadow-xs space-y-4 md:space-y-6">
+                                <h3 class="text-xs sm:text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#E6E1DA] pb-2 md:pb-2.5">{{ t('admin_settings_contact_details') }}</h3>
                                 
                                 <div class="space-y-3 md:space-y-4">
                                     <div class="space-y-1.5">
-                                        <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_contact_phone') }}</label>
+                                        <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_contact_phone') }}</label>
                                         <input 
                                             type="text" 
                                             v-model="form.contact_phone" 
-                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                             placeholder="e.g. +6012-3456789"
                                             required
                                         />
@@ -456,11 +456,11 @@ function submitPassword() {
                                     </div>
 
                                     <div class="space-y-1.5">
-                                        <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_support_email') }}</label>
+                                        <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_support_email') }}</label>
                                         <input 
                                             type="email" 
                                             v-model="form.contact_email" 
-                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                             placeholder="e.g. sales@smartserve.com"
                                             required
                                         />
@@ -468,11 +468,11 @@ function submitPassword() {
                                     </div>
 
                                     <div class="space-y-1.5">
-                                        <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_business_address') }}</label>
+                                        <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_business_address') }}</label>
                                         <textarea 
                                             v-model="form.business_address" 
                                             rows="4"
-                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] resize-none" 
+                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] resize-none" 
                                             placeholder="Enter physical location..."
                                             required
                                         ></textarea>
@@ -483,10 +483,10 @@ function submitPassword() {
                         </div>
 
                          <!-- Save Actions -->
-                         <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] p-4 md:px-8 shadow-xs flex justify-end">
+                         <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] p-3.5 md:px-8 shadow-xs flex justify-end">
                              <button 
                                  type="submit" 
-                                 class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 md:px-6 py-2.5 md:py-3 shadow transition-colors cursor-pointer rounded-xl text-xs uppercase tracking-widest w-full md:w-auto"
+                                 class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 md:px-6 py-2 md:py-2.5 shadow transition-colors cursor-pointer rounded-xl text-[10px] sm:text-xs uppercase tracking-widest w-full md:w-auto"
                                  :disabled="form.processing"
                              >
                                  <i class="fas fa-save mr-1.5"></i> {{ t('admin_settings_save_settings_btn') }}
@@ -520,21 +520,21 @@ function submitPassword() {
                         <form @submit.prevent="submitProfile" class="space-y-4 md:space-y-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                                 <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_profile_username') }}</label>
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_profile_username') }}</label>
                                     <input 
                                         type="text" 
                                         v-model="profileForm.name" 
-                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                         required
                                     />
                                     <span v-if="profileForm.errors.name" class="text-xs text-red-500 font-semibold block">{{ profileForm.errors.name }}</span>
                                 </div>
                                 <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_profile_fullname') }}</label>
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_profile_fullname') }}</label>
                                     <input 
                                         type="text" 
                                         v-model="profileForm.full_name" 
-                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                         required
                                     />
                                     <span v-if="profileForm.errors.full_name" class="text-xs text-red-500 font-semibold block">{{ profileForm.errors.full_name }}</span>
@@ -543,21 +543,21 @@ function submitPassword() {
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                                 <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_profile_email') }}</label>
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_profile_email') }}</label>
                                     <input 
                                         type="email" 
                                         v-model="profileForm.email" 
-                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                         required
                                     />
                                     <span v-if="profileForm.errors.email" class="text-xs text-red-500 font-semibold block">{{ profileForm.errors.email }}</span>
                                 </div>
                                 <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_profile_phone') }}</label>
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_profile_phone') }}</label>
                                     <input 
                                         type="text" 
                                         v-model="profileForm.phone" 
-                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                        class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                         required
                                     />
                                     <span v-if="profileForm.errors.phone" class="text-xs text-red-500 font-semibold block">{{ profileForm.errors.phone }}</span>
@@ -565,11 +565,11 @@ function submitPassword() {
                             </div>
 
                             <div class="space-y-1.5">
-                                <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_profile_address') }}</label>
+                                <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_profile_address') }}</label>
                                 <textarea 
                                     v-model="profileForm.address" 
                                     rows="3"
-                                    class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] resize-none" 
+                                    class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] resize-none" 
                                     required
                                 ></textarea>
                                 <span v-if="profileForm.errors.address" class="text-xs text-red-500 font-semibold block">{{ profileForm.errors.address }}</span>
@@ -578,7 +578,7 @@ function submitPassword() {
                             <div class="border-t border-[#E6E1DA] pt-4 md:pt-6 flex justify-end">
                                 <button 
                                     type="submit" 
-                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 md:px-6 py-2.5 md:py-3 shadow transition-colors cursor-pointer rounded-xl text-xs uppercase tracking-widest w-full md:w-auto"
+                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 md:px-6 py-2 md:py-2.5 shadow transition-colors cursor-pointer rounded-xl text-[10px] sm:text-xs uppercase tracking-widest w-full md:w-auto"
                                     :disabled="profileForm.processing"
                                 >
                                     <i class="fas fa-save mr-1.5"></i> {{ t('admin_settings_save_changes_btn') }}
@@ -602,12 +602,12 @@ function submitPassword() {
                         <form @submit.prevent="submitPassword" class="space-y-4 md:space-y-6">
                             <div class="space-y-3 md:space-y-4 max-w-xl">
                                 <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_security_current_pwd') }}</label>
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_security_current_pwd') }}</label>
                                     <div class="relative flex items-center">
                                         <input 
                                             :type="showCurrentPassword ? 'text' : 'password'" 
                                             v-model="passwordForm.current_password" 
-                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 pr-10 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 pr-10 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                             autocomplete="current-password"
                                             required
                                         />
@@ -623,12 +623,12 @@ function submitPassword() {
                                 </div>
 
                                 <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_security_new_pwd') }}</label>
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_security_new_pwd') }}</label>
                                     <div class="relative flex items-center">
                                         <input 
                                             :type="showNewPassword ? 'text' : 'password'" 
                                             v-model="passwordForm.password" 
-                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 pr-10 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 pr-10 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                             autocomplete="new-password"
                                             required
                                         />
@@ -644,12 +644,12 @@ function submitPassword() {
                                 </div>
 
                                 <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_security_confirm_pwd') }}</label>
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_settings_security_confirm_pwd') }}</label>
                                     <div class="relative flex items-center">
                                         <input 
                                             :type="showConfirmPassword ? 'text' : 'password'" 
                                             v-model="passwordForm.password_confirmation" 
-                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 pr-10 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 pr-10 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                             autocomplete="new-password"
                                             required
                                         />
@@ -668,7 +668,7 @@ function submitPassword() {
                             <div class="border-t border-[#E6E1DA] pt-4 md:pt-6 flex justify-end">
                                 <button 
                                     type="submit" 
-                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 md:px-6 py-2.5 md:py-3 shadow transition-colors cursor-pointer rounded-xl text-xs uppercase tracking-widest w-full md:w-auto"
+                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 md:px-6 py-2 md:py-2.5 shadow transition-colors cursor-pointer rounded-xl text-[10px] sm:text-xs uppercase tracking-widest w-full md:w-auto"
                                     :disabled="passwordForm.processing"
                                 >
                                     <i class="fas fa-key mr-1.5"></i> {{ t('admin_settings_security_update_pwd_btn') }}
@@ -701,16 +701,16 @@ function submitPassword() {
                             <table class="w-full min-w-[500px] text-left border-collapse text-xs">
                                 <thead>
                                     <tr class="bg-[#FAF7F2] text-[#8C8275] border-b border-[#E6E1DA] font-bold uppercase tracking-wider">
-                                        <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_settings_zone_name_col') }}</th>
-                                        <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_settings_delivery_fee_col') }}</th>
-                                        <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-center w-32">{{ t('admin_settings_actions_col') }}</th>
+                                        <th class="px-2.5 sm:px-6 py-2 sm:py-4">{{ t('admin_settings_zone_name_col') }}</th>
+                                        <th class="px-2.5 sm:px-6 py-2 sm:py-4">{{ t('admin_settings_delivery_fee_col') }}</th>
+                                        <th class="px-2.5 sm:px-6 py-2 sm:py-4 text-center w-32">{{ t('admin_settings_actions_col') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-[#E6E1DA] font-semibold text-[#2D3330]">
                                     <tr v-for="zone in props.deliveryZones" :key="zone.id" class="hover:bg-[#FAF7F2]/40 transition-colors">
-                                        <td class="px-3 sm:px-6 py-2.5 sm:py-4">{{ zone.name }}</td>
-                                        <td class="px-3 sm:px-6 py-2.5 sm:py-4">RM {{ parseFloat(zone.fee).toFixed(2) }}</td>
-                                        <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
+                                        <td class="px-2.5 sm:px-6 py-2 sm:py-4">{{ zone.name }}</td>
+                                        <td class="px-2.5 sm:px-6 py-2 sm:py-4">RM {{ parseFloat(zone.fee).toFixed(2) }}</td>
+                                        <td class="px-2.5 sm:px-6 py-2 sm:py-4 text-center">
                                             <div class="flex justify-center gap-3">
                                                 <button
                                                     type="button"
@@ -746,7 +746,7 @@ function submitPassword() {
 
         <!-- Add/Edit Zone Modal -->
         <div v-if="showZoneModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-[60] animate-fade-in font-sans-modern">
-            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-2xl p-5 md:p-8 max-w-md w-full space-y-4 md:space-y-6">
+            <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-2xl p-4 md:p-8 max-w-md w-full space-y-4 md:space-y-6">
                 <div>
                     <h3 class="text-base md:text-lg font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
                         {{ editingZoneId ? t('admin_settings_zone_modal_edit_title') : t('admin_settings_zone_modal_add_title') }}
@@ -756,11 +756,11 @@ function submitPassword() {
 
                 <form @submit.prevent="submitZoneForm" class="space-y-4">
                     <div class="space-y-1.5">
-                        <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_settings_zone_name_label') }}</label>
+                        <label class="text-[9.5px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_settings_zone_name_label') }}</label>
                         <input 
                             type="text" 
                             v-model="zoneForm.name" 
-                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                             :placeholder="currentLanguage === 'en' ? 'e.g. Dungun' : 'Contoh: Dungun'"
                             required
                         />
@@ -768,11 +768,11 @@ function submitPassword() {
                     </div>
 
                     <div class="space-y-1.5">
-                        <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_settings_zone_fee_label') }}</label>
+                        <label class="text-[9.5px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_settings_zone_fee_label') }}</label>
                         <input 
                             type="number" 
                             v-model="zoneForm.fee" 
-                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-2.5 md:p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                            class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                             :placeholder="currentLanguage === 'en' ? 'e.g. 120.00' : 'Contoh: 120.00'"
                             min="0"
                             step="0.01"
@@ -785,13 +785,13 @@ function submitPassword() {
                         <button 
                             type="button" 
                             @click="showZoneModal = false"
-                            class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-3.5 py-2 rounded-xl text-[10px] md:text-xs uppercase tracking-widest transition-colors cursor-pointer"
+                            class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-3 py-1.5 rounded-xl text-[10px] md:text-xs uppercase tracking-widest transition-colors cursor-pointer"
                         >
                             {{ t('admin_settings_zone_cancel') }}
                         </button>
                         <button 
                             type="submit" 
-                            class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3.5 py-2 rounded-xl text-[10px] md:text-xs uppercase tracking-widest transition-colors cursor-pointer"
+                            class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3 py-1.5 rounded-xl text-[10px] md:text-xs uppercase tracking-widest transition-colors cursor-pointer"
                             :disabled="zoneForm.processing"
                         >
                             {{ zoneForm.processing ? t('admin_settings_zone_submitting') : t('admin_settings_zone_save_btn') }}

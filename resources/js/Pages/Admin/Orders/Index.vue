@@ -326,82 +326,82 @@ function needsAction(status) {
         <!-- Status Stats Cards Grid -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 select-none">
             <!-- Total Orders -->
-            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-3 md:p-6 flex flex-col justify-between gap-2.5 shadow-xs hover:border-[#C5A880]/30 transition-all">
-                <div class="flex items-center justify-between gap-1.5">
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-2.5 md:p-6 flex flex-col justify-between gap-2 shadow-xs hover:border-[#C5A880]/30 transition-all">
+                <div class="flex items-center justify-between gap-1">
                     <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_total_bookings')">{{ t('admin_total_bookings') }}</span>
-                    <div class="w-8 h-8 bg-[#FAF7F2] text-[#4A6B5D] border border-[#E6E1DA] rounded-lg flex items-center justify-center text-xs shadow-2xs shrink-0">
+                    <div class="w-7 h-7 bg-[#FAF7F2] text-[#4A6B5D] border border-[#E6E1DA] rounded-lg flex items-center justify-center text-[10px] shadow-2xs shrink-0">
                         <i class="fas fa-receipt"></i>
                     </div>
                 </div>
                 <div>
-                    <span class="text-sm md:text-3xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">{{ statusCounts.all }}</span>
+                    <span class="text-xs md:text-3xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">{{ statusCounts.all }}</span>
                 </div>
             </div>
 
             <!-- Confirmed / Active -->
-            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-3 md:p-6 flex flex-col justify-between gap-2.5 shadow-xs hover:border-[#4A6B5D]/30 transition-all">
-                <div class="flex items-center justify-between gap-1.5">
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-2.5 md:p-6 flex flex-col justify-between gap-2 shadow-xs hover:border-[#4A6B5D]/30 transition-all">
+                <div class="flex items-center justify-between gap-1">
                     <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_confirmed_events')">{{ t('admin_confirmed_events') }}</span>
-                    <div class="w-8 h-8 bg-emerald-50 text-[#4A6B5D] border border-emerald-100 rounded-lg flex items-center justify-center text-xs shadow-2xs shrink-0">
+                    <div class="w-7 h-7 bg-emerald-50 text-[#4A6B5D] border border-emerald-100 rounded-lg flex items-center justify-center text-[10px] shadow-2xs shrink-0">
                         <i class="fas fa-check-circle"></i>
                     </div>
                 </div>
                 <div>
-                    <span class="text-sm md:text-3xl font-extrabold text-[#4A6B5D] font-serif-luxury block truncate">
+                    <span class="text-xs md:text-3xl font-extrabold text-[#4A6B5D] font-serif-luxury block truncate">
                         {{ statusCounts.confirmed + statusCounts.delivered }}
                     </span>
                 </div>
             </div>
 
             <!-- Pending / Action Required -->
-            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-3 md:p-6 flex flex-col justify-between gap-2.5 shadow-xs hover:border-amber-500/30 transition-all">
-                <div class="flex items-center justify-between gap-1.5">
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-2.5 md:p-6 flex flex-col justify-between gap-2 shadow-xs hover:border-amber-500/30 transition-all">
+                <div class="flex items-center justify-between gap-1">
                     <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_awaiting_action')">{{ t('admin_awaiting_action') }}</span>
-                    <div class="w-8 h-8 bg-amber-50 text-amber-500 border border-amber-100 rounded-lg flex items-center justify-center text-xs shadow-2xs shrink-0">
+                    <div class="w-7 h-7 bg-amber-50 text-amber-500 border border-amber-100 rounded-lg flex items-center justify-center text-[10px] shadow-2xs shrink-0">
                         <i class="fas fa-clock animate-pulse"></i>
                     </div>
                 </div>
                 <div>
-                    <span class="text-sm md:text-3xl font-extrabold text-amber-600 font-serif-luxury block truncate">
+                    <span class="text-xs md:text-3xl font-extrabold text-amber-600 font-serif-luxury block truncate">
                         {{ statusCounts.pending_proposal + statusCounts.pending_deposit + statusCounts.payment_submitted }}
                     </span>
                 </div>
             </div>
 
             <!-- Completed -->
-            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-3 md:p-6 flex flex-col justify-between gap-2.5 shadow-xs hover:border-blue-500/30 transition-all">
-                <div class="flex items-center justify-between gap-1.5">
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-2.5 md:p-6 flex flex-col justify-between gap-2 shadow-xs hover:border-blue-500/30 transition-all">
+                <div class="flex items-center justify-between gap-1">
                     <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_completed_jobs')">{{ t('admin_completed_jobs') }}</span>
-                    <div class="w-8 h-8 bg-blue-50 text-blue-600 border border-blue-100 rounded-lg flex items-center justify-center text-xs shadow-2xs shrink-0">
+                    <div class="w-7 h-7 bg-blue-50 text-blue-600 border border-blue-100 rounded-lg flex items-center justify-center text-[10px] shadow-2xs shrink-0">
                         <i class="fas fa-trophy"></i>
                     </div>
                 </div>
                 <div>
-                    <span class="text-sm md:text-3xl font-extrabold text-blue-700 font-serif-luxury block truncate">{{ statusCounts.completed }}</span>
+                    <span class="text-xs md:text-3xl font-extrabold text-blue-700 font-serif-luxury block truncate">{{ statusCounts.completed }}</span>
                 </div>
             </div>
         </div>
 
         <!-- Search + Filter Toolbar -->
-        <div class="bg-white border border-[#E6E1DA] rounded-3xl p-5 shadow-xs space-y-4">
+        <div class="bg-white border border-[#E6E1DA] rounded-3xl p-3.5 md:p-5 shadow-xs space-y-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-grow max-w-2xl">
                     <!-- Search input wrapper -->
                     <div class="relative flex-grow">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8C8275]">
                             <i class="fas fa-search text-xs"></i>
                         </span>
                         <input 
                             v-model="searchQuery" 
                             type="text" 
                             :placeholder="t('admin_search_orders_placeholder')" 
-                            class="w-full h-11 pl-10 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
+                            class="w-full h-9 pl-9 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
                             @input="handleSearchInput"
                         />
                         <button 
                             v-if="searchQuery"
                             @click="clearSearch"
-                            class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors"
+                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors"
                             title="Clear Search"
                         >
                             <i class="fas fa-times text-xs"></i>
@@ -416,7 +416,7 @@ function needsAction(status) {
                         <select 
                             v-model="filterStatus"
                             @change="handleFilterChange"
-                            class="w-full h-11 pl-4 pr-10 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
+                            class="w-full h-9 pl-3 pr-8 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
                         >
                             <option value="">{{ t('admin_all_statuses') }}</option>
                             <option value="Pending Proposal">{{ t('admin_status_pending_proposal') }}</option>
@@ -430,7 +430,7 @@ function needsAction(status) {
                             <option value="Balance Rejected">{{ t('balance_rejected') }}</option>
                             <option value="Cancelled">{{ t('cancelled_tab') }}</option>
                         </select>
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-[#8C8275]">
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-[#8C8275]">
                             <i class="fas fa-chevron-down text-[10px]"></i>
                         </span>
                     </div>
@@ -568,40 +568,40 @@ function needsAction(status) {
                 <!-- Shopee-style Card (Mobile Only) -->
                 <div
                     @click="toggleRow(order.id)"
-                    class="flex md:hidden flex-col gap-3 p-4 cursor-pointer transition-colors hover:bg-[#FAFAF9] border-b border-[#E6E1DA]/50 last:border-0 bg-white"
+                    class="flex md:hidden flex-col gap-2 p-3 cursor-pointer transition-colors hover:bg-[#FAFAF9] border-b border-[#E6E1DA]/50 last:border-0 bg-white"
                     :class="expandedRow === order.id ? 'bg-[#FAF7F2]/50' : ''"
                 >
                     <div class="flex justify-between items-center">
                         <div class="flex items-center gap-1.5">
-                            <span class="text-xs font-extrabold text-[#4A6B5D]">#SSC-{{ order.id }}</span>
+                            <span class="text-[10px] font-extrabold text-[#4A6B5D]">#SSC-{{ order.id }}</span>
                             <span v-if="needsAction(order.status)" class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
                         </div>
-                        <span class="inline-flex items-center gap-1 text-[8px] font-extrabold px-2.5 py-0.5 rounded-full border uppercase tracking-wider" :class="getStatusBadge(order.status)">
+                        <span class="inline-flex items-center gap-1 text-[7.5px] font-extrabold px-2 py-0.5 rounded-full border uppercase tracking-wider" :class="getStatusBadge(order.status)">
                             <i class="fas text-[6px]" :class="getStatusIcon(order.status)"></i>
                             {{ getTranslatedStatus(order.status) }}
                         </span>
                     </div>
 
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-[#4A6B5D]/10 text-[#4A6B5D] flex items-center justify-center font-bold text-[10px] shrink-0 border border-[#4A6B5D]/20">
+                        <div class="w-7 h-7 rounded-full bg-[#4A6B5D]/10 text-[#4A6B5D] flex items-center justify-center font-bold text-[9px] shrink-0 border border-[#4A6B5D]/20">
                             {{ (order.user?.full_name || order.user?.name || 'C').charAt(0).toUpperCase() }}
                         </div>
                         <div class="min-w-0 flex-grow">
-                            <p class="text-xs font-extrabold text-[#2D3330] truncate">
+                            <p class="text-[10px] font-semibold text-[#2D3330] truncate">
                                 {{ order.user?.full_name || order.user?.name || 'Customer' }}
                             </p>
-                            <p class="text-[9px] text-[#8C8275] font-semibold truncate">
+                            <p class="text-[8.5px] text-[#8C8275] font-semibold truncate">
                                 {{ order.user?.phone || order.user?.email }}
                             </p>
                         </div>
                         <div class="text-right shrink-0 pl-2">
-                            <span class="text-xs font-black text-[#C5A880] block">RM {{ parseFloat(order.total_price).toFixed(2) }}</span>
+                            <span class="text-[10px] font-black text-[#C5A880] block">RM {{ parseFloat(order.total_price).toFixed(2) }}</span>
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-between bg-[#FAF7F2] px-3 py-2 rounded-xl border border-[#E6E1DA]/60 text-[9px] font-bold">
+                    <div class="flex items-center justify-between bg-[#FAF7F2] px-2.5 py-1.5 rounded-xl border border-[#E6E1DA]/60 text-[8px] font-bold">
                         <div class="truncate pr-2 text-[#5C6460]">
-                            <span v-if="order.is_custom_proposal" class="text-[8px] bg-white text-[#4A6B5D] border border-[#C5A880]/40 px-1 py-0.5 rounded uppercase mr-1 inline-block">Custom</span>
+                            <span v-if="order.is_custom_proposal" class="text-[7.5px] bg-white text-[#4A6B5D] border border-[#C5A880]/40 px-1 py-0.5 rounded uppercase mr-1 inline-block">Custom</span>
                             {{ order.package_name }}
                         </div>
                         <div class="shrink-0 text-right text-[#8C8275]">
@@ -609,8 +609,8 @@ function needsAction(status) {
                         </div>
                     </div>
 
-                    <div class="flex justify-center pt-1.5">
-                        <i class="fas fa-chevron-down text-[9px] text-[#8C8275] transition-transform duration-200" :class="expandedRow === order.id ? 'rotate-180 text-[#4A6B5D]' : ''"></i>
+                    <div class="flex justify-center pt-1">
+                        <i class="fas fa-chevron-down text-[8px] text-[#8C8275] transition-transform duration-200" :class="expandedRow === order.id ? 'rotate-180 text-[#4A6B5D]' : ''"></i>
                     </div>
                 </div>
 
@@ -623,11 +623,11 @@ function needsAction(status) {
                     leave-from-class="opacity-100 translate-y-0"
                     leave-to-class="opacity-0 -translate-y-1"
                 >
-                    <div v-if="expandedRow === order.id" class="px-4 md:px-6 pb-5 bg-[#FAF7F2] border-t border-[#E6E1DA]/60">
-                        <div class="pt-5 grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div v-if="expandedRow === order.id" class="px-3 md:px-6 pb-4 bg-[#FAF7F2] border-t border-[#E6E1DA]/60">
+                        <div class="pt-3.5 grid grid-cols-1 md:grid-cols-3 gap-3.5">
 
                             <!-- Venue -->
-                            <div class="bg-white rounded-2xl border border-[#E6E1DA] p-4 space-y-1.5">
+                            <div class="bg-white rounded-2xl border border-[#E6E1DA] p-3 space-y-1.5">
                                 <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
                                     <i class="fas fa-map-marker-alt text-[#C5A880]"></i> {{ t('admin_event_venue') }}
                                 </span>
@@ -645,7 +645,7 @@ function needsAction(status) {
                             </div>
  
                             <!-- Order Info -->
-                             <div class="bg-white rounded-2xl border border-[#E6E1DA] p-4 space-y-3">
+                             <div class="bg-white rounded-2xl border border-[#E6E1DA] p-3 space-y-3">
                                  <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
                                      <i class="fas fa-info-circle text-[#C5A880]"></i> {{ t('itemized_breakdown') }}
                                  </span>
@@ -661,7 +661,7 @@ function needsAction(status) {
                                               <div 
                                                   v-for="(dishes, category) in getGroupedDishes(item)" 
                                                   :key="category" 
-                                                  class="bg-[#FAF7F2] border border-[#E6E1DA] p-2.5 rounded-xl space-y-1"
+                                                  class="bg-[#FAF7F2] border border-[#E6E1DA] p-2 rounded-xl space-y-1"
                                               >
                                                   <span class="text-[8px] font-extrabold text-[#4A6B5D] uppercase tracking-widest block border-b border-[#E6E1DA] pb-0.5">{{ category }}</span>
                                                   <ul class="space-y-0.5">
@@ -714,7 +714,7 @@ function needsAction(status) {
                              </div>
 
                             <!-- Actions Panel -->
-                            <div class="bg-white rounded-2xl border border-[#E6E1DA] p-4 space-y-3">
+                            <div class="bg-white rounded-2xl border border-[#E6E1DA] p-3 space-y-3">
                                 <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
                                     <i class="fas fa-bolt text-[#C5A880]"></i> {{ t('quick_actions') }}
                                 </span>
@@ -723,58 +723,58 @@ function needsAction(status) {
                                 <div class="space-y-2">
                                     <button v-if="order.payment_proof"
                                         @click.stop="openReceipt(order)"
-                                        class="w-full flex items-center justify-center gap-2 bg-[#FAF7F2] hover:bg-[#F0EBE2] border border-[#E6E1DA] text-[#5C6460] font-bold py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer">
+                                        class="w-full flex items-center justify-center gap-2 bg-[#FAF7F2] hover:bg-[#F0EBE2] border border-[#E6E1DA] text-[#5C6460] font-bold py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer">
                                         <i class="fas fa-file-invoice-dollar text-blue-600"></i> {{ t('admin_view_slip') }}
                                     </button>
                                     <div v-else
-                                        class="w-full flex items-center justify-center gap-2 bg-[#FAF7F2] border border-dashed border-[#E6E1DA] text-[#B5AFA8] font-semibold py-2.5 rounded-xl text-xs">
+                                        class="w-full flex items-center justify-center gap-2 bg-[#FAF7F2] border border-dashed border-[#E6E1DA] text-[#B5AFA8] font-semibold py-1.5 rounded-xl text-[10px] sm:text-xs">
                                         <i class="fas fa-times-circle"></i> {{ t('admin_no_slip_uploaded') }}
                                     </div>
 
                                     <!-- Download Kitchen Slip -->
                                     <a :href="route('orders.invoice.pdf', order.id)"
                                         @click.stop
-                                        class="w-full flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors">
+                                        class="w-full flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors text-center">
                                         <i class="fas fa-file-pdf text-[10px]"></i> {{ t('admin_kitchen_slip') }}
                                     </a>
 
                                      <!-- Proposal Actions -->
-                                     <div v-if="order.status === 'Pending Proposal'" class="pt-2">
+                                     <div v-if="order.status === 'Pending Proposal'" class="pt-1.5">
                                          <button
                                              @click.stop="openProposalBuilder(order)"
-                                             class="w-full flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer"
+                                             class="w-full flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer"
                                          >
                                              <i class="fas fa-utensils"></i> {{ t('admin_build_custom_menu') }}
                                          </button>
                                      </div>
 
-                                     <div v-else-if="order.status === 'Proposal Sent'" class="pt-2">
-                                         <div class="p-3 bg-emerald-50 border border-emerald-100 text-xs rounded-xl text-center text-[#4A6B5D] font-semibold">
+                                     <div v-else-if="order.status === 'Proposal Sent'" class="pt-1.5">
+                                         <div class="p-2 bg-emerald-50 border border-emerald-100 text-[10px] sm:text-xs rounded-xl text-center text-[#4A6B5D] font-semibold">
                                              <i class="fas fa-check-circle"></i> {{ t('admin_proposal_sent_waiting').replace('{price}', parseFloat(order.total_price).toFixed(2)) }}
                                          </div>
                                      </div>
 
                                      <!-- Approve / Reject (only if action needed) -->
-                                     <div v-else-if="needsAction(order.status)" class="grid grid-cols-2 gap-2">
+                                     <div v-else-if="needsAction(order.status)" class="grid grid-cols-2 gap-2 pt-1.5">
                                          <button
                                              @click.stop="handleVerify(order.id, 'approve')"
                                              :disabled="verifyForm.processing"
-                                             class="flex items-center justify-center gap-1.5 bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-xs">
+                                             class="flex items-center justify-center gap-1.5 bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-xs">
                                              <i class="fas fa-check text-[10px]"></i> {{ t('admin_approve') }}
                                          </button>
                                          <button
                                              @click.stop="handleVerify(order.id, 'reject')"
                                              :disabled="verifyForm.processing"
-                                             class="flex items-center justify-center gap-1.5 bg-rose-600 hover:bg-rose-700 disabled:opacity-60 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-xs">
+                                             class="flex items-center justify-center gap-1.5 bg-rose-600 hover:bg-rose-700 disabled:opacity-60 text-white font-bold py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-xs">
                                              <i class="fas fa-times text-[10px]"></i> {{ t('admin_reject') }}
                                          </button>
                                      </div>
 
                                      <!-- Deliver Order (if Confirmed) -->
-                                     <div v-if="order.status === 'Confirmed'" class="pt-2">
+                                     <div v-if="order.status === 'Confirmed'" class="pt-1.5">
                                          <button
                                              @click.stop="handleDeliver(order.id)"
-                                             class="w-full flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-xs"
+                                             class="w-full flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-xs"
                                          >
                                              <i class="fas fa-truck text-[10px]"></i> {{ t('admin_mark_as_delivered') }}
                                          </button>
@@ -806,27 +806,27 @@ function needsAction(status) {
         </div>
 
         <!-- Pagination Bar -->
-        <div v-if="orders.data.length > 0" class="bg-white rounded-3xl border border-[#E6E1DA] p-4 shadow-xs">
+        <div v-if="orders.data.length > 0" class="bg-white rounded-3xl border border-[#E6E1DA] p-3.5 shadow-xs">
             <div class="flex flex-wrap items-center justify-between gap-4">
                 <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider">
                     {{ t('admin_showing_orders').replace('{from}', orders.from).replace('{to}', orders.to).replace('{total}', orders.total) }}
                 </span>
                 <div class="flex items-center gap-1.5 flex-wrap">
                     <button @click="goToPage(orders.prev_page_url)" :disabled="!orders.prev_page_url"
-                        class="w-8 h-8 rounded-xl border border-[#E6E1DA] flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
+                        class="w-7.5 h-7.5 rounded-lg border border-[#E6E1DA] flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
                         :class="orders.prev_page_url ? 'text-[#4A6B5D] hover:bg-[#FAF7F2] hover:border-[#4A6B5D]' : 'text-[#C6C1B9] cursor-not-allowed bg-[#FAF7F2]'">
                         <i class="fas fa-chevron-left text-[9px]"></i>
                     </button>
                     <template v-for="link in orders.links" :key="link.label">
                         <button v-if="link.label !== '&laquo; Previous' && link.label !== 'Next &raquo;'"
                             @click="goToPage(link.url)" :disabled="!link.url"
-                            class="min-w-8 h-8 px-2.5 rounded-xl border text-[11px] font-bold transition-colors cursor-pointer"
+                            class="min-w-7.5 h-7.5 px-2 rounded-lg border text-[11px] font-bold transition-colors cursor-pointer"
                             :class="link.active ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-sm' : link.url ? 'border-[#E6E1DA] text-[#5C6460] hover:bg-[#FAF7F2] hover:border-[#4A6B5D] hover:text-[#4A6B5D]' : 'border-transparent text-[#8C8275] cursor-default'"
                             v-html="link.label">
                         </button>
                     </template>
                     <button @click="goToPage(orders.next_page_url)" :disabled="!orders.next_page_url"
-                        class="w-8 h-8 rounded-xl border border-[#E6E1DA] flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
+                        class="w-7.5 h-7.5 rounded-lg border border-[#E6E1DA] flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
                         :class="orders.next_page_url ? 'text-[#4A6B5D] hover:bg-[#FAF7F2] hover:border-[#4A6B5D]' : 'text-[#C6C1B9] cursor-not-allowed bg-[#FAF7F2]'">
                         <i class="fas fa-chevron-right text-[9px]"></i>
                     </button>
@@ -843,13 +843,13 @@ function needsAction(status) {
             leave-from-class="opacity-100 scale-100"
             leave-to-class="opacity-0 scale-95"
         >
-            <div v-if="showReceiptModal" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-[#1B2A22]/60 backdrop-blur-sm">
+            <div v-if="showReceiptModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1B2A22]/60 backdrop-blur-sm">
                 <div class="bg-white rounded-3xl max-w-2xl w-full relative border border-[#E6E1DA] shadow-2xl overflow-hidden">
                     
                     <!-- Modal Header -->
-                    <div class="flex items-center justify-between px-7 py-5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
+                    <div class="flex items-center justify-between px-4 sm:px-7 py-3 sm:py-5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
                         <div>
-                            <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_payment_receipt_slip') }}</h3>
+                            <h3 class="text-xs sm:text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_payment_receipt_slip') }}</h3>
                             <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5" v-if="activeReceiptOrder">
                                 {{ t('admin_booking') }} #SSC-{{ activeReceiptOrder.id }} — {{ activeReceiptOrder.user?.full_name || activeReceiptOrder.user?.name }}
                             </p>
@@ -861,15 +861,15 @@ function needsAction(status) {
                     </div>
 
                     <!-- Receipt Viewer -->
-                    <div class="p-5">
-                        <div class="border border-[#E6E1DA] rounded-2xl overflow-hidden max-h-[60vh] flex items-center justify-center bg-[#FAF7F2]">
-                            <iframe v-if="activeReceiptUrl.endsWith('.pdf')" :src="activeReceiptUrl" class="w-full h-[55vh]"></iframe>
-                            <img v-else :src="activeReceiptUrl" alt="Payment Slip" class="max-w-full max-h-[55vh] object-contain" />
+                    <div class="p-4 sm:p-5">
+                        <div class="border border-[#E6E1DA] rounded-2xl overflow-hidden max-h-[50vh] flex items-center justify-center bg-[#FAF7F2]">
+                            <iframe v-if="activeReceiptUrl.endsWith('.pdf')" :src="activeReceiptUrl" class="w-full h-[45vh]"></iframe>
+                            <img v-else :src="activeReceiptUrl" alt="Payment Slip" class="max-w-full max-h-[45vh] object-contain" />
                         </div>
                     </div>
 
                     <!-- Modal Footer with Actions -->
-                    <div class="px-7 pb-6 flex items-center justify-between gap-3 flex-wrap">
+                    <div class="px-4 sm:px-7 pb-4 sm:pb-6 flex items-center justify-between gap-3 flex-wrap">
                         <a :href="activeReceiptUrl" target="_blank"
                             class="inline-flex items-center gap-1.5 text-xs font-bold text-[#C5A880] hover:underline">
                             <i class="fas fa-external-link-alt text-[10px]"></i> {{ t('admin_open_new_tab') }}
@@ -879,13 +879,13 @@ function needsAction(status) {
                             <button
                                 @click="handleVerify(activeReceiptOrder.id, 'reject')"
                                 :disabled="verifyForm.processing"
-                                class="flex items-center gap-1.5 border border-rose-200 bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-700 font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-all cursor-pointer">
+                                class="flex items-center gap-1.5 border border-rose-200 bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-700 font-bold px-3 py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-all cursor-pointer">
                                 <i class="fas fa-times text-[10px]"></i> {{ t('admin_reject') }}
                             </button>
                             <button
                                 @click="handleVerify(activeReceiptOrder.id, 'approve')"
                                 :disabled="verifyForm.processing"
-                                class="flex items-center gap-1.5 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-xs">
+                                class="flex items-center gap-1.5 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3 py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-xs">
                                 <i class="fas fa-check text-[10px]"></i> {{ t('admin_approve_payment') }}
                             </button>
                         </div>
@@ -903,13 +903,13 @@ function needsAction(status) {
             leave-from-class="opacity-100 scale-100"
             leave-to-class="opacity-0 scale-95"
         >
-            <div v-if="showProposalModal" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-[#1B2A22]/60 backdrop-blur-sm overflow-y-auto">
+            <div v-if="showProposalModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1B2A22]/60 backdrop-blur-sm overflow-y-auto">
                 <div class="bg-white rounded-3xl max-w-4xl w-full my-8 relative border border-[#E6E1DA] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
                     
                     <!-- Modal Header -->
-                    <div class="flex items-center justify-between px-7 py-5 border-b border-[#E6E1DA] bg-[#FAF7F2] shrink-0">
+                    <div class="flex items-center justify-between px-4 sm:px-7 py-3 sm:py-5 border-b border-[#E6E1DA] bg-[#FAF7F2] shrink-0">
                         <div>
-                            <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_build_custom_proposal_title') }}</h3>
+                            <h3 class="text-xs sm:text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_build_custom_proposal_title') }}</h3>
                             <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5" v-if="selectedProposalOrder">
                                 {{ t('admin_booking') }} #SSC-{{ selectedProposalOrder.id }} — {{ selectedProposalOrder.user?.full_name || selectedProposalOrder.user?.name }}
                             </p>
@@ -921,13 +921,13 @@ function needsAction(status) {
                     </div>
 
                     <!-- Modal Body (Scrollable) -->
-                    <div class="p-7 overflow-y-auto flex-grow space-y-6 text-xs">
+                    <div class="p-4 sm:p-7 overflow-y-auto flex-grow space-y-4 sm:space-y-6 text-xs">
                         
                         <!-- Client Request Brief -->
-                        <div v-if="selectedProposalOrder" class="bg-[#FAF7F2]/60 border border-[#E6E1DA] rounded-2xl p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div v-if="selectedProposalOrder" class="bg-[#FAF7F2]/60 border border-[#E6E1DA] rounded-2xl p-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
                                 <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('admin_target_budget') }}</span>
-                                <span class="font-extrabold text-[#C5A880] text-sm font-serif-luxury">RM {{ parseFloat(selectedProposalOrder.total_price).toFixed(2) }}</span>
+                                <span class="font-extrabold text-[#C5A880] text-xs sm:text-sm font-serif-luxury">RM {{ parseFloat(selectedProposalOrder.total_price).toFixed(2) }}</span>
                             </div>
                             <div>
                                 <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('guest_count') }}</span>
@@ -939,7 +939,7 @@ function needsAction(status) {
                             </div>
                             <div class="sm:col-span-3 border-t border-[#E6E1DA] pt-3">
                                 <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('admin_client_wishlist') }}</span>
-                                <p class="text-[#5C6460] leading-relaxed italic">"{{ selectedProposalOrder.admin_note || t('admin_no_notes_provided') }}"</p>
+                                <p class="text-[#5C6460] leading-relaxed italic text-[11px]">"{{ selectedProposalOrder.admin_note || t('admin_no_notes_provided') }}"</p>
                             </div>
                         </div>
 
@@ -957,7 +957,7 @@ function needsAction(status) {
                                             min="0" 
                                             step="0.01"
                                             required
-                                            class="w-full pl-12 pr-4 h-11 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] text-[#2D3330]"
+                                            class="w-full pl-12 pr-4 h-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] text-[#2D3330]"
                                             :placeholder="t('admin_enter_finalized_cost_placeholder')"
                                         />
                                     </div>
@@ -967,7 +967,7 @@ function needsAction(status) {
                                     <input 
                                         v-model="proposalForm.admin_note" 
                                         type="text" 
-                                        class="w-full px-4 h-11 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] text-[#2D3330]"
+                                        class="w-full px-4 h-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] text-[#2D3330]"
                                         :placeholder="t('admin_note_placeholder')"
                                     />
                                 </div>
@@ -976,20 +976,20 @@ function needsAction(status) {
                             <!-- Dish Swapper / Wishlist Selector -->
                             <div class="space-y-4 pt-4 border-t border-[#E6E1DA]">
                                 <div>
-                                    <h4 class="font-serif-luxury text-base text-[#2D3330] font-normal uppercase tracking-wide">{{ t('admin_assemble_proposal_menu') }}</h4>
+                                    <h4 class="font-serif-luxury text-sm sm:text-base text-[#2D3330] font-normal uppercase tracking-wide">{{ t('admin_assemble_proposal_menu') }}</h4>
                                     <p class="text-[10px] text-[#8C8275] font-light mt-0.5">{{ t('admin_assemble_proposal_desc') }}</p>
                                 </div>
 
                                 <div class="space-y-6">
                                     <div v-for="(dishesList, category) in dishesByCategory" :key="category" class="space-y-2.5">
-                                        <h5 class="text-[9px] font-bold text-[#4A6B5D] uppercase tracking-wider bg-[#FAF8F5] border border-[#E6E1DA] px-2.5 py-1 rounded-md inline-block">
+                                        <h5 class="text-[8.5px] font-bold text-[#4A6B5D] uppercase tracking-wider bg-[#FAF8F5] border border-[#E6E1DA] px-2 py-0.5 rounded-md inline-block">
                                             {{ category }}
                                         </h5>
                                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                                             <label 
                                                 v-for="dish in dishesList" 
                                                 :key="dish.id"
-                                                class="flex items-center gap-2.5 p-3 rounded-xl border border-[#E6E1DA] cursor-pointer transition-all hover:border-[#4A6B5D]"
+                                                class="flex items-center gap-2.5 p-2 rounded-xl border border-[#E6E1DA] cursor-pointer transition-all hover:border-[#4A6B5D]"
                                                 :class="proposalForm.dishes.includes(dish.id) ? 'bg-[#FAF7F2] border-[#4A6B5D]' : 'bg-white'"
                                             >
                                                 <input 
@@ -1011,18 +1011,18 @@ function needsAction(status) {
                             </div>
 
                             <!-- Modal Submit Actions -->
-                            <div class="border-t border-[#E6E1DA] pt-5 flex justify-end gap-3 shrink-0">
+                            <div class="border-t border-[#E6E1DA] pt-3.5 flex justify-end gap-3 shrink-0">
                                 <button 
                                     type="button" 
                                     @click="closeProposalModal"
-                                    class="px-5 py-2.5 border border-[#E6E1DA] hover:bg-[#FAF7F2] text-[#8C8275] rounded-xl text-xs uppercase tracking-widest font-semibold transition-colors cursor-pointer"
+                                    class="px-4 py-1.5 border border-[#E6E1DA] hover:bg-[#FAF7F2] text-[#8C8275] rounded-xl text-[10px] sm:text-xs uppercase tracking-widest font-semibold transition-colors cursor-pointer"
                                 >
                                     {{ t('cancel') }}
                                 </button>
                                 <button 
                                     type="submit" 
                                     :disabled="proposalForm.processing"
-                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest font-semibold transition-colors cursor-pointer shadow-xs"
+                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white px-4 py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest font-semibold transition-colors cursor-pointer shadow-xs"
                                 >
                                     {{ proposalForm.processing ? t('sending_status') : t('admin_send_menu_proposal') }}
                                 </button>

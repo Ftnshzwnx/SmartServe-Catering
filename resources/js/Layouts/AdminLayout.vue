@@ -506,14 +506,14 @@ const formatTimeAgo = (dateStr) => {
             </header>
  
             <!-- Main Page Content Slot -->
-            <main class="flex-grow p-4 md:p-8 space-y-4 md:space-y-6 overflow-y-auto">
+            <main class="flex-grow p-3.5 md:p-8 space-y-3.5 md:space-y-6 overflow-y-auto">
                 <!-- Page Title Card (Tajdid style, in body) -->
-                <div v-if="headerTitle" class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] p-4 md:p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div class="space-y-1.5">
-                        <h1 class="text-base md:text-xl font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide leading-none">
+                <div v-if="headerTitle" class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] p-3.5 md:p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
+                    <div class="space-y-1">
+                        <h1 class="text-sm sm:text-base md:text-xl font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide leading-none">
                             {{ headerTitle }}
                         </h1>
-                        <p v-if="headerDesc" class="text-[10px] md:text-xs text-[#8C8275] font-semibold leading-relaxed tracking-wide">
+                        <p v-if="headerDesc" class="text-[9.5px] sm:text-[10px] md:text-xs text-[#8C8275] font-semibold leading-relaxed tracking-wide">
                             {{ headerDesc }}
                         </p>
                     </div>

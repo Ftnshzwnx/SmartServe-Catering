@@ -229,11 +229,11 @@ watch(() => window.location.search, () => {
 
         <!-- Elegant Sticky Navbar -->
         <nav class="sticky top-0 z-50 w-full border-b border-[#E6E1DA] glass-nav transition-all duration-300 font-sans-modern">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-20 flex items-center justify-between">
                 <!-- Logo -->
                 <div class="flex items-center">
                     <Link href="/" class="flex items-center">
-                        <ApplicationLogo />
+                        <ApplicationLogo class="h-8 md:h-10 w-auto" />
                     </Link>
                 </div>
 
@@ -294,19 +294,19 @@ watch(() => window.location.search, () => {
                 </div>
 
                 <!-- Hamburger Button (Mobile Only) -->
-                <div class="flex items-center md:hidden gap-3">
+                <div class="flex items-center md:hidden gap-2">
                     <button 
                         @click="setLanguage(currentLanguage === 'en' ? 'my' : 'en')"
-                        class="text-[10px] font-bold uppercase tracking-wider border border-[#E6E1DA] px-2.5 py-1 rounded-lg text-[#8C8275] hover:text-[#2D3330] bg-white shadow-2xs transition-colors"
+                        class="text-[9px] font-bold uppercase tracking-wider border border-[#E6E1DA] px-2 py-0.5 rounded-md text-[#8C8275] hover:text-[#2D3330] bg-white shadow-2xs transition-colors"
                     >
                         {{ currentLanguage.toUpperCase() }}
                     </button>
 
                     <button 
                         @click="isMobileMenuOpen = true"
-                        class="w-10 h-10 border border-[#E6E1DA] rounded-xl flex items-center justify-center text-[#8C8275] hover:text-[#4A6B5D] bg-white transition-colors cursor-pointer"
+                        class="w-8 h-8 border border-[#E6E1DA] rounded-lg flex items-center justify-center text-[#8C8275] hover:text-[#4A6B5D] bg-white transition-colors cursor-pointer"
                     >
-                        <i class="fas fa-bars"></i>
+                        <i class="fas fa-bars text-xs"></i>
                     </button>
                 </div>
             </div>
@@ -471,29 +471,29 @@ watch(() => window.location.search, () => {
                 >
                     <div 
                         v-if="isMobileMenuOpen"
-                        class="w-full max-w-[280px] bg-[#FAF7F2] h-full shadow-2xl border-r border-[#E6E1DA] p-6 flex flex-col justify-between overflow-y-auto relative z-[60] text-[#2D3330]"
+                        class="w-full max-w-[240px] bg-[#FAF7F2] h-full shadow-2xl border-r border-[#E6E1DA] p-4 flex flex-col justify-between overflow-y-auto relative z-[60] text-[#2D3330]"
                     >
-                        <div class="space-y-8">
+                        <div class="space-y-4">
                             <!-- Logo and Close Button -->
-                            <div class="flex items-center justify-between border-b border-[#E6E1DA] pb-4">
+                            <div class="flex items-center justify-between border-b border-[#E6E1DA] pb-3">
                                 <Link href="/" @click="isMobileMenuOpen = false">
-                                    <ApplicationLogo />
+                                    <ApplicationLogo class="h-7 w-auto" />
                                 </Link>
                                 <button 
                                     @click="isMobileMenuOpen = false"
-                                    class="w-8 h-8 border border-[#E6E1DA] rounded-lg flex items-center justify-center text-[#8C8275] hover:text-[#2D3330] cursor-pointer"
+                                    class="w-7 h-7 border border-[#E6E1DA] rounded-lg flex items-center justify-center text-[#8C8275] hover:text-[#2D3330] cursor-pointer"
                                 >
-                                    <i class="fas fa-times"></i>
+                                    <i class="fas fa-times text-xs"></i>
                                 </button>
                             </div>
 
                             <!-- Menu Links -->
-                            <nav class="flex flex-col gap-4">
-                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest px-1 block select-none">{{ t('explore_title') }}</span>
+                            <nav class="flex flex-col gap-2">
+                                <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest px-1 block select-none">{{ t('explore_title') }}</span>
                                 <Link 
                                     href="/" 
                                     @click="isMobileMenuOpen = false"
-                                    class="text-sm font-semibold uppercase tracking-wider py-2 px-3 rounded-xl hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
+                                    class="text-xs font-semibold uppercase tracking-wider py-1.5 px-2 rounded-lg hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
                                     :class="$page.url === '/' ? 'text-[#4A6B5D] bg-[#4A6B5D]/8 font-bold' : 'text-[#5C6460]'"
                                 >
                                     {{ t('home_nav') }}
@@ -501,7 +501,7 @@ watch(() => window.location.search, () => {
                                 <Link 
                                     href="/about" 
                                     @click="isMobileMenuOpen = false"
-                                    class="text-sm font-semibold uppercase tracking-wider py-2 px-3 rounded-xl hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
+                                    class="text-xs font-semibold uppercase tracking-wider py-1.5 px-2 rounded-lg hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
                                     :class="$page.url.startsWith('/about') ? 'text-[#4A6B5D] bg-[#4A6B5D]/8 font-bold' : 'text-[#5C6460]'"
                                 >
                                     {{ t('about_nav') }}
@@ -509,7 +509,7 @@ watch(() => window.location.search, () => {
                                 <Link 
                                     href="/packages" 
                                     @click="isMobileMenuOpen = false"
-                                    class="text-sm font-semibold uppercase tracking-wider py-2 px-3 rounded-xl hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
+                                    class="text-xs font-semibold uppercase tracking-wider py-1.5 px-2 rounded-lg hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
                                     :class="$page.url.startsWith('/packages') ? 'text-[#4A6B5D] bg-[#4A6B5D]/8 font-bold' : 'text-[#5C6460]'"
                                 >
                                     {{ t('package_nav') }}
@@ -517,7 +517,7 @@ watch(() => window.location.search, () => {
                                 <Link 
                                     href="/faq" 
                                     @click="isMobileMenuOpen = false"
-                                    class="text-sm font-semibold uppercase tracking-wider py-2 px-3 rounded-xl hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
+                                    class="text-xs font-semibold uppercase tracking-wider py-1.5 px-2 rounded-lg hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
                                     :class="$page.url.startsWith('/faq') ? 'text-[#4A6B5D] bg-[#4A6B5D]/8 font-bold' : 'text-[#5C6460]'"
                                 >
                                     {{ t('faq_nav') }}
@@ -525,7 +525,7 @@ watch(() => window.location.search, () => {
                                 <Link 
                                     href="/contact" 
                                     @click="isMobileMenuOpen = false"
-                                    class="text-sm font-semibold uppercase tracking-wider py-2 px-3 rounded-xl hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
+                                    class="text-xs font-semibold uppercase tracking-wider py-1.5 px-2 rounded-lg hover:bg-[#4A6B5D]/5 hover:text-[#4A6B5D] transition-colors"
                                     :class="$page.url.startsWith('/contact') ? 'text-[#4A6B5D] bg-[#4A6B5D]/8 font-bold' : 'text-[#5C6460]'"
                                 >
                                     {{ t('contact_nav') }}
@@ -555,37 +555,37 @@ watch(() => window.location.search, () => {
                         </div>
 
                         <!-- User Profile or Auth Buttons in Drawer Footer -->
-                        <div class="pt-6 border-t border-[#E6E1DA] mt-auto">
-                            <div v-if="$page.props.auth.user" class="space-y-3">
-                                <div class="flex items-center gap-3 p-3 bg-white border border-[#E6E1DA] rounded-2xl">
-                                    <img v-if="$page.props.auth.user.profile_image" :src="'/storage/' + $page.props.auth.user.profile_image" class="w-9 h-9 rounded-full object-cover shadow-sm shrink-0" />
-                                    <div v-else class="w-9 h-9 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-sm shadow-sm shrink-0">
+                        <div class="pt-4 border-t border-[#E6E1DA] mt-auto">
+                            <div v-if="$page.props.auth.user" class="space-y-2">
+                                <div class="flex items-center gap-2 p-2 bg-white border border-[#E6E1DA] rounded-xl">
+                                    <img v-if="$page.props.auth.user.profile_image" :src="'/storage/' + $page.props.auth.user.profile_image" class="w-8 h-8 rounded-full object-cover shadow-sm shrink-0" />
+                                    <div v-else class="w-8 h-8 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-xs shadow-sm shrink-0">
                                         {{ ($page.props.auth.user.name || 'C').charAt(0).toUpperCase() }}
                                     </div>
                                     <div class="overflow-hidden">
-                                        <h4 class="text-xs font-semibold text-[#2D3330] truncate">{{ $page.props.auth.user.name }}</h4>
-                                        <p class="text-[9px] text-[#8C8275] uppercase font-semibold">{{ t('role_customer') }}</p>
+                                        <h4 class="text-[10px] font-semibold text-[#2D3330] truncate">{{ $page.props.auth.user.name }}</h4>
+                                        <p class="text-[8px] text-[#8C8275] uppercase font-semibold">{{ t('role_customer') }}</p>
                                     </div>
                                 </div>
                                 <Link 
                                     :href="route('dashboard')"
                                     @click="isMobileMenuOpen = false"
-                                    class="w-full block text-center bg-[#4A6B5D] hover:bg-[#3D574B] text-white py-3 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200"
+                                    class="w-full block text-center bg-[#4A6B5D] hover:bg-[#3D574B] text-white py-2 rounded-lg text-[10px] font-semibold uppercase tracking-widest transition-colors duration-200"
                                 >
                                     {{ t('dashboard') }}
                                 </Link>
                             </div>
-                            <div v-else class="flex flex-col gap-2">
+                            <div v-else class="flex flex-col gap-1.5">
                                 <button
                                     @click="openDrawer('login'); isMobileMenuOpen = false;"
-                                    class="w-full text-center bg-white border border-[#E6E1DA] text-[#2D3330] hover:text-[#4A6B5D] py-3 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
+                                    class="w-full text-center bg-white border border-[#E6E1DA] text-[#2D3330] hover:text-[#4A6B5D] py-2 rounded-lg text-[10px] font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
                                 >
                                     {{ t('sign_in') }}
                                 </button>
                                 <button
                                     v-if="canRegister"
                                     @click="openDrawer('register'); isMobileMenuOpen = false;"
-                                    class="w-full text-center bg-[#4A6B5D] hover:bg-[#3D574B] text-white py-3 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
+                                    class="w-full text-center bg-[#4A6B5D] hover:bg-[#3D574B] text-white py-2 rounded-lg text-[10px] font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
                                 >
                                     {{ t('register') }}
                                 </button>
@@ -621,21 +621,21 @@ watch(() => window.location.search, () => {
                 >
                     <div 
                         v-if="currentDrawer"
-                        class="w-full max-w-md bg-[#FAF7F2] h-full shadow-2xl border-l border-[#E6E1DA] rounded-l-3xl p-6 sm:p-10 flex flex-col justify-between overflow-y-auto relative z-50 text-[#2D3330]"
+                        class="w-full max-w-md bg-[#FAF7F2] h-full shadow-2xl border-l border-[#E6E1DA] rounded-l-2xl sm:rounded-l-3xl p-4 sm:p-10 flex flex-col justify-between overflow-y-auto relative z-50 text-[#2D3330]"
                     >
                         <!-- Close button -->
                         <button 
                             @click="closeDrawer"
-                            class="absolute top-6 right-6 text-[#8C8275] hover:text-[#2D3330] transition-colors text-lg cursor-pointer"
+                            class="absolute top-4 right-4 sm:top-6 sm:right-6 text-[#8C8275] hover:text-[#2D3330] transition-colors text-lg cursor-pointer"
                         >
                             <i class="fas fa-times"></i>
                         </button>
 
-                        <div class="space-y-8 my-auto">
+                        <div class="space-y-6 sm:space-y-8 my-auto">
                             <!-- Logo Brand -->
                             <div class="flex flex-col items-center text-center">
-                                <img src="/img/logo.png" class="h-16 w-auto object-contain mb-4" alt="SmartServe Logo" />
-                                <h3 class="text-2xl font-normal font-serif-luxury uppercase tracking-wider text-[#2D3330]">
+                                <img src="/img/logo.png" class="h-10 sm:h-16 w-auto object-contain mb-2 sm:mb-4" alt="SmartServe Logo" />
+                                <h3 class="text-lg sm:text-2xl font-normal font-serif-luxury uppercase tracking-wider text-[#2D3330]">
                                     <template v-if="currentDrawer === 'login'">{{ t('sign_in') }}</template>
                                     <template v-else-if="currentDrawer === 'register'">{{ t('register') }}</template>
                                     <template v-else-if="currentDrawer === 'forgot-password'">{{ t('reset_password') }}</template>
@@ -643,14 +643,14 @@ watch(() => window.location.search, () => {
                                 </h3>
                             </div>
 
-                            <!-- 1. LOGIN FORM -->
-                            <form v-if="currentDrawer === 'login'" @submit.prevent="submitLogin" class="space-y-5">
+                             <!-- 1. LOGIN FORM -->
+                            <form v-if="currentDrawer === 'login'" @submit.prevent="submitLogin" class="space-y-3 sm:space-y-5">
                                 <div>
-                                    <InputLabel for="login-email" :value="t('email_address_label')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
+                                    <InputLabel for="login-email" :value="t('email_address_label')" class="text-[10px] sm:text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
                                     <TextInput
                                         id="login-email"
                                         type="email"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-2 px-3 sm:py-3"
                                         v-model="loginForm.email"
                                         required
                                         autofocus
@@ -661,20 +661,20 @@ watch(() => window.location.search, () => {
 
                                 <div>
                                     <div class="flex justify-between items-center">
-                                        <InputLabel for="login-password" :value="t('password_label')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
+                                        <InputLabel for="login-password" :value="t('password_label')" class="text-[10px] sm:text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
                                         <button 
                                             type="button" 
                                             @click="openDrawer('forgot-password')"
-                                            class="text-xs text-[#8C8275] hover:text-[#4A6B5D] transition-colors cursor-pointer"
+                                            class="text-[10px] sm:text-xs text-[#8C8275] hover:text-[#4A6B5D] transition-colors cursor-pointer"
                                         >
                                             {{ t('forgot_password_btn') }}
                                         </button>
                                     </div>
-                                    <div class="relative mt-1.5">
+                                    <div class="relative mt-1">
                                         <TextInput
                                             id="login-password"
                                             :type="showLoginPassword ? 'text' : 'password'"
-                                            class="block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3 pr-10"
+                                            class="block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-2 px-3 sm:py-3 pr-10"
                                             v-model="loginForm.password"
                                             required
                                             autocomplete="current-password"
@@ -692,18 +692,19 @@ watch(() => window.location.search, () => {
 
                                 <div>
                                     <Checkbox name="remember" v-model:checked="loginForm.remember" class="rounded text-[#4A6B5D] focus:ring-0" />
-                                    <span class="ms-2 text-xs text-[#8C8275]">{{ t('remember_session') }}</span>
+                                    <span class="ms-2 text-[10px] sm:text-xs text-[#8C8275]">{{ t('remember_session') }}</span>
                                 </div>
 
                                 <button
                                     type="submit"
-                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
+                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-2.5 sm:py-3.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
                                     :disabled="loginForm.processing"
+                                LowerCase
                                 >
                                     {{ loginForm.processing ? t('signing_in_status') : t('sign_in') }}
                                 </button>
 
-                                <div class="text-center text-xs text-[#8C8275] pt-2">
+                                <div class="text-center text-[10px] sm:text-xs text-[#8C8275] pt-1">
                                     {{ t('no_account_notice') }} 
                                     <button type="button" @click="openDrawer('register')" class="text-[#4A6B5D] font-bold hover:underline cursor-pointer ml-1">
                                         {{ t('register') }}
@@ -712,13 +713,13 @@ watch(() => window.location.search, () => {
                             </form>
 
                             <!-- 2. REGISTER FORM -->
-                            <form v-else-if="currentDrawer === 'register'" @submit.prevent="submitRegister" class="space-y-4">
+                            <form v-else-if="currentDrawer === 'register'" @submit.prevent="submitRegister" class="space-y-3 sm:space-y-4">
                                 <div>
-                                    <InputLabel for="reg-name" :value="t('your_name_label')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
+                                    <InputLabel for="reg-name" :value="t('your_name_label')" class="text-[10px] sm:text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
                                     <TextInput
                                         id="reg-name"
                                         type="text"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-2 px-3 sm:py-3"
                                         v-model="registerForm.name"
                                         required
                                         autofocus
@@ -728,11 +729,11 @@ watch(() => window.location.search, () => {
                                 </div>
 
                                 <div>
-                                    <InputLabel for="reg-fullname" :value="t('full_name_label')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
+                                    <InputLabel for="reg-fullname" :value="t('full_name_label')" class="text-[10px] sm:text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
                                     <TextInput
                                         id="reg-fullname"
                                         type="text"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-2 px-3 sm:py-3"
                                         v-model="registerForm.full_name"
                                         required
                                         autocomplete="name"
@@ -741,11 +742,11 @@ watch(() => window.location.search, () => {
                                 </div>
 
                                 <div>
-                                    <InputLabel for="reg-email" :value="t('email_address_label')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
+                                    <InputLabel for="reg-email" :value="t('email_address_label')" class="text-[10px] sm:text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
                                     <TextInput
                                         id="reg-email"
                                         type="email"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-2 px-3 sm:py-3"
                                         v-model="registerForm.email"
                                         required
                                         autocomplete="username"
@@ -754,11 +755,11 @@ watch(() => window.location.search, () => {
                                 </div>
 
                                 <div>
-                                    <InputLabel for="reg-phone" :value="t('phone_number_label')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
+                                    <InputLabel for="reg-phone" :value="t('phone_number_label')" class="text-[10px] sm:text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
                                     <TextInput
                                         id="reg-phone"
                                         type="text"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-2 px-3 sm:py-3"
                                         v-model="registerForm.phone"
                                         required
                                         autocomplete="tel"
@@ -767,11 +768,11 @@ watch(() => window.location.search, () => {
                                 </div>
 
                                 <div>
-                                    <InputLabel for="reg-address" :value="t('delivery_address_label')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
+                                    <InputLabel for="reg-address" :value="t('delivery_address_label')" class="text-[10px] sm:text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
                                     <textarea
                                         id="reg-address"
                                         rows="2"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-2 px-3 focus:outline-none"
+                                        class="mt-1 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-1.5 px-3 focus:outline-none"
                                         v-model="registerForm.address"
                                         required
                                     ></textarea>
@@ -779,12 +780,12 @@ watch(() => window.location.search, () => {
                                 </div>
 
                                 <div>
-                                    <InputLabel for="reg-password" :value="t('password_label')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                    <div class="relative mt-1.5">
+                                    <InputLabel for="reg-password" :value="t('password_label')" class="text-[10px] sm:text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
+                                    <div class="relative mt-1">
                                         <TextInput
                                             id="reg-password"
                                             :type="showRegisterPassword ? 'text' : 'password'"
-                                            class="block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3 pr-10"
+                                            class="block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-2 px-3 sm:py-3 pr-10"
                                             v-model="registerForm.password"
                                             required
                                             autocomplete="new-password"
@@ -799,12 +800,12 @@ watch(() => window.location.search, () => {
                                     </div>
                                     <InputError class="mt-1" :message="registerForm.errors.password" />
                                     <!-- Password Strength Indicator -->
-                                    <div class="mt-2 space-y-1" v-if="registerForm.password">
-                                        <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-wider">
+                                    <div class="mt-1.5 space-y-1" v-if="registerForm.password">
+                                        <div class="flex justify-between items-center text-[9px] font-bold uppercase tracking-wider">
                                             <span class="text-[#8C8275]">Kekuatan Kata Laluan:</span>
                                             <span :class="registerPasswordStrength.color">{{ registerPasswordStrength.text }}</span>
                                         </div>
-                                        <div class="h-1.5 w-full bg-[#E6E1DA] rounded-full overflow-hidden">
+                                        <div class="h-1 w-full bg-[#E6E1DA] rounded-full overflow-hidden">
                                             <div 
                                                 class="h-full transition-all duration-300 rounded-full" 
                                                 :class="[registerPasswordStrength.barColor, registerPasswordStrength.width]"
@@ -814,12 +815,12 @@ watch(() => window.location.search, () => {
                                 </div>
 
                                 <div>
-                                    <InputLabel for="reg-password-confirm" :value="t('confirm_password_label')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                    <div class="relative mt-1.5">
+                                    <InputLabel for="reg-password-confirm" :value="t('confirm_password_label')" class="text-[10px] sm:text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
+                                    <div class="relative mt-1">
                                         <TextInput
                                             id="reg-password-confirm"
                                             :type="showRegisterConfirmPassword ? 'text' : 'password'"
-                                            class="block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3 pr-10"
+                                            class="block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-2 px-3 sm:py-3 pr-10"
                                             v-model="registerForm.password_confirmation"
                                             required
                                             autocomplete="new-password"
@@ -837,13 +838,13 @@ watch(() => window.location.search, () => {
 
                                 <button
                                     type="submit"
-                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 mt-2 cursor-pointer"
+                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-2.5 sm:py-3.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-colors duration-200 mt-1 cursor-pointer"
                                     :disabled="registerForm.processing"
                                 >
                                     {{ registerForm.processing ? t('registering_status') : t('register') }}
                                 </button>
 
-                                <div class="text-center text-xs text-[#8C8275] pt-2">
+                                <div class="text-center text-[10px] sm:text-xs text-[#8C8275] pt-1">
                                     {{ t('already_registered_notice') }} 
                                     <button type="button" @click="openDrawer('login')" class="text-[#4A6B5D] font-bold hover:underline cursor-pointer ml-1">
                                         {{ t('sign_in') }}
@@ -852,21 +853,21 @@ watch(() => window.location.search, () => {
                             </form>
 
                             <!-- 3. FORGOT PASSWORD FORM -->
-                            <form v-else-if="currentDrawer === 'forgot-password'" @submit.prevent="submitForgotPassword" class="space-y-5">
-                                <p class="text-xs text-[#8C8275] leading-relaxed font-light">
+                            <form v-else-if="currentDrawer === 'forgot-password'" @submit.prevent="submitForgotPassword" class="space-y-3 sm:space-y-5">
+                                <p class="text-[10px] sm:text-xs text-[#8C8275] leading-relaxed font-light">
                                     {{ t('forgot_password_desc') }}
                                 </p>
 
-                                <div v-if="forgotPasswordStatus" class="p-3 bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs font-medium">
+                                <div v-if="forgotPasswordStatus" class="p-2.5 bg-emerald-50 border border-emerald-100 text-emerald-800 text-[10px] sm:text-xs font-medium">
                                     {{ forgotPasswordStatus }}
                                 </div>
 
                                 <div>
-                                    <InputLabel for="forgot-email" :value="t('email_address_label')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
+                                    <InputLabel for="forgot-email" :value="t('email_address_label')" class="text-[10px] sm:text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
                                     <TextInput
                                         id="forgot-email"
                                         type="email"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-2 px-3 sm:py-3"
                                         v-model="forgotPasswordForm.email"
                                         required
                                         autofocus
@@ -877,13 +878,13 @@ watch(() => window.location.search, () => {
 
                                 <button
                                     type="submit"
-                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
+                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-2.5 sm:py-3.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
                                     :disabled="forgotPasswordForm.processing"
                                 >
                                     {{ forgotPasswordForm.processing ? t('sending_status') : t('send_reset_link_btn') }}
                                 </button>
 
-                                <div class="text-center text-xs text-[#8C8275] pt-2">
+                                <div class="text-center text-[10px] sm:text-xs text-[#8C8275] pt-1">
                                     {{ t('back_to_btn') }} 
                                     <button type="button" @click="openDrawer('login')" class="text-[#4A6B5D] font-bold hover:underline cursor-pointer ml-1">
                                         {{ t('sign_in') }}
@@ -892,13 +893,13 @@ watch(() => window.location.search, () => {
                             </form>
 
                             <!-- 4. RESET PASSWORD FORM -->
-                            <form v-else-if="currentDrawer === 'reset-password'" @submit.prevent="submitResetPassword" class="space-y-4">
+                            <form v-else-if="currentDrawer === 'reset-password'" @submit.prevent="submitResetPassword" class="space-y-3 sm:space-y-4">
                                 <div>
-                                    <InputLabel for="reset-email" :value="t('email_address_label')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
+                                    <InputLabel for="reset-email" :value="t('email_address_label')" class="text-[10px] sm:text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
                                     <TextInput
                                         id="reset-email"
                                         type="email"
-                                        class="mt-1.5 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3"
+                                        class="mt-1 block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-2 px-3 sm:py-3"
                                         v-model="resetPasswordForm.email"
                                         required
                                         autocomplete="username"
@@ -907,12 +908,12 @@ watch(() => window.location.search, () => {
                                 </div>
 
                                 <div>
-                                    <InputLabel for="reset-password" :value="t('new_password_label')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                    <div class="relative mt-1.5">
+                                    <InputLabel for="reset-password" :value="t('new_password_label')" class="text-[10px] sm:text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
+                                    <div class="relative mt-1">
                                         <TextInput
                                             id="reset-password"
                                             :type="showResetPassword ? 'text' : 'password'"
-                                            class="block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3 pr-10"
+                                            class="block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-2 px-3 sm:py-3 pr-10"
                                             v-model="resetPasswordForm.password"
                                             required
                                             autocomplete="new-password"
@@ -927,12 +928,12 @@ watch(() => window.location.search, () => {
                                     </div>
                                     <InputError class="mt-1" :message="resetPasswordForm.errors.password" />
                                     <!-- Password Strength Indicator -->
-                                    <div class="mt-2 space-y-1" v-if="resetPasswordForm.password">
-                                        <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-wider">
+                                    <div class="mt-1.5 space-y-1" v-if="resetPasswordForm.password">
+                                        <div class="flex justify-between items-center text-[9px] font-bold uppercase tracking-wider">
                                             <span class="text-[#8C8275]">Kekuatan Kata Laluan:</span>
                                             <span :class="resetPasswordStrength.color">{{ resetPasswordStrength.text }}</span>
                                         </div>
-                                        <div class="h-1.5 w-full bg-[#E6E1DA] rounded-full overflow-hidden">
+                                        <div class="h-1 w-full bg-[#E6E1DA] rounded-full overflow-hidden">
                                             <div 
                                                 class="h-full transition-all duration-300 rounded-full" 
                                                 :class="[resetPasswordStrength.barColor, resetPasswordStrength.width]"
@@ -942,12 +943,12 @@ watch(() => window.location.search, () => {
                                 </div>
 
                                 <div>
-                                    <InputLabel for="reset-password-confirm" :value="t('confirm_new_password_label')" class="text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
-                                    <div class="relative mt-1.5">
+                                    <InputLabel for="reset-password-confirm" :value="t('confirm_new_password_label')" class="text-[10px] sm:text-xs uppercase tracking-widest text-[#8C8275] font-semibold" />
+                                    <div class="relative mt-1">
                                         <TextInput
                                             id="reset-password-confirm"
                                             :type="showResetConfirmPassword ? 'text' : 'password'"
-                                            class="block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-3 pr-10"
+                                            class="block w-full rounded-lg border-[#E6E1DA] focus:border-[#4A6B5D] focus:ring-0 bg-white text-xs py-2 px-3 sm:py-3 pr-10"
                                             v-model="resetPasswordForm.password_confirmation"
                                             required
                                             autocomplete="new-password"
@@ -965,7 +966,7 @@ watch(() => window.location.search, () => {
 
                                 <button
                                     type="submit"
-                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-3.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200 mt-2 cursor-pointer"
+                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-2.5 sm:py-3.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-colors duration-200 mt-1 cursor-pointer"
                                     :disabled="resetPasswordForm.processing"
                                 >
                                     {{ resetPasswordForm.processing ? t('resetting_status') : t('reset_password') }}
@@ -982,24 +983,24 @@ watch(() => window.location.search, () => {
             </div>
         </Transition>
 
-        <!-- Session Expired Modal -->
+         <!-- Session Expired Modal -->
         <div v-if="showTimeoutModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 z-[60] animate-fade-in font-sans-modern">
-            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-2xl p-8 max-w-sm w-full text-center space-y-6">
-                <div class="w-16 h-16 bg-[#FAF6F0] text-[#C5A880] rounded-full flex items-center justify-center mx-auto text-2xl border border-[#E6E1DA]">
+            <div class="bg-white rounded-xl sm:rounded-2xl border border-[#E6E1DA] shadow-2xl p-4 sm:p-8 max-w-sm w-full text-center space-y-4 sm:space-y-6">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-[#FAF6F0] text-[#C5A880] rounded-full flex items-center justify-center mx-auto text-lg sm:text-2xl border border-[#E6E1DA]">
                     <i class="fas fa-clock"></i>
                 </div>
-                <div class="space-y-2">
-                    <h3 class="text-lg font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wider">
+                <div class="space-y-1.5 sm:space-y-2">
+                    <h3 class="text-base sm:text-lg font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wider">
                         {{ t('session_expired_title') }}
                     </h3>
-                    <p class="text-xs text-[#5C6460] leading-relaxed">
+                    <p class="text-[10px] sm:text-xs text-[#5C6460] leading-relaxed">
                         {{ t('session_expired_desc') }}
                     </p>
                 </div>
                 <div class="flex flex-col gap-2">
                     <button 
                         @click="closeTimeoutModal" 
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3 px-4 rounded-xl text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2 sm:py-3 px-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
                     >
                         OK
                     </button>

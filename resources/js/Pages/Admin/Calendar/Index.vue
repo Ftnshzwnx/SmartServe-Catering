@@ -165,7 +165,7 @@ function hideDetails() {
                         <div 
                             v-for="(dayObj, idx) in calendarDays" 
                             :key="idx" 
-                            class="min-h-[50px] md:min-h-[110px] rounded-xl md:rounded-2xl p-1 md:p-2.5 flex flex-col justify-between transition-all border"
+                            class="min-h-[45px] md:min-h-[110px] rounded-xl md:rounded-2xl p-1 md:p-2.5 flex flex-col justify-between transition-all border"
                             :class="[
                                 dayObj.day ? 'bg-white border-[#E6E1DA]' : 'bg-[#FAF7F2]/40 border-transparent',
                                 dayObj.isBlocked ? 'bg-rose-50/60 border-rose-100' : ''
@@ -214,22 +214,22 @@ function hideDetails() {
                     
                     <form @submit.prevent="submitBlockDate" class="space-y-4">
                         <div class="space-y-1.5">
-                            <label class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_calendar_target_date') }}</label>
+                            <label class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_calendar_target_date') }}</label>
                             <input 
                                 type="date" 
                                 v-model="blockForm.blocked_date" 
-                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                 required
                             />
                             <span v-if="blockForm.errors.blocked_date" class="text-xs text-red-500 font-semibold block mt-1">{{ blockForm.errors.blocked_date }}</span>
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_calendar_reason_label') }}</label>
+                            <label class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-wider block">{{ t('admin_calendar_reason_label') }}</label>
                             <input 
                                 type="text" 
                                 v-model="blockForm.reason" 
-                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
+                                class="w-full rounded-xl border-[#E6E1DA] text-[#2D3330] py-1.5 px-3 text-xs focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D]" 
                                 :placeholder="t('admin_calendar_reason_placeholder')"
                             />
                             <span v-if="blockForm.errors.reason" class="text-xs text-red-500 font-semibold block mt-1">{{ blockForm.errors.reason }}</span>
@@ -237,7 +237,7 @@ function hideDetails() {
 
                         <button 
                             type="submit" 
-                            class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold w-full py-3 rounded-xl text-xs uppercase tracking-widest shadow transition-colors cursor-pointer"
+                            class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold w-full py-2 px-4 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest shadow transition-colors cursor-pointer"
                             :disabled="blockForm.processing"
                         >
                             <i class="fas fa-lock mr-1.5"></i> {{ t('admin_calendar_block_submit_btn') }}
@@ -253,7 +253,7 @@ function hideDetails() {
                         <div 
                             v-for="bd in blockedDates" 
                             :key="bd.id" 
-                            class="py-3.5 flex justify-between items-center text-xs text-[#5C6460] first:pt-0"
+                            class="py-2.5 flex justify-between items-center text-xs text-[#5C6460] first:pt-0"
                         >
                             <div>
                                 <span class="font-bold text-[#2D3330] block">{{ bd.blocked_date }}</span>
@@ -261,7 +261,7 @@ function hideDetails() {
                             </div>
                             <button 
                                 @click="deleteBlockDate(bd.id)"
-                                class="text-rose-500 hover:text-rose-700 p-2 text-xs rounded-lg hover:bg-rose-50 transition-colors cursor-pointer"
+                                class="text-rose-500 hover:text-rose-700 p-1.5 text-xs rounded-lg hover:bg-rose-50 transition-colors cursor-pointer"
                                 :title="t('admin_calendar_unblock_btn_title')"
                             >
                                 <i class="fas fa-trash-alt"></i>
@@ -278,15 +278,15 @@ function hideDetails() {
         <!-- Booking Details Popover Modal -->
         <div v-if="activeDetails" class="fixed inset-0 bg-[#1B2A22]/50 backdrop-blur-xs flex items-center justify-center p-4 z-50">
             <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-2xl w-full max-w-md overflow-hidden animate-fade-in">
-                <div class="bg-[#1B2A22] text-white p-6 flex justify-between items-center border-b border-[#24372D]">
-                    <h3 class="text-sm font-bold font-serif-luxury uppercase tracking-wider">{{ t('admin_calendar_modal_title').replace('{id}', activeDetails.id) }}</h3>
+                <div class="bg-[#1B2A22] text-white p-4 sm:p-6 flex justify-between items-center border-b border-[#24372D]">
+                    <h3 class="text-xs sm:text-sm font-bold font-serif-luxury uppercase tracking-wider">{{ t('admin_calendar_modal_title').replace('{id}', activeDetails.id) }}</h3>
                     <button @click="hideDetails" class="text-white/60 hover:text-white transition-colors w-8 h-8 rounded-full hover:bg-white/5 flex items-center justify-center cursor-pointer">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
                 
-                <div class="p-6 space-y-4 text-xs text-[#5C6460]">
-                    <div class="grid grid-cols-2 gap-4 border-b border-[#E6E1DA] pb-4">
+                <div class="p-4 sm:p-6 space-y-3 sm:space-y-4 text-xs text-[#5C6460]">
+                    <div class="grid grid-cols-2 gap-4 border-b border-[#E6E1DA] pb-3 sm:pb-4">
                         <div>
                             <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_calendar_modal_cust_name') }}</span>
                             <span class="font-bold text-[#2D3330]">{{ activeDetails.user?.full_name || 'N/A' }}</span>
@@ -297,7 +297,7 @@ function hideDetails() {
                         </div>
                     </div>
 
-                    <div class="border-b border-[#E6E1DA] pb-4 space-y-2">
+                    <div class="border-b border-[#E6E1DA] pb-3 sm:pb-4 space-y-2">
                         <div>
                             <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_calendar_modal_packages') }}</span>
                             <span class="font-bold text-[#2D3330]">{{ activeDetails.package_name }}</span>
@@ -315,14 +315,14 @@ function hideDetails() {
                         </div>
                         <div>
                             <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_calendar_modal_venue') }}</span>
-                            <span class="block whitespace-pre-line leading-relaxed text-[#5C6460] bg-[#FAF7F2] border border-[#E6E1DA] rounded-xl p-3 mt-1.5">{{ activeDetails.delivery_address }}</span>
+                            <span class="block whitespace-pre-line leading-relaxed text-[#5C6460] bg-[#FAF7F2] border border-[#E6E1DA] rounded-xl p-2 sm:p-3 mt-1.5">{{ activeDetails.delivery_address }}</span>
                         </div>
                     </div>
 
-                    <div class="flex justify-end pt-4 border-t border-[#E6E1DA]">
+                    <div class="flex justify-end pt-3 sm:pt-4 border-t border-[#E6E1DA]">
                         <Link 
                             :href="route('admin.orders', { status: activeDetails.status })" 
-                            class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-widest shadow transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+                            class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3 sm:px-4 py-2 rounded-xl text-[9px] sm:text-[10px] uppercase tracking-widest shadow transition-colors inline-flex items-center gap-1.5 cursor-pointer"
                         >
                             <span>{{ t('admin_calendar_modal_orders_mgmt_btn') }}</span>
                         </Link>

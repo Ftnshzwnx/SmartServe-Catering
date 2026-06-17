@@ -123,24 +123,24 @@ async function verifyEmail(user) {
         </template>
 
         <!-- Filters Card -->
-        <div class="bg-white border border-[#E6E1DA] rounded-3xl p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="bg-white border border-[#E6E1DA] rounded-3xl p-3.5 md:p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-grow max-w-2xl">
                 <!-- Search input wrapper -->
                 <div class="relative flex-grow">
-                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8C8275]">
                         <i class="fas fa-search text-xs"></i>
                     </span>
                     <input 
                         v-model="searchQuery" 
                         type="text" 
                         :placeholder="t('admin_search_customers_placeholder')" 
-                        class="w-full h-11 pl-10 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
+                        class="w-full h-9 pl-9 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
                         @input="handleSearchInput"
                     />
                     <button 
                         v-if="searchQuery"
                         @click="clearSearch"
-                        class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors"
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors"
                         :title="currentLanguage === 'en' ? 'Clear Search' : 'Padam Carian'"
                     >
                         <i class="fas fa-times text-xs"></i>
@@ -155,13 +155,13 @@ async function verifyEmail(user) {
                     <select 
                         v-model="filterStatus"
                         @change="handleFilterChange"
-                        class="w-full h-11 pl-4 pr-10 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
+                        class="w-full h-9 pl-3 pr-8 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
                     >
                         <option value="">{{ t('admin_all_statuses') }}</option>
                         <option value="active">{{ t('admin_active_customers') }}</option>
                         <option value="suspended">{{ t('admin_suspended_accounts') }}</option>
                     </select>
-                    <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-[#8C8275]">
+                    <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-[#8C8275]">
                         <i class="fas fa-chevron-down text-[10px]"></i>
                     </span>
                 </div>
@@ -169,20 +169,20 @@ async function verifyEmail(user) {
         </div>
 
         <!-- Users Table Card -->
-        <div class="bg-white border border-[#E6E1DA] rounded-3xl p-6 md:p-8 shadow-xs space-y-6">
+        <div class="bg-white border border-[#E6E1DA] rounded-3xl p-3.5 md:p-8 shadow-xs space-y-6">
             <h3 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_registered_customers') }}</h3>
 
             <div v-if="users.data.length > 0" class="overflow-x-auto scrollbar-none pb-2">
                 <table class="w-full text-left border-collapse text-xs text-[#5C6460] min-w-[800px]">
                     <thead>
                         <tr class="border-b border-[#E6E1DA] text-[#8C8275] font-bold uppercase tracking-wider">
-                            <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-center w-12">{{ t('admin_number_col') }}</th>
-                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_full_name_col') }}</th>
-                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_email_address_col') }}</th>
-                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_phone_col') }}</th>
-                            <th class="px-3 sm:px-6 py-2.5 sm:py-4">{{ t('admin_default_address_col') }}</th>
-                            <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">{{ t('admin_access_status_col') }}</th>
-                            <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">{{ t('action') }}</th>
+                            <th class="px-2.5 sm:px-6 py-2 sm:py-4 text-center w-12">{{ t('admin_number_col') }}</th>
+                            <th class="px-2.5 sm:px-6 py-2 sm:py-4">{{ t('admin_full_name_col') }}</th>
+                            <th class="px-2.5 sm:px-6 py-2 sm:py-4">{{ t('admin_email_address_col') }}</th>
+                            <th class="px-2.5 sm:px-6 py-2 sm:py-4">{{ t('admin_phone_col') }}</th>
+                            <th class="px-2.5 sm:px-6 py-2 sm:py-4">{{ t('admin_default_address_col') }}</th>
+                            <th class="px-2.5 sm:px-6 py-2 sm:py-4 text-center">{{ t('admin_access_status_col') }}</th>
+                            <th class="px-2.5 sm:px-6 py-2 sm:py-4 text-right">{{ t('action') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#E6E1DA]">
@@ -204,33 +204,33 @@ async function verifyEmail(user) {
                                     </span>
                                 </div>
                             </td>
-                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-[#8C8275] font-semibold">
+                            <td class="px-2.5 sm:px-6 py-2 sm:py-4 text-[#8C8275] font-semibold">
                                 {{ user.phone || 'N/A' }}
                             </td>
-                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-[#8C8275] font-semibold max-w-xs truncate" :title="user.address">
+                            <td class="px-2.5 sm:px-6 py-2 sm:py-4 text-[#8C8275] font-semibold max-w-xs truncate" :title="user.address">
                                 {{ user.address || 'N/A' }}
                             </td>
-                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
+                            <td class="px-2.5 sm:px-6 py-2 sm:py-4 text-center">
                                 <span 
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider"
+                                    class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider"
                                     :class="user.is_blacklisted ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-emerald-50 text-[#4A6B5D] border-emerald-200'"
                                 >
                                     {{ user.is_blacklisted ? t('admin_suspended') : t('admin_active') }}
                                 </span>
                             </td>
-                            <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">
-                                <div class="flex justify-end gap-2">
+                            <td class="px-2.5 sm:px-6 py-2 sm:py-4 text-right">
+                                <div class="flex justify-end gap-1.5">
                                     <button 
                                         v-if="!user.email_verified_at"
                                         @click="verifyEmail(user)"
-                                        class="w-8 h-8 rounded-xl flex items-center justify-center transition-colors shadow-xs border cursor-pointer bg-amber-50 hover:bg-amber-100 border-amber-200 text-amber-600"
+                                        class="w-7 h-7 rounded-lg flex items-center justify-center transition-colors shadow-xs border cursor-pointer bg-amber-50 hover:bg-amber-100 border-amber-200 text-amber-600"
                                         :title="currentLanguage === 'en' ? 'Manually Verify Email' : 'Sahkan Email Pelanggan'"
                                     >
                                         <i class="fas fa-envelope-open text-xs"></i>
                                     </button>
                                     <button 
                                         @click="toggleAccess(user)"
-                                        class="w-8 h-8 rounded-xl flex items-center justify-center transition-colors shadow-xs border cursor-pointer"
+                                        class="w-7 h-7 rounded-lg flex items-center justify-center transition-colors shadow-xs border cursor-pointer"
                                         :class="user.is_blacklisted 
                                             ? 'bg-emerald-50 hover:bg-emerald-100 border-emerald-200 text-[#4A6B5D]' 
                                             : 'bg-rose-50 hover:bg-rose-100 border-rose-200 text-rose-600'"
@@ -240,7 +240,7 @@ async function verifyEmail(user) {
                                     </button>
                                     <button 
                                         @click="deleteCustomer(user)"
-                                        class="w-8 h-8 rounded-xl flex items-center justify-center transition-colors shadow-xs border cursor-pointer bg-red-50 hover:bg-red-100 border-red-200 text-red-600"
+                                        class="w-7 h-7 rounded-lg flex items-center justify-center transition-colors shadow-xs border cursor-pointer bg-red-50 hover:bg-red-100 border-red-200 text-red-600"
                                         :title="t('admin_delete_customer')"
                                     >
                                         <i class="fas fa-trash-alt text-xs"></i>
@@ -268,20 +268,20 @@ async function verifyEmail(user) {
                 </span>
                 <div class="flex items-center gap-1.5 flex-wrap">
                     <button @click="goToPage(users.prev_page_url)" :disabled="!users.prev_page_url"
-                        class="w-8 h-8 rounded-xl border border-[#E6E1DA] flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
+                        class="w-7.5 h-7.5 rounded-lg border border-[#E6E1DA] flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
                         :class="users.prev_page_url ? 'text-[#4A6B5D] hover:bg-[#FAF7F2] hover:border-[#4A6B5D]' : 'text-[#C6C1B9] cursor-not-allowed bg-[#FAF7F2]'">
                         <i class="fas fa-chevron-left text-[9px]"></i>
                     </button>
                     <template v-for="link in users.links" :key="link.label">
                         <button v-if="link.label !== '&laquo; Previous' && link.label !== 'Next &raquo;'"
                             @click="goToPage(link.url)" :disabled="!link.url"
-                            class="min-w-8 h-8 px-2.5 rounded-xl border text-[11px] font-bold transition-colors cursor-pointer"
+                            class="min-w-7.5 h-7.5 px-2 rounded-lg border text-[11px] font-bold transition-colors cursor-pointer"
                             :class="link.active ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-sm' : link.url ? 'border-[#E6E1DA] text-[#5C6460] hover:bg-[#FAF7F2] hover:border-[#4A6B5D] hover:text-[#4A6B5D]' : 'border-transparent text-[#8C8275] cursor-default'"
                             v-html="link.label">
                         </button>
                     </template>
                     <button @click="goToPage(users.next_page_url)" :disabled="!users.next_page_url"
-                        class="w-8 h-8 rounded-xl border border-[#E6E1DA] flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
+                        class="w-7.5 h-7.5 rounded-lg border border-[#E6E1DA] flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
                         :class="users.next_page_url ? 'text-[#4A6B5D] hover:bg-[#FAF7F2] hover:border-[#4A6B5D]' : 'text-[#C6C1B9] cursor-not-allowed bg-[#FAF7F2]'">
                         <i class="fas fa-chevron-right text-[9px]"></i>
                     </button>

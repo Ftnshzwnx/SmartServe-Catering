@@ -671,28 +671,28 @@ watch([categorySearchQuery], () => {
         <div class="flex bg-[#FAF7F2] border border-[#E6E1DA] rounded-2xl p-1 mb-6 overflow-x-auto flex-nowrap whitespace-nowrap scrollbar-none select-none">
             <button
                 @click="activeTab = 'packages'"
-                class="flex-1 text-center py-2.5 px-4 text-[10px] sm:text-xs uppercase tracking-wider font-extrabold rounded-xl transition-all duration-200 cursor-pointer focus:outline-none shrink-0"
+                class="flex-1 text-center py-1.5 px-2.5 text-[9px] sm:text-xs uppercase tracking-wider font-extrabold rounded-xl transition-all duration-200 cursor-pointer focus:outline-none shrink-0"
                 :class="activeTab === 'packages' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#5C6460]'"
             >
                 {{ t('admin_tab_packages') }} ({{ packages.length }})
             </button>
             <button
                 @click="activeTab = 'addons'"
-                class="flex-1 text-center py-2.5 px-4 text-[10px] sm:text-xs uppercase tracking-wider font-extrabold rounded-xl transition-all duration-200 cursor-pointer focus:outline-none shrink-0"
+                class="flex-1 text-center py-1.5 px-2.5 text-[9px] sm:text-xs uppercase tracking-wider font-extrabold rounded-xl transition-all duration-200 cursor-pointer focus:outline-none shrink-0"
                 :class="activeTab === 'addons' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#5C6460]'"
             >
                 {{ t('admin_tab_addons') }} ({{ addons.length }})
             </button>
             <button
                 @click="activeTab = 'dishes'"
-                class="flex-1 text-center py-2.5 px-4 text-[10px] sm:text-xs uppercase tracking-wider font-extrabold rounded-xl transition-all duration-200 cursor-pointer focus:outline-none shrink-0"
+                class="flex-1 text-center py-1.5 px-2.5 text-[9px] sm:text-xs uppercase tracking-wider font-extrabold rounded-xl transition-all duration-200 cursor-pointer focus:outline-none shrink-0"
                 :class="activeTab === 'dishes' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#5C6460]'"
             >
                 {{ t('admin_tab_dishes') }} ({{ dishes.length }})
             </button>
             <button
                 @click="activeTab = 'categories'"
-                class="flex-1 text-center py-2.5 px-4 text-[10px] sm:text-xs uppercase tracking-wider font-extrabold rounded-xl transition-all duration-200 cursor-pointer focus:outline-none shrink-0"
+                class="flex-1 text-center py-1.5 px-2.5 text-[9px] sm:text-xs uppercase tracking-wider font-extrabold rounded-xl transition-all duration-200 cursor-pointer focus:outline-none shrink-0"
                 :class="activeTab === 'categories' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#5C6460]'"
             >
                 {{ t('admin_tab_categories') }} ({{ categories.length }})
@@ -702,22 +702,22 @@ watch([categorySearchQuery], () => {
         <!-- TAB 1: CATERING PACKAGES -->
         <div v-if="activeTab === 'packages'" class="space-y-6">
             <!-- Search & Action Bar -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xs">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-3 md:p-5 shadow-xs">
                 <!-- Search Input -->
                 <div class="relative flex-grow max-w-md w-full">
-                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8C8275]">
                         <i class="fas fa-search text-xs"></i>
                     </span>
                     <input 
                         v-model="packageSearchQuery" 
                         type="text" 
                         :placeholder="t('admin_search_packages_placeholder')" 
-                        class="w-full h-11 pl-10 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
+                        class="w-full h-9 pl-9 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
                     />
                     <button 
                         v-if="packageSearchQuery"
                         @click="packageSearchQuery = ''"
-                        class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors cursor-pointer"
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors cursor-pointer"
                     >
                         <i class="fas fa-times text-xs"></i>
                     </button>
@@ -727,13 +727,13 @@ watch([categorySearchQuery], () => {
                     <button
                         v-if="packages.length > 0"
                         @click="deleteAllPackages"
-                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-3 sm:px-4 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in flex-1 sm:flex-none"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-2.5 sm:px-4 py-1.5 rounded-xl text-[9px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-trash-alt text-[10px] sm:text-xs"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
+                        <i class="fas fa-trash-alt text-[9px] sm:text-xs"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
                     </button>
                     <button
                         @click="openCreatePackage"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3.5 sm:px-5 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none flex-1 sm:flex-none"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3 sm:px-5 py-1.5 rounded-xl text-[9px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none flex-1 sm:flex-none"
                     >
                         <i class="fas fa-plus text-[10px] sm:text-xs"></i> {{ t('admin_create_package_btn') }}
                     </button>
@@ -746,35 +746,35 @@ watch([categorySearchQuery], () => {
                 <div class="flex overflow-x-auto flex-nowrap gap-2 pt-2 border-b border-[#FAF6F0] pb-4 scrollbar-none whitespace-nowrap">
                     <button 
                         @click="activePackageFilter = 'all'" 
-                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
+                        class="px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
                         :class="activePackageFilter === 'all' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
                         {{ t('admin_all_packages') }} ({{ packages.length }})
                     </button>
                     <button 
                         @click="activePackageFilter = 'wedding'" 
-                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
+                        class="px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
                         :class="activePackageFilter === 'wedding' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
                         {{ t('admin_pkg_cat_wedding') }} ({{ packages.filter(p => getCategoryKey(p.package_name) === 'wedding').length }})
                     </button>
                     <button 
                         @click="activePackageFilter = 'corporate'" 
-                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
+                        class="px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
                         :class="activePackageFilter === 'corporate' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
                         {{ t('admin_pkg_cat_corporate') }} ({{ packages.filter(p => getCategoryKey(p.package_name) === 'corporate').length }})
                     </button>
                     <button 
                         @click="activePackageFilter = 'aqiqah'" 
-                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
+                        class="px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
                         :class="activePackageFilter === 'aqiqah' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
                         {{ t('admin_pkg_cat_aqiqah') }} ({{ packages.filter(p => getCategoryKey(p.package_name) === 'aqiqah').length }})
                     </button>
                     <button 
                         @click="activePackageFilter = 'other'" 
-                        class="px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
+                        class="px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none focus:outline-none shrink-0"
                         :class="activePackageFilter === 'other' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                     >
                         {{ t('admin_pkg_cat_other') }} ({{ packages.filter(p => getCategoryKey(p.package_name) === 'other').length }})
@@ -782,52 +782,52 @@ watch([categorySearchQuery], () => {
                 </div>
 
                 <!-- Packages list grid -->
-                <div v-if="filteredPackages.length > 0" class="space-y-5">
+                <div v-if="filteredPackages.length > 0" class="grid grid-cols-1 xl:grid-cols-2 gap-4">
                     <div
                         v-for="(pkg, idx) in paginatedPackages"
                         :key="pkg.id"
-                        class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs hover:shadow-md transition-all duration-200 overflow-hidden animate-fade-in"
+                        class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs hover:shadow-md transition-all duration-200 overflow-hidden animate-fade-in"
                     >
-                        <div class="grid lg:grid-cols-12 gap-0">
+                        <div class="grid sm:grid-cols-12 gap-0">
                             <!-- Left: Package Info (7 cols) -->
-                            <div class="lg:col-span-7 p-4 sm:p-6 md:p-8 space-y-4 md:space-y-5">
-                                <div class="flex flex-wrap justify-between items-start gap-4">
-                                    <div class="flex items-center gap-2.5">
-                                        <div class="text-[10px] sm:text-xs font-bold text-[#8C8275] bg-[#FAF8F5] border border-[#E6E1DA] rounded-lg w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center select-none shrink-0">
+                            <div class="sm:col-span-7 p-3.5 sm:p-5 space-y-3 sm:space-y-4">
+                                <div class="flex flex-wrap justify-between items-start gap-3">
+                                    <div class="flex items-center gap-2">
+                                        <div class="text-[9px] sm:text-xs font-bold text-[#8C8275] bg-[#FAF8F5] border border-[#E6E1DA] rounded-lg w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center select-none shrink-0">
                                             {{ (packageCurrentPage - 1) * packagesPerPage + idx + 1 }}
                                         </div>
-                                        <img :src="getPackageImage(pkg)" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover shrink-0 border border-[#E6E1DA] shadow-xs" alt="Package image" />
+                                        <img :src="getPackageImage(pkg)" class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl object-cover shrink-0 border border-[#E6E1DA] shadow-xs" alt="Package image" />
                                         <div>
-                                            <h3 class="text-sm sm:text-base md:text-xl font-bold text-[#2D3330] tracking-wide uppercase font-serif-luxury">{{ pkg.package_name }}</h3>
-                                            <p class="text-[10px] sm:text-xs text-[#C5A880] font-bold mt-1 uppercase tracking-wider">
+                                            <h3 class="text-xs sm:text-sm font-bold text-[#2D3330] tracking-wide uppercase font-serif-luxury">{{ pkg.package_name }}</h3>
+                                            <p class="text-[9px] sm:text-[10px] text-[#C5A880] font-bold mt-0.5 uppercase tracking-wider">
                                                 RM {{ parseFloat(pkg.price).toFixed(2) }} / pax &nbsp;·&nbsp; Min: {{ pkg.min_order }} pax
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-1.5 shrink-0 ml-auto sm:ml-0">
+                                    <div class="flex items-center gap-1 shrink-0 ml-auto sm:ml-0">
                                         <button
                                             @click="openEditPackage(pkg)"
-                                            class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[10px] sm:text-xs transition-colors flex items-center gap-1 cursor-pointer"
+                                            class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold px-2 sm:px-2.5 py-1 rounded-lg text-[9px] sm:text-xs transition-colors flex items-center gap-1 cursor-pointer focus:outline-none"
                                         >
-                                            <i class="fas fa-edit text-[9px] sm:text-[10px]"></i> {{ t('admin_edit') }}
+                                            <i class="fas fa-edit text-[8px] sm:text-[9px]"></i> {{ t('admin_edit') }}
                                         </button>
                                         <button
                                             @click="deletePackage(pkg.id)"
-                                            class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[10px] sm:text-xs transition-colors flex items-center gap-1 cursor-pointer"
+                                            class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-2 sm:px-2.5 py-1 rounded-lg text-[9px] sm:text-xs transition-colors flex items-center gap-1 cursor-pointer focus:outline-none"
                                         >
-                                            <i class="fas fa-trash-alt text-[9px] sm:text-[10px]"></i> {{ t('admin_delete') }}
+                                            <i class="fas fa-trash-alt text-[8px] sm:text-[9px]"></i> {{ t('admin_delete') }}
                                         </button>
                                     </div>
                                 </div>
 
-                                <div class="border-t border-[#E6E1DA] pt-5 space-y-3">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_menu_choices_limits') }}</span>
-                                        <div class="flex flex-wrap gap-1.5">
+                                <div class="border-t border-[#E6E1DA] pt-3.5 space-y-2">
+                                    <div class="flex items-center justify-between flex-wrap gap-1">
+                                        <span class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('admin_menu_choices_limits') }}</span>
+                                        <div class="flex flex-wrap gap-1">
                                             <span 
                                                 v-for="(limit, cat) in (pkg.dish_limits || {})" 
                                                 :key="cat"
-                                                class="text-[8px] font-bold bg-[#FAF6F0] text-[#5C6460] border border-[#E6E1DA] px-2.5 py-0.5 rounded-full"
+                                                class="text-[8px] font-bold bg-[#FAF6F0] text-[#5C6460] border border-[#E6E1DA] px-2 py-0.5 rounded-full"
                                             >
                                                 {{ cat }}: {{ limit }}
                                             </span>
@@ -838,10 +838,10 @@ watch([categorySearchQuery], () => {
                                         <button
                                             type="button"
                                             @click="togglePackageDishes(pkg.id)"
-                                            class="inline-flex items-center gap-1.5 text-xs font-bold text-[#4A6B5D] hover:text-[#3D574B] hover:underline cursor-pointer focus:outline-none"
+                                            class="inline-flex items-center gap-1 text-[10px] sm:text-xs font-bold text-[#4A6B5D] hover:text-[#3D574B] hover:underline cursor-pointer focus:outline-none"
                                         >
                                             <i 
-                                                class="fas text-[9px] transition-transform duration-200"
+                                                class="fas text-[8px] transition-transform duration-200"
                                                 :class="expandedPackageDishes[pkg.id] ? 'fa-chevron-up' : 'fa-chevron-down'"
                                             ></i>
                                             <span>
@@ -857,53 +857,53 @@ watch([categorySearchQuery], () => {
                                     <div 
                                         v-if="pkg.dishes && pkg.dishes.length > 0" 
                                         v-show="expandedPackageDishes[pkg.id]" 
-                                        class="flex flex-wrap gap-1.5 text-xs pt-1 animate-fade-in"
+                                        class="flex flex-wrap gap-1 text-xs pt-0.5 animate-fade-in"
                                     >
                                         <span
                                             v-for="dish in pkg.dishes"
                                             :key="dish.id"
-                                            class="inline-flex items-center gap-1 bg-[#FAF6F0]/40 text-[#5C6460] px-2 py-1 rounded-lg border border-[#E6E1DA] text-[10px] font-medium"
+                                            class="inline-flex items-center gap-1 bg-[#FAF6F0]/40 text-[#5C6460] px-1.5 py-0.5 rounded-lg border border-[#E6E1DA] text-[9px] sm:text-[10px] font-medium"
                                         >
-                                            <i class="fas fa-utensils text-[9px] text-[#4A6B5D]"></i>
+                                            <i class="fas fa-utensils text-[8px] text-[#4A6B5D]"></i>
                                             {{ dish.name }} ({{ dish.category }})
                                         </span>
                                     </div>
-                                    <div v-else class="text-xs text-[#8C8275] italic">
+                                    <div v-else class="text-[10px] sm:text-xs text-[#8C8275] italic">
                                         {{ t('admin_no_custom_dishes_pkg') }}
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Right: Associated Global Add-ons Info (5 cols) -->
-                            <div class="lg:col-span-5 bg-[#FAF7F2] border-t lg:border-t-0 lg:border-l border-[#E6E1DA] p-4 sm:p-6 flex flex-col justify-between gap-4">
-                                <div class="space-y-3">
+                            <div class="sm:col-span-5 bg-[#FAF7F2] border-t sm:border-t-0 sm:border-l border-[#E6E1DA] p-3.5 sm:p-5 flex flex-col justify-between gap-3">
+                                <div class="space-y-2">
                                     <div class="flex items-center justify-between">
-                                        <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_active_global_addons') }}</span>
-                                        <span class="text-[9px] font-bold text-[#4A6B5D] bg-[#4A6B5D]/10 px-2 py-0.5 rounded-full">
+                                        <span class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_active_global_addons') }}</span>
+                                        <span class="text-[8px] sm:text-[9px] font-bold text-[#4A6B5D] bg-[#4A6B5D]/10 px-1.5 py-0.5 rounded-full">
                                             {{ activeAddons.length }} {{ t('admin_active_options_count') }}
                                         </span>
                                     </div>
 
-                                    <div v-if="activeAddons.length > 0" class="max-h-[160px] overflow-y-auto space-y-2 pr-1">
+                                    <div v-if="activeAddons.length > 0" class="max-h-[120px] overflow-y-auto space-y-1.5 pr-1">
                                         <div
                                             v-for="addon in activeAddons"
                                             :key="addon.id"
-                                            class="flex justify-between items-center text-xs text-[#5C6460] bg-white px-3.5 py-2 rounded-xl border border-[#E6E1DA] shadow-xs"
+                                            class="flex justify-between items-center text-[10px] sm:text-xs text-[#5C6460] bg-white px-2.5 py-1.5 rounded-xl border border-[#E6E1DA] shadow-xs"
                                         >
                                             <span class="font-semibold truncate pr-2">{{ addon.addon_name }}</span>
-                                            <span class="text-[#C5A880] font-bold text-[10px] shrink-0 ml-auto">+RM {{ parseFloat(addon.price_per_pax).toFixed(2) }}/pax</span>
+                                            <span class="text-[#C5A880] font-bold text-[9px] sm:text-[10px] shrink-0 ml-auto">+RM {{ parseFloat(addon.price_per_pax).toFixed(2) }}/pax</span>
                                         </div>
                                     </div>
-                                    <div v-else class="py-4 text-center">
-                                        <p class="text-xs text-[#B5AFA8] italic">{{ t('admin_no_active_addons_configured') }}</p>
+                                    <div v-else class="py-3 text-center">
+                                        <p class="text-[10px] sm:text-xs text-[#B5AFA8] italic">{{ t('admin_no_active_addons_configured') }}</p>
                                     </div>
                                 </div>
 
                                 <button
                                     @click="activeTab = 'addons'"
-                                    class="w-full flex items-center justify-center gap-2 border border-dashed border-[#4A6B5D]/40 text-[#4A6B5D] hover:bg-[#4A6B5D]/5 font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                                    class="w-full flex items-center justify-center gap-1.5 border border-dashed border-[#4A6B5D]/40 text-[#4A6B5D] hover:bg-[#4A6B5D]/5 font-bold py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-wider transition-colors cursor-pointer focus:outline-none"
                                 >
-                                    <i class="fas fa-list text-[10px]"></i> {{ t('admin_manage_addons_btn') }}
+                                    <i class="fas fa-list text-[9px] sm:text-[10px]"></i> {{ t('admin_manage_addons_btn') }}
                                 </button>
                             </div>
                         </div>
@@ -965,40 +965,40 @@ watch([categorySearchQuery], () => {
         </div>
 
         <!-- TAB 2: GLOBAL ADD-ONS LIBRARY -->
-        <div v-if="activeTab === 'addons'" class="space-y-6">
+        <div v-if="activeTab === 'addons'" class="space-y-4">
             <!-- Search & Filters Card -->
-            <div class="bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-grow max-w-2xl w-full">
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-3 md:p-4 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2 flex-grow max-w-2xl w-full">
                     <!-- Search Input -->
                     <div class="relative flex-grow w-full">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8C8275]">
                             <i class="fas fa-search text-xs"></i>
                         </span>
                         <input 
                             v-model="addonSearchQuery" 
                             type="text" 
                             :placeholder="t('admin_search_addons_placeholder')" 
-                            class="w-full h-11 pl-10 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
+                            class="w-full h-9 pl-9 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
                         />
                         <button 
                             v-if="addonSearchQuery"
                             @click="addonSearchQuery = ''"
-                            class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors cursor-pointer"
+                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors cursor-pointer"
                         >
                             <i class="fas fa-times text-xs"></i>
                         </button>
                     </div>
                     <!-- Status Filter Dropdown -->
-                    <div class="relative w-full sm:w-48">
+                    <div class="relative w-full sm:w-44">
                         <select 
                             v-model="addonFilterStatus"
-                            class="w-full h-11 pl-4 pr-10 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
+                            class="w-full h-9 pl-3 pr-8 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
                         >
                             <option value="all">{{ t('admin_all_statuses') }}</option>
                             <option value="active">{{ t('admin_active') }}</option>
                             <option value="inactive">{{ t('admin_inactive') }}</option>
                         </select>
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-[#8C8275]">
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-[#8C8275]">
                             <i class="fas fa-chevron-down text-[10px]"></i>
                         </span>
                     </div>
@@ -1008,77 +1008,77 @@ watch([categorySearchQuery], () => {
                     <button
                         v-if="addons.length > 0"
                         @click="deleteAllAddons"
-                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-3 sm:px-4 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in flex-1 sm:flex-none"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-2.5 sm:px-3.5 py-1.5 rounded-xl text-[9px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-trash-alt text-[10px] sm:text-xs"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
+                        <i class="fas fa-trash-alt text-[9px] sm:text-xs"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
                     </button>
                     <button
                         @click="openCreateAddon"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3.5 sm:px-5 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none flex-1 sm:flex-none"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3 sm:px-4 py-1.5 rounded-xl text-[9px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-plus text-[10px] sm:text-xs"></i> {{ t('admin_add_new_global_item_btn') }}
+                        <i class="fas fa-plus text-[9px] sm:text-xs"></i> {{ t('admin_add_new_global_item_btn') }}
                     </button>
                 </div>
             </div>
 
             <!-- Add-ons Data Table -->
-            <div v-if="filteredAddons.length > 0" class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs overflow-hidden">
+            <div v-if="filteredAddons.length > 0" class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse text-left">
                         <thead>
                             <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_addon_item_col') }}</th>
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_price_pax_col') }}</th>
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_status_col') }}</th>
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-12 text-center">{{ t('admin_reviews_no_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_addon_item_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_price_pax_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_status_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
+                        <tbody class="divide-y divide-[#E6E1DA] text-[11px] sm:text-xs text-[#5C6460]">
                             <tr v-for="(addon, index) in paginatedAddons" :key="addon.id" class="hover:bg-[#FAFAF9] transition-colors">
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center font-semibold text-[#8C8275]">
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5 text-center font-semibold text-[#8C8275]">
                                     {{ (addonCurrentPage - 1) * addonsPerPage + index + 1 }}
                                 </td>
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-6 h-6 rounded-lg bg-[#C5A880]/10 text-[#C5A880] flex items-center justify-center text-[10px] shrink-0 border border-[#C5A880]/20">
-                                            <i class="fas fa-star text-[9px]"></i>
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-5 h-5 rounded-lg bg-[#C5A880]/10 text-[#C5A880] flex items-center justify-center text-[9px] shrink-0 border border-[#C5A880]/20">
+                                            <i class="fas fa-star text-[8px]"></i>
                                         </div>
                                         <span class="font-bold text-[#2D3330] uppercase tracking-wide">{{ addon.addon_name }}</span>
                                     </div>
                                 </td>
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4">
-                                    <span class="text-[#C5A880] font-bold text-[11px]">
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5">
+                                    <span class="text-[#C5A880] font-bold text-[10px] sm:text-[11px]">
                                         +RM {{ parseFloat(addon.price_per_pax).toFixed(2) }}
                                     </span>
                                 </td>
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5 text-center">
                                     <button 
                                         @click="toggleAddonStatus(addon)"
-                                        class="inline-flex items-center gap-1.5 text-[9px] font-bold px-2.5 py-1 rounded-full border cursor-pointer transition-all whitespace-nowrap"
+                                        class="inline-flex items-center gap-1 text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded-full border cursor-pointer transition-all whitespace-nowrap focus:outline-none"
                                         :class="addon.active 
                                             ? 'bg-emerald-50 text-[#4A6B5D] border-emerald-200 hover:bg-emerald-100' 
                                             : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'"
                                     >
-                                        <i class="fas text-[7px]" :class="addon.active ? 'fa-check' : 'fa-times'"></i>
+                                        <i class="fas text-[6px]" :class="addon.active ? 'fa-check' : 'fa-times'"></i>
                                         {{ addon.active ? t('admin_active') : t('admin_inactive') }}
                                     </button>
                                 </td>
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">
-                                    <div class="flex justify-end gap-1.5">
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5 text-right">
+                                    <div class="flex justify-end gap-1">
                                         <button
                                             @click="openEditAddon(addon)"
-                                            class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold w-8 h-8 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
+                                            class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold w-7 h-7 rounded-lg transition-colors flex items-center justify-center cursor-pointer focus:outline-none"
                                             :title="t('admin_edit_global_addon')"
                                         >
-                                            <i class="fas fa-edit text-[10px]"></i>
+                                            <i class="fas fa-edit text-[9px] sm:text-[10px]"></i>
                                         </button>
                                         <button
                                             @click="deleteAddon(addon.id)"
-                                            class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold w-8 h-8 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
+                                            class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold w-7 h-7 rounded-lg transition-colors flex items-center justify-center cursor-pointer focus:outline-none"
                                             :title="t('admin_delete')"
                                         >
-                                            <i class="fas fa-trash-alt text-[10px]"></i>
+                                            <i class="fas fa-trash-alt text-[9px] sm:text-[10px]"></i>
                                         </button>
                                     </div>
                                 </td>
@@ -1088,25 +1088,25 @@ watch([categorySearchQuery], () => {
                 </div>
 
                 <!-- Pagination for Addons -->
-                <div v-if="filteredAddons.length > 0" class="flex justify-between items-center p-4 border-t border-[#E6E1DA]">
+                <div v-if="filteredAddons.length > 0" class="flex justify-between items-center p-3 border-t border-[#E6E1DA]">
                     <button 
                         @click="addonCurrentPage = Math.max(1, addonCurrentPage - 1)"
                         :disabled="addonCurrentPage === 1"
-                        class="px-3.5 py-1.5 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
+                        class="px-2.5 py-1.5 border border-[#E6E1DA] rounded-xl text-[10px] sm:text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
                         :class="addonCurrentPage === 1 ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
                     >
                         <i class="fas fa-chevron-left text-[8px]"></i>
                         <span>{{ t('admin_prev_page') }}</span>
                     </button>
                     
-                    <span class="text-xs font-semibold text-[#8C8275]">
+                    <span class="text-[10px] sm:text-xs font-semibold text-[#8C8275]">
                         {{ addonCurrentPage }} / {{ addonTotalPages }}
                     </span>
                     
                     <button 
                         @click="addonCurrentPage = Math.min(addonTotalPages, addonCurrentPage + 1)"
                         :disabled="addonCurrentPage === addonTotalPages"
-                        class="px-3.5 py-1.5 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
+                        class="px-2.5 py-1.5 border border-[#E6E1DA] rounded-xl text-[10px] sm:text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
                         :class="addonCurrentPage === addonTotalPages ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
                     >
                         <span>{{ t('admin_next_page') }}</span>
@@ -1116,70 +1116,70 @@ watch([categorySearchQuery], () => {
             </div>
 
             <!-- Empty Add-ons State / No matches -->
-            <div v-else class="bg-white rounded-3xl border border-[#E6E1DA] p-20 text-center space-y-4">
-                <div class="w-16 h-16 bg-[#FAF7F2] text-[#8C8275] border border-[#E6E1DA] rounded-2xl flex items-center justify-center mx-auto text-2xl">
+            <div v-else class="bg-white rounded-2xl border border-[#E6E1DA] p-10 text-center space-y-3">
+                <div class="w-12 h-12 bg-[#FAF7F2] text-[#8C8275] border border-[#E6E1DA] rounded-xl flex items-center justify-center mx-auto text-lg">
                     <i class="fas fa-list-ul"></i>
                 </div>
                 <div>
-                    <h4 class="text-[#2D3330] font-bold">{{ t('admin_no_global_addons_configured') }}</h4>
-                    <p class="text-xs text-[#8C8275] mt-1">{{ addonSearchQuery || addonFilterStatus !== 'all' ? t('admin_no_packages_matching_filter') : t('admin_get_started_addon_desc') }}</p>
+                    <h4 class="text-xs sm:text-sm font-bold text-[#2D3330]">{{ t('admin_no_global_addons_configured') }}</h4>
+                    <p class="text-[10px] sm:text-xs text-[#8C8275] mt-1">{{ addonSearchQuery || addonFilterStatus !== 'all' ? t('admin_no_packages_matching_filter') : t('admin_get_started_addon_desc') }}</p>
                 </div>
-                <button v-if="!addonSearchQuery && addonFilterStatus === 'all'" @click="openCreateAddon" class="inline-flex items-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-sm">
-                    <i class="fas fa-plus"></i> {{ t('admin_create_first_addon_btn') }}
+                <button v-if="!addonSearchQuery && addonFilterStatus === 'all'" @click="openCreateAddon" class="inline-flex items-center gap-1.5 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-sm focus:outline-none">
+                    <i class="fas fa-plus text-[9px] sm:text-[10px]"></i> {{ t('admin_create_first_addon_btn') }}
                 </button>
             </div>
         </div>
 
         <!-- TAB 3: DISHES LIBRARY -->
-        <div v-if="activeTab === 'dishes'" class="space-y-6">
+        <div v-if="activeTab === 'dishes'" class="space-y-4">
             <!-- Search & Filters Card -->
-            <div class="bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-grow max-w-3xl w-full">
+            <div class="bg-white border border-[#E6E1DA] rounded-2xl p-3 md:p-4 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2 flex-grow max-w-3xl w-full">
                     <!-- Search Input -->
                     <div class="relative flex-grow w-full">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8C8275]">
                             <i class="fas fa-search text-xs"></i>
                         </span>
                         <input 
                             v-model="dishSearchQuery" 
                             type="text" 
                             :placeholder="t('admin_search_dishes_placeholder')" 
-                            class="w-full h-11 pl-10 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
+                            class="w-full h-9 pl-9 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
                         />
                         <button 
                             v-if="dishSearchQuery"
                             @click="dishSearchQuery = ''"
-                            class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors cursor-pointer"
+                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors cursor-pointer"
                         >
                             <i class="fas fa-times text-xs"></i>
                         </button>
                     </div>
                     <!-- Status Filter Dropdown -->
-                    <div class="relative w-full sm:w-40">
+                    <div class="relative w-full sm:w-36">
                         <select 
                             v-model="dishFilterStatus"
-                            class="w-full h-11 pl-4 pr-10 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
+                            class="w-full h-9 pl-3 pr-8 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
                         >
                             <option value="all">{{ t('admin_all_statuses') }}</option>
                             <option value="active">{{ t('admin_active') }}</option>
                             <option value="inactive">{{ t('admin_inactive') }}</option>
                         </select>
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-[#8C8275]">
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-[#8C8275]">
                             <i class="fas fa-chevron-down text-[10px]"></i>
                         </span>
                     </div>
                     <!-- Category Filter Dropdown -->
-                    <div class="relative w-full sm:w-48">
+                    <div class="relative w-full sm:w-44">
                         <select 
                             v-model="dishFilterCategory"
-                            class="w-full h-11 pl-4 pr-10 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
+                            class="w-full h-9 pl-3 pr-8 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white text-[#5C6460] transition-all appearance-none cursor-pointer"
                         >
                             <option value="all">{{ t('admin_all_categories') }}</option>
                             <option v-for="cat in categories" :key="cat.id" :value="cat.name">
                                 {{ cat.name }}
                             </option>
                         </select>
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-[#8C8275]">
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-[#8C8275]">
                             <i class="fas fa-chevron-down text-[10px]"></i>
                         </span>
                     </div>
@@ -1189,77 +1189,77 @@ watch([categorySearchQuery], () => {
                     <button
                         v-if="dishes.length > 0"
                         @click="deleteAllDishes"
-                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-3 sm:px-4 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in flex-1 sm:flex-none"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-2.5 sm:px-3.5 py-1.5 rounded-xl text-[9px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-trash-alt text-[10px] sm:text-xs"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
+                        <i class="fas fa-trash-alt text-[9px] sm:text-xs"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
                     </button>
                     <button
                         @click="openCreateDish"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3.5 sm:px-5 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none flex-1 sm:flex-none"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3 sm:px-4 py-1.5 rounded-xl text-[9px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-plus text-[10px] sm:text-xs"></i> {{ t('admin_add_new_dish_btn') }}
+                        <i class="fas fa-plus text-[9px] sm:text-xs"></i> {{ t('admin_add_new_dish_btn') }}
                     </button>
                 </div>
             </div>
 
             <!-- Dishes Data Table -->
-            <div v-if="filteredDishes.length > 0" class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs overflow-hidden animate-fade-in">
+            <div v-if="filteredDishes.length > 0" class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs overflow-hidden animate-fade-in">
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse text-left">
                         <thead>
                             <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_dish_name_col') }}</th>
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_category_col') }}</th>
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_status_col') }}</th>
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-12 text-center">{{ t('admin_reviews_no_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_dish_name_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_category_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_status_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
+                        <tbody class="divide-y divide-[#E6E1DA] text-[11px] sm:text-xs text-[#5C6460]">
                             <tr v-for="(dish, index) in paginatedDishes" :key="dish.id" class="hover:bg-[#FAFAF9] transition-colors">
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center font-semibold text-[#8C8275]">
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5 text-center font-semibold text-[#8C8275]">
                                     {{ (dishCurrentPage - 1) * dishesPerPage + index + 1 }}
                                 </td>
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-6 h-6 rounded-lg bg-[#4A6B5D]/10 text-[#4A6B5D] flex items-center justify-center text-[10px] shrink-0 border border-[#4A6B5D]/20">
-                                            <i class="fas fa-utensils text-[9px]"></i>
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-5 h-5 rounded-lg bg-[#4A6B5D]/10 text-[#4A6B5D] flex items-center justify-center text-[9px] shrink-0 border border-[#4A6B5D]/20">
+                                            <i class="fas fa-utensils text-[8px]"></i>
                                         </div>
                                         <span class="font-bold text-[#2D3330] uppercase tracking-wide">{{ dish.name }}</span>
                                     </div>
                                 </td>
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
-                                    <span class="font-semibold px-2.5 py-0.5 rounded-full border bg-amber-50 text-amber-800 border-amber-200 whitespace-nowrap">
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5 text-center">
+                                    <span class="font-semibold px-2 py-0.5 rounded-full border bg-amber-50 text-amber-800 border-amber-200 text-[9px] sm:text-[10px] whitespace-nowrap">
                                         {{ dish.category }}
                                     </span>
                                 </td>
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5 text-center">
                                     <button 
                                         @click="toggleDishStatus(dish)"
-                                        class="inline-flex items-center gap-1.5 text-[9px] font-bold px-2.5 py-1 rounded-full border cursor-pointer transition-all whitespace-nowrap"
+                                        class="inline-flex items-center gap-1 text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded-full border cursor-pointer transition-all whitespace-nowrap focus:outline-none"
                                         :class="dish.active 
                                             ? 'bg-emerald-50 text-[#4A6B5D] border-emerald-200 hover:bg-emerald-100' 
                                             : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'"
                                     >
-                                        <i class="fas text-[7px]" :class="dish.active ? 'fa-check' : 'fa-times'"></i>
+                                        <i class="fas text-[6px]" :class="dish.active ? 'fa-check' : 'fa-times'"></i>
                                         {{ dish.active ? t('admin_active') : t('admin_inactive') }}
                                     </button>
                                 </td>
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">
-                                    <div class="flex justify-end gap-1.5">
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5 text-right">
+                                    <div class="flex justify-end gap-1">
                                         <button
                                             @click="openEditDish(dish)"
-                                            class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold w-8 h-8 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
+                                            class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold w-7 h-7 rounded-lg transition-colors flex items-center justify-center cursor-pointer focus:outline-none"
                                             :title="t('admin_edit_dish_details')"
                                         >
-                                            <i class="fas fa-edit text-[10px]"></i>
+                                            <i class="fas fa-edit text-[9px] sm:text-[10px]"></i>
                                         </button>
                                         <button
                                             @click="deleteDish(dish.id)"
-                                            class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold w-8 h-8 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
+                                            class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold w-7 h-7 rounded-lg transition-colors flex items-center justify-center cursor-pointer focus:outline-none"
                                             :title="t('admin_delete')"
                                         >
-                                            <i class="fas fa-trash-alt text-[10px]"></i>
+                                            <i class="fas fa-trash-alt text-[9px] sm:text-[10px]"></i>
                                         </button>
                                     </div>
                                 </td>
@@ -1269,25 +1269,25 @@ watch([categorySearchQuery], () => {
                 </div>
 
                 <!-- Pagination for Dishes -->
-                <div v-if="filteredDishes.length > 0" class="flex justify-between items-center p-4 border-t border-[#E6E1DA]">
+                <div v-if="filteredDishes.length > 0" class="flex justify-between items-center p-3 border-t border-[#E6E1DA]">
                     <button 
                         @click="dishCurrentPage = Math.max(1, dishCurrentPage - 1)"
                         :disabled="dishCurrentPage === 1"
-                        class="px-3.5 py-1.5 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
+                        class="px-2.5 py-1.5 border border-[#E6E1DA] rounded-xl text-[10px] sm:text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
                         :class="dishCurrentPage === 1 ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
                     >
                         <i class="fas fa-chevron-left text-[8px]"></i>
                         <span>{{ t('admin_prev_page') }}</span>
                     </button>
                     
-                    <span class="text-xs font-semibold text-[#8C8275]">
+                    <span class="text-[10px] sm:text-xs font-semibold text-[#8C8275]">
                         {{ dishCurrentPage }} / {{ dishTotalPages }}
                     </span>
                     
                     <button 
                         @click="dishCurrentPage = Math.min(dishTotalPages, dishCurrentPage + 1)"
                         :disabled="dishCurrentPage === dishTotalPages"
-                        class="px-3.5 py-1.5 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
+                        class="px-2.5 py-1.5 border border-[#E6E1DA] rounded-xl text-[10px] sm:text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
                         :class="dishCurrentPage === dishTotalPages ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
                     >
                         <span>{{ t('admin_next_page') }}</span>
@@ -1297,39 +1297,39 @@ watch([categorySearchQuery], () => {
             </div>
 
             <!-- Empty Dishes State / No matches -->
-            <div v-else class="bg-white rounded-3xl border border-[#E6E1DA] p-20 text-center space-y-4">
-                <div class="w-16 h-16 bg-[#FAF7F2] text-[#8C8275] border border-[#E6E1DA] rounded-2xl flex items-center justify-center mx-auto text-2xl">
+            <div v-else class="bg-white rounded-2xl border border-[#E6E1DA] p-10 text-center space-y-3">
+                <div class="w-12 h-12 bg-[#FAF7F2] text-[#8C8275] border border-[#E6E1DA] rounded-xl flex items-center justify-center mx-auto text-lg">
                     <i class="fas fa-utensils"></i>
                 </div>
                 <div>
-                    <h4 class="text-[#2D3330] font-bold">{{ t('admin_no_dishes_configured') }}</h4>
-                    <p class="text-xs text-[#8C8275] mt-1">{{ dishSearchQuery || dishFilterStatus !== 'all' || dishFilterCategory !== 'all' ? t('admin_no_packages_matching_filter') : t('admin_get_started_dish_desc') }}</p>
+                    <h4 class="text-xs sm:text-sm font-bold text-[#2D3330]">{{ t('admin_no_dishes_configured') }}</h4>
+                    <p class="text-[10px] sm:text-xs text-[#8C8275] mt-1">{{ dishSearchQuery || dishFilterStatus !== 'all' || dishFilterCategory !== 'all' ? t('admin_no_packages_matching_filter') : t('admin_get_started_dish_desc') }}</p>
                 </div>
-                <button v-if="!dishSearchQuery && dishFilterStatus === 'all' && dishFilterCategory === 'all'" @click="openCreateDish" class="inline-flex items-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-sm">
-                    <i class="fas fa-plus"></i> {{ t('admin_create_first_dish_btn') }}
+                <button v-if="!dishSearchQuery && dishFilterStatus === 'all' && dishFilterCategory === 'all'" @click="openCreateDish" class="inline-flex items-center gap-1.5 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-sm focus:outline-none">
+                    <i class="fas fa-plus text-[9px] sm:text-[10px]"></i> {{ t('admin_create_first_dish_btn') }}
                 </button>
             </div>
         </div>
 
         <!-- TAB 4: DISH CATEGORIES -->
-        <div v-if="activeTab === 'categories'" class="space-y-6">
+        <div v-if="activeTab === 'categories'" class="space-y-4">
             <!-- Search & Action Bar -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white border border-[#E6E1DA] rounded-2xl md:rounded-3xl p-4 md:p-5 shadow-xs">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white border border-[#E6E1DA] rounded-2xl p-3 md:p-4 shadow-xs">
                 <!-- Search Input -->
                 <div class="relative flex-grow max-w-md w-full">
-                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8C8275]">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8C8275]">
                         <i class="fas fa-search text-xs"></i>
                     </span>
                     <input 
                         v-model="categorySearchQuery" 
                         type="text" 
                         :placeholder="t('admin_search_categories_placeholder')" 
-                        class="w-full h-11 pl-10 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-2xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
+                        class="w-full h-9 pl-9 pr-9 bg-[#FAF8F5] border border-[#E6E1DA] rounded-xl text-xs font-semibold text-[#2D3330] placeholder-[#8C8275]/60 focus:outline-none focus:ring-2 focus:ring-[#4A6B5D]/10 focus:border-[#4A6B5D] focus:bg-white transition-all"
                     />
                     <button 
                         v-if="categorySearchQuery"
                         @click="categorySearchQuery = ''"
-                        class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors cursor-pointer"
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#8C8275] hover:text-rose-600 transition-colors cursor-pointer"
                     >
                         <i class="fas fa-times text-xs"></i>
                     </button>
@@ -1339,64 +1339,64 @@ watch([categorySearchQuery], () => {
                     <button
                         v-if="categories.length > 0"
                         @click="deleteAllCategories"
-                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-3 sm:px-4 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in flex-1 sm:flex-none"
+                        class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold px-2.5 sm:px-3.5 py-1.5 rounded-xl text-[9px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 shadow-xs transition-all cursor-pointer shrink-0 focus:outline-none animate-fade-in flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-trash-alt text-[10px] sm:text-xs"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
+                        <i class="fas fa-trash-alt text-[9px] sm:text-xs"></i> {{ currentLanguage === 'en' ? 'Delete All' : 'Padam Semua' }}
                     </button>
                     <button
                         @click="openCreateCategory"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3.5 sm:px-5 py-2.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none flex-1 sm:flex-none"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3 sm:px-4 py-1.5 rounded-xl text-[9px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 shadow-md transition-all cursor-pointer shrink-0 focus:outline-none flex-1 sm:flex-none"
                     >
-                        <i class="fas fa-plus text-[10px] sm:text-xs"></i> {{ t('admin_add_new_category_btn') }}
+                        <i class="fas fa-plus text-[9px] sm:text-xs"></i> {{ t('admin_add_new_category_btn') }}
                     </button>
                 </div>
             </div>
 
             <!-- Categories Data Table -->
-            <div v-if="filteredCategories.length > 0" class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs overflow-hidden animate-fade-in">
+            <div v-if="filteredCategories.length > 0" class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs overflow-hidden animate-fade-in">
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse text-left">
                         <thead>
                             <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-16 text-center">{{ t('admin_reviews_no_col') }}</th>
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_category_name_col') }}</th>
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_dishes_count_col') }}</th>
-                                <th class="px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest w-12 text-center">{{ t('admin_reviews_no_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_category_name_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('admin_dishes_count_col') }}</th>
+                                <th class="px-2.5 sm:px-4 py-2 text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-right">{{ t('admin_actions_col') }}</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
+                        <tbody class="divide-y divide-[#E6E1DA] text-[11px] sm:text-xs text-[#5C6460]">
                             <tr v-for="(cat, index) in paginatedCategories" :key="cat.id" class="hover:bg-[#FAFAF9] transition-colors">
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center font-semibold text-[#8C8275]">
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5 text-center font-semibold text-[#8C8275]">
                                     {{ (categoryCurrentPage - 1) * categoriesPerPage + index + 1 }}
                                 </td>
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-6 h-6 rounded-lg bg-[#4A6B5D]/10 text-[#4A6B5D] flex items-center justify-center text-[10px] shrink-0 border border-[#4A6B5D]/20">
-                                            <i class="fas fa-folder text-[9px]"></i>
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-5 h-5 rounded-lg bg-[#4A6B5D]/10 text-[#4A6B5D] flex items-center justify-center text-[9px] shrink-0 border border-[#4A6B5D]/20">
+                                            <i class="fas fa-folder text-[8px]"></i>
                                         </div>
                                         <span class="font-bold text-[#2D3330] uppercase tracking-wide">{{ cat.name }}</span>
                                     </div>
                                 </td>
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-center">
-                                    <span class="font-semibold px-2.5 py-0.5 rounded-full border bg-emerald-50 text-emerald-800 border-emerald-200 whitespace-nowrap">
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5 text-center">
+                                    <span class="font-semibold px-2 py-0.5 rounded-full border bg-emerald-50 text-emerald-800 border-emerald-200 text-[9px] sm:text-[10px] whitespace-nowrap">
                                         {{ dishes.filter(d => d.category === cat.name).length }} {{ currentLanguage === 'en' ? 'Dishes' : 'Hidangan' }}
                                     </span>
                                 </td>
-                                <td class="px-3 sm:px-6 py-2.5 sm:py-4 text-right">
-                                    <div class="flex justify-end gap-1.5">
+                                <td class="px-2.5 sm:px-4 py-1.5 sm:py-2.5 text-right">
+                                    <div class="flex justify-end gap-1">
                                         <button
                                             @click="openEditCategory(cat)"
-                                            class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold w-8 h-8 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
+                                            class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold w-7 h-7 rounded-lg transition-colors flex items-center justify-center cursor-pointer focus:outline-none"
                                             :title="t('admin_edit_category')"
                                         >
-                                            <i class="fas fa-edit text-[10px]"></i>
+                                            <i class="fas fa-edit text-[9px] sm:text-[10px]"></i>
                                         </button>
                                         <button
                                             @click="deleteCategory(cat.id)"
-                                            class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold w-8 h-8 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
+                                            class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold w-7 h-7 rounded-lg transition-colors flex items-center justify-center cursor-pointer focus:outline-none"
                                             :title="t('admin_delete')"
                                         >
-                                            <i class="fas fa-trash-alt text-[10px]"></i>
+                                            <i class="fas fa-trash-alt text-[9px] sm:text-[10px]"></i>
                                         </button>
                                     </div>
                                 </td>
@@ -1406,25 +1406,25 @@ watch([categorySearchQuery], () => {
                 </div>
 
                 <!-- Pagination for Categories -->
-                <div v-if="filteredCategories.length > 0" class="flex justify-between items-center p-4 border-t border-[#E6E1DA]">
+                <div v-if="filteredCategories.length > 0" class="flex justify-between items-center p-3 border-t border-[#E6E1DA]">
                     <button 
                         @click="categoryCurrentPage = Math.max(1, categoryCurrentPage - 1)"
                         :disabled="categoryCurrentPage === 1"
-                        class="px-3.5 py-1.5 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
+                        class="px-2.5 py-1.5 border border-[#E6E1DA] rounded-xl text-[10px] sm:text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
                         :class="categoryCurrentPage === 1 ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
                     >
                         <i class="fas fa-chevron-left text-[8px]"></i>
                         <span>{{ t('admin_prev_page') }}</span>
                     </button>
                     
-                    <span class="text-xs font-semibold text-[#8C8275]">
+                    <span class="text-[10px] sm:text-xs font-semibold text-[#8C8275]">
                         {{ categoryCurrentPage }} / {{ categoryTotalPages }}
                     </span>
                     
                     <button 
                         @click="categoryCurrentPage = Math.min(categoryTotalPages, categoryCurrentPage + 1)"
                         :disabled="categoryCurrentPage === categoryTotalPages"
-                        class="px-3.5 py-1.5 border border-[#E6E1DA] rounded-xl text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
+                        class="px-2.5 py-1.5 border border-[#E6E1DA] rounded-xl text-[10px] sm:text-xs font-bold transition-all flex items-center gap-1 focus:outline-none"
                         :class="categoryCurrentPage === categoryTotalPages ? 'text-slate-300 bg-slate-50 border-slate-100 cursor-not-allowed' : 'text-[#5C6460] bg-white hover:bg-[#FAF7F2] cursor-pointer'"
                     >
                         <span>{{ t('admin_next_page') }}</span>
@@ -1467,30 +1467,30 @@ watch([categorySearchQuery], () => {
                 >
                     <div v-if="showPackageModal" class="bg-white rounded-3xl w-full max-w-xl max-h-[90vh] overflow-y-auto border border-[#E6E1DA] shadow-2xl flex flex-col">
                         <!-- Modal Header -->
-                        <div class="flex items-center justify-between px-7 py-5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
+                        <div class="flex items-center justify-between px-5 py-3.5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
                             <div>
-                                <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
+                                <h3 class="text-xs sm:text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
                                     {{ isEditingPackage ? t('admin_edit_package_details') : t('admin_create_new_package') }}
                                 </h3>
-                                <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">
+                                <p class="text-[9px] text-[#8C8275] font-semibold mt-0.5">
                                     {{ t('admin_package_modal_desc') }}
                                 </p>
                             </div>
                             <button @click="closePackageModal"
-                                class="w-8 h-8 rounded-xl border border-[#E6E1DA] flex items-center justify-center text-[#8C8275] hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-all cursor-pointer shrink-0">
-                                <i class="fas fa-times text-xs"></i>
+                                class="w-7 h-7 rounded-xl border border-[#E6E1DA] flex items-center justify-center text-[#8C8275] hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-all cursor-pointer shrink-0">
+                                <i class="fas fa-times text-[10px]"></i>
                             </button>
                         </div>
 
                         <form @submit.prevent="submitPackage" class="flex flex-col flex-grow">
-                            <div class="p-7 space-y-4">
+                            <div class="p-5 space-y-3">
                                 <!-- Package Name -->
-                                <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_package_category_name') }} <span class="text-rose-500">*</span></label>
+                                <div class="space-y-1">
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#5C6460] block uppercase tracking-wider">{{ t('admin_package_category_name') }} <span class="text-rose-500">*</span></label>
                                     <input
                                         type="text"
                                         v-model="packageForm.package_name"
-                                        class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
+                                        class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-3 py-1.5 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
                                         :placeholder="t('admin_pkg_name_placeholder')"
                                         required
                                     />
@@ -1498,28 +1498,28 @@ watch([categorySearchQuery], () => {
                                 </div>
 
                                 <!-- Price + Min Order -->
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="space-y-1.5">
-                                        <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_base_price_pax_rm') }} <span class="text-rose-500">*</span></label>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] sm:text-xs font-bold text-[#5C6460] block uppercase tracking-wider">{{ t('admin_base_price_pax_rm') }} <span class="text-rose-500">*</span></label>
                                         <div class="relative">
-                                            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-[#8C8275]">RM</span>
+                                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[9px] font-bold text-[#8C8275]">RM</span>
                                             <input
                                                 type="number" step="0.01"
                                                 v-model="packageForm.price"
-                                                class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] pl-9 pr-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
+                                                class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] pl-8 pr-3 py-1.5 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
                                                 placeholder="0.00" required
                                             />
                                         </div>
                                         <p v-if="packageForm.errors.price" class="text-xs text-rose-500 font-semibold">{{ packageForm.errors.price }}</p>
                                     </div>
-                                    <div class="space-y-1.5">
-                                        <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_min_order_pax') }} <span class="text-rose-500">*</span></label>
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] sm:text-xs font-bold text-[#5C6460] block uppercase tracking-wider">{{ t('admin_min_order_pax') }} <span class="text-rose-500">*</span></label>
                                         <div class="relative">
-                                            <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-[#8C8275]">pax</span>
+                                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-bold text-[#8C8275]">pax</span>
                                             <input
                                                 type="number"
                                                 v-model="packageForm.min_order"
-                                                class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-4 pr-10 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
+                                                class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-3 pr-9 py-1.5 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
                                                 placeholder="100" required
                                             />
                                         </div>
@@ -1528,15 +1528,15 @@ watch([categorySearchQuery], () => {
                                 </div>
 
                                 <!-- Description / Dishes -->
-                                <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#5C6460] block">
+                                <div class="space-y-1">
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#5C6460] block uppercase tracking-wider">
                                         {{ t('admin_included_dishes_list') }} <span class="text-rose-500">*</span>
-                                        <span class="text-[#8C8275] font-normal ml-1">({{ t('admin_one_dish_per_line') }})</span>
+                                        <span class="text-[#8C8275] font-normal normal-case ml-1">({{ t('admin_one_dish_per_line') }})</span>
                                     </label>
                                     <textarea
                                         v-model="packageForm.description"
-                                        rows="5"
-                                        class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all resize-none"
+                                        rows="3"
+                                        class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-3 py-1.5 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all resize-none"
                                         :placeholder="t('admin_included_dishes_placeholder')"
                                         required
                                     ></textarea>
@@ -1544,15 +1544,15 @@ watch([categorySearchQuery], () => {
                                 </div>
 
                                 <!-- Package Image Upload -->
-                                <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#5C6460] block">
+                                <div class="space-y-1">
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#5C6460] block uppercase tracking-wider">
                                         {{ currentLanguage === 'en' ? 'Package Image' : 'Gambar Pakej' }}
-                                        <span class="text-[#8C8275] font-normal ml-1">({{ currentLanguage === 'en' ? 'Optional, Max 2MB' : 'Pilihan, Maksimum 2MB' }})</span>
+                                        <span class="text-[#8C8275] font-normal normal-case ml-1">({{ currentLanguage === 'en' ? 'Optional, Max 2MB' : 'Pilihan, Maksimum 2MB' }})</span>
                                     </label>
                                     
-                                    <div class="flex items-center gap-4">
+                                    <div class="flex items-center gap-3">
                                         <!-- Thumbnail Preview of current or selected image -->
-                                        <div class="w-16 h-16 rounded-xl border border-[#E6E1DA] overflow-hidden bg-[#FAF8F5] shrink-0 flex items-center justify-center">
+                                        <div class="w-12 h-12 rounded-xl border border-[#E6E1DA] overflow-hidden bg-[#FAF8F5] shrink-0 flex items-center justify-center">
                                             <img v-if="imagePreviewUrl" :src="imagePreviewUrl" class="w-full h-full object-cover" />
                                             <img v-else :src="getPackageImage({ image: currentPackageImage, package_name: packageForm.package_name })" class="w-full h-full object-cover" />
                                         </div>
@@ -1569,22 +1569,22 @@ watch([categorySearchQuery], () => {
                                                 />
                                                 <label
                                                     for="package-image-input"
-                                                    class="cursor-pointer bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-xs transition-colors flex items-center gap-2"
+                                                    class="cursor-pointer bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-3 py-1.5 rounded-xl text-[10px] sm:text-xs transition-colors flex items-center gap-1.5"
                                                 >
-                                                    <i class="fas fa-upload text-[10px]"></i>
+                                                    <i class="fas fa-upload text-[9px] sm:text-[10px]"></i>
                                                     {{ currentLanguage === 'en' ? 'Choose Image' : 'Pilih Gambar' }}
                                                 </label>
                                                 <button
                                                     v-if="imagePreviewUrl"
                                                     type="button"
                                                     @click="clearSelectedImage"
-                                                    class="ml-2 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-3 py-2.5 rounded-xl text-xs transition-colors flex items-center gap-1 cursor-pointer"
+                                                    class="ml-2 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-2.5 py-1.5 rounded-xl text-[10px] sm:text-xs transition-colors flex items-center gap-1 cursor-pointer"
                                                 >
-                                                    <i class="fas fa-times text-[10px]"></i>
+                                                    <i class="fas fa-times text-[9px] sm:text-[10px]"></i>
                                                     {{ currentLanguage === 'en' ? 'Clear' : 'Batal' }}
                                                 </button>
                                             </div>
-                                            <p class="text-[10px] text-[#8C8275] mt-1">
+                                            <p class="text-[9px] text-[#8C8275] mt-0.5">
                                                 {{ currentLanguage === 'en' ? 'Supports PNG, JPG, JPEG up to 2MB.' : 'Sokong PNG, JPG, JPEG sehingga 2MB.' }}
                                             </p>
                                         </div>
@@ -1593,22 +1593,22 @@ watch([categorySearchQuery], () => {
                                 </div>
 
                                 <!-- Divider -->
-                                <div class="border-t border-[#E6E1DA] pt-4">
-                                    <span class="text-xs font-bold text-[#2D3330] uppercase tracking-wider block mb-2">{{ t('admin_interactive_menu_options') }}</span>
-                                    <p class="text-[10px] text-[#8C8275] font-semibold mb-4">{{ t('admin_interactive_menu_options_desc') }}</p>
+                                <div class="border-t border-[#E6E1DA] pt-3">
+                                    <span class="text-[10px] sm:text-xs font-bold text-[#2D3330] uppercase tracking-wider block mb-1">{{ t('admin_interactive_menu_options') }}</span>
+                                    <p class="text-[9px] text-[#8C8275] font-semibold mb-2.5">{{ t('admin_interactive_menu_options_desc') }}</p>
                                 </div>
 
                                 <!-- Dish Limits Grid -->
-                                <div class="space-y-2">
-                                    <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_dish_selection_limits') }}</label>
-                                    <div class="grid grid-cols-3 gap-3">
-                                        <div v-for="cat in dishCategories" :key="cat" class="space-y-1">
-                                            <span class="text-[10px] font-bold text-[#8C8275] uppercase block">{{ cat }}</span>
+                                <div class="space-y-1.5">
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#5C6460] block uppercase tracking-wider">{{ t('admin_dish_selection_limits') }}</label>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div v-for="cat in dishCategories" :key="cat" class="space-y-0.5">
+                                            <span class="text-[9px] font-bold text-[#8C8275] uppercase block truncate">{{ cat }}</span>
                                             <input
                                                 type="number"
                                                 v-model="packageForm.dish_limits[cat]"
                                                 min="0"
-                                                class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-3 py-2 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
+                                                class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-2.5 py-1.5 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
                                                 placeholder="0"
                                             />
                                         </div>
@@ -1617,55 +1617,55 @@ watch([categorySearchQuery], () => {
                                 </div>
 
                                 <!-- Dishes Checklist -->
-                                <div class="space-y-2">
+                                <div class="space-y-1.5">
                                     <div class="flex items-center justify-between">
-                                        <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_select_available_dishes') }}</label>
+                                        <label class="text-[10px] sm:text-xs font-bold text-[#5C6460] block uppercase tracking-wider">{{ t('admin_select_available_dishes') }}</label>
                                         <button 
                                             type="button" 
                                             @click="toggleSelectAllDishes" 
-                                            class="text-[10px] font-bold text-[#4A6B5D] hover:text-[#3D574B] hover:underline cursor-pointer focus:outline-none"
+                                            class="text-[9px] sm:text-[10px] font-bold text-[#4A6B5D] hover:text-[#3D574B] hover:underline cursor-pointer focus:outline-none"
                                         >
                                             {{ isAllDishesSelected ? (currentLanguage === 'en' ? 'Deselect All' : 'Nyahpilih Semua') : (currentLanguage === 'en' ? 'Select All' : 'Pilih Semua') }}
                                         </button>
                                     </div>
-                                    <div class="space-y-4 max-h-60 overflow-y-auto border border-[#E6E1DA] rounded-xl p-4 bg-[#FAF7F2]/40">
-                                        <div v-for="cat in dishCategories" :key="cat" class="space-y-2">
-                                            <div class="flex items-center justify-between border-b border-[#E6E1DA] pb-1 mb-1.5">
-                                                <span class="text-[10px] font-extrabold text-[#4A6B5D] uppercase tracking-wider">{{ cat }} (Limit: {{ packageForm.dish_limits[cat] || 0 }})</span>
-                                                <div class="flex items-center gap-2">
+                                    <div class="space-y-3 max-h-48 overflow-y-auto border border-[#E6E1DA] rounded-xl p-3 bg-[#FAF7F2]/40">
+                                        <div v-for="cat in dishCategories" :key="cat" class="space-y-1.5">
+                                            <div class="flex items-center justify-between border-b border-[#E6E1DA] pb-0.5 mb-1">
+                                                <span class="text-[9px] font-extrabold text-[#4A6B5D] uppercase tracking-wider">{{ cat }} (Limit: {{ packageForm.dish_limits[cat] || 0 }})</span>
+                                                <div class="flex items-center gap-1.5">
                                                     <button 
                                                         type="button" 
                                                         @click="selectDishesInCategory(cat)" 
-                                                        class="text-[9px] font-bold text-[#4A6B5D] hover:text-[#3D574B] hover:underline cursor-pointer focus:outline-none"
+                                                        class="text-[8px] sm:text-[9px] font-bold text-[#4A6B5D] hover:text-[#3D574B] hover:underline cursor-pointer focus:outline-none"
                                                     >
                                                         {{ currentLanguage === 'en' ? 'Select All' : 'Pilih Semua' }}
                                                     </button>
-                                                    <span class="text-[9px] text-[#D1C8BD] font-normal">|</span>
+                                                    <span class="text-[8px] text-[#D1C8BD] font-normal">|</span>
                                                     <button 
                                                         type="button" 
                                                         @click="clearDishesInCategory(cat)" 
-                                                        class="text-[9px] font-bold text-rose-500 hover:text-rose-700 hover:underline cursor-pointer focus:outline-none"
+                                                        class="text-[8px] sm:text-[9px] font-bold text-rose-500 hover:text-rose-700 hover:underline cursor-pointer focus:outline-none"
                                                     >
                                                         {{ currentLanguage === 'en' ? 'Clear' : 'Kosongkan' }}
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                                                 <label 
                                                     v-for="dish in dishes.filter(d => d.category === cat && d.active)" 
                                                     :key="dish.id" 
-                                                    class="flex items-center gap-2 text-xs text-[#5C6460] cursor-pointer"
+                                                    class="flex items-center gap-1.5 text-xs text-[#5C6460] cursor-pointer"
                                                 >
                                                     <input 
                                                         type="checkbox" 
                                                         :value="dish.id" 
                                                         v-model="packageForm.dishes" 
-                                                        class="rounded border-[#E6E1DA] text-[#4A6B5D] focus:ring-[#4A6B5D]"
+                                                        class="rounded border-[#E6E1DA] text-[#4A6B5D] focus:ring-[#4A6B5D] w-3.5 h-3.5"
                                                     />
-                                                    <span>{{ dish.name }}</span>
+                                                    <span class="text-[11px] sm:text-xs">{{ dish.name }}</span>
                                                 </label>
                                             </div>
-                                            <span v-if="dishes.filter(d => d.category === cat && d.active).length === 0" class="text-[10px] text-[#8C8275] italic block">
+                                            <span v-if="dishes.filter(d => d.category === cat && d.active).length === 0" class="text-[9px] sm:text-[10px] text-[#8C8275] italic block">
                                                 {{ t('admin_no_active_dishes_in_cat') }}
                                             </span>
                                         </div>
@@ -1675,15 +1675,15 @@ watch([categorySearchQuery], () => {
                             </div>
 
                             <!-- Modal Footer Actions -->
-                            <div class="border-t border-[#E6E1DA] bg-[#FAF7F2]/50 px-7 py-5 flex items-center justify-end gap-3 rounded-b-3xl">
+                            <div class="border-t border-[#E6E1DA] bg-[#FAF7F2]/50 px-5 py-3.5 flex items-center justify-end gap-2.5 rounded-b-3xl">
                                 <button type="button" @click="closePackageModal"
-                                    class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer">
+                                    class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-3.5 py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer focus:outline-none">
                                     {{ t('cancel') }}
                                 </button>
                                 <button type="submit"
-                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest shadow transition-colors cursor-pointer flex items-center gap-2"
+                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold px-4 py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest shadow transition-colors cursor-pointer flex items-center gap-1.5 focus:outline-none"
                                     :disabled="packageForm.processing">
-                                    <i class="fas fa-save text-[10px]"></i>
+                                    <i class="fas fa-save text-[9px] sm:text-[10px]"></i>
                                     {{ isEditingPackage ? t('save_changes') : t('admin_create_package_btn') }}
                                 </button>
                             </div>
@@ -1712,30 +1712,30 @@ watch([categorySearchQuery], () => {
                 >
                     <div v-if="showAddonModal" class="bg-white rounded-3xl w-full max-w-md border border-[#E6E1DA] shadow-2xl flex flex-col">
                         <!-- Modal Header -->
-                        <div class="flex items-center justify-between px-7 py-5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
+                        <div class="flex items-center justify-between px-5 py-3.5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
                             <div>
-                                <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
+                                <h3 class="text-xs sm:text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
                                     {{ isEditingAddon ? t('admin_edit_global_addon') : t('admin_add_new_global_addon') }}
                                 </h3>
-                                <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">
+                                <p class="text-[9px] text-[#8C8275] font-semibold mt-0.5">
                                     {{ t('admin_addon_modal_desc') }}
                                 </p>
                             </div>
                             <button @click="closeAddonModal"
-                                class="w-8 h-8 rounded-xl border border-[#E6E1DA] flex items-center justify-center text-[#8C8275] hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-all cursor-pointer shrink-0">
-                                <i class="fas fa-times text-xs"></i>
+                                class="w-7 h-7 rounded-xl border border-[#E6E1DA] flex items-center justify-center text-[#8C8275] hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-all cursor-pointer shrink-0">
+                                <i class="fas fa-times text-[10px]"></i>
                             </button>
                         </div>
 
                         <form @submit.prevent="submitAddon" class="flex flex-col">
-                            <div class="p-7 space-y-4">
+                            <div class="p-5 space-y-3">
                                 <!-- Addon Name -->
-                                <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_addon_item_name') }} <span class="text-rose-500">*</span></label>
+                                <div class="space-y-1">
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#5C6460] block uppercase tracking-wider">{{ t('admin_addon_item_name') }} <span class="text-rose-500">*</span></label>
                                     <input
                                         type="text"
                                         v-model="addonForm.addon_name"
-                                        class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
+                                        class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-3 py-1.5 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
                                         :placeholder="t('admin_addon_name_placeholder')"
                                         required
                                     />
@@ -1743,14 +1743,14 @@ watch([categorySearchQuery], () => {
                                 </div>
 
                                 <!-- Price -->
-                                <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_extra_price_pax_rm') }} <span class="text-rose-500">*</span></label>
+                                <div class="space-y-1">
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#5C6460] block uppercase tracking-wider">{{ t('admin_extra_price_pax_rm') }} <span class="text-rose-500">*</span></label>
                                     <div class="relative">
-                                        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-[#8C8275]">RM</span>
+                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[9px] font-bold text-[#8C8275]">RM</span>
                                         <input
                                             type="number" step="0.01"
                                             v-model="addonForm.price_per_pax"
-                                            class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] pl-9 pr-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
+                                            class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] pl-8 pr-3 py-1.5 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
                                             placeholder="0.00" required
                                         />
                                     </div>
@@ -1758,25 +1758,25 @@ watch([categorySearchQuery], () => {
                                 </div>
 
                                 <!-- Toggle Status -->
-                                <div v-if="isEditingAddon" class="flex items-center justify-between bg-[#FAF7F2] border border-[#E6E1DA] rounded-xl px-4 py-3">
-                                    <div class="text-xs font-semibold text-[#5C6460]">{{ t('admin_active_status') }}</div>
+                                <div v-if="isEditingAddon" class="flex items-center justify-between bg-[#FAF7F2] border border-[#E6E1DA] rounded-xl px-3 py-2">
+                                    <div class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#5C6460]">{{ t('admin_active_status') }}</div>
                                     <label class="relative inline-flex items-center cursor-pointer">
                                         <input type="checkbox" v-model="addonForm.active" class="sr-only peer" />
-                                        <div class="w-9 h-5 bg-[#E6E1DA] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#4A6B5D]"></div>
+                                        <div class="w-8 h-4 bg-[#E6E1DA] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-[#4A6B5D]"></div>
                                     </label>
                                 </div>
                             </div>
 
                             <!-- Modal Footer Actions -->
-                            <div class="border-t border-[#E6E1DA] bg-[#FAF7F2]/50 px-7 py-5 flex items-center justify-end gap-3 rounded-b-3xl">
+                            <div class="border-t border-[#E6E1DA] bg-[#FAF7F2]/50 px-5 py-3.5 flex items-center justify-end gap-2.5 rounded-b-3xl">
                                 <button type="button" @click="closeAddonModal"
-                                    class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer">
+                                    class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-3.5 py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer focus:outline-none">
                                     {{ t('cancel') }}
                                 </button>
                                 <button type="submit"
-                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest shadow transition-colors cursor-pointer flex items-center gap-2"
+                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold px-4 py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest shadow transition-colors cursor-pointer flex items-center gap-1.5 focus:outline-none"
                                     :disabled="addonForm.processing">
-                                    <i class="fas fa-save text-[10px]"></i>
+                                    <i class="fas fa-save text-[9px] sm:text-[10px]"></i>
                                     {{ isEditingAddon ? t('save_changes') : t('admin_add_item') }}
                                 </button>
                             </div>
@@ -1805,30 +1805,30 @@ watch([categorySearchQuery], () => {
                 >
                     <div v-if="showDishModal" class="bg-white rounded-3xl w-full max-w-md border border-[#E6E1DA] shadow-2xl flex flex-col">
                         <!-- Modal Header -->
-                        <div class="flex items-center justify-between px-7 py-5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
+                        <div class="flex items-center justify-between px-5 py-3.5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
                             <div>
-                                <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
+                                <h3 class="text-xs sm:text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
                                     {{ isEditingDish ? t('admin_edit_dish_details') : t('admin_add_new_dish') }}
                                 </h3>
-                                <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">
+                                <p class="text-[9px] text-[#8C8275] font-semibold mt-0.5">
                                     {{ t('admin_dish_modal_desc') }}
                                 </p>
                             </div>
                             <button @click="closeDishModal"
-                                class="w-8 h-8 rounded-xl border border-[#E6E1DA] flex items-center justify-center text-[#8C8275] hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-all cursor-pointer shrink-0">
-                                <i class="fas fa-times text-xs"></i>
+                                class="w-7 h-7 rounded-xl border border-[#E6E1DA] flex items-center justify-center text-[#8C8275] hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-all cursor-pointer shrink-0">
+                                <i class="fas fa-times text-[10px]"></i>
                             </button>
                         </div>
 
                         <form @submit.prevent="submitDish" class="flex flex-col">
-                             <div class="p-7 space-y-4">
+                             <div class="p-5 space-y-3">
                                  <!-- Dish Name -->
-                                 <div class="space-y-1.5">
-                                     <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_dish_name_label') }} <span class="text-rose-500">*</span></label>
+                                 <div class="space-y-1">
+                                     <label class="text-[10px] sm:text-xs font-bold text-[#5C6460] block uppercase tracking-wider">{{ t('admin_dish_name_label') }} <span class="text-rose-500">*</span></label>
                                      <input
                                          type="text"
                                          v-model="dishForm.name"
-                                         class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
+                                         class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-3 py-1.5 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
                                          :placeholder="t('admin_dish_name_placeholder')"
                                          required
                                      />
@@ -1836,11 +1836,11 @@ watch([categorySearchQuery], () => {
                                  </div>
 
                                  <!-- Category Dropdown -->
-                                 <div class="space-y-1.5">
-                                     <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_category_col') }} <span class="text-rose-500">*</span></label>
+                                 <div class="space-y-1">
+                                     <label class="text-[10px] sm:text-xs font-bold text-[#5C6460] block uppercase tracking-wider">{{ t('admin_category_col') }} <span class="text-rose-500">*</span></label>
                                      <select
                                          v-model="dishForm.category"
-                                         class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
+                                         class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-3 py-1.5 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all cursor-pointer"
                                          required
                                      >
                                          <option v-for="cat in dishCategories" :key="cat" :value="cat">{{ cat }}</option>
@@ -1849,25 +1849,25 @@ watch([categorySearchQuery], () => {
                                  </div>
 
                                  <!-- Toggle Status -->
-                                 <div v-if="isEditingDish" class="flex items-center justify-between bg-[#FAF7F2] border border-[#E6E1DA] rounded-xl px-4 py-3">
-                                     <div class="text-xs font-semibold text-[#5C6460]">{{ t('admin_active_status') }}</div>
+                                 <div v-if="isEditingDish" class="flex items-center justify-between bg-[#FAF7F2] border border-[#E6E1DA] rounded-xl px-3 py-2">
+                                     <div class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#5C6460]">{{ t('admin_active_status') }}</div>
                                      <label class="relative inline-flex items-center cursor-pointer">
                                          <input type="checkbox" v-model="dishForm.active" class="sr-only peer" />
-                                         <div class="w-9 h-5 bg-[#E6E1DA] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#4A6B5D]"></div>
+                                         <div class="w-8 h-4 bg-[#E6E1DA] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-[#4A6B5D]"></div>
                                      </label>
                                  </div>
                              </div>
 
                              <!-- Modal Footer Actions -->
-                             <div class="border-t border-[#E6E1DA] bg-[#FAF7F2]/50 px-7 py-5 flex items-center justify-end gap-3 rounded-b-3xl">
+                             <div class="border-t border-[#E6E1DA] bg-[#FAF7F2]/50 px-5 py-3.5 flex items-center justify-end gap-2.5 rounded-b-3xl">
                                  <button type="button" @click="closeDishModal"
-                                     class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer">
+                                     class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-3.5 py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer focus:outline-none">
                                      {{ t('cancel') }}
                                  </button>
                                  <button type="submit"
-                                     class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest shadow transition-colors cursor-pointer flex items-center gap-2"
+                                     class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold px-4 py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest shadow transition-colors cursor-pointer flex items-center gap-1.5 focus:outline-none"
                                      :disabled="dishForm.processing">
-                                     <i class="fas fa-save text-[10px]"></i>
+                                     <i class="fas fa-save text-[9px] sm:text-[10px]"></i>
                                      {{ isEditingDish ? t('save_changes') : t('admin_add_dish') }}
                                  </button>
                              </div>
@@ -1896,30 +1896,30 @@ watch([categorySearchQuery], () => {
                 >
                     <div v-if="showCategoryModal" class="bg-white rounded-3xl w-full max-w-md border border-[#E6E1DA] shadow-2xl flex flex-col">
                         <!-- Modal Header -->
-                        <div class="flex items-center justify-between px-7 py-5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
+                        <div class="flex items-center justify-between px-5 py-3.5 border-b border-[#E6E1DA] bg-[#FAF7F2]">
                             <div>
-                                <h3 class="text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
+                                <h3 class="text-xs sm:text-sm font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">
                                     {{ isEditingCategory ? t('admin_edit_category') : t('admin_add_new_category') }}
                                 </h3>
-                                <p class="text-[10px] text-[#8C8275] font-semibold mt-0.5">
+                                <p class="text-[9px] text-[#8C8275] font-semibold mt-0.5">
                                     {{ t('admin_category_modal_desc') }}
                                 </p>
                             </div>
                             <button @click="closeCategoryModal"
-                                class="w-8 h-8 rounded-xl border border-[#E6E1DA] flex items-center justify-center text-[#8C8275] hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-all cursor-pointer shrink-0">
-                                <i class="fas fa-times text-xs"></i>
+                                class="w-7 h-7 rounded-xl border border-[#E6E1DA] flex items-center justify-center text-[#8C8275] hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-all cursor-pointer shrink-0">
+                                <i class="fas fa-times text-[10px]"></i>
                             </button>
                         </div>
 
                         <form @submit.prevent="submitCategory" class="flex flex-col">
-                            <div class="p-7 space-y-4">
+                            <div class="p-5 space-y-3">
                                 <!-- Category Name -->
-                                <div class="space-y-1.5">
-                                    <label class="text-xs font-bold text-[#5C6460] block">{{ t('admin_category_name_label') }} <span class="text-rose-500">*</span></label>
+                                <div class="space-y-1">
+                                    <label class="text-[10px] sm:text-xs font-bold text-[#5C6460] block uppercase tracking-wider">{{ t('admin_category_name_label') }} <span class="text-rose-500">*</span></label>
                                     <input
                                         type="text"
                                         v-model="categoryForm.name"
-                                        class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-4 py-3 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
+                                        class="w-full rounded-xl border border-[#E6E1DA] bg-[#FAF7F2] text-[#2D3330] px-3 py-1.5 text-xs focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] outline-none transition-all"
                                         :placeholder="t('admin_category_placeholder')"
                                         required
                                     />
@@ -1928,15 +1928,15 @@ watch([categorySearchQuery], () => {
                             </div>
 
                             <!-- Modal Footer Actions -->
-                            <div class="border-t border-[#E6E1DA] bg-[#FAF7F2]/50 px-7 py-5 flex items-center justify-end gap-3 rounded-b-3xl">
+                            <div class="border-t border-[#E6E1DA] bg-[#FAF7F2]/50 px-5 py-3.5 flex items-center justify-end gap-2.5 rounded-b-3xl">
                                 <button type="button" @click="closeCategoryModal"
-                                    class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer">
+                                    class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-bold px-3.5 py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer focus:outline-none">
                                     {{ t('cancel') }}
                                 </button>
                                 <button type="submit"
-                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest shadow transition-colors cursor-pointer flex items-center gap-2"
+                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:opacity-60 text-white font-bold px-4 py-1.5 rounded-xl text-[10px] sm:text-xs uppercase tracking-widest shadow transition-colors cursor-pointer flex items-center gap-1.5 focus:outline-none"
                                     :disabled="categoryForm.processing">
-                                    <i class="fas fa-save text-[10px]"></i>
+                                    <i class="fas fa-save text-[9px] sm:text-[10px]"></i>
                                     {{ isEditingCategory ? t('save_changes') : t('admin_add_category') }}
                                 </button>
                             </div>

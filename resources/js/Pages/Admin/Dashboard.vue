@@ -190,56 +190,56 @@ function getGroupedDishes(item) {
         :header-desc="t('admin_operational_desc')"
     >
         <!-- Metrics Grid -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-6">
             <!-- Revenue -->
-            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs p-3 md:p-6 flex flex-col justify-between gap-2.5 animate-fade-in">
-                <div class="flex items-center justify-between gap-1.5">
+            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs p-2.5 md:p-6 flex flex-col justify-between gap-2.5 animate-fade-in">
+                <div class="flex items-center justify-between gap-1">
                     <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_total_revenue')">{{ t('admin_total_revenue') }}</span>
-                    <div class="w-8 h-8 bg-emerald-50 text-[#4A6B5D] rounded-lg border border-emerald-100 flex items-center justify-center text-xs shrink-0">
+                    <div class="w-7 h-7 bg-emerald-50 text-[#4A6B5D] rounded-lg border border-emerald-100 flex items-center justify-center text-[10px] shrink-0">
                         <i class="fas fa-coins"></i>
                     </div>
                 </div>
                 <div>
-                    <span class="text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">RM {{ parseFloat(metrics.totalRevenue || 0).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
+                    <span class="text-xs sm:text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">RM {{ parseFloat(metrics.totalRevenue || 0).toLocaleString(undefined, {minimumFractionDigits: 2}) }}</span>
                 </div>
             </div>
 
             <!-- Total Orders -->
-            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs p-3 md:p-6 flex flex-col justify-between gap-2.5 animate-fade-in" style="animation-delay: 50ms;">
-                <div class="flex items-center justify-between gap-1.5">
+            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs p-2.5 md:p-6 flex flex-col justify-between gap-2.5 animate-fade-in" style="animation-delay: 50ms;">
+                <div class="flex items-center justify-between gap-1">
                     <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_total_bookings')">{{ t('admin_total_bookings') }}</span>
-                    <div class="w-8 h-8 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 flex items-center justify-center text-xs shrink-0">
+                    <div class="w-7 h-7 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 flex items-center justify-center text-[10px] shrink-0">
                         <i class="fas fa-receipt"></i>
                     </div>
                 </div>
                 <div>
-                    <span class="text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">{{ metrics.totalOrders }}</span>
+                    <span class="text-xs sm:text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">{{ metrics.totalOrders }}</span>
                 </div>
             </div>
 
             <!-- Pending Verification -->
-            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs p-3 md:p-6 flex flex-col justify-between gap-2.5 animate-fade-in" style="animation-delay: 100ms;">
-                <div class="flex items-center justify-between gap-1.5">
+            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs p-2.5 md:p-6 flex flex-col justify-between gap-2.5 animate-fade-in" style="animation-delay: 100ms;">
+                <div class="flex items-center justify-between gap-1">
                     <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_pending_verify')">{{ t('admin_pending_verify') }}</span>
-                    <div class="w-8 h-8 bg-amber-50 text-[#C5A880] rounded-lg border border-amber-100 flex items-center justify-center text-xs shrink-0">
+                    <div class="w-7 h-7 bg-amber-50 text-[#C5A880] rounded-lg border border-amber-100 flex items-center justify-center text-[10px] shrink-0">
                         <i class="fas fa-clock"></i>
                     </div>
                 </div>
                 <div>
-                    <span class="text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">{{ metrics.pendingPayment }}</span>
+                    <span class="text-xs sm:text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">{{ metrics.pendingPayment }}</span>
                 </div>
             </div>
 
             <!-- Completed -->
-            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs p-3 md:p-6 flex flex-col justify-between gap-2.5 animate-fade-in" style="animation-delay: 150ms;">
-                <div class="flex items-center justify-between gap-1.5">
+            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-xs p-2.5 md:p-6 flex flex-col justify-between gap-2.5 animate-fade-in" style="animation-delay: 150ms;">
+                <div class="flex items-center justify-between gap-1">
                     <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block truncate" :title="t('admin_completed_events')">{{ t('admin_completed_events') }}</span>
-                    <div class="w-8 h-8 bg-green-50 text-green-600 rounded-lg border border-green-100 flex items-center justify-center text-xs shrink-0">
+                    <div class="w-7 h-7 bg-green-50 text-green-600 rounded-lg border border-green-100 flex items-center justify-center text-[10px] shrink-0">
                         <i class="fas fa-calendar-check"></i>
                     </div>
                 </div>
                 <div>
-                    <span class="text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">{{ metrics.completedOrders }}</span>
+                    <span class="text-xs sm:text-sm md:text-2xl font-extrabold text-[#2D3330] font-serif-luxury block truncate">{{ metrics.completedOrders }}</span>
                 </div>
             </div>
         </div>
@@ -248,18 +248,18 @@ function getGroupedDishes(item) {
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
             <!-- LEFT COLUMN: Operational Actions & Upcoming Events (8 cols) -->
-            <div class="lg:col-span-8 space-y-8">
+            <div class="lg:col-span-8 space-y-6 md:space-y-8">
                 
                 <!-- Section 1: Bookings Requiring Receipt Verification -->
-                <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
+                <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-8 space-y-4 md:space-y-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_pending_verifications') }}</h2>
-                            <p class="text-[10px] text-amber-600 font-bold mt-0.5"><i class="fas fa-exclamation-circle mr-1"></i> {{ t('admin_receipts_waiting') }}</p>
+                            <h2 class="text-xs sm:text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_pending_verifications') }}</h2>
+                            <p class="text-[9px] sm:text-[10px] text-amber-600 font-bold mt-0.5"><i class="fas fa-exclamation-circle mr-1"></i> {{ t('admin_receipts_waiting') }}</p>
                         </div>
-                        <div class="flex items-center gap-4">
-                            <Link :href="route('admin.orders')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">{{ t('admin_view_orders') }}</Link>
-                            <span class="text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 px-2.5 py-0.5 rounded-full">
+                        <div class="flex items-center gap-2 md:gap-4">
+                            <Link :href="route('admin.orders')" class="text-[9px] sm:text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider">{{ t('admin_view_orders') }}</Link>
+                            <span class="text-[9px] font-bold bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full">
                                 {{ pendingVerification.length }} {{ pendingVerification.length !== 1 ? t('admin_actions_required') : t('admin_action_required') }}
                             </span>
                         </div>
@@ -269,89 +269,89 @@ function getGroupedDishes(item) {
                         <div 
                             v-for="order in pendingVerification" 
                             :key="order.id"
-                            class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 first:pt-0 last:pb-0"
+                            class="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 first:pt-0 last:pb-0"
                         >
-                            <div class="space-y-1">
-                                <div class="flex items-center gap-2">
+                            <div class="space-y-0.5">
+                                <div class="flex items-center gap-1.5">
                                     <button 
                                         @click="openDetailsModal(order)"
-                                        class="font-extrabold text-xs text-[#4A6B5D] hover:text-[#3D574B] hover:underline cursor-pointer"
+                                        class="font-extrabold text-[11px] sm:text-xs text-[#4A6B5D] hover:text-[#3D574B] hover:underline cursor-pointer"
                                         title="View Booking Details"
                                     >
                                         #SSC-{{ order.id }}
                                     </button>
-                                    <span class="inline-flex text-[9px] font-bold px-2 py-0.5 rounded-full border" :class="getStatusBadge(order.status)">
+                                    <span class="inline-flex text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded-full border" :class="getStatusBadge(order.status)">
                                         {{ order.status === 'Pending' ? t('timeline_confirmed') : t('balance_submitted_verification') }}
                                     </span>
                                 </div>
-                                <p class="text-xs font-semibold text-[#2D3330]">
+                                <p class="text-[11px] sm:text-xs font-semibold text-[#2D3330]">
                                     {{ order.user?.full_name || order.user?.name || 'Customer' }} - {{ order.package_name }}
                                 </p>
-                                <p class="text-[10px] text-[#8C8275] font-semibold">
+                                <p class="text-[9px] sm:text-[10px] text-[#8C8275] font-semibold">
                                     {{ t('admin_event_date') }}: {{ order.delivery_date }} ({{ order.delivery_time }})
                                 </p>
                             </div>
 
-                            <div class="flex flex-wrap items-center gap-2 shrink-0">
+                            <div class="flex flex-row flex-wrap sm:flex-nowrap items-center gap-1.5 shrink-0 w-full sm:w-auto">
                                 <!-- View Receipt slip -->
                                 <a 
                                     :href="'/' + order.payment_proof" 
                                     target="_blank"
-                                    class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold px-3 py-2 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center gap-1"
+                                    class="bg-[#FAF7F2] hover:bg-[#E6E1DA] border border-[#E6E1DA] text-[#5C6460] font-bold px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[9px] sm:text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1 flex-grow sm:flex-grow-0"
                                 >
-                                    <i class="fas fa-file-invoice text-[9px]"></i> {{ t('admin_view_slip') }}
+                                    <i class="fas fa-file-invoice text-[8px] sm:text-[9px]"></i> {{ t('admin_view_slip') }}
                                 </a>
                                 <!-- Quick Approve -->
                                 <button
                                     @click="handleVerify(order.id, 'approve')"
-                                    class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
+                                    class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[9px] sm:text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1 cursor-pointer flex-grow sm:flex-grow-0"
                                 >
-                                    <i class="fas fa-check text-[9px]"></i> {{ t('admin_approve') }}
+                                    <i class="fas fa-check text-[8px] sm:text-[9px]"></i> {{ t('admin_approve') }}
                                 </button>
                                 <!-- Quick Reject -->
                                 <button
                                     @click="handleVerify(order.id, 'reject')"
-                                    class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-3 py-2 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
+                                    class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[9px] sm:text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1 cursor-pointer flex-grow sm:flex-grow-0"
                                 >
-                                    <i class="fas fa-times text-[9px]"></i> {{ t('admin_reject') }}
+                                    <i class="fas fa-times text-[8px] sm:text-[9px]"></i> {{ t('admin_reject') }}
                                 </button>
                             </div>
                         </div>
                     </div>
                     
-                    <div v-else class="py-10 text-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl flex flex-col items-center justify-center">
-                        <div class="w-10 h-10 bg-emerald-50 text-[#4A6B5D] rounded-full flex items-center justify-center text-sm mb-3">
+                    <div v-else class="py-8 text-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl flex flex-col items-center justify-center">
+                        <div class="w-8 h-8 bg-emerald-50 text-[#4A6B5D] rounded-full flex items-center justify-center text-xs mb-2">
                             <i class="fas fa-check-circle"></i>
                         </div>
-                        <h5 class="text-xs font-bold text-[#2D3330]">{{ t('admin_all_caught_up') }}</h5>
-                        <p class="text-[10px] text-[#8C8275] mt-1">{{ t('admin_no_pending_receipts') }}</p>
+                        <h5 class="text-[11px] sm:text-xs font-bold text-[#2D3330]">{{ t('admin_all_caught_up') }}</h5>
+                        <p class="text-[9px] sm:text-[10px] text-[#8C8275] mt-0.5">{{ t('admin_no_pending_receipts') }}</p>
                     </div>
                 </div>
 
                 <!-- Section 2: Upcoming Bookings / Deliveries (next 7 days) -->
-                <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
+                <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-8 space-y-4 md:space-y-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_upcoming_event_gigs') }}</h2>
-                            <p v-if="t('admin_scheduled_bookings_desc')" class="text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_scheduled_bookings_desc') }}</p>
+                            <h2 class="text-xs sm:text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_upcoming_event_gigs') }}</h2>
+                            <p v-if="t('admin_scheduled_bookings_desc')" class="text-[9px] sm:text-[10px] text-[#8C8275] font-semibold mt-0.5">{{ t('admin_scheduled_bookings_desc') }}</p>
                         </div>
-                        <Link :href="route('admin.orders')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">{{ t('admin_view_calendar') }}</Link>
+                        <Link :href="route('admin.orders')" class="text-[9px] sm:text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider">{{ t('admin_view_calendar') }}</Link>
                     </div>
 
-                    <div v-if="upcomingEvents.length > 0" class="overflow-x-auto scrollbar-none pb-2">
+                    <div v-if="upcomingEvents.length > 0" class="overflow-x-auto scrollbar-none pb-1.5">
                         <table class="w-full text-left border-collapse min-w-[650px]">
                             <thead>
                                 <tr class="bg-[#FAF7F2] border-b border-[#E6E1DA]">
-                                    <th class="px-3 sm:px-5 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_id') }}</th>
-                                    <th class="px-3 sm:px-5 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_customer') }}</th>
-                                    <th class="px-3 sm:px-5 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_package_details') }}</th>
-                                    <th class="px-3 sm:px-5 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_event_date') }}</th>
-                                    <th class="px-3 sm:px-5 py-2.5 sm:py-3 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('status_label') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 sm:py-2.5 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_id') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 sm:py-2.5 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_customer') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 sm:py-2.5 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_package_details') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 sm:py-2.5 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('admin_event_date') }}</th>
+                                    <th class="px-2 sm:px-4 py-2 sm:py-2.5 text-[9px] font-bold text-[#8C8275] uppercase tracking-widest text-center">{{ t('status_label') }}</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-[#E6E1DA] text-xs text-[#5C6460]">
+                            <tbody class="divide-y divide-[#E6E1DA] text-[11px] sm:text-xs text-[#5C6460]">
                                 <tr v-for="order in upcomingEvents" :key="order.id" class="hover:bg-[#FAFAF9] transition-colors">
-                                    <td class="px-3 sm:px-5 py-2.5 sm:py-3.5">
+                                    <td class="px-2 sm:px-4 py-2 sm:py-3">
                                         <button 
                                             @click="openDetailsModal(order)"
                                             class="font-extrabold text-[#4A6B5D] font-serif-luxury hover:text-[#3D574B] hover:underline cursor-pointer"
@@ -360,11 +360,11 @@ function getGroupedDishes(item) {
                                             #SSC-{{ order.id }}
                                         </button>
                                     </td>
-                                    <td class="px-3 sm:px-5 py-2.5 sm:py-3.5 font-bold text-[#2D3330]">{{ order.user?.full_name || order.user?.name || 'Customer' }}</td>
-                                    <td class="px-3 sm:px-5 py-2.5 sm:py-3.5 max-w-[150px] truncate" :title="order.package_name">{{ order.package_name }}</td>
-                                    <td class="px-3 sm:px-5 py-2.5 sm:py-3.5 font-medium">{{ order.delivery_date }} ({{ order.delivery_time }})</td>
-                                    <td class="px-3 sm:px-5 py-2.5 sm:py-3.5 text-center">
-                                        <span class="inline-flex text-[9px] font-bold px-2 py-0.5 rounded-full border" :class="getStatusBadge(order.status)">
+                                    <td class="px-2 sm:px-4 py-2 sm:py-3 font-bold text-[#2D3330]">{{ order.user?.full_name || order.user?.name || 'Customer' }}</td>
+                                    <td class="px-2 sm:px-4 py-2 sm:py-3 max-w-[150px] truncate" :title="order.package_name">{{ order.package_name }}</td>
+                                    <td class="px-2 sm:px-4 py-2 sm:py-3 font-medium">{{ order.delivery_date }} ({{ order.delivery_time }})</td>
+                                    <td class="px-2 sm:px-4 py-2 sm:py-3 text-center">
+                                        <span class="inline-flex text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded-full border" :class="getStatusBadge(order.status)">
                                             {{ getTranslatedStatus(order.status) }}
                                         </span>
                                     </td>
@@ -373,124 +373,124 @@ function getGroupedDishes(item) {
                         </table>
                     </div>
                     
-                    <div v-else class="py-12 text-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl">
-                        <i class="fas fa-truck text-3xl mb-2 text-slate-300"></i>
-                        <h5 class="text-xs font-bold text-[#2D3330]">{{ t('admin_no_upcoming_events') }}</h5>
-                        <p class="text-[10px] text-[#8C8275] mt-1">{{ t('admin_no_upcoming_desc') }}</p>
+                    <div v-else class="py-10 text-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl">
+                        <i class="fas fa-truck text-2xl mb-1.5 text-slate-300"></i>
+                        <h5 class="text-[11px] sm:text-xs font-bold text-[#2D3330]">{{ t('admin_no_upcoming_events') }}</h5>
+                        <p class="text-[9px] sm:text-[10px] text-[#8C8275] mt-0.5">{{ t('admin_no_upcoming_desc') }}</p>
                     </div>
                 </div>
             </div>
 
             <!-- RIGHT COLUMN: Quick Links & Recent Feedback Reviews (4 cols) -->
-            <div class="lg:col-span-4 space-y-8">
+            <div class="lg:col-span-4 space-y-6 md:space-y-8">
                 
                 <!-- Quick Navigation Links Panel -->
-                <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
-                    <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_quick_operations') }}</h2>
+                <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-8 space-y-4 md:space-y-6">
+                    <h2 class="text-xs sm:text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_quick_operations') }}</h2>
                     
-                    <div class="grid grid-cols-1 gap-2.5">
+                    <div class="grid grid-cols-1 gap-2">
                         <Link 
                             :href="route('admin.orders')" 
-                            class="flex items-center justify-between p-3 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
+                            class="flex items-center justify-between p-2.5 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
                         >
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xs shrink-0 border border-blue-100">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-7 h-7 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-[10px] shrink-0 border border-blue-100">
                                     <i class="fas fa-receipt"></i>
                                 </div>
-                                <span class="text-xs font-bold text-[#5C6460]">{{ t('admin_manage_orders') }}</span>
+                                <span class="text-[11px] sm:text-xs font-bold text-[#5C6460]">{{ t('admin_manage_orders') }}</span>
                             </div>
-                            <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
+                            <i class="fas fa-chevron-right text-[8px] sm:text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
                         </Link>
                         
                         <Link 
                             :href="route('admin.packages')" 
-                            class="flex items-center justify-between p-3 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
+                            class="flex items-center justify-between p-2.5 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
                         >
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-xl bg-emerald-50 text-[#4A6B5D] flex items-center justify-center text-xs shrink-0 border border-emerald-100">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-7 h-7 rounded-xl bg-emerald-50 text-[#4A6B5D] flex items-center justify-center text-[10px] shrink-0 border border-emerald-100">
                                     <i class="fas fa-utensils"></i>
                                 </div>
-                                <span class="text-xs font-bold text-[#5C6460]">{{ t('admin_catering_packages') }}</span>
+                                <span class="text-[11px] sm:text-xs font-bold text-[#5C6460]">{{ t('admin_catering_packages') }}</span>
                             </div>
-                            <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
+                            <i class="fas fa-chevron-right text-[8px] sm:text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
                         </Link>
 
                         <Link 
                             :href="route('admin.calendar')" 
-                            class="flex items-center justify-between p-3 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
+                            class="flex items-center justify-between p-2.5 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
                         >
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xs shrink-0 border border-purple-100">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-7 h-7 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-[10px] shrink-0 border border-purple-100">
                                     <i class="fas fa-calendar"></i>
                                 </div>
-                                <span class="text-xs font-bold text-[#5C6460]">{{ t('admin_booking_calendar') }}</span>
+                                <span class="text-[11px] sm:text-xs font-bold text-[#5C6460]">{{ t('admin_booking_calendar') }}</span>
                             </div>
-                            <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
+                            <i class="fas fa-chevron-right text-[8px] sm:text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
                         </Link>
 
                         <Link 
                             :href="route('admin.reports')" 
-                            class="flex items-center justify-between p-3 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
+                            class="flex items-center justify-between p-2.5 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
                         >
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-xl bg-amber-50 text-[#C5A880] flex items-center justify-center text-xs shrink-0 border border-amber-100">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-7 h-7 rounded-xl bg-amber-50 text-[#C5A880] flex items-center justify-center text-[10px] shrink-0 border border-amber-100">
                                     <i class="fas fa-chart-bar"></i>
                                 </div>
-                                <span class="text-xs font-bold text-[#5C6460]">{{ t('admin_reports_analytics') }}</span>
+                                <span class="text-[11px] sm:text-xs font-bold text-[#5C6460]">{{ t('admin_reports_analytics') }}</span>
                             </div>
-                            <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
+                            <i class="fas fa-chevron-right text-[8px] sm:text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
                         </Link>
 
                         <Link 
                             :href="route('admin.settings')" 
-                            class="flex items-center justify-between p-3 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
+                            class="flex items-center justify-between p-2.5 border border-[#E6E1DA] rounded-2xl hover:border-[#4A6B5D] hover:bg-[#FAF7F2]/40 transition-all group"
                         >
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xs shrink-0 border border-slate-200">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-7 h-7 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-[10px] shrink-0 border border-slate-200">
                                     <i class="fas fa-cogs"></i>
                                 </div>
-                                <span class="text-xs font-bold text-[#5C6460]">{{ t('admin_system_settings') }}</span>
+                                <span class="text-[11px] sm:text-xs font-bold text-[#5C6460]">{{ t('admin_system_settings') }}</span>
                             </div>
-                            <i class="fas fa-chevron-right text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
+                            <i class="fas fa-chevron-right text-[8px] sm:text-[9px] text-[#8C8275] transition-transform group-hover:translate-x-0.5"></i>
                         </Link>
                     </div>
                 </div>
 
                 <!-- Recent Feedback Reviews summary panel -->
-                <div class="bg-white rounded-3xl border border-[#E6E1DA] shadow-xs p-6 md:p-8 space-y-6">
+                <div class="bg-white rounded-2xl md:rounded-3xl border border-[#E6E1DA] shadow-xs p-4 md:p-8 space-y-4 md:space-y-6">
                     <div class="flex justify-between items-center">
-                        <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_customer_reviews') }}</h2>
-                        <Link :href="route('admin.reviews')" class="text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider text-[10px]">{{ t('admin_reply_all') }}</Link>
+                        <h2 class="text-xs sm:text-sm md:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide">{{ t('admin_customer_reviews') }}</h2>
+                        <Link :href="route('admin.reviews')" class="text-[9px] sm:text-xs font-semibold text-[#4A6B5D] hover:underline uppercase tracking-wider">{{ t('admin_reply_all') }}</Link>
                     </div>
 
-                    <div v-if="recentReviews.length > 0" class="space-y-4">
+                    <div v-if="recentReviews.length > 0" class="space-y-3">
                         <div 
                             v-for="review in recentReviews" 
                             :key="review.id" 
-                            class="text-xs bg-[#FAF7F2] p-4 rounded-2xl border border-[#E6E1DA] space-y-2"
+                            class="text-[10px] sm:text-xs bg-[#FAF7F2] p-3 rounded-xl border border-[#E6E1DA] space-y-1.5"
                         >
                             <div class="flex items-center justify-between gap-2">
                                 <span class="font-bold text-[#2D3330] truncate max-w-[130px]">
                                     {{ review.user?.full_name || review.user?.name || 'Customer' }}
                                 </span>
                                 <!-- Stars -->
-                                <div class="flex text-amber-400 text-[9px] shrink-0">
+                                <div class="flex text-amber-400 text-[8px] sm:text-[9px] shrink-0">
                                     <i v-for="star in 5" :key="star" class="fas fa-star" :class="star <= review.rating ? '' : 'text-gray-300'"></i>
                                 </div>
                             </div>
-                            <p class="text-[#5C6460] font-medium leading-relaxed italic text-[11px]">
+                            <p class="text-[#5C6460] font-medium leading-relaxed italic text-[10.5px] sm:text-[11px]">
                                 "{{ review.review_text || t('admin_no_comment') }}"
                             </p>
-                            <span class="text-[9px] font-bold text-[#8C8275] block uppercase tracking-wider">
+                            <span class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] block uppercase tracking-wider">
                                 Order #SSC-{{ review.order_id }}
                             </span>
                         </div>
                     </div>
                     
-                    <div v-else class="py-8 text-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl">
-                        <i class="far fa-star text-2xl mb-2 text-slate-300"></i>
-                        <h5 class="text-xs font-bold text-[#2D3330]">{{ t('admin_no_reviews_yet') }}</h5>
-                        <p class="text-[10px] text-[#8C8275]">{{ t('admin_client_ratings_appear') }}</p>
+                    <div v-else class="py-6 text-center text-[#8C8275] border border-dashed border-[#E6E1DA] rounded-2xl">
+                        <i class="far fa-star text-xl mb-1.5 text-slate-300"></i>
+                        <h5 class="text-[11px] sm:text-xs font-bold text-[#2D3330]">{{ t('admin_no_reviews_yet') }}</h5>
+                        <p class="text-[9px] sm:text-[10px] text-[#8C8275]">{{ t('admin_client_ratings_appear') }}</p>
                     </div>
                 </div>
             </div>
