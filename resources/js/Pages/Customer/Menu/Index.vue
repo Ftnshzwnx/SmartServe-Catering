@@ -425,7 +425,7 @@ function getPackageImage(pkg) {
                     </div>
  
                     <!-- Right Column: Brand Guarantees & Simulator (4 cols) -->
-                    <div class="lg:col-span-4 space-y-6">
+                    <div class="lg:col-span-4 grid grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-6">
                         
                         <!-- Dynamic Budget Planner Promo Card (FIXED contrast issue with bg-[#2D3330]) -->
                         <div class="bg-[#2D3330] border border-[#E6E1DA] rounded-lg sm:rounded-xl p-2.5 sm:p-4.5 text-[#FAF7F2] space-y-2.5 sm:space-y-4">
