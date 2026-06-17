@@ -633,19 +633,19 @@ function getGroupedDishes(item) {
                 </div>
 
                 <!-- Modal Footer -->
-                <div class="bg-[#FAF7F2] px-6 py-4 border-t border-[#E6E1DA] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="bg-[#FAF7F2] px-4 sm:px-6 py-3 sm:py-4 border-t border-[#E6E1DA] flex flex-wrap items-center gap-2">
                     <button
                         @click="closeDetailsModal"
-                        class="bg-white hover:bg-gray-50 border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors cursor-pointer text-center"
+                        class="flex-1 min-w-[80px] bg-white hover:bg-gray-50 border border-[#E6E1DA] text-[#5C6460] font-bold px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors cursor-pointer text-center whitespace-nowrap"
                     >
                         {{ t('admin_close') }}
                     </button>
                     
-                    <div class="flex items-center gap-2.5 justify-end">
+                    <div class="flex flex-wrap items-center gap-2 flex-1 justify-end">
                         <!-- Download Kitchen Slip PDF -->
                         <a 
                             :href="route('orders.invoice.pdf', selectedOrderDetails.id)" 
-                            class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5"
+                            class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-bold px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
                         >
                             <i class="fas fa-file-pdf text-[9px]"></i> {{ t('admin_kitchen_slip') }}
                         </a>
@@ -655,7 +655,7 @@ function getGroupedDishes(item) {
                             v-if="selectedOrderDetails.payment_proof"
                             :href="'/' + selectedOrderDetails.payment_proof" 
                             target="_blank"
-                            class="bg-white hover:bg-gray-50 border border-[#E6E1DA] text-[#5C6460] font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5"
+                            class="bg-white hover:bg-gray-50 border border-[#E6E1DA] text-[#5C6460] font-bold px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
                         >
                             <i class="fas fa-file-invoice text-[9px]"></i> {{ t('admin_view_slip') }}
                         </a>
@@ -664,13 +664,13 @@ function getGroupedDishes(item) {
                         <template v-if="selectedOrderDetails.status === 'Pending' || selectedOrderDetails.status === 'Payment Submitted'">
                             <button
                                 @click="handleVerify(selectedOrderDetails.id, 'approve')"
-                                class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                                class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer whitespace-nowrap"
                             >
                                 <i class="fas fa-check text-[9px]"></i> {{ t('admin_approve') }}
                             </button>
                             <button
                                 @click="handleVerify(selectedOrderDetails.id, 'reject')"
-                                class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                                class="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer whitespace-nowrap"
                             >
                                 <i class="fas fa-times text-[9px]"></i> {{ t('admin_reject') }}
                             </button>
@@ -680,13 +680,14 @@ function getGroupedDishes(item) {
                         <template v-if="selectedOrderDetails.status === 'Confirmed'">
                             <button
                                 @click="handleDeliver(selectedOrderDetails.id)"
-                                class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                                class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition-colors flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer whitespace-nowrap"
                             >
                                 <i class="fas fa-truck text-[9px]"></i> {{ t('admin_mark_as_delivered') }}
                             </button>
                         </template>
                     </div>
                 </div>
+
             </div>
         </div>
     </AdminLayout>
