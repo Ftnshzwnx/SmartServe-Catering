@@ -641,26 +641,31 @@ function handleDownloadQuotation() {
                             </div>
 
                             <!-- Submit Action -->
-                            <button 
-                                @click="handleAddToCart"
-                                class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2 sm:py-3.5 px-4 sm:px-6 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
-                                :disabled="form.processing"
-                            >
-                                <i class="fas fa-cart-plus text-[9px] sm:text-[10px]"></i> {{ t('add_to_cart') }}
-                            </button>
+                            <!-- Download PDF — full width -->
                             <button 
                                 @click="handleDownloadQuotation"
-                                class="w-full inline-flex items-center justify-center gap-2 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 font-semibold py-2 sm:py-3.5 px-4 sm:px-6 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
+                                class="w-full inline-flex items-center justify-center gap-2 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
                                 :disabled="form.processing"
                             >
                                 <i class="fas fa-file-pdf text-[9px] sm:text-[10px] text-amber-700"></i> Download PDF Quote
                             </button>
-                            <Link 
-                                :href="route('menu.show', { category: package.package_name })"
-                                class="w-full inline-flex items-center justify-center bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors text-center"
-                            >
-                                <i class="fas fa-arrow-left mr-2"></i> {{ t('cancel') }}
-                            </Link>
+
+                            <!-- BATAL + TAMBAH KE TROLI — side by side -->
+                            <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                                <Link 
+                                    :href="route('menu.show', { category: package.package_name })"
+                                    class="w-full inline-flex items-center justify-center bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold py-2 sm:py-2.5 px-2 sm:px-6 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors text-center"
+                                >
+                                    <i class="fas fa-arrow-left mr-1 sm:mr-2 text-[9px]"></i> {{ t('cancel') }}
+                                </Link>
+                                <button 
+                                    @click="handleAddToCart"
+                                    class="w-full inline-flex items-center justify-center gap-1 sm:gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2 sm:py-2.5 px-2 sm:px-6 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
+                                    :disabled="form.processing"
+                                >
+                                    <i class="fas fa-cart-plus text-[9px] sm:text-[10px]"></i> {{ t('add_to_cart') }}
+                                </button>
+                            </div>
                         </div>
                     </div>
 
