@@ -223,29 +223,28 @@ const getDishIcon = (dishName) => {
                     </Link>
                 </div>
                 
-                <!-- Luxury Cover Banner -->
-                <div class="mb-4 sm:mb-6 overflow-hidden rounded-lg sm:rounded-2xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] p-3.5 sm:p-6 md:p-8 text-white border border-[#E6E1DA]/10 shadow-lg relative">
+                <!-- Luxury Cover Banner — compact on mobile -->
+                <div class="mb-3 sm:mb-6 overflow-hidden rounded-lg sm:rounded-2xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] p-2.5 sm:p-6 md:p-8 text-white border border-[#E6E1DA]/10 shadow-lg relative">
                     <!-- Decor blurs -->
                     <div class="absolute -right-16 -top-16 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
                     <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-[#C5A880]/10 rounded-full blur-2xl pointer-events-none"></div>
  
-                    <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                        <div class="space-y-3">
-                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#C5A880]/20 border border-[#C5A880]/30 rounded-full text-[10px] font-bold text-[#E6CBA3] uppercase tracking-widest">
-                                <i class="fas fa-utensils"></i> {{ t('catering_packages') }}
+                    <div class="relative z-10 flex flex-row items-center justify-between gap-3 md:gap-6">
+                        <div class="space-y-1 sm:space-y-3 min-w-0">
+                            <div class="inline-flex items-center gap-1.5 px-2 py-0.5 sm:px-3 sm:py-1 bg-[#C5A880]/20 border border-[#C5A880]/30 rounded-full text-[8px] sm:text-[10px] font-bold text-[#E6CBA3] uppercase tracking-widest">
+                                <i class="fas fa-utensils text-[8px] sm:text-[10px]"></i> {{ t('catering_packages') }}
                             </div>
-                            <h1 class="text-base sm:text-2xl md:text-3xl lg:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
+                            <h1 class="text-sm sm:text-2xl md:text-3xl lg:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight truncate">
                                 {{ category }}
                             </h1>
-                            <p class="text-[10px] sm:text-xs md:text-sm text-[#E6E1DA]/80 max-w-2xl font-light leading-relaxed">
+                            <p class="hidden sm:block text-xs md:text-sm text-[#E6E1DA]/80 max-w-2xl font-light leading-relaxed">
                                 {{ t('category_show_desc') }}
                             </p>
                         </div>
-                        <div class="flex gap-4 shrink-0">
-                            <div class="bg-white/5 border border-white/10 rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3.5 text-center backdrop-blur-xs min-w-24 sm:min-w-28">
-                                <span class="block text-[8px] sm:text-[9px] font-bold text-[#C5A880] uppercase tracking-widest mb-1">{{ t('packages') }}</span>
-                                <span class="text-lg sm:text-2xl font-semibold font-serif-luxury text-white">{{ variations.length }}</span>
-                            </div>
+                        <!-- Package count badge -->
+                        <div class="bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl px-3 py-1.5 sm:px-5 sm:py-3.5 text-center backdrop-blur-xs shrink-0 min-w-[52px] sm:min-w-28">
+                            <span class="block text-[7px] sm:text-[9px] font-bold text-[#C5A880] uppercase tracking-widest mb-0.5 sm:mb-1">{{ t('packages') }}</span>
+                            <span class="text-base sm:text-2xl font-semibold font-serif-luxury text-white">{{ variations.length }}</span>
                         </div>
                     </div>
                 </div>
