@@ -275,8 +275,8 @@ function getPackageImage(pkg) {
                 <div class="grid lg:grid-cols-12 gap-6 items-start">
                     
                     <!-- Left Column: Occasion Catalog (8 cols) -->
-                    <div class="lg:col-span-8 space-y-6">
-                        <div class="bg-white border border-[#E6E1DA] rounded-lg sm:rounded-2xl p-2.5 sm:p-5 shadow-xs space-y-2.5 sm:space-y-5">
+                    <div class="lg:col-span-8 space-y-6 min-w-0">
+                        <div class="bg-white border border-[#E6E1DA] rounded-lg sm:rounded-2xl p-2.5 sm:p-5 shadow-xs space-y-2.5 sm:space-y-5 min-w-0">
                             
                             <!-- Search & Filter Header -->
                             <div class="space-y-3 sm:space-y-4">
@@ -340,12 +340,12 @@ function getPackageImage(pkg) {
                             </div>
  
                             <!-- Package Grid -->
-                            <div v-if="filteredPackages.length > 0" class="grid grid-cols-2 gap-3 sm:gap-6">
+                            <div v-if="filteredPackages.length > 0" class="grid grid-cols-2 gap-3 sm:gap-6 min-w-0">
                                 <!-- Package Category Card -->
                                 <div 
                                     v-for="pkg in filteredPackages" 
                                     :key="pkg.package_name"
-                                    class="bg-white rounded-lg sm:rounded-xl border border-[#E6E1DA] flex flex-col justify-between overflow-hidden menu-card relative"
+                                    class="bg-white rounded-lg sm:rounded-xl border border-[#E6E1DA] flex flex-col justify-between overflow-hidden menu-card relative min-w-0"
                                 >
                                     <!-- Top Image Banner & floating badge -->
                                     <div class="relative h-24 sm:h-44 w-full bg-slate-100 overflow-hidden">
@@ -372,7 +372,7 @@ function getPackageImage(pkg) {
                                                 <h4 class="text-[10px] sm:text-base font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide truncate" :title="pkg.package_name">
                                                     {{ pkg.package_name }}
                                                 </h4>
-                                                <p class="text-[7.5px] sm:text-[10px] text-[#8C8275] uppercase tracking-wider font-light mt-0.5 whitespace-nowrap">
+                                                <p class="text-[7.5px] sm:text-[10px] text-[#8C8275] uppercase tracking-wider font-light mt-0.5">
                                                     {{ t('min_requirement') }}: {{ pkg.min_order }} {{ t('pax') }}
                                                 </p>
                                             </div>
@@ -395,9 +395,9 @@ function getPackageImage(pkg) {
                                         </div>
  
                                         <div class="space-y-2 sm:space-y-3 mt-3 sm:mt-5">
-                                            <div class="text-[8px] sm:text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#E6E1DA] py-1.5 px-2 sm:py-2 sm:px-3 rounded-md sm:rounded-lg flex justify-between items-center whitespace-nowrap gap-1">
-                                                <span>{{ t('starting_from') }}</span>
-                                                <span>RM {{ parseFloat(pkg.price).toFixed(2) }}</span>
+                                            <div class="text-[8px] sm:text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#E6E1DA] py-1.5 px-2 sm:py-2 sm:px-3 rounded-md sm:rounded-lg flex flex-col xs:flex-row xs:justify-between xs:items-center gap-0.5 xs:gap-1 min-w-0">
+                                                <span class="text-[7px] sm:text-[9px] font-medium text-[#8C8275] truncate">{{ t('starting_from') }}</span>
+                                                <span class="text-[#4A6B5D] shrink-0">RM {{ parseFloat(pkg.price).toFixed(2) }}</span>
                                             </div>
  
                                             <Link 
