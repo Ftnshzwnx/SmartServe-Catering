@@ -99,7 +99,7 @@ function getPackageImage(pkg) {
 
                 <!-- Dynamic packages from DB -->
                 <template v-if="packages && packages.length > 0">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
                         <div
                             v-for="pkg in packages"
                             :key="pkg.id"
@@ -112,31 +112,31 @@ function getPackageImage(pkg) {
                                         :alt="pkg.package_name"
                                         class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 ease-out"
                                     />
-                                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-xs px-3 py-1 rounded-full text-[10px] font-bold text-[#4A6B5D] uppercase tracking-wider">
+                                    <div class="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur-xs px-2 py-0.5 rounded-full text-[8px] sm:text-[10px] font-bold text-[#4A6B5D] uppercase tracking-wider">
                                         {{ t('popular_tag') }}
                                     </div>
                                 </div>
-                                <div class="p-4 sm:p-6 lg:p-8 space-y-3 sm:space-y-4">
-                                    <h2 class="text-base sm:text-xl font-normal text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ pkg.package_name }}</h2>
-                                    <p class="text-[10px] sm:text-xs text-[#5C6460] font-light leading-relaxed min-h-[48px]">
+                                <div class="p-3 sm:p-6 lg:p-8 space-y-2.5 sm:space-y-4">
+                                    <h2 class="text-xs sm:text-xl font-normal text-[#1C201E] font-serif-luxury uppercase tracking-wider line-clamp-1 sm:line-clamp-none">{{ pkg.package_name }}</h2>
+                                    <p class="text-[9px] sm:text-xs text-[#5C6460] font-light leading-relaxed min-h-[36px] sm:min-h-[48px] line-clamp-2 sm:line-clamp-none">
                                         {{ pkg.description || 'Elevate your event with our carefully curated traditional recipes, styled and portioned to absolute perfection.' }}
                                     </p>
-                                    <div class="border-t border-[#FAF7F2] pt-4 space-y-2">
-                                        <div class="flex justify-between items-center text-[10px] text-[#8C8275] uppercase tracking-wider font-semibold">
+                                    <div class="border-t border-[#FAF7F2] pt-3 sm:pt-4 space-y-1.5 sm:space-y-2">
+                                        <div class="flex justify-between items-center text-[8px] sm:text-[10px] text-[#8C8275] uppercase tracking-wider font-semibold">
                                             <span>{{ t('min_booking') }}</span>
-                                            <span class="text-[#2D3330]">{{ pkg.min_order }} pax</span>
+                                            <span class="text-[#2D3330] text-[9px] sm:text-xs font-semibold">{{ pkg.min_order }} pax</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="p-4 sm:p-6 lg:p-8 pt-0 border-t border-[#FAF7F2] flex flex-row items-center justify-between gap-4 mt-auto">
-                                <div>
-                                    <span class="text-[9px] text-[#8C8275] uppercase tracking-wider font-semibold block">{{ t('starting_from') }}</span>
-                                    <span class="text-sm sm:text-lg font-bold text-[#4A6B5D]">RM {{ parseFloat(pkg.price).toFixed(2) }}<span class="text-[10px] sm:text-xs font-normal text-[#8C8275]">/pax</span></span>
+                            <div class="p-3 sm:p-6 lg:p-8 pt-0 border-t border-[#FAF7F2] flex flex-col gap-2.5 sm:gap-4 mt-auto">
+                                <div class="text-[8px] sm:text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#E6E1DA] py-1.5 px-2 sm:py-2 sm:px-3 rounded-md sm:rounded-lg flex flex-col xs:flex-row xs:justify-between xs:items-center gap-0.5 xs:gap-1 min-w-0">
+                                    <span class="text-[7px] sm:text-[9px] font-medium text-[#8C8275] truncate">{{ t('starting_from') }}</span>
+                                    <span class="text-xs sm:text-sm font-bold text-[#4A6B5D] shrink-0">RM {{ parseFloat(pkg.price).toFixed(2) }}<span class="text-[8px] sm:text-[10px] font-normal text-[#8C8275]">/pax</span></span>
                                 </div>
                                 <Link
                                     :href="route('menu.show', pkg.package_name)"
-                                    class="w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 text-center"
+                                    class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white py-1.5 sm:py-2.5 rounded-md sm:rounded-xl text-[9px] sm:text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 text-center flex items-center justify-center gap-1"
                                 >
                                     {{ t('select_package') }}
                                 </Link>
@@ -147,82 +147,82 @@ function getPackageImage(pkg) {
 
                 <!-- Fallback static packages -->
                 <template v-else>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
                         <!-- Mockup 1 -->
-                        <div class="bg-white border border-[#E6E1DA] rounded-3xl overflow-hidden shadow-xs hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+                        <div class="bg-white border border-[#E6E1DA] rounded-xl sm:rounded-3xl overflow-hidden shadow-xs hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col justify-between">
                             <div>
                                 <div class="aspect-[4/3] bg-[#EADED9] overflow-hidden relative">
                                     <img src="/img/hero_catering.png" alt="Wedding Silver Package" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 ease-out" />
-                                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-xs px-3 py-1 rounded-full text-[10px] font-bold text-[#4A6B5D] uppercase tracking-wider">{{ t('popular_tag') }}</div>
+                                    <div class="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur-xs px-2 py-0.5 rounded-full text-[8px] sm:text-[10px] font-bold text-[#4A6B5D] uppercase tracking-wider">{{ t('popular_tag') }}</div>
                                 </div>
-                                <div class="p-6 lg:p-8 space-y-4">
-                                    <h2 class="text-xl font-normal text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ t('mock_pkg_1_name') }}</h2>
-                                    <p class="text-xs text-[#5C6460] font-light leading-relaxed min-h-[48px]">{{ t('mock_pkg_1_desc') }}</p>
-                                    <div class="border-t border-[#FAF7F2] pt-4">
-                                        <div class="flex justify-between items-center text-[10px] text-[#8C8275] uppercase tracking-wider font-semibold">
-                                            <span>{{ t('min_booking') }}</span><span class="text-[#2D3330]">500 pax</span>
+                                <div class="p-3 sm:p-6 lg:p-8 space-y-2.5 sm:space-y-4">
+                                    <h2 class="text-xs sm:text-xl font-normal text-[#1C201E] font-serif-luxury uppercase tracking-wider line-clamp-1 sm:line-clamp-none">{{ t('mock_pkg_1_name') }}</h2>
+                                    <p class="text-[9px] sm:text-xs text-[#5C6460] font-light leading-relaxed min-h-[36px] sm:min-h-[48px] line-clamp-2 sm:line-clamp-none">{{ t('mock_pkg_1_desc') }}</p>
+                                    <div class="border-t border-[#FAF7F2] pt-3 sm:pt-4">
+                                        <div class="flex justify-between items-center text-[8px] sm:text-[10px] text-[#8C8275] uppercase tracking-wider font-semibold">
+                                            <span>{{ t('min_booking') }}</span><span class="text-[#2D3330] text-[9px] sm:text-xs font-semibold">500 pax</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="p-6 lg:p-8 pt-0 border-t border-[#FAF7F2] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                                <div>
-                                    <span class="text-[9px] text-[#8C8275] uppercase tracking-wider font-semibold block">{{ t('starting_from') }}</span>
-                                    <span class="text-lg font-bold text-[#4A6B5D]">RM 15.00<span class="text-xs font-normal text-[#8C8275]">/pax</span></span>
+                            <div class="p-3 sm:p-6 lg:p-8 pt-0 border-t border-[#FAF7F2] flex flex-col gap-2.5 sm:gap-4 mt-auto">
+                                <div class="text-[8px] sm:text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#E6E1DA] py-1.5 px-2 sm:py-2 sm:px-3 rounded-md sm:rounded-lg flex flex-col xs:flex-row xs:justify-between xs:items-center gap-0.5 xs:gap-1 min-w-0">
+                                    <span class="text-[7px] sm:text-[9px] font-medium text-[#8C8275] truncate">{{ t('starting_from') }}</span>
+                                    <span class="text-xs sm:text-sm font-bold text-[#4A6B5D] shrink-0">RM 15.00<span class="text-[8px] sm:text-[10px] font-normal text-[#8C8275]">/pax</span></span>
                                 </div>
-                                <Link :href="route('menu.index')" class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-3 sm:py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 text-center">{{ t('select_package') }}</Link>
+                                <Link :href="route('menu.index')" class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white py-1.5 sm:py-2.5 rounded-md sm:rounded-xl text-[9px] sm:text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 text-center flex items-center justify-center gap-1">{{ t('select_package') }}</Link>
                             </div>
                         </div>
 
                         <!-- Mockup 2 -->
-                        <div class="bg-white border border-[#E6E1DA] rounded-3xl overflow-hidden shadow-xs hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+                        <div class="bg-white border border-[#E6E1DA] rounded-xl sm:rounded-3xl overflow-hidden shadow-xs hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col justify-between">
                             <div>
                                 <div class="aspect-[4/3] bg-[#EADED9] overflow-hidden relative">
                                     <img src="/img/catering_dish.png" alt="Corporate Bronze Package" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 ease-out" />
-                                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-xs px-3 py-1 rounded-full text-[10px] font-bold text-[#4A6B5D] uppercase tracking-wider">{{ t('premium_tag') }}</div>
+                                    <div class="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur-xs px-2 py-0.5 rounded-full text-[8px] sm:text-[10px] font-bold text-[#4A6B5D] uppercase tracking-wider">{{ t('premium_tag') }}</div>
                                 </div>
-                                <div class="p-6 lg:p-8 space-y-4">
-                                    <h2 class="text-xl font-normal text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ t('mock_pkg_2_name') }}</h2>
-                                    <p class="text-xs text-[#5C6460] font-light leading-relaxed min-h-[48px]">{{ t('mock_pkg_2_desc') }}</p>
-                                    <div class="border-t border-[#FAF7F2] pt-4">
-                                        <div class="flex justify-between items-center text-[10px] text-[#8C8275] uppercase tracking-wider font-semibold">
-                                            <span>{{ t('min_booking') }}</span><span class="text-[#2D3330]">100 pax</span>
+                                <div class="p-3 sm:p-6 lg:p-8 space-y-2.5 sm:space-y-4">
+                                    <h2 class="text-xs sm:text-xl font-normal text-[#1C201E] font-serif-luxury uppercase tracking-wider line-clamp-1 sm:line-clamp-none">{{ t('mock_pkg_2_name') }}</h2>
+                                    <p class="text-[9px] sm:text-xs text-[#5C6460] font-light leading-relaxed min-h-[36px] sm:min-h-[48px] line-clamp-2 sm:line-clamp-none">{{ t('mock_pkg_2_desc') }}</p>
+                                    <div class="border-t border-[#FAF7F2] pt-3 sm:pt-4">
+                                        <div class="flex justify-between items-center text-[8px] sm:text-[10px] text-[#8C8275] uppercase tracking-wider font-semibold">
+                                            <span>{{ t('min_booking') }}</span><span class="text-[#2D3330] text-[9px] sm:text-xs font-semibold">100 pax</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="p-6 lg:p-8 pt-0 border-t border-[#FAF7F2] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                                <div>
-                                    <span class="text-[9px] text-[#8C8275] uppercase tracking-wider font-semibold block">{{ t('starting_from') }}</span>
-                                    <span class="text-lg font-bold text-[#4A6B5D]">RM 25.00<span class="text-xs font-normal text-[#8C8275]">/pax</span></span>
+                            <div class="p-3 sm:p-6 lg:p-8 pt-0 border-t border-[#FAF7F2] flex flex-col gap-2.5 sm:gap-4 mt-auto">
+                                <div class="text-[8px] sm:text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#E6E1DA] py-1.5 px-2 sm:py-2 sm:px-3 rounded-md sm:rounded-lg flex flex-col xs:flex-row xs:justify-between xs:items-center gap-0.5 xs:gap-1 min-w-0">
+                                    <span class="text-[7px] sm:text-[9px] font-medium text-[#8C8275] truncate">{{ t('starting_from') }}</span>
+                                    <span class="text-xs sm:text-sm font-bold text-[#4A6B5D] shrink-0">RM 25.00<span class="text-[8px] sm:text-[10px] font-normal text-[#8C8275]">/pax</span></span>
                                 </div>
-                                <Link :href="route('menu.index')" class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-3 sm:py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 text-center">{{ t('select_package') }}</Link>
+                                <Link :href="route('menu.index')" class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white py-1.5 sm:py-2.5 rounded-md sm:rounded-xl text-[9px] sm:text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 text-center flex items-center justify-center gap-1">{{ t('select_package') }}</Link>
                             </div>
                         </div>
 
                         <!-- Mockup 3 -->
-                        <div class="bg-white border border-[#E6E1DA] rounded-3xl overflow-hidden shadow-xs hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+                        <div class="bg-white border border-[#E6E1DA] rounded-xl sm:rounded-3xl overflow-hidden shadow-xs hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col justify-between">
                             <div>
                                 <div class="aspect-[4/3] bg-[#EADED9] overflow-hidden relative">
                                     <img src="/img/aqiqah_catering.png" alt="Aqiqah & Gathering Package" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 ease-out" />
-                                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-xs px-3 py-1 rounded-full text-[10px] font-bold text-[#4A6B5D] uppercase tracking-wider">{{ t('value_tag') }}</div>
+                                    <div class="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur-xs px-2 py-0.5 rounded-full text-[8px] sm:text-[10px] font-bold text-[#4A6B5D] uppercase tracking-wider">{{ t('value_tag') }}</div>
                                 </div>
-                                <div class="p-6 lg:p-8 space-y-4">
-                                    <h2 class="text-xl font-normal text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ t('mock_pkg_3_name') }}</h2>
-                                    <p class="text-xs text-[#5C6460] font-light leading-relaxed min-h-[48px]">{{ t('mock_pkg_3_desc') }}</p>
-                                    <div class="border-t border-[#FAF7F2] pt-4">
-                                        <div class="flex justify-between items-center text-[10px] text-[#8C8275] uppercase tracking-wider font-semibold">
-                                            <span>{{ t('min_booking') }}</span><span class="text-[#2D3330]">100 pax</span>
+                                <div class="p-3 sm:p-6 lg:p-8 space-y-2.5 sm:space-y-4">
+                                    <h2 class="text-xs sm:text-xl font-normal text-[#1C201E] font-serif-luxury uppercase tracking-wider line-clamp-1 sm:line-clamp-none">{{ t('mock_pkg_3_name') }}</h2>
+                                    <p class="text-[9px] sm:text-xs text-[#5C6460] font-light leading-relaxed min-h-[36px] sm:min-h-[48px] line-clamp-2 sm:line-clamp-none">{{ t('mock_pkg_3_desc') }}</p>
+                                    <div class="border-t border-[#FAF7F2] pt-3 sm:pt-4">
+                                        <div class="flex justify-between items-center text-[8px] sm:text-[10px] text-[#8C8275] uppercase tracking-wider font-semibold">
+                                            <span>{{ t('min_booking') }}</span><span class="text-[#2D3330] text-[9px] sm:text-xs font-semibold">100 pax</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="p-6 lg:p-8 pt-0 border-t border-[#FAF7F2] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                                <div>
-                                    <span class="text-[9px] text-[#8C8275] uppercase tracking-wider font-semibold block">{{ t('starting_from') }}</span>
-                                    <span class="text-lg font-bold text-[#4A6B5D]">RM 18.00<span class="text-xs font-normal text-[#8C8275]">/pax</span></span>
+                            <div class="p-3 sm:p-6 lg:p-8 pt-0 border-t border-[#FAF7F2] flex flex-col gap-2.5 sm:gap-4 mt-auto">
+                                <div class="text-[8px] sm:text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#E6E1DA] py-1.5 px-2 sm:py-2 sm:px-3 rounded-md sm:rounded-lg flex flex-col xs:flex-row xs:justify-between xs:items-center gap-0.5 xs:gap-1 min-w-0">
+                                    <span class="text-[7px] sm:text-[9px] font-medium text-[#8C8275] truncate">{{ t('starting_from') }}</span>
+                                    <span class="text-xs sm:text-sm font-bold text-[#4A6B5D] shrink-0">RM 18.00<span class="text-[8px] sm:text-[10px] font-normal text-[#8C8275]">/pax</span></span>
                                 </div>
-                                <Link :href="route('menu.index')" class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-3 sm:py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 text-center">{{ t('select_package') }}</Link>
+                                <Link :href="route('menu.index')" class="w-full bg-[#4A6B5D] hover:bg-[#3D574B] text-white py-1.5 sm:py-2.5 rounded-md sm:rounded-xl text-[9px] sm:text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 text-center flex items-center justify-center gap-1">{{ t('select_package') }}</Link>
                             </div>
                         </div>
                     </div>
