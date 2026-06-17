@@ -169,28 +169,41 @@ function getPackageImage(pkg) {
         .stepper-item:not(:last-child)::after {
             content: '';
             position: absolute;
-            top: 16px;
+            top: 13px;
             left: 50%;
             width: 100%;
             height: 1px;
             background-color: #E6E1DA;
             z-index: 1;
         }
+        @media (min-width: 640px) {
+            .stepper-item:not(:last-child)::after {
+                top: 16px;
+            }
+        }
         .stepper-circle {
-            width: 32px;
-            height: 32px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             background: white;
             border: 1px solid #E6E1DA;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
-            margin: 0 auto 8px auto;
+            margin: 0 auto 6px auto;
             position: relative;
             z-index: 2;
             transition: all 0.3s;
+        }
+        @media (min-width: 640px) {
+            .stepper-circle {
+                width: 32px;
+                height: 32px;
+                font-size: 11px;
+                margin: 0 auto 8px auto;
+            }
         }
         .stepper-item.active .stepper-circle {
             background: #4A6B5D;
@@ -232,26 +245,26 @@ function getPackageImage(pkg) {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-6">
                 
                 <!-- 1. CATERING STEPPER PROGRESS BAR -->
-                <div class="bg-white border border-[#E6E1DA] rounded-xl sm:rounded-3xl py-3 px-4 sm:py-4 sm:px-6 shadow-xs max-w-3xl mx-auto">
+                <div class="bg-white border border-[#E6E1DA] rounded-xl sm:rounded-3xl py-2 px-3 sm:py-4 sm:px-6 shadow-xs max-w-3xl mx-auto">
                     <div class="flex items-center justify-between w-full relative">
                         <!-- Step 1 -->
                         <div class="stepper-item active">
                             <div class="stepper-circle">1</div>
-                            <span class="text-[9px] font-bold uppercase tracking-widest text-[#4A6B5D]">
+                            <span class="text-[7.5px] sm:text-[9px] font-bold uppercase tracking-widest text-[#4A6B5D]">
                                 {{ t('select_occasion_stepper') }}
                             </span>
                         </div>
                         <!-- Step 2 -->
                         <div class="stepper-item">
                             <div class="stepper-circle">2</div>
-                            <span class="text-[9px] font-bold uppercase tracking-widest text-[#8C8275]">
+                            <span class="text-[7.5px] sm:text-[9px] font-bold uppercase tracking-widest text-[#8C8275]">
                                 {{ t('customize_menu_stepper') }}
                             </span>
                         </div>
                         <!-- Step 3 -->
                         <div class="stepper-item">
                             <div class="stepper-circle">3</div>
-                            <span class="text-[9px] font-bold uppercase tracking-widest text-[#8C8275]">
+                            <span class="text-[7.5px] sm:text-[9px] font-bold uppercase tracking-widest text-[#8C8275]">
                                 {{ t('confirm_booking_stepper') }}
                             </span>
                         </div>
@@ -263,62 +276,62 @@ function getPackageImage(pkg) {
                     
                     <!-- Left Column: Occasion Catalog (8 cols) -->
                     <div class="lg:col-span-8 space-y-6">
-                        <div class="bg-white border border-[#E6E1DA] rounded-lg sm:rounded-2xl p-3 sm:p-5 shadow-xs space-y-3 sm:space-y-5">
+                        <div class="bg-white border border-[#E6E1DA] rounded-lg sm:rounded-2xl p-2.5 sm:p-5 shadow-xs space-y-2.5 sm:space-y-5">
                             
                             <!-- Search & Filter Header -->
-                            <div class="space-y-4">
+                            <div class="space-y-3 sm:space-y-4">
                                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                     <div>
-                                        <span class="text-[10px] font-bold text-[#4A6B5D] uppercase tracking-widest block mb-1">{{ t('premium_selection') }}</span>
-                                        <h3 class="text-base sm:text-2xl font-light text-[#2D3330] font-serif-luxury tracking-wide">
+                                        <span class="text-[8px] sm:text-[10px] font-bold text-[#4A6B5D] uppercase tracking-widest block mb-0.5 sm:mb-1">{{ t('premium_selection') }}</span>
+                                        <h3 class="text-sm sm:text-2xl font-light text-[#2D3330] font-serif-luxury tracking-wide">
                                             {{ t('select_occasion') }}
                                         </h3>
                                     </div>
                                     
                                     <!-- Search Input -->
                                     <div class="relative w-full md:w-72 shrink-0">
-                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                                            <i class="fas fa-search text-xs"></i>
+                                        <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400 text-[10px] sm:text-xs">
+                                            <i class="fas fa-search"></i>
                                         </span>
                                         <input 
                                             type="text" 
                                             v-model="searchQuery" 
                                             :placeholder="t('search_placeholder')"
-                                            class="w-full pl-8 pr-4 py-2 text-xs border border-[#E6E1DA] rounded-xl focus:outline-none focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF7F2]/40 text-[#2D3330] placeholder-slate-400 transition-colors"
+                                            class="w-full pl-7 pr-3 py-1.5 text-[10px] sm:text-xs border border-[#E6E1DA] rounded-lg focus:outline-none focus:border-[#4A6B5D] focus:ring-0 bg-[#FAF7F2]/40 text-[#2D3330] placeholder-slate-400 transition-colors"
                                         />
                                     </div>
                                 </div>
                                 
-                                <p class="text-xs text-[#8C8275] font-light leading-relaxed">
+                                <p class="text-[9.5px] sm:text-xs text-[#8C8275] font-light leading-relaxed">
                                     {{ t('select_event_type_desc') }}
                                 </p>
  
                                  <!-- Category Tab Filters -->
-                                <div class="flex overflow-x-auto whitespace-nowrap scrollbar-none gap-2 pt-2 border-b border-[#FAF6F0] pb-3 sm:pb-4">
+                                <div class="flex overflow-x-auto whitespace-nowrap scrollbar-none gap-1.5 pt-1 border-b border-[#FAF6F0] pb-2.5 sm:pb-4">
                                     <button 
                                         @click="activeTab = 'all'" 
-                                        class="flex-shrink-0 whitespace-nowrap px-2 py-1 sm:px-3.5 sm:py-2 rounded-lg text-[9px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
+                                        class="flex-shrink-0 whitespace-nowrap px-2.5 py-1 sm:px-3.5 sm:py-2 rounded-md sm:rounded-lg text-[8.5px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
                                         :class="activeTab === 'all' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                                     >
                                         {{ t('all_packages') }}
                                     </button>
                                     <button 
                                         @click="activeTab = 'wedding'" 
-                                        class="flex-shrink-0 whitespace-nowrap px-2 py-1 sm:px-3.5 sm:py-2 rounded-lg text-[9px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
+                                        class="flex-shrink-0 whitespace-nowrap px-2.5 py-1 sm:px-3.5 sm:py-2 rounded-md sm:rounded-lg text-[8.5px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
                                         :class="activeTab === 'wedding' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                                     >
                                         {{ t('wedding_packages') }}
                                     </button>
                                     <button 
                                         @click="activeTab = 'corporate'" 
-                                        class="flex-shrink-0 whitespace-nowrap px-2 py-1 sm:px-3.5 sm:py-2 rounded-lg text-[9px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
+                                        class="flex-shrink-0 whitespace-nowrap px-2.5 py-1 sm:px-3.5 sm:py-2 rounded-md sm:rounded-lg text-[8.5px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
                                         :class="activeTab === 'corporate' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                                     >
                                         {{ t('corporate_packages') }}
                                     </button>
                                     <button 
                                         @click="activeTab = 'aqiqah'" 
-                                        class="flex-shrink-0 whitespace-nowrap px-2 py-1 sm:px-3.5 sm:py-2 rounded-lg text-[9px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
+                                        class="flex-shrink-0 whitespace-nowrap px-2.5 py-1 sm:px-3.5 sm:py-2 rounded-md sm:rounded-lg text-[8.5px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
                                         :class="activeTab === 'aqiqah' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                                     >
                                         {{ t('aqiqah_family') }}
@@ -327,7 +340,7 @@ function getPackageImage(pkg) {
                             </div>
  
                             <!-- Package Grid -->
-                            <div v-if="filteredPackages.length > 0" class="grid grid-cols-1 gap-6" :class="filteredPackages.length > 1 ? 'md:grid-cols-2' : 'max-w-sm mx-auto w-full'">
+                            <div v-if="filteredPackages.length > 0" class="grid grid-cols-2 gap-3 sm:gap-6">
                                 <!-- Package Category Card -->
                                 <div 
                                     v-for="pkg in filteredPackages" 
@@ -335,63 +348,63 @@ function getPackageImage(pkg) {
                                     class="bg-white rounded-lg sm:rounded-xl border border-[#E6E1DA] flex flex-col justify-between overflow-hidden menu-card relative"
                                 >
                                     <!-- Top Image Banner & floating badge -->
-                                    <div class="relative h-32 sm:h-44 w-full bg-slate-100 overflow-hidden">
+                                    <div class="relative h-24 sm:h-44 w-full bg-slate-100 overflow-hidden">
                                         <img :src="getPackageImage(pkg)" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" alt="Package image" />
                                         
                                         <!-- Floating Icon Badge (Left) -->
-                                        <div class="absolute top-3 left-3 w-8 h-8 rounded-lg flex items-center justify-center text-sm border shadow-sm" :class="getCategoryIcon(pkg.package_name).colors">
+                                        <div class="absolute top-2 left-2 w-6 h-6 sm:w-8 sm:h-8 rounded-md sm:rounded-lg flex items-center justify-center text-xs sm:text-sm border shadow-sm" :class="getCategoryIcon(pkg.package_name).colors">
                                             <i class="fas" :class="getCategoryIcon(pkg.package_name).icon"></i>
                                         </div>
  
                                         <!-- Floating Popularity Badge (Right) -->
                                         <span 
                                             v-if="getPackageBadge(pkg)" 
-                                            class="absolute top-3 right-3 px-2.5 py-1 text-[9px] font-bold border rounded-full uppercase tracking-wider shadow-xs" 
+                                            class="absolute top-2 right-2 px-1.5 py-0.5 sm:px-2.5 sm:py-1 text-[7.5px] sm:text-[9px] font-bold border rounded-full uppercase tracking-wider shadow-xs" 
                                             :class="getPackageBadge(pkg).colors"
                                         >
                                             {{ getPackageBadge(pkg).text }}
                                         </span>
                                     </div>
  
-                                    <div class="p-3 sm:p-4 flex-grow flex flex-col justify-between">
-                                        <div class="space-y-3">
+                                    <div class="p-2 sm:p-4 flex-grow flex flex-col justify-between">
+                                        <div class="space-y-2.5 sm:space-y-3">
                                             <div>
-                                                <h4 class="text-xs sm:text-base font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide">
+                                                <h4 class="text-[10px] sm:text-base font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide truncate" :title="pkg.package_name">
                                                     {{ pkg.package_name }}
                                                 </h4>
-                                                <p class="text-[10px] text-[#8C8275] uppercase tracking-wider font-light mt-0.5">
+                                                <p class="text-[7.5px] sm:text-[10px] text-[#8C8275] uppercase tracking-wider font-light mt-0.5 whitespace-nowrap">
                                                     {{ t('min_requirement') }}: {{ pkg.min_order }} {{ t('pax') }}
                                                 </p>
                                             </div>
  
                                             <!-- Menu highlights checklist (First 4 dishes) -->
-                                            <div class="border-t border-[#FAF6F0] pt-3">
-                                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-2">{{ t('menu_highlights') }}</span>
-                                                <ul class="grid grid-cols-2 gap-x-3 gap-y-1.5 text-[11px] text-[#5C6460]">
+                                            <div class="border-t border-[#FAF6F0] pt-2 sm:pt-3">
+                                                <span class="text-[7.5px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1.5">{{ t('menu_highlights') }}</span>
+                                                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-1 text-[9px] sm:text-[11px] text-[#5C6460]">
                                                     <li 
                                                         v-for="dish in (pkg.description || '').split('\n').map(d => d.trim()).filter(d => d).slice(0, 4)" 
                                                         :key="dish"
-                                                        class="flex items-center gap-1.5 truncate"
+                                                        class="flex items-center gap-1 truncate"
                                                         :title="dish"
                                                      >
-                                                        <i class="fas fa-check text-[#4A6B5D] text-[9px]"></i>
+                                                        <i class="fas fa-check text-[#4A6B5D] text-[8px] sm:text-[9px] shrink-0"></i>
                                                         <span class="font-light truncate">{{ dish }}</span>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
  
-                                        <div class="space-y-3 mt-5">
-                                            <div class="text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#E6E1DA] py-2 px-3 rounded-lg flex justify-between items-center">
+                                        <div class="space-y-2 sm:space-y-3 mt-3 sm:mt-5">
+                                            <div class="text-[8px] sm:text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#E6E1DA] py-1.5 px-2 sm:py-2 sm:px-3 rounded-md sm:rounded-lg flex justify-between items-center whitespace-nowrap gap-1">
                                                 <span>{{ t('starting_from') }}</span>
-                                                <span>RM {{ parseFloat(pkg.price).toFixed(2) }} / {{ t('pax') }}</span>
+                                                <span>RM {{ parseFloat(pkg.price).toFixed(2) }}</span>
                                             </div>
  
                                             <Link 
                                                 :href="route('menu.show', { category: pkg.package_name })"
-                                                class="w-full inline-flex items-center justify-center gap-1.5 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2 px-3.5 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors duration-200"
+                                                class="w-full inline-flex items-center justify-center gap-1 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-1.5 px-2 sm:py-2 sm:px-3.5 rounded-md sm:rounded-lg text-[8.5px] sm:text-xs uppercase tracking-widest transition-colors duration-200"
                                             >
-                                                <i class="fas fa-search-plus text-[10px]"></i> {{ t('view_packages') }}
+                                                <i class="fas fa-search-plus text-[8px] sm:text-[10px]"></i> {{ t('view_packages') }}
                                             </Link>
                                         </div>
                                     </div>
@@ -415,73 +428,73 @@ function getPackageImage(pkg) {
                     <div class="lg:col-span-4 space-y-6">
                         
                         <!-- Dynamic Budget Planner Promo Card (FIXED contrast issue with bg-[#2D3330]) -->
-                        <div class="bg-[#2D3330] border border-[#E6E1DA] rounded-lg sm:rounded-xl p-3 sm:p-4.5 text-[#FAF7F2] space-y-3 sm:space-y-4">
-                            <div class="w-10 h-10 rounded-xl bg-[#4A6B5D]/20 text-[#4A6B5D] border border-[#4A6B5D]/30 flex items-center justify-center text-base">
+                        <div class="bg-[#2D3330] border border-[#E6E1DA] rounded-lg sm:rounded-xl p-2.5 sm:p-4.5 text-[#FAF7F2] space-y-2.5 sm:space-y-4">
+                            <div class="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#4A6B5D]/20 text-[#4A6B5D] border border-[#4A6B5D]/30 flex items-center justify-center text-xs sm:text-base shrink-0">
                                 <i class="fas fa-calculator text-white"></i>
                             </div>
-                            <div class="space-y-2">
-                                <h4 class="text-sm sm:text-base font-normal font-serif-luxury uppercase tracking-wider text-[#FAF7F2]">
+                            <div class="space-y-1 sm:space-y-2">
+                                <h4 class="text-xs sm:text-base font-normal font-serif-luxury uppercase tracking-wider text-[#FAF7F2]">
                                     {{ t('budget_planner') }}
                                 </h4>
-                                <p class="text-[11px] text-[#FAF7F2]/80 leading-relaxed font-light">
+                                <p class="text-[9.5px] sm:text-[11px] text-[#FAF7F2]/80 leading-relaxed font-light">
                                     {{ t('budget_planner_desc_panel') }}
                                 </p>
                             </div>
                             <Link 
                                 :href="route('budget.planner')"
-                                class="w-full inline-flex items-center justify-center gap-1.5 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2 px-3.5 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors duration-200 text-center"
+                                class="w-full inline-flex items-center justify-center gap-1 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-1.5 px-3 rounded-md sm:rounded-lg text-[8.5px] sm:text-xs uppercase tracking-widest transition-colors duration-200 text-center"
                             >
-                                {{ t('open_planner') }} <i class="fas fa-arrow-right text-[10px]"></i>
+                                {{ t('open_planner') }} <i class="fas fa-arrow-right text-[8.5px] sm:text-10px]"></i>
                             </Link>
                         </div>
  
                         <!-- Brand Guarantees Pillars (bg-white explicitly added) -->
-                        <div class="bg-white border border-[#E6E1DA] rounded-lg sm:rounded-xl p-3 sm:p-4.5 space-y-3 sm:space-y-5">
-                            <h4 class="text-xs font-bold text-[#2D3330] uppercase tracking-widest border-b border-[#E6E1DA] pb-3">
+                        <div class="bg-white border border-[#E6E1DA] rounded-lg sm:rounded-xl p-2.5 sm:p-4.5 space-y-2.5 sm:space-y-5">
+                            <h4 class="text-[10px] sm:text-xs font-bold text-[#2D3330] uppercase tracking-widest border-b border-[#E6E1DA] pb-2 sm:pb-3">
                                 {{ t('smartserve_guarantees') }}
                             </h4>
                             
-                            <div class="space-y-5">
+                            <div class="space-y-4 sm:space-y-5">
                                 <!-- Pillar 1 -->
-                                <div class="flex gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-[#FAF9F6] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-xs shrink-0 mt-0.5">
+                                <div class="flex gap-2 sm:gap-3">
+                                    <div class="w-6.5 h-6.5 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-[#FAF9F6] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-[10px] sm:text-xs shrink-0 mt-0.5">
                                         <i class="fas fa-award"></i>
                                     </div>
                                     <div>
-                                        <span class="font-bold text-xs text-[#2D3330] block mb-0.5">
+                                        <span class="font-bold text-[10px] sm:text-xs text-[#2D3330] block mb-0.5">
                                             {{ t('heritage_flavors_title') }}
                                         </span>
-                                        <p class="text-[10px] text-[#8C8275] font-light leading-relaxed">
+                                        <p class="text-[8.5px] sm:text-[10px] text-[#8C8275] font-light leading-relaxed">
                                             {{ t('heritage_flavors_desc') }}
                                         </p>
                                     </div>
                                 </div>
  
                                 <!-- Pillar 2 -->
-                                <div class="flex gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-[#FAF9F6] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-xs shrink-0 mt-0.5">
+                                <div class="flex gap-2 sm:gap-3">
+                                    <div class="w-6.5 h-6.5 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-[#FAF9F6] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-[10px] sm:text-xs shrink-0 mt-0.5">
                                         <i class="fas fa-shield-virus"></i>
                                     </div>
                                     <div>
-                                        <span class="font-bold text-xs text-[#2D3330] block mb-0.5">
+                                        <span class="font-bold text-[10px] sm:text-xs text-[#2D3330] block mb-0.5">
                                             {{ t('sanitized_containment_title') }}
                                         </span>
-                                        <p class="text-[10px] text-[#8C8275] font-light leading-relaxed">
+                                        <p class="text-[8.5px] sm:text-[10px] text-[#8C8275] font-light leading-relaxed">
                                             {{ t('sanitized_containment_desc') }}
                                         </p>
                                     </div>
                                 </div>
  
                                 <!-- Pillar 3 -->
-                                <div class="flex gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-[#FAF9F6] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-xs shrink-0 mt-0.5">
+                                <div class="flex gap-2 sm:gap-3">
+                                    <div class="w-6.5 h-6.5 sm:w-8 sm:h-8 rounded-md sm:rounded-lg bg-[#FAF9F6] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-[10px] sm:text-xs shrink-0 mt-0.5">
                                         <i class="fas fa-calendar-alt"></i>
                                     </div>
                                     <div>
-                                        <span class="font-bold text-xs text-[#2D3330] block mb-0.5">
+                                        <span class="font-bold text-[10px] sm:text-xs text-[#2D3330] block mb-0.5">
                                             {{ t('headcount_rules_title') }}
                                         </span>
-                                        <p class="text-[10px] text-[#8C8275] font-light leading-relaxed">
+                                        <p class="text-[8.5px] sm:text-[10px] text-[#8C8275] font-light leading-relaxed">
                                             {{ t('headcount_rules_desc') }}
                                         </p>
                                     </div>
