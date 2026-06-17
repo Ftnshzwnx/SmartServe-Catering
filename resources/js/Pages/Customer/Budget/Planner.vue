@@ -568,13 +568,13 @@ onMounted(() => {
             }
         }
         .receipt-row.total {
-            font-size: 0.95rem;
+            font-size: 0.72rem;
             font-weight: 700;
             color: #2D3330;
         }
         @media (min-width: 640px) {
             .receipt-row.total {
-                font-size: 1.15rem;
+                font-size: 1.0rem;
             }
         }
         
@@ -849,7 +849,7 @@ onMounted(() => {
                                 <!-- Grand Total -->
                                 <div class="receipt-row total">
                                     <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('grand_total') }}</span>
-                                    <span class="font-serif-luxury text-sm sm:text-2xl font-light">
+                                    <span class="font-serif-luxury text-xs sm:text-2xl font-light">
                                         RM {{ grandTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                     </span>
                                 </div>
@@ -928,21 +928,21 @@ onMounted(() => {
 
                         <!-- Catering Guidelines Card -->
                         <div class="simulator-container space-y-4">
-                            <h4 class="text-xs font-bold text-[#2D3330] uppercase tracking-wider flex items-center gap-2">
-                                <i class="far fa-compass text-[#4A6B5D] text-sm"></i> {{ t('catering_guidelines') }}
+                            <h4 class="text-[10px] sm:text-xs font-bold text-[#2D3330] uppercase tracking-wider flex items-center gap-2">
+                                <i class="far fa-compass text-[#4A6B5D] text-[10px] sm:text-sm"></i> {{ t('catering_guidelines') }}
                             </h4>
                             
-                            <div class="space-y-3.5 text-xs">
+                            <div class="space-y-3 text-[10px] sm:text-xs">
                                 <div>
-                                    <span class="font-bold text-[#2D3330] block mb-1">{{ t('guide_pax_title') }}</span>
+                                    <span class="font-bold text-[#2D3330] block mb-0.5">{{ t('guide_pax_title') }}</span>
                                     <p class="text-[#8C8275] font-light leading-relaxed">{{ t('guide_pax_desc') }}</p>
                                 </div>
-                                <div class="border-t border-[#FAF6F0] pt-3.5">
-                                    <span class="font-bold text-[#2D3330] block mb-1">{{ t('guide_halal_title') }}</span>
+                                <div class="border-t border-[#FAF6F0] pt-3">
+                                    <span class="font-bold text-[#2D3330] block mb-0.5">{{ t('guide_halal_title') }}</span>
                                     <p class="text-[#8C8275] font-light leading-relaxed">{{ t('guide_halal_desc') }}</p>
                                 </div>
-                                <div class="border-t border-[#FAF6F0] pt-3.5">
-                                    <span class="font-bold text-[#2D3330] block mb-1">{{ t('guide_changes_title') }}</span>
+                                <div class="border-t border-[#FAF6F0] pt-3">
+                                    <span class="font-bold text-[#2D3330] block mb-0.5">{{ t('guide_changes_title') }}</span>
                                     <p class="text-[#8C8275] font-light leading-relaxed">{{ t('guide_changes_desc') }}</p>
                                 </div>
                             </div>
