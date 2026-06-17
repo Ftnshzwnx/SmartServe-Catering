@@ -718,29 +718,29 @@ function getTranslatedStatus(status) {
                             <p class="text-xs text-[#8C8275] font-light">{{ t('featured_packages_subtitle') }}</p>
                         </div>
                         
-                        <div class="grid grid-cols-1 gap-4 sm:gap-6" :class="featuredPackages.length >= 2 ? 'md:grid-cols-2' : ''">
+                        <div class="grid grid-cols-2 gap-3 sm:gap-6">
                             <div 
                                 v-for="pkg in featuredPackages" 
                                 :key="pkg.id" 
-                                class="bg-white p-3.5 sm:p-5 rounded-lg sm:rounded-xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-auto lg:h-80 action-card"
+                                class="bg-white p-2.5 sm:p-5 rounded-lg sm:rounded-xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-auto lg:h-80 action-card"
                             >
                                 <div>
-                                    <div class="w-10 h-10 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg mb-4">
+                                    <div class="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-xs sm:text-lg mb-2.5 sm:mb-4">
                                         <i class="fas fa-utensils"></i>
                                     </div>
-                                    <h5 class="font-normal text-[#2D3330] text-sm sm:text-lg font-serif-luxury tracking-wide mb-2 truncate">{{ pkg.package_name }}</h5>
-                                    <p class="text-xs text-[#8C8275] leading-relaxed font-light line-clamp-3 mb-3">{{ pkg.description }}</p>
+                                    <h5 class="font-normal text-[#2D3330] text-[11px] sm:text-lg font-serif-luxury tracking-wide mb-1.5 sm:mb-2 truncate" :title="pkg.package_name">{{ pkg.package_name }}</h5>
+                                    <p class="text-[9px] sm:text-xs text-[#8C8275] leading-relaxed font-light line-clamp-3 mb-2.5 sm:mb-3">{{ pkg.description }}</p>
                                     
-                                    <div class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest space-y-1">
-                                        <div>{{ t('price') }}: <span class="text-xs font-bold text-[#4A6B5D]">RM {{ parseFloat(pkg.price).toFixed(2) }}</span> / pax</div>
-                                        <div>{{ t('min_requirement') }}: <span class="text-xs font-bold text-[#2D3330]">{{ pkg.min_order }} pax</span></div>
+                                    <div class="text-[8px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest space-y-0.5 sm:space-y-1">
+                                        <div>{{ t('price') }}: <span class="text-[9px] sm:text-xs font-bold text-[#4A6B5D]">RM {{ parseFloat(pkg.price).toFixed(2) }}</span> / pax</div>
+                                        <div>{{ t('min_requirement') }}: <span class="text-[9px] sm:text-xs font-bold text-[#2D3330]">{{ pkg.min_order }} pax</span></div>
                                     </div>
                                 </div>
                                 <Link 
                                     :href="route('menu.index')" 
-                                    class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#4A6B5D] hover:text-[#3D574B] flex items-center gap-0.5 mt-3"
+                                    class="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-[#4A6B5D] hover:text-[#3D574B] flex items-center gap-0.5 mt-2 sm:mt-3"
                                 >
-                                    {{ t('view_packages') }} <i class="fas fa-chevron-right text-[10px]"></i>
+                                    {{ t('view_packages') }} <i class="fas fa-chevron-right text-[8px] sm:text-[10px]"></i>
                                 </Link>
                             </div>
                         </div>
