@@ -21,6 +21,9 @@ const props = defineProps({
 
 const { t } = useLocalization();
 
+// Track which package's menu is expanded on mobile
+const expandedMenu = ref({});
+
 // Setup quantities for each variation
 const quantities = ref(
     props.variations.reduce((acc, v) => {
@@ -54,6 +57,10 @@ function handleAddToCart(packageId) {
             }, 3000);
         }
     });
+}
+
+function toggleMenu(pkgId) {
+    expandedMenu.value[pkgId] = !expandedMenu.value[pkgId];
 }
 
 const adjustGuests = (pkgId, amount, minVal = 0) => {
@@ -272,11 +279,36 @@ const getDishIcon = (dishName) => {
 
                                 <!-- Package Menu Items list -->
                                 <div class="border-t border-[#E6E1DA] pt-2 sm:pt-6">
-                                    <p class="text-[8px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest mb-1.5 sm:mb-2.5 flex items-center gap-1">
-                                        <i class="fas fa-list-ul text-[9px] sm:text-xs text-[#4A6B5D]"></i> {{ t('included_dishes') }}:
+
+                                    <!-- Mobile: Toggle button to show/hide menu -->
+                                    <button
+                                        type="button"
+                                        @click="toggleMenu(pkg.id || pkg.package_id)"
+                                        class="sm:hidden w-full flex items-center justify-between text-[8px] font-bold text-[#4A6B5D] uppercase tracking-widest mb-1.5 cursor-pointer"
+                                    >
+                                        <span class="flex items-center gap-1">
+                                            <i class="fas fa-list-ul text-[9px]"></i> {{ t('included_dishes') }}
+                                        </span>
+                                        <span class="flex items-center gap-0.5 text-[#8C8275]">
+                                            <span>{{ expandedMenu[pkg.id || pkg.package_id] ? 'Tutup' : 'Lihat' }}</span>
+                                            <i class="fas transition-transform duration-300 text-[8px]"
+                                               :class="expandedMenu[pkg.id || pkg.package_id] ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                        </span>
+                                    </button>
+
+                                    <!-- Desktop: always show label -->
+                                    <p class="hidden sm:flex text-[10px] font-bold text-[#8C8275] uppercase tracking-widest mb-2.5 items-center gap-1">
+                                        <i class="fas fa-list-ul text-xs text-[#4A6B5D]"></i> {{ t('included_dishes') }}:
                                     </p>
-                                    
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-3.5">
+
+                                    <!-- Dish grid: hidden on mobile by default, toggle on click; always visible on sm+ -->
+                                    <div
+                                        class="grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-3.5 overflow-hidden transition-all duration-300"
+                                        :class="[
+                                            'sm:block sm:grid',
+                                            expandedMenu[pkg.id || pkg.package_id] ? 'grid' : 'hidden sm:grid'
+                                        ]"
+                                    >
                                         <div 
                                             v-for="item in pkg.description.split('\n').map(i => i.trim()).filter(i => i !== '')"
                                             :key="item"
