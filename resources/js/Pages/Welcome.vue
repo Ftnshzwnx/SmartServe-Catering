@@ -62,24 +62,24 @@ const marqueeDuration = computed(() => {
                             {{ t('hero_desc') }}
                         </p>
 
-                        <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 pt-2 sm:pt-4 items-stretch sm:items-center w-full sm:w-auto">
+                        <div class="flex flex-row gap-2 sm:gap-4 pt-2 sm:pt-4 items-center w-full sm:w-auto">
                             <Link
                                 v-if="!$page.props.auth.user"
                                 :href="route('login')"
-                                class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-4 py-2 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md flex items-center justify-center whitespace-nowrap"
+                                class="w-1/2 sm:w-auto flex-1 bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-4 py-2 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md flex items-center justify-center whitespace-nowrap"
                             >
                                 {{ t('begin_experience') }}
                             </Link>
                             <Link
                                 v-else
                                 :href="route('packages')"
-                                class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-4 py-2 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md flex items-center justify-center whitespace-nowrap"
+                                class="w-1/2 sm:w-auto flex-1 bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-4 py-2 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md flex items-center justify-center whitespace-nowrap"
                             >
                                 {{ t('begin_experience') }}
                             </Link>
                             <Link
                                 href="/about"
-                                class="w-full sm:w-auto bg-transparent hover:bg-[#FAF7F2] border border-[#D1C8BD] text-[#2D3330] text-center px-4 py-2 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 flex items-center justify-center whitespace-nowrap"
+                                class="w-1/2 sm:w-auto flex-1 bg-transparent hover:bg-[#FAF7F2] border border-[#D1C8BD] text-[#2D3330] text-center px-4 py-2 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 flex items-center justify-center whitespace-nowrap"
                             >
                                 {{ t('read_story') }}
                             </Link>
@@ -501,17 +501,17 @@ const marqueeDuration = computed(() => {
                 <p class="text-[#5C6460] text-[10px] sm:text-sm font-light leading-relaxed max-w-lg mx-auto">
                     {{ t('contact_subtitle') }}
                 </p>
-                <div class="flex flex-col items-stretch sm:flex-row sm:items-center justify-center gap-2.5 pt-2 w-full">
+                <div class="flex flex-row items-center justify-center gap-2.5 pt-2 w-full">
                     <Link
                         href="/contact"
-                        class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-4 py-2 sm:px-10 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md flex items-center justify-center whitespace-nowrap"
+                        class="w-1/2 sm:w-auto flex-1 bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-4 py-2 sm:px-10 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md flex items-center justify-center whitespace-nowrap"
                     >
                         {{ t('contact_submit') }}
                     </Link>
                     <a
                         :href="'https://wa.me/' + ($page.props.settings.contact_phone || '019-2094670').replace(/[^0-9]/g, '').replace(/^0/, '60')"
                         target="_blank"
-                        class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white text-center px-4 py-2 sm:px-10 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-1.5 shadow-md whitespace-nowrap"
+                        class="w-1/2 sm:w-auto flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-center px-4 py-2 sm:px-10 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-1.5 shadow-md whitespace-nowrap"
                     >
                         <i class="fab fa-whatsapp text-xs sm:text-sm flex-shrink-0"></i>
                         {{ t('contact_whatsapp_btn') }}

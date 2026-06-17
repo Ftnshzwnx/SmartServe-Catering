@@ -311,10 +311,10 @@ const mapUrl = computed(() => {
                                 </div>
 
                                 <!-- Action Buttons -->
-                                <div class="flex flex-col sm:flex-row gap-2.5 pt-1.5">
+                                <div class="flex flex-row gap-2.5 pt-1.5 w-full">
                                     <button
                                         type="submit"
-                                        class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-2 px-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 cursor-pointer shadow-sm flex items-center justify-center whitespace-nowrap"
+                                        class="w-1/2 sm:w-auto flex-1 bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-2 px-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 cursor-pointer shadow-sm flex items-center justify-center whitespace-nowrap"
                                         :disabled="contactForm.processing"
                                     >
                                         <template v-if="contactForm.processing">
@@ -327,7 +327,7 @@ const mapUrl = computed(() => {
                                     <button
                                         type="button"
                                         @click="handleWhatsAppClick"
-                                        class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white text-center py-2 px-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap"
+                                        class="w-1/2 sm:w-auto flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-center py-2 px-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-sm whitespace-nowrap"
                                     >
                                         <i class="fab fa-whatsapp text-xs sm:text-sm flex-shrink-0"></i>
                                         {{ t('contact_whatsapp_btn') }}

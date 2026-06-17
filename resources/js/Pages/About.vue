@@ -235,16 +235,16 @@ const { t } = useLocalization();
                 <p class="text-[#5C6460] text-xs sm:text-sm font-light leading-relaxed">
                     {{ t('ready_dream_desc') }}
                 </p>
-                <div class="flex flex-col items-stretch sm:flex-row sm:items-center justify-center gap-2.5 pt-1 sm:pt-2 w-full">
+                <div class="flex flex-row items-center justify-center gap-2.5 pt-1 sm:pt-2 w-full">
                     <Link
                         href="/contact"
-                        class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-4 py-2 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md flex items-center justify-center whitespace-nowrap"
+                        class="w-1/2 sm:w-auto flex-1 bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-4 py-2 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md flex items-center justify-center whitespace-nowrap"
                     >
                         {{ t('contact_us') }}
                     </Link>
                     <Link
                         href="/packages"
-                        class="w-full sm:w-auto bg-transparent border border-[#4A6B5D] hover:bg-[#4A6B5D]/10 text-[#4A6B5D] text-center px-4 py-2 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 flex items-center justify-center whitespace-nowrap"
+                        class="w-1/2 sm:w-auto flex-1 bg-transparent border border-[#4A6B5D] hover:bg-[#4A6B5D]/10 text-[#4A6B5D] text-center px-4 py-2 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 flex items-center justify-center whitespace-nowrap"
                     >
                         {{ t('our_packages') }}
                     </Link>
