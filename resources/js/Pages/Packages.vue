@@ -83,10 +83,10 @@ function getPackageImage(pkg) {
                         <span class="text-[#D1C8BD] text-[10px] font-normal">/</span>
                         <span class="text-[#4A6B5D]">{{ t('package_nav') }}</span>
                     </div>
-                    <h1 class="text-5xl lg:text-6xl font-light text-[#1C201E] font-serif-luxury leading-tight">
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-light text-[#1C201E] font-serif-luxury leading-tight">
                         {{ t('packages_hero_title_1') }} <span class="italic text-[#4A6B5D]">{{ t('packages_hero_title_2') }}</span>
                     </h1>
-                    <p class="text-[#5C6460] text-sm leading-relaxed font-light max-w-lg">
+                    <p class="text-[#5C6460] text-xs sm:text-sm leading-relaxed font-light max-w-lg">
                         {{ t('packages_hero_desc') }}
                     </p>
                 </div>
@@ -103,7 +103,7 @@ function getPackageImage(pkg) {
                         <div
                             v-for="pkg in packages"
                             :key="pkg.id"
-                            class="bg-white border border-[#E6E1DA] rounded-3xl overflow-hidden shadow-xs hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                            class="bg-white border border-[#E6E1DA] rounded-xl sm:rounded-3xl overflow-hidden shadow-xs hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col justify-between"
                         >
                             <div>
                                 <div class="aspect-[4/3] bg-[#EADED9] overflow-hidden relative">
@@ -116,9 +116,9 @@ function getPackageImage(pkg) {
                                         {{ t('popular_tag') }}
                                     </div>
                                 </div>
-                                <div class="p-6 lg:p-8 space-y-4">
-                                    <h2 class="text-xl font-normal text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ pkg.package_name }}</h2>
-                                    <p class="text-xs text-[#5C6460] font-light leading-relaxed min-h-[48px]">
+                                <div class="p-4 sm:p-6 lg:p-8 space-y-3 sm:space-y-4">
+                                    <h2 class="text-base sm:text-xl font-normal text-[#1C201E] font-serif-luxury uppercase tracking-wider">{{ pkg.package_name }}</h2>
+                                    <p class="text-[10px] sm:text-xs text-[#5C6460] font-light leading-relaxed min-h-[48px]">
                                         {{ pkg.description || 'Elevate your event with our carefully curated traditional recipes, styled and portioned to absolute perfection.' }}
                                     </p>
                                     <div class="border-t border-[#FAF7F2] pt-4 space-y-2">
@@ -129,14 +129,14 @@ function getPackageImage(pkg) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="p-6 lg:p-8 pt-0 border-t border-[#FAF7F2] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-auto">
+                            <div class="p-4 sm:p-6 lg:p-8 pt-0 border-t border-[#FAF7F2] flex flex-row items-center justify-between gap-4 mt-auto">
                                 <div>
                                     <span class="text-[9px] text-[#8C8275] uppercase tracking-wider font-semibold block">{{ t('starting_from') }}</span>
-                                    <span class="text-lg font-bold text-[#4A6B5D]">RM {{ parseFloat(pkg.price).toFixed(2) }}<span class="text-xs font-normal text-[#8C8275]">/pax</span></span>
+                                    <span class="text-sm sm:text-lg font-bold text-[#4A6B5D]">RM {{ parseFloat(pkg.price).toFixed(2) }}<span class="text-[10px] sm:text-xs font-normal text-[#8C8275]">/pax</span></span>
                                 </div>
                                 <Link
                                     :href="route('menu.show', pkg.package_name)"
-                                    class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-3 sm:py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 text-center"
+                                    class="w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 text-center"
                                 >
                                     {{ t('select_package') }}
                                 </Link>
@@ -229,11 +229,11 @@ function getPackageImage(pkg) {
                 </template>
 
                 <!-- CTA Banner -->
-                <div class="bg-[#1C201E] rounded-3xl p-10 text-center space-y-5">
+                <div class="bg-[#1C201E] rounded-xl sm:rounded-3xl p-6 sm:p-10 text-center space-y-4 sm:space-y-5">
                     <p class="text-[10px] text-[#A8C5B8] uppercase tracking-widest font-semibold">{{ t('special_package') }}</p>
-                    <h3 class="text-3xl font-light font-serif-luxury text-white leading-tight">{{ t('want_something_special') }}</h3>
-                    <p class="text-[#8E9993] text-sm font-light max-w-md mx-auto">{{ t('custom_menu_desc') }}</p>
-                    <Link href="/contact" class="inline-block bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-10 py-4 rounded-xl text-xs font-semibold uppercase tracking-widest transition-colors duration-200">
+                    <h3 class="text-xl sm:text-3xl font-light font-serif-luxury text-white leading-tight">{{ t('want_something_special') }}</h3>
+                    <p class="text-[#8E9993] text-xs sm:text-sm font-light max-w-md mx-auto">{{ t('custom_menu_desc') }}</p>
+                    <Link href="/contact" class="inline-block bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-4 py-2.5 sm:px-10 sm:py-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-colors duration-200 w-full sm:w-auto text-center">
                         {{ t('contact_us') }}
                     </Link>
                 </div>
