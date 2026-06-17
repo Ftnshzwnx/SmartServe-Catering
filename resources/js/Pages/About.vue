@@ -235,16 +235,16 @@ const { t } = useLocalization();
                 <p class="text-[#5C6460] text-xs sm:text-sm font-light leading-relaxed">
                     {{ t('ready_dream_desc') }}
                 </p>
-                <div class="grid grid-cols-2 gap-2.5 sm:flex sm:flex-row sm:gap-4 justify-center pt-2">
+                <div class="flex flex-col items-stretch sm:flex-row sm:items-center justify-center gap-3 pt-2 w-full">
                     <Link
                         href="/contact"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-4 py-2.5 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md flex items-center justify-center"
+                        class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center px-6 py-2.5 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 shadow-md flex items-center justify-center whitespace-nowrap"
                     >
                         {{ t('contact_us') }}
                     </Link>
                     <Link
                         href="/packages"
-                        class="bg-transparent border border-[#4A6B5D] hover:bg-[#4A6B5D]/10 text-[#4A6B5D] text-center px-4 py-2.5 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 flex items-center justify-center"
+                        class="w-full sm:w-auto bg-transparent border border-[#4A6B5D] hover:bg-[#4A6B5D]/10 text-[#4A6B5D] text-center px-6 py-2.5 sm:px-8 sm:py-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 flex items-center justify-center whitespace-nowrap"
                     >
                         {{ t('our_packages') }}
                     </Link>

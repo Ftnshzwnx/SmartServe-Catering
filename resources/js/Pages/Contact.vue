@@ -311,10 +311,10 @@ const mapUrl = computed(() => {
                                 </div>
 
                                 <!-- Action Buttons -->
-                                <div class="grid grid-cols-2 gap-2.5 sm:flex sm:flex-row sm:gap-4 pt-2">
+                                <div class="flex flex-col sm:flex-row gap-3 pt-2">
                                     <button
                                         type="submit"
-                                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-2.5 sm:py-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 cursor-pointer shadow-sm flex items-center justify-center"
+                                        class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white text-center py-2.5 sm:py-4 px-6 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 cursor-pointer shadow-sm flex items-center justify-center whitespace-nowrap"
                                         :disabled="contactForm.processing"
                                     >
                                         <template v-if="contactForm.processing">
@@ -327,9 +327,9 @@ const mapUrl = computed(() => {
                                     <button
                                         type="button"
                                         @click="handleWhatsAppClick"
-                                        class="bg-emerald-600 hover:bg-emerald-700 text-white text-center py-2.5 sm:py-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 sm:gap-2 shadow-sm"
+                                        class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white text-center py-2.5 sm:py-4 px-6 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 sm:gap-2 shadow-sm whitespace-nowrap"
                                     >
-                                        <i class="fab fa-whatsapp text-xs sm:text-sm"></i>
+                                        <i class="fab fa-whatsapp text-xs sm:text-sm flex-shrink-0"></i>
                                         {{ t('contact_whatsapp_btn') }}
                                     </button>
                                 </div>

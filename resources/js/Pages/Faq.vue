@@ -135,12 +135,12 @@ const faqs = computed(() => [
                         <p class="text-white text-base sm:text-lg font-semibold font-serif-luxury uppercase tracking-wider">{{ t('still_have_questions') }}</p>
                         <p class="text-[#8E9993] text-xs sm:text-sm font-light">{{ t('still_have_questions_desc') }}</p>
                     </div>
-                    <div class="grid grid-cols-2 gap-2.5 w-full sm:flex sm:gap-4 sm:w-auto flex-shrink-0">
-                        <Link href="/contact" class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-4 py-2.5 sm:px-7 sm:py-3 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-colors duration-200 whitespace-nowrap flex items-center justify-center">
+                    <div class="flex flex-col items-stretch sm:flex-row sm:items-center gap-3 w-full sm:w-auto flex-shrink-0">
+                        <Link href="/contact" class="w-full sm:w-auto bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-6 py-2.5 sm:px-7 sm:py-3 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-colors duration-200 whitespace-nowrap flex items-center justify-center">
                             {{ t('contact_us') }}
                         </Link>
-                        <a :href="'https://wa.me/' + ($page.props.settings.contact_phone || '019-2094670').replace(/[^0-9]/g, '').replace(/^0/, '60')" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 sm:px-7 sm:py-3 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-colors duration-200 flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap">
-                            <i class="fab fa-whatsapp text-xs sm:text-sm"></i> WhatsApp
+                        <a :href="'https://wa.me/' + ($page.props.settings.contact_phone || '019-2094670').replace(/[^0-9]/g, '').replace(/^0/, '60')" target="_blank" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 sm:px-7 sm:py-3 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-widest transition-colors duration-200 flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap">
+                            <i class="fab fa-whatsapp text-xs sm:text-sm flex-shrink-0"></i> WhatsApp
                         </a>
                     </div>
                 </div>
