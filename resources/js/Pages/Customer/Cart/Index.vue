@@ -433,10 +433,10 @@ function proceedToCheckout() {
 
                 <!-- Empty State -->
                 <div v-else class="bg-white rounded-3xl border border-[#E6E1DA] text-center py-20 flex flex-col items-center max-w-xl mx-auto shadow-sm animate-fade-in">
-                    <div class="w-16 h-16 rounded-2xl bg-[#FAF8F5] text-[#8C8275] flex items-center justify-center text-xl mb-6 border border-[#E6E1DA]">
-                        <i class="fas fa-shopping-basket text-lg"></i>
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#FAF8F5] text-[#8C8275] flex items-center justify-center text-base sm:text-xl mb-6 border border-[#E6E1DA]">
+                        <i class="fas fa-shopping-basket text-sm sm:text-lg"></i>
                     </div>
-                    <h4 class="text-[#2D3330] font-normal font-serif-luxury text-2xl uppercase tracking-wider mb-2">{{ t('cart_empty') }}</h4>
+                    <h4 class="text-[#2D3330] font-normal font-serif-luxury text-base sm:text-2xl uppercase tracking-wider mb-2">{{ t('cart_empty') }}</h4>
                     <p class="text-[#8C8275] text-xs max-w-sm mt-1 mb-8 font-light leading-relaxed">{{ t('cart_empty_desc') }}</p>
                     <Link 
                         :href="route('menu.index')"

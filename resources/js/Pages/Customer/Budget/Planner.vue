@@ -802,7 +802,7 @@ onMounted(() => {
                         <div class="receipt-card">
                             <div class="receipt-header">
                                 <span class="text-[9px] font-bold uppercase tracking-widest block opacity-80">{{ t('live_estimate') }}</span>
-                                <h4 class="text-lg font-normal font-serif-luxury uppercase tracking-wide mt-1">
+                                <h4 class="text-sm sm:text-lg font-normal font-serif-luxury uppercase tracking-wide mt-1 leading-tight">
                                     {{ selectedPackage ? selectedPackage.package_name : '-' }}
                                 </h4>
                             </div>
@@ -967,7 +967,7 @@ onMounted(() => {
                             </button>
                         </div>
 
-                        <h3 class="font-serif-luxury text-2xl text-[#2D3330] font-normal uppercase tracking-wide">
+                        <h3 class="font-serif-luxury text-base sm:text-2xl text-[#2D3330] font-normal uppercase tracking-wide">
                             {{ t('request_custom_proposal_title') }}
                         </h3>
                         <p class="text-xs text-[#8C8275] font-light mt-1">
@@ -1149,7 +1149,7 @@ onMounted(() => {
                         <!-- Wishlist Dishes Categories -->
                         <div class="space-y-4 border-t border-[#E6E1DA] pt-6">
                             <div>
-                                <h4 class="font-serif-luxury text-xl text-[#2D3330] font-normal uppercase tracking-wide">
+                                <h4 class="font-serif-luxury text-sm sm:text-xl text-[#2D3330] font-normal uppercase tracking-wide">
                                     {{ t('select_wishlist_dishes_label') }} *
                                 </h4>
                                 <p class="text-xs text-[#8C8275] font-light mt-0.5">

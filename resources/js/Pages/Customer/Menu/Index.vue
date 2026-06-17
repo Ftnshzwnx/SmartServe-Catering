@@ -414,7 +414,7 @@ function getPackageImage(pkg) {
                             <!-- Empty State -->
                             <div v-else class="py-16 text-center">
                                 <i class="fas fa-search fa-2x text-[#8C8275] mb-4"></i>
-                                <h5 class="text-[#2D3330] font-serif-luxury text-xl mb-1">
+                                <h5 class="text-[#2D3330] font-serif-luxury text-sm sm:text-xl mb-1">
                                     {{ t('no_packages_criteria') }}
                                 </h5>
                                 <p class="text-xs text-[#8C8275]">

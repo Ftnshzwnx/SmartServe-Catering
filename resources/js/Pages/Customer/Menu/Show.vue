@@ -421,7 +421,7 @@ const getDishIcon = (dishName) => {
                 <!-- Empty State -->
                 <div v-else class="py-16 bg-white rounded-3xl border border-[#E6E1DA] text-center max-w-xl mx-auto shadow-sm">
                     <i class="fas fa-utensils fa-2x text-[#8C8275] mb-4"></i>
-                    <h5 class="text-[#2D3330] font-serif-luxury text-xl mb-2">{{ t('no_packages_found_cat') }}</h5>
+                    <h5 class="text-[#2D3330] font-serif-luxury text-sm sm:text-xl mb-2">{{ t('no_packages_found_cat') }}</h5>
                     <Link :href="route('menu.index')" class="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-[#4A6B5D] hover:text-[#3D574B] uppercase tracking-widest">
                         <i class="fas fa-arrow-left"></i> {{ t('back_to_menu') }}
                     </Link>
