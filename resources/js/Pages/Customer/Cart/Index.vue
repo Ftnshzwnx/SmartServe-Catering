@@ -186,27 +186,27 @@ function proceedToCheckout() {
             <div class="max-w-6xl mx-auto px-4 sm:px-6">
                 
                 <!-- Luxury Cover Banner -->
-                <div class="mb-4 sm:mb-8 overflow-hidden rounded-lg sm:rounded-3xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] p-3.5 sm:p-8 md:p-10 text-white border border-[#E6E1DA]/10 shadow-lg relative">
+                <div class="mb-3 sm:mb-8 overflow-hidden rounded-lg sm:rounded-3xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] px-3 py-2.5 sm:p-8 md:p-10 text-white border border-[#E6E1DA]/10 shadow-lg relative">
                     <!-- Decor blurs -->
                     <div class="absolute -right-16 -top-16 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
                     <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-[#C5A880]/10 rounded-full blur-2xl pointer-events-none"></div>
  
-                    <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6">
-                        <div class="space-y-2.5 sm:space-y-3">
-                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#C5A880]/20 border border-[#C5A880]/30 rounded-full text-[9px] sm:text-[10px] font-bold text-[#E6CBA3] uppercase tracking-widest">
+                    <div class="relative z-10 flex flex-row items-center justify-between gap-3 md:gap-6">
+                        <div class="space-y-1 sm:space-y-3">
+                            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 sm:py-1 bg-[#C5A880]/20 border border-[#C5A880]/30 rounded-full text-[8px] sm:text-[10px] font-bold text-[#E6CBA3] uppercase tracking-widest">
                                 <i class="fas fa-shopping-basket"></i> {{ t('shopping_cart') || 'Troli Tempahan' }}
                             </div>
-                            <h1 class="text-base sm:text-2xl md:text-3xl lg:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
-                                {{ t('shopping_cart') || 'Troli Tempahan' }}
+                            <h1 class="text-sm sm:text-2xl md:text-3xl lg:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
+                                {{ t('shopping_cart') || 'Troli' }}
                             </h1>
-                            <p class="text-[10px] sm:text-xs md:text-sm text-[#E6E1DA]/80 max-w-2xl font-light leading-relaxed">
+                            <p class="hidden sm:block text-xs md:text-sm text-[#E6E1DA]/80 max-w-2xl font-light leading-relaxed">
                                 {{ t('cart_desc_banner') || 'Semak semula pakej katering terpilih anda, laras kuantiti tetamu, dan lakukan pembayaran dengan selamat.' }}
                             </p>
                         </div>
-                        <div class="flex gap-4 shrink-0">
-                            <div class="bg-white/5 border border-white/10 rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3.5 text-center backdrop-blur-xs min-w-24 sm:min-w-28">
-                                <span class="block text-[8px] sm:text-[9px] font-bold text-[#C5A880] uppercase tracking-widest mb-1">{{ t('orders') || 'Jumlah Pakej' }}</span>
-                                <span class="text-lg sm:text-2xl font-semibold font-serif-luxury text-white">{{ cartItems.length }}</span>
+                        <div class="flex gap-3 shrink-0">
+                            <div class="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 sm:px-5 sm:py-3.5 text-center backdrop-blur-xs min-w-16 sm:min-w-28">
+                                <span class="block text-[7px] sm:text-[9px] font-bold text-[#C5A880] uppercase tracking-widest mb-0.5 sm:mb-1">{{ t('orders') || 'Pakej' }}</span>
+                                <span class="text-base sm:text-2xl font-semibold font-serif-luxury text-white">{{ cartItems.length }}</span>
                             </div>
                         </div>
                     </div>
@@ -256,11 +256,11 @@ function proceedToCheckout() {
                                         <!-- Package Info -->
                                         <div class="space-y-2.5 sm:space-y-3 flex-grow">
                                             <div>
-                                                <h3 class="text-sm sm:text-xl font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider block">
+                                                <h3 class="text-xs sm:text-xl font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider block">
                                                     {{ item.package_name }}
                                                 </h3>
-                                                <div class="text-[10px] sm:text-xs font-semibold text-[#4A6B5D] mt-0.5 sm:mt-1">
-                                                    {{ t('base_price_label') }}: RM {{ parseFloat(item.price).toFixed(2) }} <span class="text-[9px] sm:text-[10px] text-[#8C8275] font-normal">/ {{ t('pax') }}</span>
+                                                <div class="text-[9px] sm:text-xs font-semibold text-[#4A6B5D] mt-0.5 sm:mt-1">
+                                                    {{ t('base_price_label') }}: RM {{ parseFloat(item.price).toFixed(2) }} <span class="text-[8px] sm:text-[10px] text-[#8C8275] font-normal">/ {{ t('pax') }}</span>
                                                 </div>
                                             </div>
                                             
@@ -357,8 +357,8 @@ function proceedToCheckout() {
  
                                         <!-- Subtotal Display -->
                                         <div class="text-right">
-                                            <div class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('subtotal') }}:</div>
-                                            <div class="text-sm sm:text-lg font-normal text-[#2D3330] font-serif-luxury tracking-wide whitespace-nowrap">
+                                            <div class="text-[7px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('subtotal') }}:</div>
+                                            <div class="text-xs sm:text-lg font-normal text-[#2D3330] font-serif-luxury tracking-wide whitespace-nowrap">
                                                 RM {{ (parseFloat(item.price) * parseInt(item.quantity)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                             </div>
                                         </div>
