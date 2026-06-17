@@ -1188,19 +1188,20 @@ onMounted(() => {
                             </div>
                         </div>
 
+
                         <!-- Submit Panel -->
-                        <div class="border-t border-[#E6E1DA] pt-6 flex justify-end gap-3">
+                        <div class="border-t border-[#E6E1DA] pt-4 sm:pt-6 grid grid-cols-2 sm:flex sm:justify-end gap-2 sm:gap-3">
                             <button 
                                 type="button"
                                 @click="showCustomForm = false"
-                                class="px-6 py-3 border border-[#E6E1DA] text-[#8C8275] rounded-xl text-xs uppercase tracking-widest font-semibold hover:bg-[#FAF9F6] transition-colors cursor-pointer"
+                                class="px-3 sm:px-6 py-2 sm:py-3 border border-[#E6E1DA] text-[#8C8275] rounded-lg sm:rounded-xl text-[9px] sm:text-xs uppercase tracking-wide sm:tracking-widest font-semibold hover:bg-[#FAF9F6] transition-colors cursor-pointer"
                             >
                                 {{ t('cancel') }}
                             </button>
                             <button 
                                 type="submit"
                                 :disabled="isSubmitting"
-                                class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:bg-[#E6E1DA] text-white px-6 py-3 rounded-xl text-xs uppercase tracking-widest font-semibold transition-colors cursor-pointer flex items-center gap-2"
+                                class="bg-[#4A6B5D] hover:bg-[#3D574B] disabled:bg-[#E6E1DA] text-white px-3 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-[9px] sm:text-xs uppercase tracking-wide sm:tracking-widest font-semibold transition-colors cursor-pointer flex items-center justify-center gap-1 sm:gap-2"
                             >
                                 <span v-if="isSubmitting"><i class="fas fa-spinner fa-spin mr-1"></i> {{ t('submitting_status') }}</span>
                                 <span v-else>{{ t('submit_proposal_request_btn') }}</span>
