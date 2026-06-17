@@ -583,25 +583,25 @@ function getTranslatedStatus(status) {
                 </div>
 
                 <!-- Stats Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                <div class="grid grid-cols-2 gap-3 sm:gap-6">
                     <!-- Stat Card 1 -->
-                    <div class="bg-white p-3.5 sm:p-5 rounded-lg sm:rounded-xl border border-[#E6E1DA] shadow-sm flex items-center justify-between">
+                    <div class="bg-white p-2.5 sm:p-5 rounded-lg sm:rounded-xl border border-[#E6E1DA] shadow-sm flex items-center justify-between gap-1">
                         <div>
-                            <span class="text-[9px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('shopping_cart') }}</span>
-                            <span class="text-sm sm:text-lg md:text-2xl font-normal text-[#2D3330] font-serif-luxury">{{ cartCount }} {{ t('packages') }}</span>
+                            <span class="text-[8px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('shopping_cart') }}</span>
+                            <span class="text-xs sm:text-lg md:text-2xl font-normal text-[#2D3330] font-serif-luxury whitespace-nowrap">{{ cartCount }} {{ t('packages') }}</span>
                         </div>
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base sm:text-lg">
+                        <div class="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-xs sm:text-lg shrink-0">
                             <i class="fas fa-shopping-basket"></i>
                         </div>
                     </div>
  
                     <!-- Stat Card 2 -->
-                    <div class="bg-white p-3.5 sm:p-5 rounded-lg sm:rounded-xl border border-[#E6E1DA] shadow-sm flex items-center justify-between">
+                    <div class="bg-white p-2.5 sm:p-5 rounded-lg sm:rounded-xl border border-[#E6E1DA] shadow-sm flex items-center justify-between gap-1">
                         <div>
-                            <span class="text-[9px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('total_bookings') }}</span>
-                            <span class="text-sm sm:text-lg md:text-2xl font-normal text-[#2D3330] font-serif-luxury">{{ ordersCount }} {{ t('orders') }}</span>
+                            <span class="text-[8px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('total_bookings') }}</span>
+                            <span class="text-xs sm:text-lg md:text-2xl font-normal text-[#2D3330] font-serif-luxury whitespace-nowrap">{{ ordersCount }} {{ t('orders') }}</span>
                         </div>
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base sm:text-lg">
+                        <div class="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-xs sm:text-lg shrink-0">
                             <i class="fas fa-receipt"></i>
                         </div>
                     </div>
