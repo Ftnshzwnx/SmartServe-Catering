@@ -641,29 +641,29 @@ const formatTimeAgo = (dateStr) => {
 
         <!-- Session Timeout Warning Modal -->
         <div v-if="showTimeoutWarning" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 z-[60] animate-fade-in font-sans-modern">
-            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-2xl p-8 max-w-sm w-full text-center space-y-6">
-                <div class="w-16 h-16 bg-[#FAF6F0] text-[#C5A880] rounded-full flex items-center justify-center mx-auto text-2xl border border-[#E6E1DA]">
+            <div class="bg-white rounded-2xl border border-[#E6E1DA] shadow-2xl p-4 sm:p-8 max-w-sm w-full text-center space-y-4 sm:space-y-6">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-[#FAF6F0] text-[#C5A880] rounded-full flex items-center justify-center mx-auto text-xl sm:text-2xl border border-[#E6E1DA]">
                     <i class="fas fa-exclamation-triangle"></i>
                 </div>
-                <div class="space-y-2">
-                    <h3 class="text-lg font-bold text-[#2D3330]">{{ t('session_timeout_title') }}</h3>
+                <div class="space-y-1.5 sm:space-y-2">
+                    <h3 class="text-sm sm:text-lg font-bold text-[#2D3330]">{{ t('session_timeout_title') }}</h3>
                     <p class="text-xs text-[#5C6460] leading-relaxed">
                         {{ t('session_timeout_desc') }}
                     </p>
-                    <div class="text-2xl font-extrabold text-[#8C3A3A] font-serif-luxury tracking-wider py-2">
+                    <div class="text-xl sm:text-2xl font-extrabold text-[#8C3A3A] font-serif-luxury tracking-wider py-1 sm:py-2">
                         {{ Math.floor(warningCountdown / 60) }}:{{ String(warningCountdown % 60).padStart(2, '0') }}
                     </div>
                 </div>
                 <div class="flex flex-col gap-2">
                     <button 
                         @click="keepSessionActive" 
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3 px-4 rounded-xl text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2.5 sm:py-3 px-4 rounded-xl text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
                     >
                         {{ t('keep_logged_in') }}
                     </button>
                     <button 
                         @click="forceLogout" 
-                        class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold py-3 px-4 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer"
+                        class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold py-2.5 sm:py-3 px-4 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer"
                     >
                         {{ t('logout') }}
                     </button>

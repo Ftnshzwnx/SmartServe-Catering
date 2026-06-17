@@ -213,31 +213,31 @@ function getGroupedDishes(item) {
             <div class="max-w-4xl mx-auto px-3 sm:px-6">
                 
                 <!-- Action Bar (print/PDF buttons) -->
-                <div class="flex flex-wrap items-center justify-end gap-2 mb-6 no-print">
+                <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-end gap-1.5 sm:gap-2 mb-4 sm:mb-6 no-print">
                     <a 
                         :href="route('orders.invoice.pdf', { id: order.id })" 
-                        class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5"
+                        class="inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold px-2.5 py-1.5 sm:px-4 sm:py-2.5 rounded-lg text-[9px] sm:text-xs uppercase tracking-widest transition-colors"
                         target="_blank"
                     >
-                        <i class="fas fa-file-pdf text-rose-600 text-[10px]"></i> PDF Invoice
+                        <i class="fas fa-file-pdf text-rose-600 text-[9px] sm:text-[10px]"></i> PDF Invoice
                     </a>
                     <a 
                         v-if="['Confirmed', 'Delivered', 'Completed'].includes(order.status)"
                         :href="route('orders.receipt.pdf', { id: order.id })" 
-                        class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5"
+                        class="inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold px-2.5 py-1.5 sm:px-4 sm:py-2.5 rounded-lg text-[9px] sm:text-xs uppercase tracking-widest transition-colors"
                         target="_blank"
                     >
-                        <i class="fas fa-file-pdf text-[#4A6B5D] text-[10px]"></i> PDF Receipt
+                        <i class="fas fa-file-pdf text-[#4A6B5D] text-[9px] sm:text-[10px]"></i> PDF Receipt
                     </a>
                     <button 
                         @click="printReceipt" 
-                        class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5"
+                        class="inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold px-2.5 py-1.5 sm:px-4 sm:py-2.5 rounded-lg text-[9px] sm:text-xs uppercase tracking-widest transition-colors"
                     >
-                        <i class="fas fa-print text-[10px]"></i> {{ t('print_invoice') }}
+                        <i class="fas fa-print text-[9px] sm:text-[10px]"></i> {{ t('print_invoice') }}
                     </button>
                     <Link 
                         :href="route('orders.index')" 
-                        class="bg-[#2D3330] hover:bg-[#1C201E] text-white font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors"
+                        class="inline-flex items-center justify-center bg-[#2D3330] hover:bg-[#1C201E] text-white font-semibold px-2.5 py-1.5 sm:px-4 sm:py-2.5 rounded-lg text-[9px] sm:text-xs uppercase tracking-widest transition-colors"
                     >
                         {{ t('back_to_bookings') }}
                     </Link>
