@@ -318,7 +318,7 @@ const formatTimeAgo = (dateStr) => {
 
         <!-- 2. CONTENT FRAME (shifted on desktop to clear fixed sidebar) -->
         <div 
-            class="flex-grow flex flex-col min-h-screen transition-all duration-300 ease-in-out"
+            class="flex-grow flex flex-col min-h-screen transition-all duration-300 ease-in-out overflow-x-hidden min-w-0"
             :class="isCollapsed ? 'md:pl-20' : 'md:pl-64'"
         >
             
