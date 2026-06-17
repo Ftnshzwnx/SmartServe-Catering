@@ -270,21 +270,21 @@ function getGroupedDishes(item) {
                             <p class="font-light">{{ order.admin_note }}</p>
                         </div>
  
-                        <div class="flex flex-wrap gap-2 pt-1">
+                        <div class="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:gap-2 pt-1 w-full sm:w-auto">
                             <button 
                                 type="button"
                                 @click="approveProposal"
-                                class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer"
+                                class="w-full justify-center bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer inline-flex items-center"
                             >
-                                <i class="fas fa-check-circle mr-1"></i>
+                                <i class="fas fa-check-circle mr-1 text-[10px]"></i>
                                 {{ t('approve_pay_deposit') }}
                             </button>
                             <button 
                                 type="button"
                                 @click="rejectProposal"
-                                class="bg-white hover:bg-red-50 border border-red-200 text-red-600 px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer"
+                                class="w-full justify-center bg-white hover:bg-red-50 border border-red-200 text-red-600 px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer inline-flex items-center"
                             >
-                                <i class="fas fa-times-circle mr-1"></i>
+                                <i class="fas fa-times-circle mr-1 text-[10px]"></i>
                                 {{ t('reject_cancel') }}
                             </button>
                         </div>

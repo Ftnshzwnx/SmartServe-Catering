@@ -135,8 +135,8 @@ const updatePassword = () => {
                 />
             </div>
 
-            <div class="flex items-center gap-4 border-t border-[#E6E1DA] pt-6 justify-end">
-                <PrimaryButton :disabled="form.processing">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 border-t border-[#E6E1DA] pt-4 sm:pt-6">
+                <PrimaryButton :disabled="form.processing" class="w-full sm:w-auto justify-center">
                     <i class="fas fa-key mr-1.5"></i> {{ t('update_password') }}
                 </PrimaryButton>
 
@@ -148,8 +148,8 @@ const updatePassword = () => {
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-xs text-green-600 font-semibold"
-                    >
+                        class="text-xs text-green-600 font-semibold text-center sm:text-left"
+                     >
                         {{ t('password_updated') }}
                     </p>
                 </Transition>

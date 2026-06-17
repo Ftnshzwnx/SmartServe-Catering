@@ -561,13 +561,13 @@ function handleReceiptSelect(event, orderId, type) {
                         </template>
 
                         <!-- Details & Control Panel -->
-                        <div class="flex flex-wrap justify-between items-center gap-3 sm:gap-4 bg-[#FAF6F0] p-3 sm:p-4 border border-[#E6E1DA]">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start md:items-center gap-3 sm:gap-4 bg-[#FAF6F0] p-3 sm:p-4 border border-[#E6E1DA]">
                             <div class="text-[10px] sm:text-xs text-[#5C6460] leading-relaxed">
                                 <span class="font-bold text-[#2D3330] uppercase tracking-wider block mb-0.5 text-[8px] sm:text-[10px]">{{ t('package') }}:</span>
                                 <span class="font-light">{{ order.package_name }}</span>
                             </div>
 
-                            <div class="flex items-center gap-1.5 sm:gap-2">
+                            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-start sm:justify-end">
                                 <Link 
                                     v-if="order.status === 'Proposal Sent'"
                                     :href="route('orders.show', { id: order.id })" 

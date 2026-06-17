@@ -515,7 +515,7 @@ function handleDownloadQuotation() {
                                     </span>
                                 </div>
                                 
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                                <div class="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-3">
                                     <div 
                                         v-for="dish in catDishes" 
                                         :key="dish.id"
@@ -541,7 +541,7 @@ function handleDownloadQuotation() {
                             </h4>
                             <p class="text-[#8C8275] text-[8px] sm:text-[10px] uppercase tracking-wider mb-3 sm:mb-6">{{ t('addons_desc') }}</p>
                             
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+                            <div class="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-4">
                                 <div 
                                     v-for="addon in package.addons" 
                                     :key="addon.id"

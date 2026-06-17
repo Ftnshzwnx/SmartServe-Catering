@@ -302,7 +302,7 @@ const getDishIcon = (dishName) => {
 
                                     <!-- Dish grid: hidden on mobile by default, toggle on click; always visible on sm+ -->
                                     <div
-                                        class="grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-3.5 overflow-hidden transition-all duration-300"
+                                        class="grid grid-cols-2 sm:grid-cols-2 gap-1 sm:gap-3.5 overflow-hidden transition-all duration-300"
                                         :class="[
                                             'sm:block sm:grid',
                                             expandedMenu[pkg.id || pkg.package_id] ? 'grid' : 'hidden sm:grid'

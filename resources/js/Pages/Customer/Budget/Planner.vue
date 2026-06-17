@@ -769,7 +769,7 @@ onMounted(() => {
 
                             <div v-if="selectedPackage && selectedPackage.addons && selectedPackage.addons.length > 0">
                                 <p class="text-[9px] sm:text-[10px] text-[#8C8275] uppercase tracking-wider mb-4">{{ t('addons_desc') }}</p>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="grid grid-cols-2 sm:grid-cols-2 gap-2.5 sm:gap-3">
                                     <div 
                                         v-for="addon in selectedPackage.addons" 
                                         :key="addon.id"
@@ -967,7 +967,7 @@ onMounted(() => {
                             </button>
                         </div>
 
-                        <h3 class="font-serif-luxury text-xs sm:text-2xl text-[#2D3330] font-normal uppercase tracking-wide">
+                        <h3 class="font-serif-luxury text-sm sm:text-2xl text-[#2D3330] font-normal uppercase tracking-wide">
                             {{ t('request_custom_proposal_title') }}
                         </h3>
                         <p class="hidden sm:block text-xs text-[#8C8275] font-light mt-1">
@@ -1163,7 +1163,7 @@ onMounted(() => {
                                     <h5 class="text-xs font-bold text-[#4A6B5D] uppercase tracking-wider bg-[#FAF9F6] border border-[#E6E1DA] px-3 py-1.5 rounded-lg inline-block">
                                         {{ category }}
                                     </h5>
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                                    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3">
                                         <label 
                                             v-for="dish in dishesList" 
                                             :key="dish.id"

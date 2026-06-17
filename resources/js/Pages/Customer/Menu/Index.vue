@@ -380,7 +380,7 @@ function getPackageImage(pkg) {
                                             <!-- Menu highlights checklist (First 4 dishes) -->
                                             <div class="border-t border-[#FAF6F0] pt-2 sm:pt-3">
                                                 <span class="text-[7.5px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1.5">{{ t('menu_highlights') }}</span>
-                                                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-1 text-[9px] sm:text-[11px] text-[#5C6460]">
+                                                <ul class="grid grid-cols-2 sm:grid-cols-2 gap-x-2 gap-y-1 text-[9px] sm:text-[11px] text-[#5C6460]">
                                                     <li 
                                                         v-for="dish in (pkg.description || '').split('\n').map(d => d.trim()).filter(d => d).slice(0, 4)" 
                                                         :key="dish"
