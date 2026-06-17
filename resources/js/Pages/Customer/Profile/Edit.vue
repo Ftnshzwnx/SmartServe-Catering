@@ -30,35 +30,35 @@ const activeTab = ref('profile'); // 'profile', 'security', 'delete'
         :header-title="t('settings')"
         :header-desc="t('edit_profile_desc')"
     >
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 sm:gap-6">
             
             <!-- Left Side: Tabs Navigation Selector -->
-            <div class="md:col-span-1 bg-white rounded-xl sm:rounded-3xl border border-[#E6E1DA] p-3 sm:p-4 shadow-xs space-y-1 h-fit">
+            <div class="md:col-span-1 bg-white rounded-lg sm:rounded-2xl border border-[#E6E1DA] p-2 sm:p-3 shadow-xs space-y-1 h-fit">
                 <button 
                     type="button"
                     @click="activeTab = 'profile'"
-                    class="w-full flex items-center gap-2 sm:gap-3 px-3 py-2.5 sm:px-4 sm:py-3 rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer text-left"
+                    class="w-full flex items-center gap-2 sm:gap-3 px-2.5 py-1.5 sm:px-4 sm:py-3 rounded-lg text-[10px] sm:text-xs font-bold transition-all duration-150 cursor-pointer text-left"
                     :class="activeTab === 'profile' ? 'bg-[#4A6B5D]/10 text-[#4A6B5D]' : 'text-[#8C8275] hover:bg-[#FAF7F2] hover:text-[#2D3330]'"
                 >
-                    <i class="fas fa-user text-sm w-5 text-center"></i>
+                    <i class="fas fa-user text-xs sm:text-sm w-4 sm:w-5 text-center"></i>
                     {{ t('personal_account') }}
                 </button>
                 <button 
                     type="button"
                     @click="activeTab = 'security'"
-                    class="w-full flex items-center gap-2 sm:gap-3 px-3 py-2.5 sm:px-4 sm:py-3 rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer text-left"
+                    class="w-full flex items-center gap-2 sm:gap-3 px-2.5 py-1.5 sm:px-4 sm:py-3 rounded-lg text-[10px] sm:text-xs font-bold transition-all duration-150 cursor-pointer text-left"
                     :class="activeTab === 'security' ? 'bg-[#4A6B5D]/10 text-[#4A6B5D]' : 'text-[#8C8275] hover:bg-[#FAF7F2] hover:text-[#2D3330]'"
                 >
-                    <i class="fas fa-shield-alt text-sm w-5 text-center"></i>
+                    <i class="fas fa-shield-alt text-xs sm:text-sm w-4 sm:w-5 text-center"></i>
                     {{ t('reset_password') }}
                 </button>
                 <button 
                     type="button"
                     @click="activeTab = 'delete'"
-                    class="w-full flex items-center gap-2 sm:gap-3 px-3 py-2.5 sm:px-4 sm:py-3 rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer text-left"
+                    class="w-full flex items-center gap-2 sm:gap-3 px-2.5 py-1.5 sm:px-4 sm:py-3 rounded-lg text-[10px] sm:text-xs font-bold transition-all duration-150 cursor-pointer text-left"
                     :class="activeTab === 'delete' ? 'bg-red-500/10 text-red-600' : 'text-[#8C8275] hover:bg-red-50 hover:text-red-600'"
                 >
-                    <i class="fas fa-trash-alt text-sm w-5 text-center"></i>
+                    <i class="fas fa-trash-alt text-xs sm:text-sm w-4 sm:w-5 text-center"></i>
                     {{ t('delete_account') }}
                 </button>
             </div>
@@ -68,17 +68,17 @@ const activeTab = ref('profile'); // 'profile', 'security', 'delete'
                 
                 <!-- 1. Personal Account Tab -->
                 <div v-show="activeTab === 'profile'" class="space-y-6 animate-fade-in">
-                    <div class="bg-white rounded-xl sm:rounded-3xl border border-[#E6E1DA] p-4 sm:p-6 md:p-8 shadow-xs space-y-4 sm:space-y-6">
+                    <div class="bg-white rounded-lg sm:rounded-2xl border border-[#E6E1DA] p-3 sm:p-5 md:p-6 shadow-xs space-y-3 sm:space-y-4">
                         
                         <!-- User Profile Banner Card -->
-                        <div class="flex items-center gap-4 bg-[#FAF7F2] p-4 rounded-xl border border-[#E6E1DA]/60">
-                            <div class="w-16 h-16 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-2xl shadow-xs select-none animate-scale-up">
+                        <div class="flex items-center gap-3 bg-[#FAF7F2] p-2 sm:p-3 rounded-lg border border-[#E6E1DA]/60">
+                            <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#C5A880] text-white flex items-center justify-center font-bold text-lg sm:text-2xl shadow-xs select-none animate-scale-up">
                                 {{ (user?.name || 'C').charAt(0).toUpperCase() }}
                             </div>
                             <div>
-                                <h4 class="text-base font-bold text-[#2D3330] capitalize leading-none mb-1">{{ user?.name || 'Customer' }}</h4>
-                                <p class="text-xs text-[#8C8275]">{{ user?.email || '' }}</p>
-                                <span class="inline-block mt-2 px-2.5 py-1 text-[9px] uppercase tracking-wider font-extrabold bg-[#4A6B5D]/10 text-[#4A6B5D] rounded-full">Customer</span>
+                                <h4 class="text-sm sm:text-base font-bold text-[#2D3330] capitalize leading-none mb-1">{{ user?.name || 'Customer' }}</h4>
+                                <p class="text-[10px] sm:text-xs text-[#8C8275]">{{ user?.email || '' }}</p>
+                                <span class="inline-block mt-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 text-[8px] sm:text-[9px] uppercase tracking-wider font-extrabold bg-[#4A6B5D]/10 text-[#4A6B5D] rounded-full">Customer</span>
                             </div>
                         </div>
  
@@ -91,14 +91,14 @@ const activeTab = ref('profile'); // 'profile', 'security', 'delete'
  
                 <!-- 2. Security Tab -->
                 <div v-show="activeTab === 'security'" class="space-y-6 animate-fade-in">
-                    <div class="bg-white rounded-xl sm:rounded-3xl border border-[#E6E1DA] p-4 sm:p-6 md:p-8 shadow-xs">
+                    <div class="bg-white rounded-lg sm:rounded-2xl border border-[#E6E1DA] p-3 sm:p-5 md:p-6 shadow-xs">
                         <UpdatePasswordForm />
                     </div>
                 </div>
  
                 <!-- 3. Delete Tab -->
                 <div v-show="activeTab === 'delete'" class="space-y-6 animate-fade-in">
-                    <div class="bg-white rounded-xl sm:rounded-3xl border border-[#E6E1DA] p-4 sm:p-6 md:p-8 shadow-xs">
+                    <div class="bg-white rounded-lg sm:rounded-2xl border border-[#E6E1DA] p-3 sm:p-5 md:p-6 shadow-xs">
                         <DeleteUserForm />
                     </div>
                 </div>

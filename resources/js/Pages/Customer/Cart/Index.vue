@@ -186,27 +186,27 @@ function proceedToCheckout() {
             <div class="max-w-6xl mx-auto px-4 sm:px-6">
                 
                 <!-- Luxury Cover Banner -->
-                <div class="mb-6 sm:mb-8 overflow-hidden rounded-xl sm:rounded-3xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] p-5 sm:p-8 md:p-10 text-white border border-[#E6E1DA]/10 shadow-lg relative">
+                <div class="mb-4 sm:mb-8 overflow-hidden rounded-lg sm:rounded-3xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] p-3.5 sm:p-8 md:p-10 text-white border border-[#E6E1DA]/10 shadow-lg relative">
                     <!-- Decor blurs -->
                     <div class="absolute -right-16 -top-16 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
                     <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-[#C5A880]/10 rounded-full blur-2xl pointer-events-none"></div>
  
-                    <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                        <div class="space-y-3">
-                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#C5A880]/20 border border-[#C5A880]/30 rounded-full text-[10px] font-bold text-[#E6CBA3] uppercase tracking-widest">
+                    <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6">
+                        <div class="space-y-2.5 sm:space-y-3">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#C5A880]/20 border border-[#C5A880]/30 rounded-full text-[9px] sm:text-[10px] font-bold text-[#E6CBA3] uppercase tracking-widest">
                                 <i class="fas fa-shopping-basket"></i> {{ t('shopping_cart') || 'Troli Tempahan' }}
                             </div>
-                            <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
+                            <h1 class="text-base sm:text-2xl md:text-3xl lg:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
                                 {{ t('shopping_cart') || 'Troli Tempahan' }}
                             </h1>
-                            <p class="text-xs md:text-sm text-[#E6E1DA]/80 max-w-2xl font-light leading-relaxed">
+                            <p class="text-[10px] sm:text-xs md:text-sm text-[#E6E1DA]/80 max-w-2xl font-light leading-relaxed">
                                 {{ t('cart_desc_banner') || 'Semak semula pakej katering terpilih anda, laras kuantiti tetamu, dan lakukan pembayaran dengan selamat.' }}
                             </p>
                         </div>
                         <div class="flex gap-4 shrink-0">
-                            <div class="bg-white/5 border border-white/10 rounded-2xl px-5 py-3.5 text-center backdrop-blur-xs min-w-28">
-                                <span class="block text-[9px] font-bold text-[#C5A880] uppercase tracking-widest mb-1">{{ t('orders') || 'Jumlah Pakej' }}</span>
-                                <span class="text-2xl font-semibold font-serif-luxury text-white">{{ cartItems.length }}</span>
+                            <div class="bg-white/5 border border-white/10 rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3.5 text-center backdrop-blur-xs min-w-24 sm:min-w-28">
+                                <span class="block text-[8px] sm:text-[9px] font-bold text-[#C5A880] uppercase tracking-widest mb-1">{{ t('orders') || 'Jumlah Pakej' }}</span>
+                                <span class="text-lg sm:text-2xl font-semibold font-serif-luxury text-white">{{ cartItems.length }}</span>
                             </div>
                         </div>
                     </div>
@@ -215,10 +215,10 @@ function proceedToCheckout() {
                 <div v-if="cartItems.length > 0" class="grid lg:grid-cols-12 gap-4 sm:gap-8 items-start">
                     
                     <!-- Left: Cart Items Table (8 cols) -->
-                    <div class="lg:col-span-8 space-y-4">
+                    <div class="lg:col-span-8 space-y-3 sm:space-y-4">
                         <!-- Select All Header Card -->
-                        <div class="bg-white p-4 sm:p-5 rounded-xl sm:rounded-2xl border border-[#E6E1DA] shadow-2xs flex items-center justify-between">
-                            <label class="flex items-center gap-3 cursor-pointer text-xs font-semibold text-[#5C6460] select-none">
+                        <div class="bg-white p-3 sm:p-5 rounded-lg sm:rounded-2xl border border-[#E6E1DA] shadow-2xs flex items-center justify-between">
+                            <label class="flex items-center gap-2.5 sm:gap-3 cursor-pointer text-[10px] sm:text-xs font-semibold text-[#5C6460] select-none">
                                 <input 
                                     type="checkbox" 
                                     v-model="selectAll"
@@ -227,24 +227,24 @@ function proceedToCheckout() {
                                 <span>{{ t('select_all_packages_count').replace('{count}', cartItems.length) }}</span>
                             </label>
                             
-                            <span v-if="selectedCartIds.length > 0" class="text-[10px] font-bold text-[#4A6B5D] bg-[#EBEFEF] border border-[#D1DEDB] px-3 py-1 rounded-full uppercase tracking-wider">
+                            <span v-if="selectedCartIds.length > 0" class="text-[8px] sm:text-[10px] font-bold text-[#4A6B5D] bg-[#EBEFEF] border border-[#D1DEDB] px-2 py-0.5 sm:px-3 sm:py-1 rounded-full uppercase tracking-wider">
                                 {{ t('selected_count').replace('{count}', selectedCartIds.length) }}
                             </span>
                         </div>
  
                         <!-- Card List of Packages -->
-                        <div class="space-y-4">
+                        <div class="space-y-3 sm:space-y-4">
                             <div 
                                 v-for="item in cartItems" 
                                 :key="item.id"
-                                class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-3xl border border-[#E6E1DA] shadow-xs hover:border-[#4A6B5D]/50 hover:shadow-sm transition-all duration-300 relative group"
+                                class="bg-white p-3 sm:p-5 rounded-lg sm:rounded-2xl border border-[#E6E1DA] shadow-xs hover:border-[#4A6B5D]/50 hover:shadow-sm transition-all duration-300 relative group"
                                 :class="{ 'border-[#4A6B5D]/30 bg-[#FAFBFB]': selectedCartIds.includes(item.id) }"
                             >
-                                <div class="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                                <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 md:gap-6">
                                     <!-- Checkbox & Details -->
-                                    <div class="flex items-start gap-4 flex-grow">
+                                    <div class="flex items-start gap-3 sm:gap-4 flex-grow">
                                         <!-- Checkbox -->
-                                        <div class="pt-1">
+                                        <div class="pt-0.5 sm:pt-1">
                                             <input 
                                                 type="checkbox" 
                                                 :value="item.id" 
@@ -252,44 +252,44 @@ function proceedToCheckout() {
                                                 class="border-[#E6E1DA] text-[#4A6B5D] focus:ring-[#4A6B5D] w-4.5 h-4.5 cursor-pointer rounded"
                                             />
                                         </div>
-
+ 
                                         <!-- Package Info -->
-                                        <div class="space-y-3 flex-grow">
+                                        <div class="space-y-2.5 sm:space-y-3 flex-grow">
                                             <div>
-                                                <h3 class="text-xl font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider block">
+                                                <h3 class="text-sm sm:text-xl font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider block">
                                                     {{ item.package_name }}
                                                 </h3>
-                                                <div class="text-xs font-semibold text-[#4A6B5D] mt-1">
-                                                    {{ t('base_price_label') }}: RM {{ parseFloat(item.price).toFixed(2) }} <span class="text-[10px] text-[#8C8275] font-normal">/ {{ t('pax') }}</span>
+                                                <div class="text-[10px] sm:text-xs font-semibold text-[#4A6B5D] mt-0.5 sm:mt-1">
+                                                    {{ t('base_price_label') }}: RM {{ parseFloat(item.price).toFixed(2) }} <span class="text-[9px] sm:text-[10px] text-[#8C8275] font-normal">/ {{ t('pax') }}</span>
                                                 </div>
                                             </div>
                                             
                                             <!-- Selected Dishes List -->
-                                            <div v-if="item.selected_dishes && item.selected_dishes.length > 0" class="space-y-1.5 pt-1.5 border-t border-[#EBEFEF]">
-                                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1">
+                                            <div v-if="item.selected_dishes && item.selected_dishes.length > 0" class="space-y-1 sm:space-y-1.5 pt-1.5 border-t border-[#EBEFEF]">
+                                                <span class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1">
                                                     <i class="fas fa-utensils text-[8px] text-[#4A6B5D]"></i> {{ t('selected_dishes_label') }}
                                                 </span>
-                                                <div class="flex flex-wrap gap-1.5">
+                                                <div class="flex flex-wrap gap-1 sm:gap-1.5">
                                                     <span 
                                                         v-for="dish in item.selected_dishes" 
                                                         :key="dish"
-                                                        class="inline-flex items-center gap-1 bg-[#FAF8F5] border border-[#E6E1DA] text-[10px] text-[#2D3330] font-medium px-2.5 py-0.5 rounded-full"
+                                                        class="inline-flex items-center gap-1 bg-[#FAF8F5] border border-[#E6E1DA] text-[9px] sm:text-[10px] text-[#2D3330] font-medium px-2 py-0.5 rounded-full"
                                                     >
                                                         {{ dish }}
                                                     </span>
                                                 </div>
                                             </div>
-
+ 
                                             <!-- Selected Add-ons List -->
-                                            <div v-if="item.selected_addons && item.selected_addons.length > 0" class="space-y-1.5 pt-1.5 border-t border-[#EBEFEF]">
-                                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1">
+                                            <div v-if="item.selected_addons && item.selected_addons.length > 0" class="space-y-1 sm:space-y-1.5 pt-1.5 border-t border-[#EBEFEF]">
+                                                <span class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1">
                                                     <i class="fas fa-plus text-[8px] text-[#C5A880]"></i> {{ t('addons_label') }}
                                                 </span>
-                                                <div class="flex flex-wrap gap-1.5">
+                                                <div class="flex flex-wrap gap-1 sm:gap-1.5">
                                                     <span 
                                                         v-for="addon in item.selected_addons" 
                                                         :key="addon"
-                                                        class="inline-flex items-center gap-1 bg-[#FFF9EE] border border-[#F5E6CD] text-[10px] text-[#D98A29] font-medium px-2.5 py-0.5 rounded-full"
+                                                        class="inline-flex items-center gap-1 bg-[#FFF9EE] border border-[#F5E6CD] text-[9px] sm:text-[10px] text-[#D98A29] font-medium px-2 py-0.5 rounded-full"
                                                     >
                                                         {{ addon }}
                                                     </span>
@@ -297,68 +297,68 @@ function proceedToCheckout() {
                                             </div>
                                         </div>
                                     </div>
-
+ 
                                     <!-- Stepper, Subtotal, and Delete -->
-                                    <div class="flex flex-row md:flex-col md:items-end justify-between items-center gap-4 shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-[#EBEFEF]">
+                                    <div class="flex flex-row md:flex-col md:items-end justify-between items-center gap-3 md:gap-4 shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-[#EBEFEF]">
                                         <!-- Action Buttons -->
-                                        <div class="flex items-center gap-1 order-last md:order-none">
+                                        <div class="flex items-center gap-0.5 sm:gap-1 order-last md:order-none">
                                             <!-- Edit Button -->
                                             <Link 
                                                 v-if="item.package"
                                                 :href="(item.selected_dishes && item.selected_dishes.length > 0)
                                                     ? route('cart.customize', { package_id: item.package_id, cart_id: item.id })
                                                     : route('menu.show', item.package_name)"
-                                                class="text-[#8C8275] hover:text-[#4A6B5D] transition-colors w-8 h-8 rounded-lg hover:bg-[#FAF7F2] flex items-center justify-center cursor-pointer"
+                                                class="text-[#8C8275] hover:text-[#4A6B5D] transition-colors w-7 h-7 sm:w-8 sm:h-8 rounded-lg hover:bg-[#FAF7F2] flex items-center justify-center cursor-pointer"
                                                 :title="(item.selected_dishes && item.selected_dishes.length > 0) ? t('edit_dish_selection') : t('view_package_details')"
                                             >
-                                                <i class="fas fa-edit text-xs"></i>
+                                                <i class="fas fa-edit text-[10px] sm:text-xs"></i>
                                             </Link>
-
+ 
                                             <!-- Delete Button -->
                                             <button 
                                                 @click="removeCartItem(item.id)" 
-                                                class="text-[#8C8275] hover:text-rose-600 transition-colors w-8 h-8 rounded-lg hover:bg-rose-50/50 flex items-center justify-center cursor-pointer"
+                                                class="text-[#8C8275] hover:text-rose-600 transition-colors w-7 h-7 sm:w-8 sm:h-8 rounded-lg hover:bg-rose-50/50 flex items-center justify-center cursor-pointer"
                                                 :title="t('remove_package')"
                                             >
-                                                <i class="fas fa-trash-alt text-xs"></i>
+                                                <i class="fas fa-trash-alt text-[10px] sm:text-xs"></i>
                                             </button>
                                         </div>
-
+ 
                                         <!-- Stepper Quantity Control -->
-                                        <div class="flex flex-col items-start md:items-end gap-1.5">
-                                            <div class="flex items-center shadow-2xs rounded-lg overflow-hidden border border-[#E6E1DA] h-9">
+                                        <div class="flex flex-col items-start md:items-end gap-1">
+                                            <div class="flex items-center shadow-2xs rounded-md sm:rounded-lg overflow-hidden border border-[#E6E1DA] h-7 sm:h-9">
                                                 <button 
                                                     type="button"
                                                     @click="adjustCartQuantity(item.id, -50, item.package?.min_order || 20)"
-                                                    class="w-8 h-full bg-white text-[#5C6460] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] flex items-center justify-center font-semibold text-xs cursor-pointer border-r border-[#E6E1DA]"
+                                                    class="w-7 sm:w-8 h-full bg-white text-[#5C6460] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] flex items-center justify-center font-semibold text-[10px] sm:text-xs cursor-pointer border-r border-[#E6E1DA]"
                                                     :disabled="updateForm.quantity[item.id] <= (item.package?.min_order || 20)"
                                                 >
-                                                    <i class="fas fa-minus text-[9px]"></i>
+                                                    <i class="fas fa-minus text-[8px] sm:text-[9px]"></i>
                                                 </button>
                                                 <input 
                                                     type="number" 
                                                     v-model.number="updateForm.quantity[item.id]" 
                                                     :min="item.package?.min_order || 20"
                                                     @change="updateQuantity(item.id)"
-                                                    class="w-14 text-center font-bold text-xs border-0 h-full focus:outline-none focus:ring-0 bg-white text-[#2D3330]"
+                                                    class="w-10 sm:w-14 text-center font-bold text-[10px] sm:text-xs border-0 h-full focus:outline-none focus:ring-0 bg-white text-[#2D3330]"
                                                 />
                                                 <button 
                                                     type="button"
                                                     @click="adjustCartQuantity(item.id, 50, item.package?.min_order || 20)"
-                                                    class="w-8 h-full bg-white text-[#5C6460] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] flex items-center justify-center font-semibold text-xs cursor-pointer border-l border-[#E6E1DA]"
+                                                    class="w-7 sm:w-8 h-full bg-white text-[#5C6460] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] flex items-center justify-center font-semibold text-[10px] sm:text-xs cursor-pointer border-l border-[#E6E1DA]"
                                                 >
-                                                    <i class="fas fa-plus text-[9px]"></i>
+                                                    <i class="fas fa-plus text-[8px] sm:text-[9px]"></i>
                                                 </button>
                                             </div>
-                                            <span class="text-[9px] text-[#8C8275] font-semibold uppercase tracking-wider">
+                                            <span class="text-[8px] sm:text-[9px] text-[#8C8275] font-semibold uppercase tracking-wider">
                                                 Min: {{ item.package?.min_order || 20 }} pax
                                             </span>
                                         </div>
-
+ 
                                         <!-- Subtotal Display -->
                                         <div class="text-right">
-                                            <div class="text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('subtotal') }}:</div>
-                                            <div class="text-base sm:text-lg font-normal text-[#2D3330] font-serif-luxury tracking-wide whitespace-nowrap">
+                                            <div class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('subtotal') }}:</div>
+                                            <div class="text-sm sm:text-lg font-normal text-[#2D3330] font-serif-luxury tracking-wide whitespace-nowrap">
                                                 RM {{ (parseFloat(item.price) * parseInt(item.quantity)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                             </div>
                                         </div>
@@ -370,12 +370,12 @@ function proceedToCheckout() {
 
                     <!-- Right: Summary Card (4 cols) -->
                     <div class="lg:col-span-4 sticky top-24">
-                        <div class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-3xl border border-[#E6E1DA] shadow-sm space-y-4 sm:space-y-6">
-                            <h4 class="text-base sm:text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider border-b border-[#E6E1DA] pb-4">
+                        <div class="bg-white p-3 sm:p-5 rounded-lg sm:rounded-xl border border-[#E6E1DA] shadow-sm space-y-3 sm:space-y-4">
+                            <h4 class="text-sm sm:text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider border-b border-[#E6E1DA] pb-2 sm:pb-4">
                                 {{ t('order_summary') }}
                             </h4>
                             
-                            <div class="space-y-3 text-xs border-b border-[#E6E1DA] pb-5">
+                            <div class="space-y-2.5 sm:space-y-3 text-[10px] sm:text-xs border-b border-[#E6E1DA] pb-4 sm:pb-5">
                                 <div class="flex justify-between text-[#8C8275] uppercase tracking-wider">
                                     <span>{{ t('selected_packages') || 'Pakej Dipilih' }}</span>
                                     <span class="font-bold text-[#2D3330]">{{ selectedCartIds.length }} {{ t('packages') }}</span>
@@ -387,7 +387,7 @@ function proceedToCheckout() {
                                     </span>
                                 </div>
                                 
-                                <div v-if="selectedCartIds.length > 0" class="space-y-2 pt-2 border-t border-[#EBEFEF] text-[11px] italic text-[#8C8275]">
+                                <div v-if="selectedCartIds.length > 0" class="space-y-1.5 sm:space-y-2 pt-2 border-t border-[#EBEFEF] text-[10px] sm:text-[11px] italic text-[#8C8275]">
                                     <div class="flex justify-between">
                                         <span>{{ t('deposit_booking_percent').replace('{percent}', '30') }}</span>
                                         <span>RM {{ (selectedSubtotal * 0.3).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
@@ -398,32 +398,32 @@ function proceedToCheckout() {
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="bg-[#FAF8F5] p-4 rounded-xl border border-[#E6E1DA] flex items-center justify-between shadow-2xs">
-                                <span class="text-xs font-bold text-[#4A6B5D] uppercase tracking-wider">{{ t('total_price') || 'Jumlah Harga' }}:</span>
+ 
+                            <div class="bg-[#FAF8F5] p-3 sm:p-4 rounded-lg sm:rounded-xl border border-[#E6E1DA] flex items-center justify-between shadow-2xs">
+                                <span class="text-[10px] sm:text-xs font-bold text-[#4A6B5D] uppercase tracking-wider">{{ t('total_price') || 'Jumlah Harga' }}:</span>
                                 <div class="text-right">
-                                    <span class="text-2xl font-normal text-[#4A6B5D] font-serif-luxury tracking-wide block">
+                                    <span class="text-lg sm:text-2xl font-normal text-[#4A6B5D] font-serif-luxury tracking-wide block">
                                         RM {{ selectedSubtotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                     </span>
-                                    <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block mt-0.5">{{ t('sst_halal_notices') }}</span>
+                                    <span class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mt-0.5">{{ t('sst_halal_notices') }}</span>
                                 </div>
                             </div>
-
+ 
                             <button 
                                 @click="proceedToCheckout"
-                                class="btn-premium-primary w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3.5 px-6 rounded-xl text-xs uppercase tracking-widest shadow-sm cursor-pointer"
+                                class="btn-premium-primary w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2 sm:py-3.5 px-4 sm:px-6 rounded-lg sm:rounded-xl text-[10px] sm:text-xs uppercase tracking-widest shadow-sm cursor-pointer"
                                 :disabled="selectedCartIds.length === 0"
                                 :class="{ 'opacity-50 cursor-not-allowed': selectedCartIds.length === 0 }"
                             >
-                                <i class="fas fa-lock text-[10px]"></i> {{ t('proceed_checkout') }}
+                                <i class="fas fa-lock text-[9px] sm:text-[10px]"></i> {{ t('proceed_checkout') }}
                             </button>
-
-                            <div class="text-center pt-2">
+ 
+                            <div class="text-center pt-1 sm:pt-2">
                                 <Link 
                                     :href="route('menu.index')"
-                                    class="text-xs font-semibold text-[#8C8275] hover:text-[#4A6B5D] uppercase tracking-widest transition-colors flex items-center justify-center gap-1.5"
+                                    class="text-[10px] sm:text-xs font-semibold text-[#8C8275] hover:text-[#4A6B5D] uppercase tracking-widest transition-colors flex items-center justify-center gap-1.5"
                                 >
-                                    <i class="fas fa-arrow-left text-[10px]"></i> {{ t('continue_shopping') }}
+                                    <i class="fas fa-arrow-left text-[9px] sm:text-[10px]"></i> {{ t('continue_shopping') }}
                                 </Link>
                             </div>
                         </div>

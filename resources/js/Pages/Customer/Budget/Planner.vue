@@ -373,17 +373,25 @@ onMounted(() => {
         .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
         
         .mode-tab {
-            padding: 12px 24px;
-            font-size: 0.75rem;
+            padding: 8px 14px;
+            font-size: 0.65rem;
             font-weight: 700;
-            border-radius: 16px;
+            border-radius: 12px;
             border: 1px solid #E6E1DA;
             background: white;
             color: #8C8275;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.05em;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
+        }
+        @media (min-width: 640px) {
+            .mode-tab {
+                padding: 12px 24px;
+                font-size: 0.75rem;
+                border-radius: 16px;
+                letter-spacing: 0.1em;
+            }
         }
         .mode-tab.active {
             background: #4A6B5D;
@@ -394,21 +402,21 @@ onMounted(() => {
         
         .simulator-container {
             background: white;
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 8px;
+            padding: 10px;
             border: 1px solid #E6E1DA;
         }
         @media (min-width: 640px) {
             .simulator-container {
-                border-radius: 24px;
-                padding: 24px;
+                border-radius: 14px;
+                padding: 18px;
             }
         }
         
         .package-select-card {
             border: 1px solid #E6E1DA;
-            border-radius: 12px;
-            padding: 14px;
+            border-radius: 8px;
+            padding: 8px 10px;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             background: white;
@@ -417,8 +425,8 @@ onMounted(() => {
         }
         @media (min-width: 640px) {
             .package-select-card {
-                border-radius: 20px;
-                padding: 20px;
+                border-radius: 12px;
+                padding: 14px;
             }
         }
         .package-select-card:hover {
@@ -433,36 +441,45 @@ onMounted(() => {
         
         .active-badge {
             position: absolute;
-            top: 14px;
-            right: 14px;
+            top: 10px;
+            right: 10px;
             background: #4A6B5D;
             color: white;
-            width: 22px;
-            height: 22px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 8px;
             box-shadow: 0 2px 5px rgba(74, 107, 93, 0.2);
+        }
+        @media (min-width: 640px) {
+            .active-badge {
+                top: 14px;
+                right: 14px;
+                width: 22px;
+                height: 22px;
+                font-size: 10px;
+            }
         }
 
         .addon-item-card {
             border: 1px solid #E6E1DA;
-            border-radius: 12px;
-            padding: 10px 14px;
+            border-radius: 6px;
+            padding: 6px 8px;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
             background: white;
         }
         @media (min-width: 640px) {
             .addon-item-card {
-                border-radius: 16px;
-                padding: 14px 18px;
-                gap: 12px;
+                border-radius: 10px;
+                padding: 10px 12px;
+                gap: 10px;
             }
         }
         .addon-item-card:hover {
@@ -474,9 +491,9 @@ onMounted(() => {
         }
         
         .addon-checkbox {
-            width: 18px;
-            height: 18px;
-            border-radius: 6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
             border: 1px solid #C6C1B9;
             display: flex;
             align-items: center;
@@ -484,8 +501,16 @@ onMounted(() => {
             transition: all 0.2s ease;
             background: white;
             color: transparent;
-            font-size: 9px;
+            font-size: 8px;
             flex-shrink: 0;
+        }
+        @media (min-width: 640px) {
+            .addon-checkbox {
+                width: 18px;
+                height: 18px;
+                border-radius: 6px;
+                font-size: 9px;
+            }
         }
         .addon-item-card.selected .addon-checkbox {
             background: #4A6B5D;
@@ -497,58 +522,78 @@ onMounted(() => {
         .receipt-card {
             background: #FFFFFF;
             border: 1px solid #E6E1DA;
-            border-radius: 16px;
+            border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 20px -6px rgba(15, 23, 42, 0.03);
         }
         @media (min-width: 640px) {
             .receipt-card {
-                border-radius: 24px;
+                border-radius: 14px;
             }
         }
         .receipt-header {
             background: #4A6B5D;
             color: #FAF7F2;
-            padding: 14px 16px;
+            padding: 8px 10px;
         }
         @media (min-width: 640px) {
             .receipt-header {
-                padding: 20px 24px;
+                padding: 12px 16px;
             }
         }
         .receipt-body {
-            padding: 16px;
+            padding: 10px;
         }
         @media (min-width: 640px) {
             .receipt-body {
-                padding: 24px;
+                padding: 16px;
             }
         }
         .receipt-divider {
             border-top: 1px dashed #E6E1DA;
-            margin: 16px 0;
+            margin: 12px 0;
         }
         .receipt-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #5C6460;
-            padding: 4px 0;
+            padding: 3px 0;
+        }
+        @media (min-width: 640px) {
+            .receipt-row {
+                font-size: 0.8rem;
+                padding: 4px 0;
+            }
         }
         .receipt-row.total {
-            font-size: 1.15rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: #2D3330;
         }
+        @media (min-width: 640px) {
+            .receipt-row.total {
+                font-size: 1.15rem;
+            }
+        }
         
         .alert-banner {
-            border-radius: 16px;
-            padding: 16px;
-            font-size: 0.75rem;
-            line-height: 1.4;
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-size: 0.7rem;
+            line-height: 1.3;
             display: flex;
-            gap: 12px;
+            gap: 8px;
+        }
+        @media (min-width: 640px) {
+            .alert-banner {
+                border-radius: 16px;
+                padding: 16px;
+                font-size: 0.75rem;
+                line-height: 1.4;
+                gap: 12px;
+            }
         }
         .alert-banner.success {
             background: rgba(74, 107, 93, 0.08);
@@ -576,16 +621,16 @@ onMounted(() => {
             <div class="max-w-7xl mx-auto px-4 sm:px-6">
                 
                 <!-- Gourmet Hero Banner Card -->
-                <div class="bg-[#2D3330] text-[#FAF7F2] rounded-xl sm:rounded-3xl p-5 sm:p-8 md:p-10 border border-[#E6E1DA] shadow-sm flex flex-col md:flex-row justify-between items-center gap-6 mb-6 sm:mb-10 overflow-hidden relative">
+                <div class="bg-[#2D3330] text-[#FAF7F2] rounded-lg sm:rounded-2xl p-3.5 sm:p-6 md:p-8 border border-[#E6E1DA] shadow-sm flex flex-col md:flex-row justify-between items-center gap-6 mb-4 sm:mb-8 overflow-hidden relative">
                     <!-- Oatmeal blur decorative circle -->
                     <div class="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-white/5 blur-2xl"></div>
                     
-                    <div class="space-y-3 relative z-10 max-w-2xl">
-                        <span class="text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#FAF9F6]/20 px-3 py-1 rounded-full uppercase tracking-widest inline-block select-none">{{ t('budget_planner') }}</span>
-                        <h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light font-serif-luxury tracking-wide">
+                    <div class="space-y-2.5 relative z-10 max-w-2xl">
+                        <span class="text-[9px] sm:text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#FAF9F6]/20 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full uppercase tracking-widest inline-block select-none">{{ t('budget_planner') }}</span>
+                        <h3 class="text-base sm:text-xl md:text-3xl lg:text-4xl font-light font-serif-luxury tracking-wide">
                             {{ t('live_estimate') }}
                         </h3>
-                        <p class="text-xs text-[#E6E1DA]/80 font-light leading-relaxed">
+                        <p class="text-[10px] sm:text-xs text-[#E6E1DA]/80 font-light leading-relaxed">
                             {{ t('budget_planner_desc') }}
                         </p>
                     </div>
@@ -597,19 +642,19 @@ onMounted(() => {
                 </div>
  
                 <!-- Custom Proposal Toggle Banner -->
-                <div class="bg-[#FAF9F6] border border-[#E6E1DA] rounded-xl sm:rounded-3xl p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+                <div class="bg-[#FAF9F6] border border-[#E6E1DA] rounded-lg sm:rounded-2xl p-2.5 sm:p-4 flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
                     <div class="space-y-1 w-full sm:w-auto">
-                        <h4 class="font-serif-luxury text-base sm:text-xl font-normal text-[#2D3330]">
+                        <h4 class="font-serif-luxury text-sm sm:text-xl font-normal text-[#2D3330]">
                             {{ t('prefer_custom_budget') }}
                         </h4>
-                        <p class="text-xs text-[#8C8275] font-light">
+                        <p class="text-[10px] sm:text-xs text-[#8C8275] font-light">
                             {{ t('prefer_custom_budget_desc') }}
                         </p>
                     </div>
                     <button 
                         type="button"
                         @click="showCustomForm = !showCustomForm"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer w-full sm:w-auto text-center"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-4 py-2 rounded-lg text-[10px] sm:text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer w-full sm:w-auto text-center"
                     >
                         {{ showCustomForm ? t('back_to_budget_calc') : t('request_custom_proposal_btn') }}
                     </button>
@@ -622,8 +667,8 @@ onMounted(() => {
                         
                         <!-- Step 1: Mode Switch and Input -->
                         <div class="simulator-container space-y-6">
-                            <h4 class="text-xs font-bold text-[#8C8275] uppercase tracking-widest border-b border-[#E6E1DA] pb-3 flex items-center gap-2">
-                                <span class="w-5 h-5 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-[10px]">1</span>
+                            <h4 class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-widest border-b border-[#E6E1DA] pb-3 flex items-center gap-2">
+                                <span class="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-[9px] sm:text-[10px]">1</span>
                                 {{ t('step_planning_mode') }}
                             </h4>
                             
@@ -683,8 +728,8 @@ onMounted(() => {
 
                         <!-- Step 2: Select Package -->
                         <div class="simulator-container space-y-6">
-                            <h4 class="text-xs font-bold text-[#8C8275] uppercase tracking-widest border-b border-[#E6E1DA] pb-3 flex items-center gap-2">
-                                <span class="w-5 h-5 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-[10px]">2</span>
+                            <h4 class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-widest border-b border-[#E6E1DA] pb-3 flex items-center gap-2">
+                                <span class="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-[9px] sm:text-[10px]">2</span>
                                 {{ t('step_base_package') }}
                             </h4>
 
@@ -699,16 +744,16 @@ onMounted(() => {
                                     <div v-if="selectedPackageId === pkg.id" class="active-badge">
                                         <i class="fas fa-check"></i>
                                     </div>
-                                    <h5 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide mb-1">
+                                    <h5 class="text-xs sm:text-base font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide mb-1">
                                         {{ pkg.package_name }}
                                     </h5>
-                                    <div class="text-xs text-[#4A6B5D] font-bold mb-3">
+                                    <div class="text-[11px] sm:text-xs text-[#4A6B5D] font-bold mb-2">
                                         RM {{ parseFloat(pkg.price).toFixed(2) }} / {{ t('pax') }}
                                     </div>
-                                    <p class="text-[10px] text-[#8C8275] uppercase tracking-wider mb-3">
+                                    <p class="text-[9px] sm:text-[10px] text-[#8C8275] uppercase tracking-wider mb-2">
                                         {{ t('min_requirement') }}: {{ pkg.min_order }} {{ t('pax') }}
                                     </p>
-                                    <div class="text-[11px] text-[#5C6460] font-light line-clamp-3 border-t border-[#E6E1DA] pt-3 leading-relaxed">
+                                    <div class="text-[10px] sm:text-[11px] text-[#5C6460] font-light line-clamp-3 border-t border-[#E6E1DA] pt-2.5 leading-relaxed">
                                         {{ pkg.description }}
                                     </div>
                                 </div>
@@ -717,13 +762,13 @@ onMounted(() => {
 
                         <!-- Step 3: Add-on Extra Dishes -->
                         <div class="simulator-container space-y-6">
-                            <h4 class="text-xs font-bold text-[#8C8275] uppercase tracking-widest border-b border-[#E6E1DA] pb-3 flex items-center gap-2">
-                                <span class="w-5 h-5 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-[10px]">3</span>
+                            <h4 class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-widest border-b border-[#E6E1DA] pb-3 flex items-center gap-2">
+                                <span class="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-[#FAF7F2] border border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center text-[9px] sm:text-[10px]">3</span>
                                 {{ t('step_addons') }}
                             </h4>
 
                             <div v-if="selectedPackage && selectedPackage.addons && selectedPackage.addons.length > 0">
-                                <p class="text-[10px] text-[#8C8275] uppercase tracking-wider mb-4">{{ t('addons_desc') }}</p>
+                                <p class="text-[9px] sm:text-[10px] text-[#8C8275] uppercase tracking-wider mb-4">{{ t('addons_desc') }}</p>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <div 
                                         v-for="addon in selectedPackage.addons" 
@@ -736,8 +781,8 @@ onMounted(() => {
                                             <i class="fas fa-check"></i>
                                         </div>
                                         <div class="flex-grow">
-                                            <span class="font-bold text-xs text-[#2D3330] uppercase block">{{ addon.addon_name }}</span>
-                                            <span class="text-xs text-[#4A6B5D] font-semibold">+RM {{ parseFloat(addon.price_per_pax).toFixed(2) }} / {{ t('pax') }}</span>
+                                            <span class="font-bold text-[11px] sm:text-xs text-[#2D3330] uppercase block">{{ addon.addon_name }}</span>
+                                            <span class="text-[10px] sm:text-xs text-[#4A6B5D] font-semibold">+RM {{ parseFloat(addon.price_per_pax).toFixed(2) }} / {{ t('pax') }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -804,7 +849,7 @@ onMounted(() => {
                                 <!-- Grand Total -->
                                 <div class="receipt-row total">
                                     <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('grand_total') }}</span>
-                                    <span class="font-serif-luxury text-2xl font-light">
+                                    <span class="font-serif-luxury text-sm sm:text-2xl font-light">
                                         RM {{ grandTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                     </span>
                                 </div>
@@ -866,14 +911,14 @@ onMounted(() => {
                                     <Link 
                                         v-if="!isBudgetInsufficient && finalPaxCount > 0"
                                         :href="bookRedirectUrl"
-                                        class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3.5 px-6 rounded-xl text-xs uppercase tracking-widest transition-colors shadow-sm text-center cursor-pointer"
+                                        class="w-full inline-flex items-center justify-center gap-1.5 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2.5 px-4 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors shadow-sm text-center cursor-pointer"
                                     >
                                         {{ t('book_customize_plan') }} <i class="fas fa-arrow-right text-[10px]"></i>
                                     </Link>
                                     <button 
                                         v-else
                                         disabled
-                                        class="w-full inline-flex items-center justify-center gap-2 bg-[#E6E1DA] text-[#8C8275] font-semibold py-3.5 px-6 rounded-xl text-xs uppercase tracking-widest cursor-not-allowed text-center"
+                                        class="w-full inline-flex items-center justify-center gap-1.5 bg-[#E6E1DA] text-[#8C8275] font-semibold py-2.5 px-4 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest cursor-not-allowed text-center"
                                     >
                                         {{ t('book_customize_plan') }}
                                     </button>

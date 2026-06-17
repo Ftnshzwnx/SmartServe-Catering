@@ -215,16 +215,16 @@ function handleReceiptSelect(event, orderId, type) {
         .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
         .order-card {
             background: #ffffff;
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 8px;
+            padding: 12px;
             border: 1px solid #E6E1DA;
             box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.01);
             transition: all 0.2s ease;
         }
         @media (min-width: 640px) {
             .order-card {
-                border-radius: 16px;
-                padding: 28px;
+                border-radius: 12px;
+                padding: 20px;
             }
         }
         .order-card:hover {
@@ -235,21 +235,30 @@ function handleReceiptSelect(event, orderId, type) {
             padding: 6px 12px;
             font-size: 0.65rem;
             font-weight: 600;
-            border-radius: 12px;
+            border-radius: 8px;
             border: 1px solid transparent;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             transition: all 0.2s ease;
             color: #8C8275;
             cursor: pointer;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
         @media (min-width: 640px) {
             .tab-btn {
                 padding: 8px 16px;
                 font-size: 0.75rem;
-                border-radius: 16px;
+                border-radius: 10px;
                 letter-spacing: 0.1em;
             }
+        }
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
         .tab-btn.active {
             background: #4A6B5D;
@@ -257,10 +266,16 @@ function handleReceiptSelect(event, orderId, type) {
             border-color: #4A6B5D;
         }
         .progress-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 16px;
             z-index: 10;
+        }
+        @media (min-width: 640px) {
+            .progress-dot {
+                width: 10px;
+                height: 10px;
+            }
         }
         .toast-notification {
             position: fixed;
@@ -284,7 +299,7 @@ function handleReceiptSelect(event, orderId, type) {
             <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-6 sm:space-y-8">
                 
                 <!-- Filters tabs row -->
-                <div class="flex flex-wrap items-center gap-1.5 border-b border-[#E6E1DA] pb-4">
+                <div class="flex overflow-x-auto whitespace-nowrap scrollbar-none items-center gap-1.5 border-b border-[#E6E1DA] pb-3 sm:pb-4">
                     <button 
                         @click="handleTabChange('all')" 
                         class="tab-btn flex items-center gap-2" 
@@ -404,32 +419,32 @@ function handleReceiptSelect(event, orderId, type) {
                     <div v-for="order in orders" :key="order.id" class="order-card space-y-6">
                         
                         <!-- Order Header Information -->
-                        <div class="flex flex-wrap justify-between items-start gap-4 border-b border-[#EBEFEF] pb-4 text-xs tracking-wider text-[#8C8275] uppercase">
+                        <div class="flex flex-wrap justify-between items-start gap-4 border-b border-[#EBEFEF] pb-4 text-[10px] sm:text-xs tracking-wider text-[#8C8275] uppercase">
                             <div>
-                                <span class="text-[9px] font-bold block mb-1">{{ t('order_id') }}</span>
-                                <span class="text-base font-normal text-[#2D3330] font-serif-luxury tracking-wide">#{{ order.id }}</span>
+                                <span class="text-[8px] sm:text-[9px] font-bold block mb-1">{{ t('order_id') }}</span>
+                                <span class="text-sm sm:text-base font-normal text-[#2D3330] font-serif-luxury tracking-wide">#{{ order.id }}</span>
                             </div>
                             <div>
-                                <span class="text-[9px] font-bold block mb-1">{{ t('delivery_event_date_label') }}</span>
-                                <span class="text-xs font-semibold text-[#2D3330] whitespace-nowrap">
+                                <span class="text-[8px] sm:text-[9px] font-bold block mb-1">{{ t('delivery_event_date_label') }}</span>
+                                <span class="text-[10px] sm:text-xs font-semibold text-[#2D3330] whitespace-nowrap">
                                     <i class="far fa-calendar mr-1 text-[#4A6B5D]"></i> {{ order.delivery_date }} ({{ order.delivery_time }})
                                 </span>
                             </div>
                             <div>
-                                <span class="text-[9px] font-bold block mb-1">{{ t('total_price') }}</span>
-                                <span class="text-xs font-semibold text-[#4A6B5D] lowercase whitespace-nowrap">RM <span class="text-sm font-semibold uppercase">{{ parseFloat(order.total_price).toFixed(2) }}</span></span>
+                                <span class="text-[8px] sm:text-[9px] font-bold block mb-1">{{ t('total_price') }}</span>
+                                <span class="text-[10px] sm:text-xs font-semibold text-[#4A6B5D] lowercase whitespace-nowrap">RM <span class="text-xs sm:text-sm font-semibold uppercase">{{ parseFloat(order.total_price).toFixed(2) }}</span></span>
                             </div>
                             <div>
-                                <span class="text-[9px] font-bold block mb-1">{{ t('status_label') }}</span>
-                                <span class="inline-flex items-center px-3 py-1 text-[10px] font-semibold border rounded-full uppercase tracking-widest whitespace-nowrap" :class="getStatusBadge(order.status)">
+                                <span class="text-[8px] sm:text-[9px] font-bold block mb-1">{{ t('status_label') }}</span>
+                                <span class="inline-flex items-center px-2 py-0.5 sm:px-3 sm:py-1 text-[8px] sm:text-[10px] font-semibold border rounded-full uppercase tracking-widest whitespace-nowrap" :class="getStatusBadge(order.status)">
                                     {{ getTranslatedStatus(order.status) }}
                                 </span>
                             </div>
                         </div>
 
                         <!-- Progress Bar Tracker -->
-                        <div v-if="order.status !== 'Cancelled'" class="py-4">
-                            <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-6">{{ t('order_timeline_tracker') }}</span>
+                        <div v-if="order.status !== 'Cancelled'" class="py-2 sm:py-4">
+                            <span class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-3 sm:mb-6">{{ t('order_timeline_tracker') }}</span>
                             
                             <!-- Custom Proposal Tracker -->
                             <div v-if="order.is_custom_proposal" class="relative flex items-center justify-between w-full">
@@ -450,37 +465,37 @@ function handleReceiptSelect(event, orderId, type) {
                                 <!-- Dot 1: Requested -->
                                 <div class="flex flex-col items-center gap-1.5 relative">
                                     <div class="progress-dot border border-slate-300" :class="['Pending Proposal', 'Proposal Sent', 'Pending', 'Deposit Rejected', 'Confirmed', 'Delivered', 'Balance Rejected', 'Payment Submitted', 'Completed'].includes(order.status) ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('status_requested') }}</span>
+                                    <span class="text-[7px] sm:text-[9px] font-semibold text-[#8C8275] uppercase tracking-normal sm:tracking-wider">{{ t('status_requested') }}</span>
                                 </div>
 
                                 <!-- Dot 2: Proposal Sent -->
                                 <div class="flex flex-col items-center gap-1.5 relative">
                                     <div class="progress-dot border border-slate-300" :class="['Proposal Sent', 'Pending', 'Deposit Rejected', 'Confirmed', 'Delivered', 'Balance Rejected', 'Payment Submitted', 'Completed'].includes(order.status) ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('status_proposal') }}</span>
+                                    <span class="text-[7px] sm:text-[9px] font-semibold text-[#8C8275] uppercase tracking-normal sm:tracking-wider">{{ t('status_proposal') }}</span>
                                 </div>
 
                                 <!-- Dot 3: Approved / Deposit -->
                                 <div class="flex flex-col items-center gap-1.5 relative">
                                     <div class="progress-dot border border-slate-300" :class="['Pending', 'Deposit Rejected', 'Confirmed', 'Delivered', 'Balance Rejected', 'Payment Submitted', 'Completed'].includes(order.status) ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('status_approved') }}</span>
+                                    <span class="text-[7px] sm:text-[9px] font-semibold text-[#8C8275] uppercase tracking-normal sm:tracking-wider">{{ t('status_approved') }}</span>
                                 </div>
 
                                 <!-- Dot 4: Confirmed -->
                                 <div class="flex flex-col items-center gap-1.5 relative">
                                     <div class="progress-dot border border-slate-300" :class="['Confirmed', 'Delivered', 'Balance Rejected', 'Payment Submitted', 'Completed'].includes(order.status) ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('timeline_confirmed') }}</span>
+                                    <span class="text-[7px] sm:text-[9px] font-semibold text-[#8C8275] uppercase tracking-normal sm:tracking-wider">{{ t('timeline_confirmed') }}</span>
                                 </div>
 
                                 <!-- Dot 5: Delivered -->
                                 <div class="flex flex-col items-center gap-1.5 relative">
                                     <div class="progress-dot border border-slate-300" :class="['Delivered', 'Balance Rejected', 'Payment Submitted', 'Completed'].includes(order.status) ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('timeline_delivered') }}</span>
+                                    <span class="text-[7px] sm:text-[9px] font-semibold text-[#8C8275] uppercase tracking-normal sm:tracking-wider">{{ t('timeline_delivered') }}</span>
                                 </div>
 
                                 <!-- Dot 6: Completed -->
                                 <div class="flex flex-col items-center gap-1.5 relative">
                                     <div class="progress-dot border border-slate-300" :class="['Completed'].includes(order.status) ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('timeline_completed') }}</span>
+                                    <span class="text-[7px] sm:text-[9px] font-semibold text-[#8C8275] uppercase tracking-normal sm:tracking-wider">{{ t('timeline_completed') }}</span>
                                 </div>
                             </div>
 
@@ -504,25 +519,25 @@ function handleReceiptSelect(event, orderId, type) {
                                 <!-- Dot 1: Pending -->
                                 <div class="flex flex-col items-center gap-1.5 relative">
                                     <div class="progress-dot border border-slate-300" :class="['Pending', 'Deposit Rejected', 'Payment Submitted', 'Confirmed', 'Delivered', 'Balance Rejected', 'Completed'].includes(order.status) ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('timeline_submitted') }}</span>
+                                    <span class="text-[7px] sm:text-[9px] font-semibold text-[#8C8275] uppercase tracking-normal sm:tracking-wider">{{ t('timeline_submitted') }}</span>
                                 </div>
 
                                 <!-- Dot 2: Confirmed -->
                                 <div class="flex flex-col items-center gap-1.5 relative">
                                     <div class="progress-dot border border-slate-300" :class="['Confirmed', 'Delivered', 'Balance Rejected', 'Completed'].includes(order.status) ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('timeline_confirmed') }}</span>
+                                    <span class="text-[7px] sm:text-[9px] font-semibold text-[#8C8275] uppercase tracking-normal sm:tracking-wider">{{ t('timeline_confirmed') }}</span>
                                 </div>
 
                                 <!-- Dot 3: Delivered -->
                                 <div class="flex flex-col items-center gap-1.5 relative">
                                     <div class="progress-dot border border-slate-300" :class="['Delivered', 'Balance Rejected', 'Completed'].includes(order.status) ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('timeline_delivered') }}</span>
+                                    <span class="text-[7px] sm:text-[9px] font-semibold text-[#8C8275] uppercase tracking-normal sm:tracking-wider">{{ t('timeline_delivered') }}</span>
                                 </div>
 
                                 <!-- Dot 4: Completed -->
                                 <div class="flex flex-col items-center gap-1.5 relative">
                                     <div class="progress-dot border border-slate-300" :class="order.status === 'Completed' ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                    <span class="text-[9px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('timeline_completed') }}</span>
+                                    <span class="text-[7px] sm:text-[9px] font-semibold text-[#8C8275] uppercase tracking-normal sm:tracking-wider">{{ t('timeline_completed') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -530,15 +545,15 @@ function handleReceiptSelect(event, orderId, type) {
                         <!-- Action / Error Notes from Admin Section -->
                         <template v-if="order.admin_note && order.status !== 'Pending Proposal' && order.status !== 'Proposal Sent'">
                             <!-- If status is rejected, show red rejection reason box -->
-                            <div v-if="['Deposit Rejected', 'Balance Rejected'].includes(order.status)" class="p-4 bg-[#FDF2F2] border border-[#FADCDD] text-xs">
-                                <span class="font-bold text-[#8C3A3A] uppercase tracking-wider block mb-1">
+                            <div v-if="['Deposit Rejected', 'Balance Rejected'].includes(order.status)" class="p-3 sm:p-4 bg-[#FDF2F2] border border-[#FADCDD] text-[10px] sm:text-xs">
+                                <span class="font-bold text-[#8C3A3A] uppercase tracking-wider block mb-1 text-[9px] sm:text-[10px]">
                                     <i class="fas fa-exclamation-triangle"></i> {{ t('rejection_reason_admin') }}
                                 </span>
                                 <p class="text-[#8C3A3A] leading-relaxed font-light">{{ order.admin_note }}</p>
                             </div>
                             <!-- Otherwise, show soft info note from admin/owner -->
-                            <div v-else class="p-4 bg-[#FAF7F2] border border-[#E6E1DA] text-xs">
-                                <span class="font-bold text-[#4A6B5D] uppercase tracking-wider block mb-1">
+                            <div v-else class="p-3 sm:p-4 bg-[#FAF7F2] border border-[#E6E1DA] text-[10px] sm:text-xs">
+                                <span class="font-bold text-[#4A6B5D] uppercase tracking-wider block mb-1 text-[9px] sm:text-[10px]">
                                     <i class="fas fa-comment-dots"></i> {{ t('note_from_owner') }}
                                 </span>
                                 <p class="text-[#5C6460] leading-relaxed font-light">{{ order.admin_note }}</p>
@@ -546,24 +561,24 @@ function handleReceiptSelect(event, orderId, type) {
                         </template>
 
                         <!-- Details & Control Panel -->
-                        <div class="flex flex-wrap justify-between items-center gap-4 bg-[#FAF6F0] p-4 border border-[#E6E1DA]">
-                            <div class="text-xs text-[#5C6460] leading-relaxed">
-                                <span class="font-bold text-[#2D3330] uppercase tracking-wider block mb-0.5 text-[10px]">{{ t('package') }}:</span>
+                        <div class="flex flex-wrap justify-between items-center gap-3 sm:gap-4 bg-[#FAF6F0] p-3 sm:p-4 border border-[#E6E1DA]">
+                            <div class="text-[10px] sm:text-xs text-[#5C6460] leading-relaxed">
+                                <span class="font-bold text-[#2D3330] uppercase tracking-wider block mb-0.5 text-[8px] sm:text-[10px]">{{ t('package') }}:</span>
                                 <span class="font-light">{{ order.package_name }}</span>
                             </div>
 
-                            <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-1.5 sm:gap-2">
                                 <Link 
                                     v-if="order.status === 'Proposal Sent'"
                                     :href="route('orders.show', { id: order.id })" 
-                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
-                                >
+                                    class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-2.5 py-1.5 sm:px-4 sm:py-2.5 rounded-md sm:rounded-lg text-[9px] sm:text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
+                                 >
                                     <i class="fas fa-file-invoice-dollar text-[10px]"></i> {{ t('review_approve') }}
                                 </Link>
                                 <Link 
                                     v-else
                                     :href="route('orders.show', { id: order.id })" 
-                                    class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors inline-flex items-center cursor-pointer"
+                                    class="bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold px-2.5 py-1.5 sm:px-4 sm:py-2.5 rounded-md sm:rounded-lg text-[9px] sm:text-xs uppercase tracking-widest transition-colors inline-flex items-center cursor-pointer"
                                 >
                                     <i class="fas fa-search-plus mr-1 text-[10px]"></i> {{ t('view_invoice') }}
                                 </Link>
@@ -580,13 +595,13 @@ function handleReceiptSelect(event, orderId, type) {
                                     <button 
                                         type="button"
                                         @click="triggerFileSelect(order.id)"
-                                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
+                                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-2.5 py-1.5 sm:px-4 sm:py-2.5 rounded-md sm:rounded-lg text-[9px] sm:text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
                                         :disabled="processingReupload[order.id]"
                                     >
                                         <i class="fas fa-cloud-upload-alt"></i> 
                                         {{ processingReupload[order.id] ? t('uploading') : (order.status === 'Delivered' ? t('upload_balance_proof') : (order.status === 'Pending' ? t('upload_deposit_proof') : t('reupload_receipt_btn'))) }}
                                     </button>
-                                    <span v-if="fileErrors[order.id]" class="text-[10px] text-[#8C3A3A] font-semibold absolute top-full left-0 mt-1 whitespace-nowrap">{{ fileErrors[order.id] }}</span>
+                                    <span v-if="fileErrors[order.id]" class="text-[9px] sm:text-[10px] text-[#8C3A3A] font-semibold absolute top-full left-0 mt-1 whitespace-nowrap">{{ fileErrors[order.id] }}</span>
                                 </div>
 
                                 <!-- Download QR Code button -->
@@ -594,7 +609,7 @@ function handleReceiptSelect(event, orderId, type) {
                                     v-if="shouldShowQr(order)"
                                     type="button"
                                     @click="downloadQr()"
-                                    class="bg-white hover:bg-[#FAF7F2] border border-[#C5D8D1] text-[#4A6B5D] font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
+                                    class="bg-white hover:bg-[#FAF7F2] border border-[#C5D8D1] text-[#4A6B5D] font-semibold px-2.5 py-1.5 sm:px-4 sm:py-2.5 rounded-md sm:rounded-lg text-[9px] sm:text-xs uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
                                 >
                                     <i class="fas fa-qrcode"></i>
                                     {{ t('save_qr') }}
@@ -604,7 +619,7 @@ function handleReceiptSelect(event, orderId, type) {
                                  <button 
                                      v-if="canCancel(order)"
                                      @click="handleCancelOrder(order.id)"
-                                     class="bg-white hover:bg-red-50 border border-red-200 text-red-500 font-semibold px-4 py-2.5 rounded-lg text-xs uppercase tracking-widest transition-colors cursor-pointer"
+                                     class="bg-white hover:bg-red-50 border border-red-200 text-red-500 font-semibold px-2.5 py-1.5 sm:px-4 sm:py-2.5 rounded-md sm:rounded-lg text-[9px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer"
                                  >
                                      <i class="fas fa-times-circle mr-1 text-[10px]"></i> {{ t('cancel_event_btn') }}
                                  </button>
@@ -612,9 +627,9 @@ function handleReceiptSelect(event, orderId, type) {
                         </div>
 
                         <!-- QR Code Panel for Payments -->
-                        <div v-if="shouldShowQr(order)" class="border-t border-[#E6E1DA] bg-white flex flex-col sm:flex-row items-center gap-5 p-5">
+                        <div v-if="shouldShowQr(order)" class="border-t border-[#E6E1DA] bg-white flex flex-col sm:flex-row items-center gap-3 sm:gap-5 p-4 sm:p-5">
                             <div 
-                                class="flex-shrink-0 w-28 h-28 rounded-xl border border-[#E6E1DA] overflow-hidden shadow-sm bg-white p-1.5 cursor-zoom-in relative group"
+                                class="flex-shrink-0 w-20 h-20 sm:w-28 sm:h-28 rounded-xl border border-[#E6E1DA] overflow-hidden shadow-sm bg-white p-1.5 cursor-zoom-in relative group"
                                 @click="showQrModal = true"
                                 title="Click to zoom"
                             >
@@ -623,12 +638,12 @@ function handleReceiptSelect(event, orderId, type) {
                                     <i class="fas fa-search-plus text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 drop-shadow-md text-lg"></i>
                                 </div>
                             </div>
-                            <div class="flex flex-col gap-2 flex-1">
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-[#4A6B5D] flex items-center gap-1.5">
+                            <div class="flex flex-col gap-1 sm:gap-2 flex-1">
+                                <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-[#4A6B5D] flex items-center gap-1.5">
                                     <i class="fas fa-qrcode"></i>
                                     {{ t('payment_qr_code') }}
                                 </span>
-                                <p class="text-[11px] text-[#5C6460] font-light leading-relaxed">
+                                <p class="text-[10px] sm:text-[11px] text-[#5C6460] font-light leading-relaxed">
                                     <template v-if="isDepositPayment(order)">
                                         {{ t('scan_qr_deposit_info').replace('{depositPercent}', depositPercent).replace('{depositAmount}', getDepositAmount(order.total_price).toFixed(2)) }}
                                     </template>
@@ -639,7 +654,7 @@ function handleReceiptSelect(event, orderId, type) {
                                 <button 
                                     type="button"
                                     @click="downloadQr()"
-                                    class="self-start mt-1 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-4 py-2 rounded-lg text-[10px] uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
+                                    class="self-start mt-1 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-md sm:rounded-lg text-[9px] sm:text-[10px] uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
                                 >
                                     <i class="fas fa-download"></i>
                                     {{ t('save_qr_code') }}
@@ -651,7 +666,7 @@ function handleReceiptSelect(event, orderId, type) {
                 </div>
 
                 <!-- Empty State -->
-                <div v-else class="bg-white rounded-2xl border border-[#E6E1DA] p-20 text-center shadow-sm max-w-xl mx-auto">
+                <div v-else class="bg-white rounded-xl border border-[#E6E1DA] p-12 text-center shadow-sm max-w-xl mx-auto">
                     <div class="w-16 h-16 rounded-xl bg-[#FAF6F0] text-[#8C8275] flex items-center justify-center text-xl mx-auto mb-6 border border-[#E6E1DA]">
                         <i class="fas fa-receipt"></i>
                     </div>
@@ -702,7 +717,7 @@ function handleReceiptSelect(event, orderId, type) {
                 <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" @click="showQrModal = false"></div>
 
                 <!-- Modal Card -->
-                <div class="relative z-10 bg-white rounded-3xl shadow-2xl p-8 flex flex-col items-center gap-6 max-w-sm w-full">
+                <div class="relative z-10 bg-white rounded-2xl shadow-2xl p-6 flex flex-col items-center gap-5 max-w-sm w-full">
                     <!-- Close Button -->
                     <button 
                         @click="showQrModal = false" 
@@ -723,7 +738,7 @@ function handleReceiptSelect(event, orderId, type) {
                     </div>
 
                     <!-- Large QR Image -->
-                    <div class="w-64 h-64 rounded-2xl border-2 border-[#E6E1DA] overflow-hidden bg-white p-3 shadow-inner">
+                    <div class="w-64 h-64 rounded-xl border-2 border-[#E6E1DA] overflow-hidden bg-white p-2.5 shadow-inner">
                         <img :src="resolveQrPath(qrCodePath)" alt="Payment QR Code" class="w-full h-full object-contain" />
                     </div>
 

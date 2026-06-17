@@ -213,6 +213,14 @@ function getPackageImage(pkg) {
             border-radius: 20px;
             padding: 20px;
         }
+        
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
     </component>
 
     <AuthenticatedLayout
@@ -255,14 +263,14 @@ function getPackageImage(pkg) {
                     
                     <!-- Left Column: Occasion Catalog (8 cols) -->
                     <div class="lg:col-span-8 space-y-6">
-                        <div class="bg-white border border-[#E6E1DA] rounded-xl sm:rounded-3xl p-4 sm:p-6 shadow-xs space-y-4 sm:space-y-6">
+                        <div class="bg-white border border-[#E6E1DA] rounded-lg sm:rounded-2xl p-3 sm:p-5 shadow-xs space-y-3 sm:space-y-5">
                             
                             <!-- Search & Filter Header -->
                             <div class="space-y-4">
                                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                     <div>
                                         <span class="text-[10px] font-bold text-[#4A6B5D] uppercase tracking-widest block mb-1">{{ t('premium_selection') }}</span>
-                                        <h3 class="text-xl sm:text-2xl font-light text-[#2D3330] font-serif-luxury tracking-wide">
+                                        <h3 class="text-base sm:text-2xl font-light text-[#2D3330] font-serif-luxury tracking-wide">
                                             {{ t('select_occasion') }}
                                         </h3>
                                     </div>
@@ -285,32 +293,32 @@ function getPackageImage(pkg) {
                                     {{ t('select_event_type_desc') }}
                                 </p>
  
-                                <!-- Category Tab Filters -->
-                                <div class="flex flex-wrap gap-2 pt-2 border-b border-[#FAF6F0] pb-4">
+                                 <!-- Category Tab Filters -->
+                                <div class="flex overflow-x-auto whitespace-nowrap scrollbar-none gap-2 pt-2 border-b border-[#FAF6F0] pb-3 sm:pb-4">
                                     <button 
                                         @click="activeTab = 'all'" 
-                                        class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
+                                        class="flex-shrink-0 whitespace-nowrap px-2 py-1 sm:px-3.5 sm:py-2 rounded-lg text-[9px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
                                         :class="activeTab === 'all' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                                     >
                                         {{ t('all_packages') }}
                                     </button>
                                     <button 
                                         @click="activeTab = 'wedding'" 
-                                        class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
+                                        class="flex-shrink-0 whitespace-nowrap px-2 py-1 sm:px-3.5 sm:py-2 rounded-lg text-[9px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
                                         :class="activeTab === 'wedding' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                                     >
                                         {{ t('wedding_packages') }}
                                     </button>
                                     <button 
                                         @click="activeTab = 'corporate'" 
-                                        class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
+                                        class="flex-shrink-0 whitespace-nowrap px-2 py-1 sm:px-3.5 sm:py-2 rounded-lg text-[9px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
                                         :class="activeTab === 'corporate' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                                     >
                                         {{ t('corporate_packages') }}
                                     </button>
                                     <button 
                                         @click="activeTab = 'aqiqah'" 
-                                        class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
+                                        class="flex-shrink-0 whitespace-nowrap px-2 py-1 sm:px-3.5 sm:py-2 rounded-lg text-[9px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer select-none"
                                         :class="activeTab === 'aqiqah' ? 'bg-[#4A6B5D] text-white border-[#4A6B5D] shadow-xs' : 'bg-white text-[#8C8275] border-[#E6E1DA] hover:bg-[#FAF7F2]'"
                                     >
                                         {{ t('aqiqah_family') }}
@@ -324,7 +332,7 @@ function getPackageImage(pkg) {
                                 <div 
                                     v-for="pkg in filteredPackages" 
                                     :key="pkg.package_name"
-                                    class="bg-white rounded-xl sm:rounded-2xl border border-[#E6E1DA] flex flex-col justify-between overflow-hidden menu-card relative"
+                                    class="bg-white rounded-lg sm:rounded-xl border border-[#E6E1DA] flex flex-col justify-between overflow-hidden menu-card relative"
                                 >
                                     <!-- Top Image Banner & floating badge -->
                                     <div class="relative h-32 sm:h-44 w-full bg-slate-100 overflow-hidden">
@@ -345,10 +353,10 @@ function getPackageImage(pkg) {
                                         </span>
                                     </div>
  
-                                    <div class="p-4 sm:p-5 flex-grow flex flex-col justify-between">
+                                    <div class="p-3 sm:p-4 flex-grow flex flex-col justify-between">
                                         <div class="space-y-3">
                                             <div>
-                                                <h4 class="text-sm sm:text-base font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide">
+                                                <h4 class="text-xs sm:text-base font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide">
                                                     {{ pkg.package_name }}
                                                 </h4>
                                                 <p class="text-[10px] text-[#8C8275] uppercase tracking-wider font-light mt-0.5">
@@ -381,7 +389,7 @@ function getPackageImage(pkg) {
  
                                             <Link 
                                                 :href="route('menu.show', { category: pkg.package_name })"
-                                                class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2.5 px-4 rounded-xl text-xs uppercase tracking-widest transition-colors duration-200"
+                                                class="w-full inline-flex items-center justify-center gap-1.5 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2 px-3.5 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors duration-200"
                                             >
                                                 <i class="fas fa-search-plus text-[10px]"></i> {{ t('view_packages') }}
                                             </Link>
@@ -407,7 +415,7 @@ function getPackageImage(pkg) {
                     <div class="lg:col-span-4 space-y-6">
                         
                         <!-- Dynamic Budget Planner Promo Card (FIXED contrast issue with bg-[#2D3330]) -->
-                        <div class="bg-[#2D3330] border border-[#E6E1DA] rounded-xl sm:rounded-2xl p-4 sm:p-6 text-[#FAF7F2] space-y-4 sm:space-y-5">
+                        <div class="bg-[#2D3330] border border-[#E6E1DA] rounded-lg sm:rounded-xl p-3 sm:p-4.5 text-[#FAF7F2] space-y-3 sm:space-y-4">
                             <div class="w-10 h-10 rounded-xl bg-[#4A6B5D]/20 text-[#4A6B5D] border border-[#4A6B5D]/30 flex items-center justify-center text-base">
                                 <i class="fas fa-calculator text-white"></i>
                             </div>
@@ -421,14 +429,14 @@ function getPackageImage(pkg) {
                             </div>
                             <Link 
                                 :href="route('budget.planner')"
-                                class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3 px-4 rounded-xl text-xs uppercase tracking-widest transition-colors duration-200 text-center"
+                                class="w-full inline-flex items-center justify-center gap-1.5 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2 px-3.5 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors duration-200 text-center"
                             >
                                 {{ t('open_planner') }} <i class="fas fa-arrow-right text-[10px]"></i>
                             </Link>
                         </div>
  
                         <!-- Brand Guarantees Pillars (bg-white explicitly added) -->
-                        <div class="bg-white border border-[#E6E1DA] rounded-xl sm:rounded-2xl p-4 sm:p-6 space-y-4 sm:space-y-6">
+                        <div class="bg-white border border-[#E6E1DA] rounded-lg sm:rounded-xl p-3 sm:p-4.5 space-y-3 sm:space-y-5">
                             <h4 class="text-xs font-bold text-[#2D3330] uppercase tracking-widest border-b border-[#E6E1DA] pb-3">
                                 {{ t('smartserve_guarantees') }}
                             </h4>

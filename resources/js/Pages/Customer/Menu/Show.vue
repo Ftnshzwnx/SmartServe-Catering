@@ -217,7 +217,7 @@ const getDishIcon = (dishName) => {
                 </div>
                 
                 <!-- Luxury Cover Banner -->
-                <div class="mb-6 sm:mb-8 overflow-hidden rounded-xl sm:rounded-3xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] p-5 sm:p-8 md:p-10 text-white border border-[#E6E1DA]/10 shadow-lg relative">
+                <div class="mb-4 sm:mb-6 overflow-hidden rounded-lg sm:rounded-2xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] p-3.5 sm:p-6 md:p-8 text-white border border-[#E6E1DA]/10 shadow-lg relative">
                     <!-- Decor blurs -->
                     <div class="absolute -right-16 -top-16 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
                     <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-[#C5A880]/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -227,17 +227,17 @@ const getDishIcon = (dishName) => {
                             <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#C5A880]/20 border border-[#C5A880]/30 rounded-full text-[10px] font-bold text-[#E6CBA3] uppercase tracking-widest">
                                 <i class="fas fa-utensils"></i> {{ t('catering_packages') }}
                             </div>
-                            <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
+                            <h1 class="text-base sm:text-2xl md:text-3xl lg:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
                                 {{ category }}
                             </h1>
-                            <p class="text-xs md:text-sm text-[#E6E1DA]/80 max-w-2xl font-light leading-relaxed">
+                            <p class="text-[10px] sm:text-xs md:text-sm text-[#E6E1DA]/80 max-w-2xl font-light leading-relaxed">
                                 {{ t('category_show_desc') }}
                             </p>
                         </div>
                         <div class="flex gap-4 shrink-0">
-                            <div class="bg-white/5 border border-white/10 rounded-2xl px-5 py-3.5 text-center backdrop-blur-xs min-w-28">
-                                <span class="block text-[9px] font-bold text-[#C5A880] uppercase tracking-widest mb-1">{{ t('packages') }}</span>
-                                <span class="text-2xl font-semibold font-serif-luxury text-white">{{ variations.length }}</span>
+                            <div class="bg-white/5 border border-white/10 rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3.5 text-center backdrop-blur-xs min-w-24 sm:min-w-28">
+                                <span class="block text-[8px] sm:text-[9px] font-bold text-[#C5A880] uppercase tracking-widest mb-1">{{ t('packages') }}</span>
+                                <span class="text-lg sm:text-2xl font-semibold font-serif-luxury text-white">{{ variations.length }}</span>
                             </div>
                         </div>
                     </div>
@@ -248,171 +248,171 @@ const getDishIcon = (dishName) => {
                     <div 
                         v-for="pkg in variations" 
                         :key="pkg.id || pkg.package_id"
-                        class="bg-white p-4 sm:p-6 md:p-8 rounded-xl sm:rounded-3xl border border-[#E6E1DA] shadow-sm package-card"
+                        class="bg-white p-3 sm:p-5 md:p-6 rounded-lg sm:rounded-2xl border border-[#E6E1DA] shadow-sm package-card"
                     >
-                        <div class="grid lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+                        <div class="grid lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 items-start">
                             
                             <!-- Left Info Section (7 cols) -->
-                            <div class="lg:col-span-7 space-y-6">
-                                <div class="flex items-center justify-between flex-wrap gap-4">
-                                    <h3 class="text-lg sm:text-xl md:text-2xl font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide">
+                            <div class="lg:col-span-7 space-y-4 sm:space-y-6">
+                                <div class="flex items-center justify-between flex-wrap gap-2 sm:gap-4">
+                                    <h3 class="text-sm sm:text-xl md:text-2xl font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide">
                                         {{ pkg.package_name }}
                                     </h3>
                                     <!-- Price Badge -->
-                                    <span class="text-xs sm:text-sm font-semibold text-[#4A6B5D] bg-[#EBEFEF] border border-[#D1DEDB] px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-xs">
-                                        RM {{ parseFloat(pkg.price).toFixed(2) }} <span class="text-xs text-[#8C8275] font-normal">/ {{ t('pax') }}</span>
+                                    <span class="text-[10px] sm:text-sm font-semibold text-[#4A6B5D] bg-[#EBEFEF] border border-[#D1DEDB] px-2.5 py-1 sm:px-4 sm:py-2 rounded-full shadow-xs">
+                                        RM {{ parseFloat(pkg.price).toFixed(2) }} <span class="text-[9px] sm:text-xs text-[#8C8275] font-normal">/ {{ t('pax') }}</span>
                                     </span>
                                 </div>
  
                                 <!-- Package Menu Items list -->
-                                <div class="border-t border-[#E6E1DA] pt-4 sm:pt-6">
-                                    <p class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                                        <i class="fas fa-list-ul text-xs text-[#4A6B5D]"></i> {{ t('included_dishes') }}:
+                                <div class="border-t border-[#E6E1DA] pt-3 sm:pt-6">
+                                    <p class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest mb-2.5 flex items-center gap-1.5">
+                                        <i class="fas fa-list-ul text-[10px] sm:text-xs text-[#4A6B5D]"></i> {{ t('included_dishes') }}:
                                     </p>
                                     
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3.5">
                                         <div 
                                             v-for="item in pkg.description.split('\n').map(i => i.trim()).filter(i => i !== '')"
                                             :key="item"
-                                            class="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-[#FAF8F5]/80 hover:bg-[#FAF8F5] border border-[#E6E1DA] rounded-lg sm:rounded-xl transition-all duration-300 hover:shadow-xs group hover:-translate-y-0.5"
+                                            class="flex items-center gap-2 sm:gap-3 p-1.5 sm:p-3 bg-[#FAF8F5]/80 hover:bg-[#FAF8F5] border border-[#E6E1DA] rounded-lg sm:rounded-xl transition-all duration-300 hover:shadow-xs group hover:-translate-y-0.5"
                                         >
                                             <span 
-                                                class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 shadow-xs"
+                                                class="w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 shadow-xs"
                                                 :class="[getDishIcon(item).bg, getDishIcon(item).text]"
                                             >
-                                                <i class="fas text-[10px]" :class="getDishIcon(item).icon"></i>
+                                                <i class="fas text-[9px] sm:text-[10px]" :class="getDishIcon(item).icon"></i>
                                             </span>
-                                            <span class="text-xs text-[#2D3330] font-medium tracking-wide leading-tight">{{ item }}</span>
+                                            <span class="text-[11px] sm:text-xs text-[#2D3330] font-medium tracking-wide leading-tight">{{ item }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
  
                             <!-- Right Calculator Section (5 cols) -->
-                            <div class="lg:col-span-5 bg-[#FAF8F5] p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-[#E6E1DA] flex flex-col justify-between gap-4 sm:gap-6 self-stretch shadow-xs">
-                                <div class="space-y-5">
-                                    <div class="flex items-center justify-between text-xs tracking-wide">
+                            <div class="lg:col-span-5 bg-[#FAF8F5] p-3 sm:p-5 rounded-lg sm:rounded-xl border border-[#E6E1DA] flex flex-col justify-between gap-3 sm:gap-5 self-stretch shadow-xs">
+                                <div class="space-y-4 sm:space-y-5">
+                                    <div class="flex items-center justify-between text-[11px] sm:text-xs tracking-wide">
                                         <span class="font-bold text-[#8C8275] uppercase">{{ t('min_requirement') }}:</span>
-                                        <span class="font-bold text-[#2D3330] bg-white border border-[#E6E1DA] px-2.5 py-1 rounded-lg shadow-2xs">
+                                        <span class="font-bold text-[#2D3330] bg-white border border-[#E6E1DA] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg shadow-2xs">
                                             {{ pkg.min_order || 20 }} {{ t('pax') }}
                                         </span>
                                     </div>
  
-                                    <!-- Stepper Quantity Input -->
-                                    <div class="space-y-2">
-                                        <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('select_quantity') }}</label>
-                                        <div class="flex items-center shadow-xs rounded-xl overflow-hidden border border-[#E6E1DA]">
-                                            <!-- Minus Button -->
-                                            <button 
-                                                type="button"
-                                                @click="adjustGuests(pkg.id || pkg.package_id, -50, pkg.min_order || 20)"
-                                                class="w-12 h-12 bg-white text-[#5C6460] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] transition-colors flex items-center justify-center font-semibold text-lg cursor-pointer focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed border-r border-[#E6E1DA]"
-                                                :disabled="quantities[pkg.id || pkg.package_id] <= (pkg.min_order || 20)"
-                                            >
-                                                <i class="fas fa-minus text-xs"></i>
-                                            </button>
-                                            
-                                            <!-- Value Input -->
-                                            <input 
-                                                type="number" 
-                                                v-model.number="quantities[pkg.id || pkg.package_id]" 
-                                                :min="pkg.min_order || 20"
-                                                @change="validateQuantity(pkg.id || pkg.package_id, pkg.min_order || 20)"
-                                                class="w-24 text-center font-bold text-lg border-0 h-12 focus:outline-none focus:ring-0 bg-white text-[#2D3330]"
-                                            />
-                                            
-                                            <!-- Plus Button -->
-                                            <button 
-                                                type="button"
-                                                @click="adjustGuests(pkg.id || pkg.package_id, 50)"
-                                                class="w-12 h-12 bg-white text-[#5C6460] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] transition-colors flex items-center justify-center font-semibold text-lg cursor-pointer focus:outline-none border-l border-[#E6E1DA]"
-                                            >
-                                                <i class="fas fa-plus text-xs"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Range Slider Control -->
-                                    <div class="space-y-1.5 px-1">
-                                        <input 
-                                            type="range" 
-                                            v-model.number="quantities[pkg.id || pkg.package_id]" 
-                                            :min="pkg.min_order || 20" 
-                                            :max="Math.max(1000, (pkg.min_order || 20) * 5)"
-                                            step="50"
-                                            class="w-full accent-[#4A6B5D] cursor-pointer h-1 bg-[#E6E1DA] rounded-lg appearance-none"
-                                        />
-                                        <div class="flex justify-between text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">
-                                            <span>Min: {{ pkg.min_order || 20 }} {{ t('pax') }}</span>
-                                            <span>Max: {{ Math.max(1000, (pkg.min_order || 20) * 5) }} {{ t('pax') }}</span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Event Scale Badge -->
-                                    <div class="flex items-center gap-2 mt-1">
-                                        <span 
-                                            class="text-[10px] font-semibold px-2.5 py-1 rounded-full transition-all duration-300 flex items-center gap-1.5"
-                                            :class="getScaleBadge(quantities[pkg.id || pkg.package_id], pkg.min_order || 20).class"
-                                        >
-                                            <i class="fas text-[9px]" :class="getScaleBadge(quantities[pkg.id || pkg.package_id], pkg.min_order || 20).icon"></i>
-                                            {{ getScaleBadge(quantities[pkg.id || pkg.package_id], pkg.min_order || 20).text }}
-                                        </span>
-                                    </div>
-                                    
-                                    <!-- Live Total Receipt Style Breakdown -->
-                                    <div class="border-t border-[#E6E1DA] pt-4 space-y-2.5">
-                                        <div class="flex items-center justify-between text-xs text-[#5C6460]">
-                                            <span>{{ t('base_price_label') }} (RM {{ parseFloat(pkg.price).toFixed(2) }} × {{ quantities[pkg.id || pkg.package_id] }} {{ t('pax') }})</span>
-                                            <span class="font-medium text-[#2D3330]">
-                                                RM {{ calculateTotal(pkg.price, quantities[pkg.id || pkg.package_id]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
-                                            </span>
-                                        </div>
-
-                                        <div class="flex items-center justify-between text-[11px] text-[#8C8275] italic">
-                                            <span>{{ t('deposit_booking_percent').replace('{percent}', '30') }}</span>
-                                            <span>
-                                                RM {{ (calculateTotal(pkg.price, quantities[pkg.id || pkg.package_id]) * 0.3).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
-                                            </span>
-                                        </div>
-
-                                        <div class="flex items-center justify-between text-[11px] text-[#8C8275] italic">
-                                            <span>{{ t('balance_due_percent').replace('{percent}', '70') }}</span>
-                                            <span>
-                                                RM {{ (calculateTotal(pkg.price, quantities[pkg.id || pkg.package_id]) * 0.7).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
-                                            </span>
-                                        </div>
-                                        
-                                        <!-- Grand Total Display Card -->
-                                        <div class="bg-[#FAF7F2] p-4 rounded-xl border border-[#E6E1DA] flex items-center justify-between mt-2 shadow-2xs">
-                                            <span class="text-xs font-bold text-[#4A6B5D] uppercase tracking-wider">{{ t('live_total') }}:</span>
-                                            <div class="text-right">
-                                                <span class="text-2xl font-normal text-[#4A6B5D] font-serif-luxury tracking-wide block">
-                                                    RM {{ calculateTotal(pkg.price, quantities[pkg.id || pkg.package_id]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
-                                                </span>
-                                                <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mt-0.5">{{ t('sst_halal_notices') }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Action Buttons -->
-                                <div class="flex flex-col gap-2">
-                                    <Link 
-                                        :href="route('cart.customize', { package_id: pkg.id || pkg.package_id })"
-                                        class="btn-premium-primary w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3.5 px-6 rounded-xl text-xs uppercase tracking-widest shadow-sm text-center cursor-pointer"
-                                    >
-                                        <i class="fas fa-sliders-h text-[10px]"></i> {{ t('customize_order') }}
-                                    </Link>
-                                    
-                                    <button 
-                                        @click="handleAddToCart(pkg.id || pkg.package_id)"
-                                        class="btn-premium-secondary w-full inline-flex items-center justify-center gap-2 bg-white border border-[#E6E1DA] text-[#5C6460] font-semibold py-3.5 px-6 rounded-xl text-xs uppercase tracking-widest cursor-pointer"
-                                        :disabled="form.processing"
-                                    >
-                                        <i class="fas fa-cart-plus text-[10px]"></i> {{ t('direct_add_cart') }}
-                                    </button>
-                                </div>
-                            </div>
+                                     <!-- Stepper Quantity Input -->
+                                     <div class="space-y-1.5">
+                                         <label class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('select_quantity') }}</label>
+                                         <div class="flex items-center shadow-xs rounded-lg sm:rounded-xl overflow-hidden border border-[#E6E1DA] max-w-[140px] sm:max-w-[200px]">
+                                             <!-- Minus Button -->
+                                             <button 
+                                                 type="button"
+                                                 @click="adjustGuests(pkg.id || pkg.package_id, -50, pkg.min_order || 20)"
+                                                 class="w-8 h-8 sm:w-12 sm:h-12 bg-white text-[#5C6460] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] transition-colors flex items-center justify-center font-semibold text-xs sm:text-lg cursor-pointer focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed border-r border-[#E6E1DA]"
+                                                 :disabled="quantities[pkg.id || pkg.package_id] <= (pkg.min_order || 20)"
+                                             >
+                                                 <i class="fas fa-minus text-[10px] sm:text-xs"></i>
+                                             </button>
+                                             
+                                             <!-- Value Input -->
+                                             <input 
+                                                 type="number" 
+                                                 v-model.number="quantities[pkg.id || pkg.package_id]" 
+                                                 :min="pkg.min_order || 20"
+                                                 @change="validateQuantity(pkg.id || pkg.package_id, pkg.min_order || 20)"
+                                                 class="w-12 sm:w-24 text-center font-bold text-xs sm:text-lg border-0 h-8 sm:h-12 focus:outline-none focus:ring-0 bg-white text-[#2D3330]"
+                                             />
+                                             
+                                             <!-- Plus Button -->
+                                             <button 
+                                                 type="button"
+                                                 @click="adjustGuests(pkg.id || pkg.package_id, 50)"
+                                                 class="w-8 h-8 sm:w-12 sm:h-12 bg-white text-[#5C6460] hover:text-[#4A6B5D] hover:bg-[#FAF7F2] transition-colors flex items-center justify-center font-semibold text-xs sm:text-lg cursor-pointer focus:outline-none border-l border-[#E6E1DA]"
+                                             >
+                                                 <i class="fas fa-plus text-[10px] sm:text-xs"></i>
+                                             </button>
+                                         </div>
+                                     </div>
+                                     
+                                     <!-- Range Slider Control -->
+                                     <div class="space-y-1 px-1">
+                                         <input 
+                                             type="range" 
+                                             v-model.number="quantities[pkg.id || pkg.package_id]" 
+                                             :min="pkg.min_order || 20" 
+                                             :max="Math.max(1000, (pkg.min_order || 20) * 5)"
+                                             step="50"
+                                             class="w-full accent-[#4A6B5D] cursor-pointer h-1 bg-[#E6E1DA] rounded-lg appearance-none"
+                                         />
+                                         <div class="flex justify-between text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-wider">
+                                             <span>Min: {{ pkg.min_order || 20 }} {{ t('pax') }}</span>
+                                             <span>Max: {{ Math.max(1000, (pkg.min_order || 20) * 5) }} {{ t('pax') }}</span>
+                                         </div>
+                                     </div>
+ 
+                                     <!-- Event Scale Badge -->
+                                     <div class="flex items-center gap-2 mt-0.5">
+                                         <span 
+                                             class="text-[9px] sm:text-[10px] font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full transition-all duration-300 flex items-center gap-1 sm:gap-1.5"
+                                             :class="getScaleBadge(quantities[pkg.id || pkg.package_id], pkg.min_order || 20).class"
+                                         >
+                                             <i class="fas text-[8px] sm:text-[9px]" :class="getScaleBadge(quantities[pkg.id || pkg.package_id], pkg.min_order || 20).icon"></i>
+                                             {{ getScaleBadge(quantities[pkg.id || pkg.package_id], pkg.min_order || 20).text }}
+                                         </span>
+                                     </div>
+                                     
+                                     <!-- Live Total Receipt Style Breakdown -->
+                                     <div class="border-t border-[#E6E1DA] pt-3.5 space-y-2">
+                                         <div class="flex items-center justify-between text-[11px] sm:text-xs text-[#5C6460]">
+                                             <span>{{ t('base_price_label') }} (RM {{ parseFloat(pkg.price).toFixed(2) }} × {{ quantities[pkg.id || pkg.package_id] }} {{ t('pax') }})</span>
+                                             <span class="font-medium text-[#2D3330]">
+                                                 RM {{ calculateTotal(pkg.price, quantities[pkg.id || pkg.package_id]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+                                             </span>
+                                         </div>
+ 
+                                         <div class="flex items-center justify-between text-[10px] sm:text-[11px] text-[#8C8275] italic">
+                                             <span>{{ t('deposit_booking_percent').replace('{percent}', '30') }}</span>
+                                             <span>
+                                                 RM {{ (calculateTotal(pkg.price, quantities[pkg.id || pkg.package_id]) * 0.3).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+                                             </span>
+                                         </div>
+ 
+                                         <div class="flex items-center justify-between text-[10px] sm:text-[11px] text-[#8C8275] italic">
+                                             <span>{{ t('balance_due_percent').replace('{percent}', '70') }}</span>
+                                             <span>
+                                                 RM {{ (calculateTotal(pkg.price, quantities[pkg.id || pkg.package_id]) * 0.7).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+                                             </span>
+                                         </div>
+                                         
+                                         <!-- Grand Total Display Card -->
+                                         <div class="bg-[#FAF7F2] p-2.5 sm:p-4 rounded-lg sm:rounded-xl border border-[#E6E1DA] flex items-center justify-between mt-1 sm:mt-2 shadow-2xs">
+                                             <span class="text-[10px] sm:text-xs font-bold text-[#4A6B5D] uppercase tracking-wider">{{ t('live_total') }}:</span>
+                                             <div class="text-right">
+                                                 <span class="text-lg sm:text-2xl font-normal text-[#4A6B5D] font-serif-luxury tracking-wide block">
+                                                     RM {{ calculateTotal(pkg.price, quantities[pkg.id || pkg.package_id]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+                                                 </span>
+                                                 <span class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mt-0.5">{{ t('sst_halal_notices') }}</span>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+ 
+                                 <!-- Action Buttons -->
+                                 <div class="flex flex-col gap-2 mt-3 sm:mt-0">
+                                     <Link 
+                                         :href="route('cart.customize', { package_id: pkg.id || pkg.package_id })"
+                                         class="btn-premium-primary w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2 sm:py-3.5 px-4 sm:px-6 rounded-lg sm:rounded-xl text-[10px] sm:text-xs uppercase tracking-widest shadow-sm text-center cursor-pointer"
+                                     >
+                                         <i class="fas fa-sliders-h text-[9px] sm:text-[10px]"></i> {{ t('customize_order') }}
+                                     </Link>
+                                     
+                                     <button 
+                                         @click="handleAddToCart(pkg.id || pkg.package_id)"
+                                         class="btn-premium-secondary w-full inline-flex items-center justify-center gap-2 bg-white border border-[#E6E1DA] text-[#5C6460] font-semibold py-2 sm:py-3.5 px-4 sm:px-6 rounded-lg sm:rounded-xl text-[10px] sm:text-xs uppercase tracking-widest cursor-pointer"
+                                         :disabled="form.processing"
+                                     >
+                                         <i class="fas fa-cart-plus text-[9px] sm:text-[10px]"></i> {{ t('direct_add_cart') }}
+                                     </button>
+                                 </div>
+                             </div>
 
                         </div>
                     </div>

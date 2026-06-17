@@ -45,30 +45,30 @@ const handleFileChange = (e) => {
 </script>
 
 <template>
-    <section class="space-y-6">
+    <section class="space-y-4 sm:space-y-6">
         <header>
-            <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#E6E1DA] pb-2.5">
+            <h2 class="text-sm sm:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#E6E1DA] pb-2 sm:pb-2.5">
                 {{ t('profile_information') }}
             </h2>
 
-            <p class="text-xs text-[#8C8275] mt-1.5">
+            <p class="text-[10px] sm:text-xs text-[#8C8275] mt-1.5">
                 {{ t('profile_info_desc') }}
             </p>
         </header>
 
         <form
             @submit.prevent="form.post(route('profile.update'))"
-            class="space-y-6"
+            class="space-y-4 sm:space-y-6"
         >
             <!-- Profile Image Upload Section -->
-            <div class="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-[#E6E1DA]/60">
+            <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 pb-4 sm:pb-6 border-b border-[#E6E1DA]/60">
                 <div class="relative group">
                     <img 
                         v-if="imagePreview || user.profile_image" 
                         :src="imagePreview || '/storage/' + user.profile_image" 
-                        class="w-24 h-24 rounded-full object-cover border-2 border-[#4A6B5D]/20 shadow-sm" 
+                        class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-[#4A6B5D]/20 shadow-sm" 
                     />
-                    <div v-else class="w-24 h-24 rounded-full bg-[#FAF7F2] border-2 border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center font-bold text-2xl shadow-xs">
+                    <div v-else class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#FAF7F2] border-2 border-[#E6E1DA] text-[#4A6B5D] flex items-center justify-center font-bold text-xl sm:text-2xl shadow-xs">
                         {{ (form.name || 'C').charAt(0).toUpperCase() }}
                     </div>
                     
@@ -82,12 +82,12 @@ const handleFileChange = (e) => {
                 </div>
 
                 <div class="space-y-1 text-center sm:text-left">
-                    <h3 class="text-sm font-bold text-[#2D3330]">{{ t('profile_picture') || 'Profile Picture' }}</h3>
-                    <p class="text-[11px] text-[#8C8275]">{{ t('profile_picture_desc') || 'Upload a JPG, PNG or WEBP image (Max 2MB)' }}</p>
+                    <h3 class="text-xs sm:text-sm font-bold text-[#2D3330]">{{ t('profile_picture') || 'Profile Picture' }}</h3>
+                    <p class="text-[10px] sm:text-[11px] text-[#8C8275]">{{ t('profile_picture_desc') || 'Upload a JPG, PNG or WEBP image (Max 2MB)' }}</p>
                     <button 
                         type="button" 
                         @click="fileInput.click()" 
-                        class="mt-2 text-xs font-bold text-[#4A6B5D] hover:text-[#3D574B] transition-colors"
+                        class="mt-1 sm:mt-2 text-xs font-bold text-[#4A6B5D] hover:text-[#3D574B] transition-colors"
                     >
                         {{ t('choose_file') || 'Choose Photo' }}
                     </button>
@@ -102,10 +102,10 @@ const handleFileChange = (e) => {
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <!-- Short Name / Username -->
-                <div class="space-y-1.5">
-                    <InputLabel for="name" :value="t('your_name_label')" class="text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
+                <div class="space-y-1 sm:space-y-1.5">
+                    <InputLabel for="name" :value="t('your_name_label')" class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
 
                     <TextInput
                         id="name"
@@ -121,8 +121,8 @@ const handleFileChange = (e) => {
                 </div>
 
                 <!-- Full Name -->
-                <div class="space-y-1.5">
-                    <InputLabel for="full_name" :value="t('full_name_label')" class="text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
+                <div class="space-y-1 sm:space-y-1.5">
+                    <InputLabel for="full_name" :value="t('full_name_label')" class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
 
                     <TextInput
                         id="full_name"
@@ -137,10 +137,10 @@ const handleFileChange = (e) => {
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <!-- Email Address -->
-                <div class="space-y-1.5">
-                    <InputLabel for="email" :value="t('email_address_label')" class="text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
+                <div class="space-y-1 sm:space-y-1.5">
+                    <InputLabel for="email" :value="t('email_address_label')" class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
 
                     <TextInput
                         id="email"
@@ -155,8 +155,8 @@ const handleFileChange = (e) => {
                 </div>
 
                 <!-- Phone Number -->
-                <div class="space-y-1.5">
-                    <InputLabel for="phone" :value="t('phone_number_label')" class="text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
+                <div class="space-y-1 sm:space-y-1.5">
+                    <InputLabel for="phone" :value="t('phone_number_label')" class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
 
                     <TextInput
                         id="phone"
@@ -172,13 +172,13 @@ const handleFileChange = (e) => {
             </div>
 
             <!-- Delivery Address -->
-            <div class="space-y-1.5">
-                <InputLabel for="address" :value="t('delivery_address_label')" class="text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
+            <div class="space-y-1 sm:space-y-1.5">
+                <InputLabel for="address" :value="t('delivery_address_label')" class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
 
                 <textarea
                     id="address"
-                    rows="4"
-                    class="mt-1 block w-full rounded-xl border-[#E6E1DA] text-[#2D3330] p-3 text-sm focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] resize-none transition-all duration-150 shadow-xs"
+                    rows="3"
+                    class="mt-1 block w-full rounded-lg sm:rounded-xl border-[#E6E1DA] text-[#2D3330] p-2 sm:p-3 text-xs sm:text-sm focus:ring-2 focus:ring-[#4A6B5D]/20 focus:border-[#4A6B5D] resize-none transition-all duration-150 shadow-xs"
                     v-model="form.address"
                     required
                 ></textarea>

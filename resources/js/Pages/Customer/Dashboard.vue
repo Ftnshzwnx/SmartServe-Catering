@@ -313,13 +313,13 @@ function getTranslatedStatus(status) {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-10">
                 
                 <!-- Welcome Banner -->
-                <div class="banner-gradient rounded-xl sm:rounded-3xl p-5 sm:p-8 lg:p-12 text-white relative overflow-hidden shadow-md">
+                <div class="banner-gradient rounded-lg sm:rounded-2xl p-4 sm:p-6 lg:p-8 text-white relative overflow-hidden shadow-md">
                     <!-- Subtle oatmeal circle background element -->
                     <div class="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-white/5 blur-2xl"></div>
                     
                     <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div>
-                            <h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light font-serif-luxury mb-2 tracking-wide">
+                            <h3 class="text-base sm:text-2xl md:text-3xl lg:text-4xl font-light font-serif-luxury mb-2 tracking-wide">
                                 {{ greeting }}, {{ $page.props.auth.user.name }}!
                             </h3>
                             <p class="text-[#E2ECE8] text-[10px] sm:text-xs lg:text-sm tracking-wide uppercase font-light max-w-xl">
@@ -329,7 +329,7 @@ function getTranslatedStatus(status) {
                         <div>
                             <Link 
                                 :href="route('menu.index')"
-                                class="inline-flex items-center gap-2 bg-[#FAF7F2] hover:bg-[#FAF7F2]/90 text-[#4A6B5D] text-[10px] sm:text-xs font-semibold uppercase tracking-widest px-4 py-2 sm:px-6 sm:py-3 rounded-xl shadow-sm transition-all duration-200"
+                                class="inline-flex items-center gap-1.5 bg-[#FAF7F2] hover:bg-[#FAF7F2]/90 text-[#4A6B5D] text-[9px] sm:text-xs font-semibold uppercase tracking-widest px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-lg shadow-sm transition-all duration-200"
                             >
                                 <i class="fas fa-utensils"></i> {{ t('order_now') }}
                             </Link>
@@ -338,14 +338,14 @@ function getTranslatedStatus(status) {
                 </div>
 
                 <!-- Active Order Tracker -->
-                <div v-if="activeOrder" class="bg-white rounded-xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-[#E6E1DA] shadow-sm space-y-6">
+                <div v-if="activeOrder" class="bg-white rounded-lg sm:rounded-2xl p-3 sm:p-5 lg:p-6 border border-[#E6E1DA] shadow-sm space-y-4">
                     <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#FAF6F0] pb-4">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg">
                                 <i class="fas fa-truck-loading"></i>
                             </div>
                             <div>
-                                <h4 class="font-normal text-[#2D3330] text-lg font-serif-luxury tracking-wide">{{ t('active_order_tracker') }}</h4>
+                                <h4 class="font-normal text-[#2D3330] text-sm sm:text-base md:text-lg font-serif-luxury tracking-wide">{{ t('active_order_tracker') }}</h4>
                                 <p class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest mt-0.5">
                                     {{ t('order_num') }} #{{ activeOrder.id }} — {{ activeOrder.package_name }}
                                 </p>
@@ -357,9 +357,9 @@ function getTranslatedStatus(status) {
                             </span>
                             <Link 
                                 :href="route('orders.show', { id: activeOrder.id })"
-                                class="text-xs font-bold uppercase tracking-wider text-[#4A6B5D] hover:text-[#3D574B] flex items-center gap-1 font-sans-modern"
+                                class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#4A6B5D] hover:text-[#3D574B] flex items-center gap-0.5 font-sans-modern"
                             >
-                                {{ t('view_details') }} <i class="fas fa-chevron-right text-[10px]"></i>
+                                {{ t('view_details') }} <i class="fas fa-chevron-right text-[9px]"></i>
                             </Link>
                         </div>
                     </div>
@@ -384,25 +384,25 @@ function getTranslatedStatus(status) {
                             <!-- Step 1: Placed -->
                             <div class="flex flex-col items-center gap-2 relative">
                                 <div class="progress-dot border border-slate-300 animate-pulse" :class="activeOrderStep >= 1 ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                <span class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-wider mt-1">{{ t('timeline_step_1') }}</span>
+                                <span class="text-[8px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-tight sm:tracking-wider mt-1 text-center">{{ t('timeline_step_1') }}</span>
                             </div>
 
                             <!-- Step 2: Confirmed -->
                             <div class="flex flex-col items-center gap-2 relative">
                                 <div class="progress-dot border border-slate-300" :class="activeOrderStep >= 2 ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                <span class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-wider mt-1">{{ t('timeline_step_2') }}</span>
+                                <span class="text-[8px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-tight sm:tracking-wider mt-1 text-center">{{ t('timeline_step_2') }}</span>
                             </div>
 
                             <!-- Step 3: Delivered -->
                             <div class="flex flex-col items-center gap-2 relative">
                                 <div class="progress-dot border border-slate-300" :class="activeOrderStep >= 3 ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                <span class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-wider mt-1">{{ t('timeline_step_3') }}</span>
+                                <span class="text-[8px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-tight sm:tracking-wider mt-1 text-center">{{ t('timeline_step_3') }}</span>
                             </div>
 
                             <!-- Step 4: Completed -->
                             <div class="flex flex-col items-center gap-2 relative">
                                 <div class="progress-dot border border-slate-300" :class="activeOrderStep >= 4 ? 'bg-[#4A6B5D] border-[#4A6B5D]' : 'bg-white'"></div>
-                                <span class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-wider mt-1">{{ t('timeline_step_4') }}</span>
+                                <span class="text-[8px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-tight sm:tracking-wider mt-1 text-center">{{ t('timeline_step_4') }}</span>
                             </div>
                         </div>
                     </div>
@@ -448,7 +448,7 @@ function getTranslatedStatus(status) {
                                 <button 
                                     type="button"
                                     @click="triggerFileSelect(activeOrder.id)"
-                                    class="text-white font-semibold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+                                    class="text-white font-semibold px-3 py-1.5 rounded-lg text-[9px] sm:text-[10px] uppercase tracking-widest transition-colors flex items-center gap-1 cursor-pointer shadow-xs"
                                     :class="activeOrder.status.includes('Rejected') ? 'bg-[#8C3A3A] hover:bg-[#732F2F]' : 'bg-[#4A6B5D] hover:bg-[#3D574B]'"
                                     :disabled="processingReupload[activeOrder.id]"
                                 >
@@ -493,7 +493,7 @@ function getTranslatedStatus(status) {
                                 <button 
                                     type="button"
                                     @click="downloadQr()"
-                                    class="self-start bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-4 py-2 rounded-lg text-[10px] uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
+                                    class="self-start bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-3 py-1.5 rounded-md text-[9px] sm:text-[10px] uppercase tracking-widest transition-colors flex items-center gap-1 cursor-pointer"
                                 >
                                     <i class="fas fa-download"></i>
                                     {{ t('save_qr_code') }}
@@ -504,7 +504,7 @@ function getTranslatedStatus(status) {
                 </div>
 
                 <!-- ✨ Review Prompt Card (shown when Completed order has no review) -->
-                <div v-if="reviewOrder" class="bg-gradient-to-br from-[#FAF7F2] to-[#EBEFEF] border border-[#D4C9B8] rounded-3xl p-6 shadow-sm space-y-5">
+                <div v-if="reviewOrder" class="bg-gradient-to-br from-[#FAF7F2] to-[#EBEFEF] border border-[#D4C9B8] rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
                     <!-- Header -->
                     <div class="flex items-start justify-between gap-4">
                         <div class="flex items-center gap-3">
@@ -580,13 +580,15 @@ function getTranslatedStatus(status) {
                             {{ t('submit_review_btn') }}
                         </span>
                     </button>
-                </                <!-- Stats Grid -->
+                </div>
+
+                <!-- Stats Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     <!-- Stat Card 1 -->
-                    <div class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-[#E6E1DA] shadow-sm flex items-center justify-between">
+                    <div class="bg-white p-3.5 sm:p-5 rounded-lg sm:rounded-xl border border-[#E6E1DA] shadow-sm flex items-center justify-between">
                         <div>
                             <span class="text-[9px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('shopping_cart') }}</span>
-                            <span class="text-lg sm:text-xl md:text-2xl font-normal text-[#2D3330] font-serif-luxury">{{ cartCount }} {{ t('packages') }}</span>
+                            <span class="text-sm sm:text-lg md:text-2xl font-normal text-[#2D3330] font-serif-luxury">{{ cartCount }} {{ t('packages') }}</span>
                         </div>
                         <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base sm:text-lg">
                             <i class="fas fa-shopping-basket"></i>
@@ -594,21 +596,21 @@ function getTranslatedStatus(status) {
                     </div>
  
                     <!-- Stat Card 2 -->
-                    <div class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-[#E6E1DA] shadow-sm flex items-center justify-between">
+                    <div class="bg-white p-3.5 sm:p-5 rounded-lg sm:rounded-xl border border-[#E6E1DA] shadow-sm flex items-center justify-between">
                         <div>
                             <span class="text-[9px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('total_bookings') }}</span>
-                            <span class="text-lg sm:text-xl md:text-2xl font-normal text-[#2D3330] font-serif-luxury">{{ ordersCount }} {{ t('orders') }}</span>
+                            <span class="text-sm sm:text-lg md:text-2xl font-normal text-[#2D3330] font-serif-luxury">{{ ordersCount }} {{ t('orders') }}</span>
                         </div>
                         <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-base sm:text-lg">
                             <i class="fas fa-receipt"></i>
                         </div>
                     </div>
-                </div></div>
+                </div>
 
                 <!-- Dynamic Sections -->
                 <div v-if="activeOrder" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- 1. Upcoming Event Countdown Card -->
-                    <div class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-auto lg:h-80 lg:col-span-1">
+                    <div class="bg-white p-3.5 sm:p-5 rounded-lg sm:rounded-xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-auto lg:h-80 lg:col-span-1">
                         <div>
                             <div class="flex items-center justify-between mb-4">
                                 <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest">{{ t('upcoming_event') }}</span>
@@ -619,7 +621,7 @@ function getTranslatedStatus(status) {
                                 </span>
                             </div>
                             
-                            <h4 class="font-normal text-[#2D3330] text-base sm:text-lg md:text-xl font-serif-luxury tracking-wide mb-3 leading-snug">
+                            <h4 class="font-normal text-[#2D3330] text-sm sm:text-base md:text-xl font-serif-luxury tracking-wide mb-2 leading-snug">
                                 {{ activeOrder.package_name }}
                             </h4>
                             
@@ -640,27 +642,27 @@ function getTranslatedStatus(status) {
                         </div>
                         <Link 
                             :href="route('orders.show', { id: activeOrder.id })" 
-                            class="inline-flex items-center justify-center gap-1.5 border border-[#E6E1DA] hover:border-[#4A6B5D] hover:bg-[#EBEFEF]/30 text-[#5C6460] hover:text-[#4A6B5D] font-bold px-4 py-2.5 rounded-xl text-[10px] uppercase tracking-widest transition-all w-full mt-4 cursor-pointer"
+                            class="inline-flex items-center justify-center gap-1 border border-[#E6E1DA] hover:border-[#4A6B5D] hover:bg-[#EBEFEF]/30 text-[#5C6460] hover:text-[#4A6B5D] font-bold px-3 py-1.5 rounded-lg text-[9px] sm:text-[10px] uppercase tracking-widest transition-all w-full mt-3 cursor-pointer"
                         >
                             <i class="fas fa-search-plus"></i> {{ t('view_invoice') }}
                         </Link>
                     </div>
 
                     <!-- 2. Financial Summary & Balance Slip Upload Widget -->
-                    <div class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-auto lg:h-80 lg:col-span-2">
+                    <div class="bg-white p-3.5 sm:p-5 rounded-lg sm:rounded-xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-auto lg:h-80 lg:col-span-2">
                         <div>
                             <span class="text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-4">{{ t('financial_summary') }}</span>
                             
                             <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-4">
                                 <div class="bg-[#FAF7F2] p-3 sm:p-4 border border-[#E6E1DA] rounded-xl">
                                     <span class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('deposit_paid') }}</span>
-                                    <span class="text-sm sm:text-base md:text-lg font-bold text-[#4A6B5D] font-serif-luxury">
+                                    <span class="text-xs sm:text-base md:text-lg font-bold text-[#4A6B5D] font-serif-luxury">
                                         RM {{ (parseFloat(activeOrder.total_price) * 0.3).toFixed(2) }}
                                     </span>
                                 </div>
                                 <div class="bg-[#FAF7F2] p-3 sm:p-4 border border-[#E6E1DA] rounded-xl">
                                     <span class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1">{{ t('balance_due_payment') }}</span>
-                                    <span class="text-sm sm:text-base md:text-lg font-bold text-[#2D3330] font-serif-luxury">
+                                    <span class="text-xs sm:text-base md:text-lg font-bold text-[#2D3330] font-serif-luxury">
                                         RM {{ (parseFloat(activeOrder.total_price) * 0.7).toFixed(2) }}
                                     </span>
                                 </div>
@@ -689,7 +691,7 @@ function getTranslatedStatus(status) {
                                     <button 
                                         type="button"
                                         @click="triggerBalanceFileSelect(activeOrder.id)"
-                                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-5 py-3 rounded-xl text-[10px] uppercase tracking-widest transition-colors flex items-center gap-1.5 cursor-pointer"
+                                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold px-3 py-1.5 rounded-lg text-[9px] sm:text-[10px] uppercase tracking-widest transition-colors flex items-center gap-1 cursor-pointer"
                                         :disabled="processingReupload[activeOrder.id]"
                                     >
                                         <i class="fas fa-cloud-upload-alt"></i> 
@@ -720,13 +722,13 @@ function getTranslatedStatus(status) {
                             <div 
                                 v-for="pkg in featuredPackages" 
                                 :key="pkg.id" 
-                                class="bg-white p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-auto lg:h-80 action-card"
+                                class="bg-white p-3.5 sm:p-5 rounded-lg sm:rounded-xl border border-[#E6E1DA] shadow-sm flex flex-col justify-between h-auto lg:h-80 action-card"
                             >
                                 <div>
                                     <div class="w-10 h-10 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg mb-4">
                                         <i class="fas fa-utensils"></i>
                                     </div>
-                                    <h5 class="font-normal text-[#2D3330] text-base sm:text-lg font-serif-luxury tracking-wide mb-2 truncate">{{ pkg.package_name }}</h5>
+                                    <h5 class="font-normal text-[#2D3330] text-sm sm:text-lg font-serif-luxury tracking-wide mb-2 truncate">{{ pkg.package_name }}</h5>
                                     <p class="text-xs text-[#8C8275] leading-relaxed font-light line-clamp-3 mb-3">{{ pkg.description }}</p>
                                     
                                     <div class="text-[10px] font-semibold text-[#8C8275] uppercase tracking-widest space-y-1">
@@ -736,7 +738,7 @@ function getTranslatedStatus(status) {
                                 </div>
                                 <Link 
                                     :href="route('menu.index')" 
-                                    class="text-xs font-bold uppercase tracking-wider text-[#4A6B5D] hover:text-[#3D574B] flex items-center gap-1 mt-4"
+                                    class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#4A6B5D] hover:text-[#3D574B] flex items-center gap-0.5 mt-3"
                                 >
                                     {{ t('view_packages') }} <i class="fas fa-chevron-right text-[10px]"></i>
                                 </Link>
@@ -745,14 +747,14 @@ function getTranslatedStatus(status) {
                     </div>
 
                     <!-- Right: Catering Guidelines FAQ (Takes 1 column on desktop) -->
-                    <div class="lg:col-span-1 bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-[#E6E1DA] shadow-sm flex flex-col justify-between">
+                    <div class="lg:col-span-1 bg-white rounded-lg sm:rounded-xl p-3.5 sm:p-5 border border-[#E6E1DA] shadow-sm flex flex-col justify-between">
                         <div>
                             <div class="flex items-center gap-3 border-b border-[#FAF6F0] pb-4 mb-4">
                                 <div class="w-10 h-10 rounded-xl bg-[#FAF6F0] text-[#8C8275] flex items-center justify-center text-lg border border-[#E6E1DA] shrink-0">
                                     <i class="fas fa-lightbulb text-[#4A6B5D]"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-normal text-[#2D3330] text-base font-serif-luxury tracking-wide">{{ t('catering_guidelines') }}</h4>
+                                    <h4 class="font-normal text-[#2D3330] text-sm sm:text-base font-serif-luxury tracking-wide">{{ t('catering_guidelines') }}</h4>
                                     <p class="text-[9px] text-[#8C8275] uppercase tracking-widest font-semibold">SmartServe Catering</p>
                                 </div>
                             </div>
@@ -776,7 +778,7 @@ function getTranslatedStatus(status) {
                 </div>
 
                 <!-- Recent Bookings Widget -->
-                <div class="bg-white rounded-xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-[#E6E1DA] shadow-sm space-y-6">
+                <div class="bg-white rounded-lg sm:rounded-2xl p-3 sm:p-5 lg:p-6 border border-[#E6E1DA] shadow-sm space-y-6">
                     <div class="flex items-center justify-between border-b border-[#FAF6F0] pb-4">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg">
@@ -789,7 +791,7 @@ function getTranslatedStatus(status) {
                         </div>
                         <Link 
                             :href="route('orders.index')"
-                            class="text-xs font-bold uppercase tracking-wider text-[#4A6B5D] hover:text-[#3D574B] flex items-center gap-1 font-sans-modern"
+                            class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#4A6B5D] hover:text-[#3D574B] flex items-center gap-0.5 font-sans-modern"
                         >
                             {{ t('track_orders') }} <i class="fas fa-chevron-right text-[10px]"></i>
                         </Link>
@@ -809,7 +811,7 @@ function getTranslatedStatus(status) {
                             </thead>
                             <tbody class="divide-y divide-[#FAF6F0]">
                                 <tr v-for="order in recentOrders" :key="order.id" class="hover:bg-[#FAF7F2]/50 transition-colors">
-                                    <td class="py-4 px-2 font-semibold font-serif-luxury text-sm">#{{ order.id }}</td>
+                                    <td class="py-4 px-2 font-semibold font-serif-luxury text-xs sm:text-sm">#{{ order.id }}</td>
                                     <td class="py-4 px-2 font-medium">{{ order.package_name }}</td>
                                     <td class="py-4 px-2 text-[#5C6460]">
                                         <i class="far fa-calendar mr-1 text-[#4A6B5D]"></i> {{ order.delivery_date }}
@@ -823,7 +825,7 @@ function getTranslatedStatus(status) {
                                     <td class="py-4 px-2 text-right">
                                         <Link 
                                             :href="route('orders.show', { id: order.id })"
-                                            class="inline-flex items-center gap-1 border border-[#E6E1DA] hover:border-[#4A6B5D] hover:bg-[#EBEFEF]/30 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider text-[#5C6460] hover:text-[#4A6B5D] transition-all cursor-pointer"
+                                            class="inline-flex items-center gap-1 border border-[#E6E1DA] hover:border-[#4A6B5D] hover:bg-[#EBEFEF]/30 px-2.5 py-1 rounded-md text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#5C6460] hover:text-[#4A6B5D] transition-all cursor-pointer"
                                         >
                                             {{ t('view_details') }}
                                         </Link>
@@ -833,7 +835,7 @@ function getTranslatedStatus(status) {
                         </table>
                     </div>
 
-                    <div v-else class="text-center py-10 border border-dashed border-[#E6E1DA] rounded-2xl">
+                    <div v-else class="text-center py-8 border border-dashed border-[#E6E1DA] rounded-xl">
                         <p class="text-[#8C8275] text-xs font-light">{{ t('no_recent_bookings') }}</p>
                         <Link 
                             :href="route('menu.index')"
@@ -882,7 +884,7 @@ function getTranslatedStatus(status) {
                 <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" @click="showQrModal = false"></div>
 
                 <!-- Modal Card -->
-                <div class="relative z-10 bg-white rounded-3xl shadow-2xl p-8 flex flex-col items-center gap-6 max-w-sm w-full">
+                <div class="relative z-10 bg-white rounded-2xl shadow-2xl p-6 flex flex-col items-center gap-5 max-w-sm w-full">
                     <!-- Close Button -->
                     <button 
                         @click="showQrModal = false" 

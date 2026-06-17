@@ -42,20 +42,20 @@ const updatePassword = () => {
 </script>
 
 <template>
-    <section class="space-y-6">
+    <section class="space-y-4 sm:space-y-6">
         <header>
-            <h2 class="text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#E6E1DA] pb-2.5">
+            <h2 class="text-sm sm:text-base font-bold text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#E6E1DA] pb-2 sm:pb-2.5">
                 {{ t('update_password') }}
             </h2>
 
-            <p class="text-xs text-[#8C8275] mt-1.5">
+            <p class="text-[10px] sm:text-xs text-[#8C8275] mt-1.5">
                 {{ t('update_password_desc') }}
             </p>
         </header>
 
-        <form @submit.prevent="updatePassword" class="space-y-6">
-            <div class="space-y-1.5">
-                <InputLabel for="current_password" :value="t('current_password')" class="text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
+        <form @submit.prevent="updatePassword" class="space-y-4 sm:space-y-6">
+            <div class="space-y-1 sm:space-y-1.5">
+                <InputLabel for="current_password" :value="t('current_password')" class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
 
                 <div class="relative flex items-center">
                     <TextInput
@@ -81,8 +81,8 @@ const updatePassword = () => {
                 />
             </div>
 
-            <div class="space-y-1.5">
-                <InputLabel for="password" :value="t('new_password_label')" class="text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
+            <div class="space-y-1 sm:space-y-1.5">
+                <InputLabel for="password" :value="t('new_password_label')" class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider" />
 
                 <div class="relative flex items-center">
                     <TextInput
@@ -105,11 +105,11 @@ const updatePassword = () => {
                 <InputError :message="form.errors.password" class="mt-2" />
             </div>
 
-            <div class="space-y-1.5">
+            <div class="space-y-1 sm:space-y-1.5">
                 <InputLabel
                     for="password_confirmation"
                     :value="t('confirm_password_label')"
-                    class="text-xs font-bold text-[#8C8275] uppercase tracking-wider"
+                    class="text-[10px] sm:text-xs font-bold text-[#8C8275] uppercase tracking-wider"
                 />
 
                 <div class="relative flex items-center">

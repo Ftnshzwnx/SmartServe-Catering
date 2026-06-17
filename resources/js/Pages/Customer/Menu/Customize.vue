@@ -298,33 +298,33 @@ function handleDownloadQuotation() {
         .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
         .section-card {
             background: #ffffff;
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 8px;
+            padding: 10px;
             border: 1px solid #E6E1DA;
             box-shadow: 0 4px 15px -3px rgba(15, 23, 42, 0.01);
         }
         @media (min-width: 640px) {
             .section-card {
-                border-radius: 16px;
-                padding: 30px;
+                border-radius: 12px;
+                padding: 18px;
             }
         }
         .addon-card {
             border: 1px solid #E6E1DA;
-            border-radius: 12px;
-            padding: 12px 14px;
+            border-radius: 8px;
+            padding: 6px 10px;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
             background: white;
         }
         @media (min-width: 640px) {
             .addon-card {
-                border-radius: 16px;
-                padding: 16px 20px;
-                gap: 14px;
+                border-radius: 10px;
+                padding: 10px 14px;
+                gap: 10px;
             }
         }
         .addon-card:hover {
@@ -335,8 +335,8 @@ function handleDownloadQuotation() {
             background-color: #FAF6F0;
         }
         .addon-check {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border-radius: 16px;
             border: 1px solid #cbd5e1;
             display: flex;
@@ -344,6 +344,14 @@ function handleDownloadQuotation() {
             justify-content: center;
             transition: all 0.2s ease;
             background: white;
+            font-size: 8px;
+        }
+        @media (min-width: 640px) {
+            .addon-check {
+                width: 20px;
+                height: 20px;
+                font-size: 10px;
+            }
         }
         .addon-card.selected .addon-check {
             background: #4A6B5D;
@@ -351,12 +359,12 @@ function handleDownloadQuotation() {
             color: white;
         }
         .pax-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             border: 1px solid #E6E1DA;
             background: #ffffff;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
@@ -381,7 +389,7 @@ function handleDownloadQuotation() {
             background: #FAF6F0;
             border: 1px solid #E6E1DA;
             border-radius: 12px;
-            padding: 16px;
+            padding: 12px;
         }
         @media (min-width: 640px) {
             .price-summary {
@@ -392,21 +400,32 @@ function handleDownloadQuotation() {
         .price-row {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85rem;
-            padding: 8px 0;
+            font-size: 0.75rem;
+            padding: 6px 0;
             border-bottom: 1px solid #EBEFEF;
             color: #5C6460;
+        }
+        @media (min-width: 640px) {
+            .price-row {
+                font-size: 0.85rem;
+                padding: 8px 0;
+            }
         }
         .price-row:last-child {
             border: none;
         }
         .price-row.total {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: #2D3330;
             border-top: 1px solid #E6E1DA;
             margin-top: 5px;
             padding-top: 12px;
+        }
+        @media (min-width: 640px) {
+            .price-row.total {
+                font-size: 1.1rem;
+            }
         }
         .price-row.deposit {
             color: #8C3A3A;
@@ -444,21 +463,21 @@ function handleDownloadQuotation() {
                 </div>
                 
                 <!-- Header Card -->
-                <div class="bg-[#2D3330] text-[#FAF7F2] p-5 sm:p-8 rounded-xl sm:rounded-2xl mb-6 sm:mb-8 border border-[#E6E1DA]">
-                    <span class="text-[#4A6B5D] text-[10px] font-bold uppercase tracking-widest block mb-1">{{ t('catering_packages') }}</span>
-                    <h3 class="text-xl sm:text-2xl md:text-3xl font-normal font-serif-luxury uppercase tracking-wide">{{ package.package_name }}</h3>
-                    <p class="text-[#E6E1DA] text-xs font-light mt-2 tracking-wide">{{ t('base_pkg_price') }}: RM {{ basePrice.toFixed(2) }} / {{ t('pax') }} &nbsp;·&nbsp; {{ t('min_requirement') }}: {{ minPax }} {{ t('pax') }}</p>
+                <div class="bg-[#2D3330] text-[#FAF7F2] p-3.5 sm:p-8 rounded-lg sm:rounded-2xl mb-4 sm:mb-8 border border-[#E6E1DA]">
+                    <span class="text-[#4A6B5D] text-[9px] sm:text-[10px] font-bold uppercase tracking-widest block mb-1">{{ t('catering_packages') }}</span>
+                    <h3 class="text-sm sm:text-2xl md:text-3xl font-normal font-serif-luxury uppercase tracking-wide">{{ package.package_name }}</h3>
+                    <p class="text-[#E6E1DA] text-[9px] sm:text-xs font-light mt-1.5 sm:mt-2 tracking-wide">{{ t('base_pkg_price') }}: RM {{ basePrice.toFixed(2) }} / {{ t('pax') }} &nbsp;·&nbsp; {{ t('min_requirement') }}: {{ minPax }} {{ t('pax') }}</p>
                 </div>
 
-                <div class="grid lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+                <div class="grid lg:grid-cols-12 gap-4 sm:gap-8 items-start">
                     
                     <!-- Left Columns (7 cols) -->
-                    <div class="lg:col-span-7 space-y-6 sm:space-y-8">
+                    <div class="lg:col-span-7 space-y-4 sm:space-y-8">
                         
                         <!-- Pax Selector -->
-                        <div class="bg-white border border-[#E6E1DA] rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-xs">
-                            <h4 class="text-base sm:text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider mb-4 flex items-center gap-2">
-                                <i class="fas fa-users text-[#4A6B5D] text-sm"></i> {{ t('select_guest_count') }}
+                        <div class="bg-white border border-[#E6E1DA] rounded-lg sm:rounded-xl p-3 sm:p-5 shadow-xs">
+                            <h4 class="text-xs sm:text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider mb-2.5 sm:mb-4 flex items-center gap-2">
+                                <i class="fas fa-users text-[#4A6B5D] text-xs sm:text-sm"></i> {{ t('select_guest_count') }}
                             </h4>
                             <div class="flex items-center gap-1.5 sm:gap-2">
                                 <button type="button" class="pax-btn font-light" @click="changeQty(-10)">-10</button>
@@ -467,27 +486,27 @@ function handleDownloadQuotation() {
                                     type="number" 
                                     v-model="quantity" 
                                     :min="package.min_order || 20"
-                                    class="w-24 sm:w-32 text-center font-bold text-base sm:text-lg border border-[#E6E1DA] rounded-lg p-2 sm:p-3 focus:outline-none focus:border-[#4A6B5D] focus:ring-0 transition-colors bg-white text-[#2D3330]"
+                                    class="w-16 sm:w-32 text-center font-bold text-xs sm:text-lg border border-[#E6E1DA] rounded-md sm:rounded-lg p-1 sm:p-3 focus:outline-none focus:border-[#4A6B5D] focus:ring-0 transition-colors bg-white text-[#2D3330]"
                                 />
                                 <button type="button" class="pax-btn font-light" @click="changeQty(1)">+</button>
                                 <button type="button" class="pax-btn font-light" @click="changeQty(10)">+10</button>
                             </div>
-                            <small class="text-[#8C8275] text-[10px] uppercase tracking-wider mt-4 block">
+                            <small class="text-[#8C8275] text-[8px] sm:text-[10px] uppercase tracking-wider mt-2.5 sm:mt-4 block">
                                 <i class="fas fa-info-circle mr-1"></i> {{ t('min_booking_requirement_is') }} <strong>{{ package.min_order || 20 }} {{ t('pax') }}</strong>.
                             </small>
                         </div>
                         <!-- Interactive Dish Selector -->
-                        <div class="space-y-6">
+                        <div class="space-y-4 sm:space-y-6">
                             <div 
                                 v-for="(catDishes, category) in dishesByCategory" 
                                 :key="category"
-                                class="section-card space-y-4"
+                                class="section-card space-y-3 sm:space-y-4"
                             >
-                                <div class="flex justify-between items-center border-b border-[#E6E1DA] pb-3">
-                                    <h4 class="text-base font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider flex items-center gap-2">
-                                        <i class="fas fa-utensils text-[#4A6B5D] text-xs"></i> Pilihan {{ category }}
+                                <div class="flex justify-between items-center border-b border-[#E6E1DA] pb-2 sm:pb-3">
+                                    <h4 class="text-xs sm:text-base font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider flex items-center gap-2">
+                                        <i class="fas fa-utensils text-[#4A6B5D] text-[10px] sm:text-xs"></i> Pilihan {{ category }}
                                     </h4>
-                                    <span class="text-[9px] font-bold px-2.5 py-0.5 rounded-full border uppercase tracking-wider"
+                                    <span class="text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded-full border uppercase tracking-wider"
                                         :class="(selectedDishIds[category]?.length === parseInt(package.dish_limits[category])) 
                                             ? 'bg-emerald-50 text-[#4A6B5D] border-emerald-200' 
                                             : 'bg-amber-50 text-amber-800 border border-amber-200'"
@@ -496,7 +515,7 @@ function handleDownloadQuotation() {
                                     </span>
                                 </div>
                                 
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                                     <div 
                                         v-for="dish in catDishes" 
                                         :key="dish.id"
@@ -505,10 +524,10 @@ function handleDownloadQuotation() {
                                         @click="toggleDishSelection(dish)"
                                     >
                                         <div class="addon-check">
-                                             <i v-if="isDishSelected(dish.id, category)" class="fas fa-check text-[10px]"></i>
+                                             <i v-if="isDishSelected(dish.id, category)" class="fas fa-check text-[8px] sm:text-[10px]"></i>
                                         </div>
                                         <div class="flex-grow">
-                                            <span class="font-bold text-xs text-[#2D3330] uppercase block">{{ dish.name }}</span>
+                                            <span class="font-bold text-[10px] sm:text-xs text-[#2D3330] uppercase block">{{ dish.name }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -517,12 +536,12 @@ function handleDownloadQuotation() {
 
                         <!-- Add-ons Selection -->
                         <div v-if="package.addons.length > 0" class="section-card">
-                            <h4 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider mb-1 flex items-center gap-2">
-                                <i class="fas fa-plus-circle text-[#4A6B5D] text-sm"></i> {{ t('customize_extra_items') }}
+                            <h4 class="text-xs sm:text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider mb-0.5 sm:mb-1 flex items-center gap-2">
+                                <i class="fas fa-plus-circle text-[#4A6B5D] text-xs sm:text-sm"></i> {{ t('customize_extra_items') }}
                             </h4>
-                            <p class="text-[#8C8275] text-[10px] uppercase tracking-wider mb-6">{{ t('addons_desc') }}</p>
+                            <p class="text-[#8C8275] text-[8px] sm:text-[10px] uppercase tracking-wider mb-3 sm:mb-6">{{ t('addons_desc') }}</p>
                             
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
                                 <div 
                                     v-for="addon in package.addons" 
                                     :key="addon.id"
@@ -531,11 +550,11 @@ function handleDownloadQuotation() {
                                     @click="toggleAddon(addon.id)"
                                 >
                                     <div class="addon-check">
-                                        <i v-if="isAddonSelected(addon.id)" class="fas fa-check text-[10px]"></i>
+                                        <i v-if="isAddonSelected(addon.id)" class="fas fa-check text-[8px] sm:text-[10px]"></i>
                                     </div>
                                     <div class="flex-grow">
-                                        <span class="font-bold text-xs text-[#2D3330] uppercase block">{{ addon.addon_name }}</span>
-                                        <span class="text-xs text-[#4A6B5D] font-semibold">+RM {{ parseFloat(addon.price_per_pax).toFixed(2) }} / {{ t('pax') }}</span>
+                                        <span class="font-bold text-[10px] sm:text-xs text-[#2D3330] uppercase block">{{ addon.addon_name }}</span>
+                                        <span class="text-[9px] sm:text-xs text-[#4A6B5D] font-semibold">+RM {{ parseFloat(addon.price_per_pax).toFixed(2) }} / {{ t('pax') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -545,8 +564,8 @@ function handleDownloadQuotation() {
 
                     <!-- Right Column: Price Summary (5 cols) -->
                     <div class="lg:col-span-5 sticky top-24">
-                        <div class="section-card space-y-6">
-                            <h4 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider mb-2">{{ t('price_breakdown') }}</h4>
+                        <div class="section-card space-y-4 sm:space-y-6">
+                            <h4 class="text-xs sm:text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider mb-1 sm:mb-2">{{ t('price_breakdown') }}</h4>
                             
                             <div class="price-summary">
                                 <div class="price-row">
@@ -566,8 +585,8 @@ function handleDownloadQuotation() {
                                     <span>RM {{ totalPricePerPax.toFixed(2) }} / {{ t('pax') }}</span>
                                 </div>
                                 <div class="price-row total flex justify-between items-center">
-                                    <span class="text-xs font-semibold uppercase tracking-wider text-[#8C8275]">{{ t('grand_total') }}:</span>
-                                    <span class="text-2xl font-normal text-[#2D3330] font-serif-luxury tracking-wide">RM {{ totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+                                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-[#8C8275]">{{ t('grand_total') }}:</span>
+                                    <span class="text-sm sm:text-2xl font-normal text-[#2D3330] font-serif-luxury tracking-wide">RM {{ totalAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
                                 </div>
                                 <div class="price-row deposit flex justify-between items-center">
                                     <span>{{ t('deposit_required') }}</span>
@@ -580,13 +599,13 @@ function handleDownloadQuotation() {
                             </div>
 
                             <!-- List Selected Add-ons Summary -->
-                            <div v-if="selectedAddonIds.length > 0" class="space-y-2">
-                                <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('selected_extra_items') }}:</span>
-                                <div class="p-4 bg-[#FAF6F0] rounded-lg border border-[#E6E1DA] space-y-1.5">
+                            <div v-if="selectedAddonIds.length > 0" class="space-y-1.5 sm:space-y-2">
+                                <span class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('selected_extra_items') }}:</span>
+                                <div class="p-2.5 sm:p-4 bg-[#FAF6F0] rounded-lg border border-[#E6E1DA] space-y-1 sm:space-y-1.5">
                                     <div 
                                         v-for="addon in package.addons.filter(a => isAddonSelected(a.id))" 
                                         :key="addon.id"
-                                        class="flex justify-between items-center text-xs text-[#5C6460]"
+                                        class="flex justify-between items-center text-[10px] sm:text-xs text-[#5C6460]"
                                     >
                                         <span><i class="fas fa-plus text-[#4A6B5D] mr-1 text-[8px]"></i> {{ addon.addon_name }}</span>
                                         <span class="text-[#8C8275] font-semibold">+RM {{ parseFloat(addon.price_per_pax).toFixed(2) }} / {{ t('pax') }}</span>
@@ -595,12 +614,12 @@ function handleDownloadQuotation() {
                             </div>
 
                             <!-- List Selected Dishes Summary -->
-                            <div class="space-y-2">
-                                <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('selected_dishes_label') }}</span>
-                                <div class="p-4 bg-[#FAF6F0] rounded-lg border border-[#E6E1DA] space-y-2.5">
-                                    <div v-for="cat in Object.keys(package.dish_limits || {})" :key="cat" class="text-xs">
+                            <div class="space-y-1.5 sm:space-y-2">
+                                <span class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('selected_dishes_label') }}</span>
+                                <div class="p-2.5 sm:p-4 bg-[#FAF6F0] rounded-lg border border-[#E6E1DA] space-y-2 sm:space-y-2.5">
+                                    <div v-for="cat in Object.keys(package.dish_limits || {})" :key="cat" class="text-[10px] sm:text-xs">
                                         <div class="flex justify-between items-center">
-                                            <span class="font-extrabold text-[10px] text-[#4A6B5D] uppercase tracking-wider">{{ cat }}</span>
+                                            <span class="font-extrabold text-[9px] sm:text-[10px] text-[#4A6B5D] uppercase tracking-wider">{{ cat }}</span>
                                             <span class="text-[8px] font-bold" :class="(selectedDishIds[cat]?.length === parseInt(package.dish_limits[cat])) ? 'text-emerald-600' : 'text-amber-600'">
                                                 {{ selectedDishIds[cat]?.length || 0 }} / {{ package.dish_limits[cat] }}
                                             </span>
@@ -608,7 +627,7 @@ function handleDownloadQuotation() {
                                         <div v-if="selectedDishIds[cat]?.length > 0" class="text-[#2D3330] font-semibold pl-2 mt-0.5">
                                             {{ package.dishes.filter(d => selectedDishIds[cat].includes(d.id)).map(d => d.name).join(', ') }}
                                         </div>
-                                        <div v-else class="text-[#8C8275] italic pl-2 mt-0.5 text-[10px]">
+                                        <div v-else class="text-[#8C8275] italic pl-2 mt-0.5 text-[9px] sm:text-[10px]">
                                             {{ t('not_selected_yet') }}
                                         </div>
                                     </div>
@@ -616,7 +635,7 @@ function handleDownloadQuotation() {
                             </div>
 
                             <!-- Validation Error Box -->
-                            <div v-if="validationError" class="p-3.5 bg-rose-50 border border-rose-200 text-rose-600 font-bold rounded-xl text-[11px] leading-relaxed flex items-center gap-2">
+                            <div v-if="validationError" class="p-2.5 sm:p-3.5 bg-rose-50 border border-rose-200 text-rose-600 font-bold rounded-lg sm:rounded-xl text-[10px] sm:text-[11px] leading-relaxed flex items-center gap-2">
                                 <i class="fas fa-exclamation-circle text-xs shrink-0"></i>
                                 <span>{{ validationError }}</span>
                             </div>
@@ -624,21 +643,21 @@ function handleDownloadQuotation() {
                             <!-- Submit Action -->
                             <button 
                                 @click="handleAddToCart"
-                                class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-3.5 px-6 rounded-lg text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
+                                class="w-full inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2 sm:py-3.5 px-4 sm:px-6 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
                                 :disabled="form.processing"
                             >
-                                <i class="fas fa-cart-plus text-[10px]"></i> {{ t('add_to_cart') }}
+                                <i class="fas fa-cart-plus text-[9px] sm:text-[10px]"></i> {{ t('add_to_cart') }}
                             </button>
                             <button 
                                 @click="handleDownloadQuotation"
-                                class="w-full inline-flex items-center justify-center gap-2 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 font-semibold py-3.5 px-6 rounded-lg text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
+                                class="w-full inline-flex items-center justify-center gap-2 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 font-semibold py-2 sm:py-3.5 px-4 sm:px-6 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
                                 :disabled="form.processing"
                             >
-                                <i class="fas fa-file-pdf text-[10px] text-amber-700"></i> Download PDF Quote
+                                <i class="fas fa-file-pdf text-[9px] sm:text-[10px] text-amber-700"></i> Download PDF Quote
                             </button>
                             <Link 
                                 :href="route('menu.show', { category: package.package_name })"
-                                class="w-full inline-flex items-center justify-center bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold py-2.5 px-6 rounded-lg text-xs uppercase tracking-widest transition-colors text-center"
+                                class="w-full inline-flex items-center justify-center bg-white hover:bg-[#FAF7F2] border border-[#E6E1DA] text-[#5C6460] font-semibold py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg text-[10px] sm:text-xs uppercase tracking-widest transition-colors text-center"
                             >
                                 <i class="fas fa-arrow-left mr-2"></i> {{ t('cancel') }}
                             </Link>

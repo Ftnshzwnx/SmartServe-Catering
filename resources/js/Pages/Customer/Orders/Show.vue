@@ -247,34 +247,34 @@ function getGroupedDishes(item) {
                 <div class="receipt-container print-area space-y-8">
                     
                     <!-- Proposal Sent Review Banner -->
-                    <div v-if="order.status === 'Proposal Sent'" class="bg-[#FAF9F6] border border-[#C5A880] rounded-2xl p-6 no-print space-y-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-[#FAF7F2] text-[#4A6B5D] flex items-center justify-center text-sm border border-[#E6E1DA]">
+                    <div v-if="order.status === 'Proposal Sent'" class="bg-[#FAF9F6] border border-[#C5A880] rounded-lg p-3 sm:p-5 no-print space-y-2.5">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#FAF7F2] text-[#4A6B5D] flex items-center justify-center text-xs sm:text-sm border border-[#E6E1DA]">
                                 <i class="fas fa-file-signature"></i>
                             </div>
                             <div>
-                                <h4 class="font-serif-luxury text-lg font-normal text-[#2D3330]">
+                                <h4 class="font-serif-luxury text-sm sm:text-lg font-normal text-[#2D3330]">
                                     {{ t('review_custom_proposal') }}
                                 </h4>
-                                <p class="text-xs text-[#8C8275] font-light">
+                                <p class="text-[10px] sm:text-xs text-[#8C8275] font-light">
                                     {{ t('caterer_proposed_custom_desc') }}
                                 </p>
                             </div>
                         </div>
  
                         <!-- Admin explanation note if any -->
-                        <div v-if="order.admin_note" class="bg-white border border-[#E6E1DA] rounded-xl p-4 text-xs text-[#5C6460] leading-relaxed">
-                            <strong class="font-semibold text-[#2D3330] block mb-1">
+                        <div v-if="order.admin_note" class="bg-white border border-[#E6E1DA] rounded-lg p-3 sm:p-4 text-[10px] sm:text-xs text-[#5C6460] leading-relaxed">
+                            <strong class="font-semibold text-[#2D3330] block mb-1 text-[9px] sm:text-[10px]">
                                 {{ t('note_from_owner') }}
                             </strong>
                             <p class="font-light">{{ order.admin_note }}</p>
                         </div>
  
-                        <div class="flex flex-wrap gap-3 pt-2">
+                        <div class="flex flex-wrap gap-2 pt-1">
                             <button 
                                 type="button"
                                 @click="approveProposal"
-                                class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer"
+                                class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer"
                             >
                                 <i class="fas fa-check-circle mr-1"></i>
                                 {{ t('approve_pay_deposit') }}
@@ -282,7 +282,7 @@ function getGroupedDishes(item) {
                             <button 
                                 type="button"
                                 @click="rejectProposal"
-                                class="bg-white hover:bg-red-50 border border-red-200 text-red-600 px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer"
+                                class="bg-white hover:bg-red-50 border border-red-200 text-red-600 px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer"
                             >
                                 <i class="fas fa-times-circle mr-1"></i>
                                 {{ t('reject_cancel') }}
@@ -291,69 +291,69 @@ function getGroupedDishes(item) {
                     </div>
  
                     <!-- Proposal Pending Banner -->
-                    <div v-if="order.status === 'Pending Proposal'" class="bg-[#FAF6F0] border border-[#E6E1DA] rounded-2xl p-6 no-print flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-white text-[#8C8275] flex items-center justify-center text-sm border border-[#E6E1DA] animate-pulse">
+                    <div v-if="order.status === 'Pending Proposal'" class="bg-[#FAF6F0] border border-[#E6E1DA] rounded-lg p-3 sm:p-5 no-print flex items-center gap-2 sm:gap-2.5">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white text-[#8C8275] flex items-center justify-center text-xs sm:text-sm border border-[#E6E1DA] animate-pulse">
                             <i class="fas fa-hourglass-half"></i>
                         </div>
                         <div>
-                            <h4 class="font-serif-luxury text-lg font-normal text-[#2D3330]">
+                            <h4 class="font-serif-luxury text-sm sm:text-lg font-normal text-[#2D3330]">
                                 {{ t('awaiting_owner_proposal') }}
                             </h4>
-                            <p class="text-xs text-[#8C8275] font-light">
+                            <p class="text-[10px] sm:text-xs text-[#8C8275] font-light">
                                 {{ t('caterer_reviewing_wishlist_desc') }}
                             </p>
                         </div>
                     </div>
  
                     <!-- Invoice Header Brand -->
-                    <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 border-b border-[#EBEFEF] pb-8">
+                    <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 border-b border-[#EBEFEF] pb-6 sm:pb-8">
                         <div>
-                            <div class="flex items-center mb-2">
+                            <div class="flex items-center mb-1.5 sm:mb-2">
                                 <ApplicationLogo />
                             </div>
-                            <p class="text-[11px] text-[#8C8275] leading-relaxed font-light">
+                            <p class="text-[10px] sm:text-[11px] text-[#8C8275] leading-relaxed font-light">
                                 Gong Badak, Kuala Terengganu, Terengganu<br>
                                 Support Email: contact@smartservecatering.test
                             </p>
                         </div>
                         <div class="text-left md:text-right uppercase tracking-wider text-xs">
-                            <span class="text-[9px] font-bold text-[#8C8275] block mb-0.5">{{ t('invoice_receipt').split(' ')[0] }}</span>
-                            <span class="text-xl font-normal text-[#2D3330] font-serif-luxury tracking-wide block">#SSC-{{ order.id }}</span>
-                            <span class="text-[9px] text-[#8C8275] font-semibold">{{ t('issued') }}: {{ new Date(order.created_at).toLocaleDateString() }}</span>
+                            <span class="text-[8px] sm:text-[9px] font-bold text-[#8C8275] block mb-0.5">{{ t('invoice_receipt').split(' ')[0] }}</span>
+                            <span class="text-base sm:text-xl font-normal text-[#2D3330] font-serif-luxury tracking-wide block">#SSC-{{ order.id }}</span>
+                            <span class="text-[8px] sm:text-[9px] text-[#8C8275] font-semibold">{{ t('issued') }}: {{ new Date(order.created_at).toLocaleDateString() }}</span>
                         </div>
                     </div>
  
                     <!-- Client & Venue Summary Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-[#EBEFEF] pb-8 text-xs font-sans-modern">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 border-b border-[#EBEFEF] pb-6 sm:pb-8 text-xs font-sans-modern">
                         <div>
-                            <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block mb-2">{{ t('billed_to') }}:</span>
-                            <span class="font-bold text-[#2D3330] text-sm block uppercase tracking-wider">{{ $page.props.auth.user.full_name || $page.props.auth.user.name }}</span>
-                            <p class="text-xs text-[#5C6460] mt-1 leading-relaxed font-light">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1.5 sm:mb-2">{{ t('billed_to') }}:</span>
+                            <span class="font-bold text-[#2D3330] text-xs sm:text-sm block uppercase tracking-wider">{{ $page.props.auth.user.full_name || $page.props.auth.user.name }}</span>
+                            <p class="text-[10px] sm:text-xs text-[#5C6460] mt-1 leading-relaxed font-light">
                                 {{ t('phone') }}: {{ $page.props.auth.user.phone || 'N/A' }}<br>
                                 {{ t('email') }}: {{ $page.props.auth.user.email }}
                             </p>
                         </div>
                         <div>
-                            <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block mb-2">{{ t('event_schedule_venue') }}</span>
-                            <p class="text-xs text-[#5C6460] leading-relaxed font-light">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1.5 sm:mb-2">{{ t('event_schedule_venue') }}</span>
+                            <p class="text-[10px] sm:text-xs text-[#5C6460] leading-relaxed font-light">
                                 <strong class="font-semibold text-[#2D3330]">{{ t('delivery_event_date_label') }}:</strong> {{ order.delivery_date }}<br>
                                 <strong class="font-semibold text-[#2D3330]">{{ t('setup_time') }}:</strong> {{ order.delivery_time }}<br>
                                 <strong class="font-semibold text-[#2D3330]">Kawasan Penghantaran:</strong> {{ order.delivery_zone || 'N/A' }} <span v-if="parseFloat(order.delivery_fee) > 0">(RM {{ parseFloat(order.delivery_fee).toFixed(2) }})</span><br>
                                 <strong class="font-semibold text-[#2D3330]">Destinasi:</strong> {{ order.delivery_address }}
                             </p>
-                            <div v-if="order.notes" class="mt-3 pt-3 border-t border-[#EBEFEF]">
-                                <strong class="font-semibold text-[#2D3330] block mb-1">
-                                    <i class="fas fa-sticky-note text-[10px] text-[#4A6B5D] mr-1"></i>
+                            <div v-if="order.notes" class="mt-2.5 pt-2.5 border-t border-[#EBEFEF]">
+                                <strong class="font-semibold text-[#2D3330] block mb-1 text-[9px] sm:text-[10px]">
+                                    <i class="fas fa-sticky-note text-[9px] text-[#4A6B5D] mr-1"></i>
                                     {{ t('customer_notes') }}:
                                 </strong>
-                                <p class="whitespace-pre-line text-[#5C6460] font-light">{{ order.notes }}</p>
+                                <p class="whitespace-pre-line text-[#5C6460] text-[10px] sm:text-xs font-light">{{ order.notes }}</p>
                             </div>
                         </div>
                     </div>
  
                     <!-- Itemized Pricing Tables -->
                     <div class="space-y-4 font-sans-modern">
-                        <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('itemized_breakdown') }}</span>
+                        <span class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('itemized_breakdown') }}</span>
                         
                         <!-- Desktop View Table (hidden on mobile) -->
                         <div class="hidden sm:block overflow-x-auto">
@@ -376,7 +376,7 @@ function getGroupedDishes(item) {
                                                 <div 
                                                     v-for="(dishes, category) in getGroupedDishes(item)" 
                                                     :key="category" 
-                                                    class="bg-[#FAF7F2] border border-[#EBEFEF] p-2 sm:p-2.5 rounded-lg sm:rounded-xl space-y-1"
+                                                    class="bg-[#FAF7F2] border border-[#EBEFEF] p-1.5 sm:p-2 rounded-md sm:rounded-lg space-y-1"
                                                 >
                                                     <span class="text-[8px] font-extrabold text-[#4A6B5D] uppercase tracking-widest block border-b border-[#EBEFEF] pb-0.5">{{ category }}</span>
                                                     <ul class="space-y-0.5">
@@ -421,41 +421,41 @@ function getGroupedDishes(item) {
                         </div>
 
                         <!-- Mobile view card list (hidden on desktop) -->
-                        <div class="block sm:hidden space-y-4">
-                            <div v-for="item in order.items" :key="item.id" class="border border-[#E6E1DA] rounded-xl p-4 bg-[#FAF8F5]/30 space-y-3.5">
+                        <div class="block sm:hidden space-y-3">
+                            <div v-for="item in order.items" :key="item.id" class="border border-[#E6E1DA] rounded-lg p-2.5 bg-[#FAF8F5]/30 space-y-2">
                                 <div>
                                     <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('catering_service_package') }}</span>
-                                    <span class="text-xs font-bold text-[#2D3330] uppercase tracking-wider block">{{ item.package?.package_name || order.package_name }}</span>
+                                    <span class="text-[10px] font-bold text-[#2D3330] uppercase tracking-wider block">{{ item.package?.package_name || order.package_name }}</span>
                                 </div>
                                 
-                                <div class="flex justify-between text-xs border-t border-[#EBEFEF] pt-2">
+                                <div class="flex justify-between text-[10px] border-t border-[#EBEFEF] pt-2">
                                     <div>
                                         <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('price_pax') }}</span>
-                                        <span class="text-xs text-[#5C6460]">RM {{ parseFloat(item.price).toFixed(2) }}</span>
+                                        <span class="text-[10px] text-[#5C6460]">RM {{ parseFloat(item.price).toFixed(2) }}</span>
                                     </div>
                                     <div>
                                         <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('guest_qty') }}</span>
-                                        <span class="text-xs text-[#5C6460]">{{ item.quantity }} {{ t('pax') }}</span>
+                                        <span class="text-[10px] text-[#5C6460]">{{ item.quantity }} {{ t('pax') }}</span>
                                     </div>
                                     <div class="text-right">
                                         <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block mb-0.5">{{ t('subtotal') }}</span>
-                                        <span class="text-xs font-bold text-[#2D3330]">RM {{ parseFloat(item.subtotal).toFixed(2) }}</span>
+                                        <span class="text-[10px] font-bold text-[#2D3330]">RM {{ parseFloat(item.subtotal).toFixed(2) }}</span>
                                     </div>
                                 </div>
 
                                 <!-- Dishes grouped by category -->
-                                <div class="border-t border-[#EBEFEF] pt-3 space-y-2">
+                                <div class="border-t border-[#EBEFEF] pt-2 space-y-1.5">
                                     <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('included_dishes') }}</span>
-                                    <div class="grid grid-cols-1 gap-2">
+                                    <div class="grid grid-cols-1 gap-1.5">
                                         <div 
                                             v-for="(dishes, category) in getGroupedDishes(item)" 
                                             :key="category" 
-                                            class="bg-white border border-[#EBEFEF] p-2 rounded-lg space-y-1"
+                                            class="bg-white border border-[#EBEFEF] p-1.5 rounded-lg space-y-1"
                                         >
                                             <span class="text-[8px] font-extrabold text-[#4A6B5D] uppercase tracking-widest block border-b border-[#EBEFEF] pb-0.5">{{ category }}</span>
                                             <ul class="space-y-0.5">
-                                                <li v-for="dish in dishes" :key="dish.name" class="text-[9px] font-bold text-[#5C6460] flex items-center gap-1">
-                                                    <i class="fas fa-check text-[6px] text-[#4A6B5D]"></i> 
+                                                <li v-for="dish in dishes" :key="dish.name" class="text-[8px] font-semibold text-[#5C6460] flex items-center gap-1">
+                                                    <i class="fas fa-check text-[5px] text-[#4A6B5D]"></i> 
                                                     <span>{{ dish.name }}</span>
                                                     <span v-if="dish.isDefault" class="text-[7px] text-[#8C8275] italic font-normal">(Default)</span>
                                                 </li>
@@ -465,7 +465,7 @@ function getGroupedDishes(item) {
                                 </div>
 
                                 <!-- Selected Addons -->
-                                <div v-if="item.selected_addons && item.selected_addons.length > 0" class="border-t border-[#EBEFEF] pt-2.5 space-y-1.5">
+                                <div v-if="item.selected_addons && item.selected_addons.length > 0" class="border-t border-[#EBEFEF] pt-2 space-y-1">
                                     <span class="text-[8px] font-bold text-[#8C8275] uppercase tracking-widest block">Add-ons:</span>
                                     <div class="flex flex-wrap gap-1">
                                         <span 
@@ -482,19 +482,19 @@ function getGroupedDishes(item) {
                     </div>
 
                     <!-- Payment Overview Table -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-[#E6E1DA] pt-8 font-sans-modern">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 border-t border-[#E6E1DA] pt-6 sm:pt-8 font-sans-modern">
                         <div>
-                            <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block mb-2">{{ t('payment_trans_status') }}</span>
+                            <span class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block mb-1.5 sm:mb-2">{{ t('payment_trans_status') }}</span>
                             
-                            <div class="inline-flex items-center px-3 py-1 text-[10px] font-semibold border rounded-full uppercase tracking-widest mb-3" :class="getStatusBadge(order.status)">
+                            <div class="inline-flex items-center px-2 py-0.5 sm:px-3 sm:py-1 text-[8px] sm:text-[10px] font-semibold border rounded-full uppercase tracking-widest mb-2.5 sm:mb-3" :class="getStatusBadge(order.status)">
                                 {{ t('status_label') }}: {{ getTranslatedStatus(order.status) }}
                             </div>
-                            <p class="text-xs text-[#5C6460] leading-relaxed font-light">
+                            <p class="text-[10px] sm:text-xs text-[#5C6460] leading-relaxed font-light">
                                 {{ t('payment_desc_invoice') }}
                             </p>
                         </div>
                         
-                        <div class="space-y-2 text-xs uppercase tracking-wider text-[#8C8275] self-end">
+                        <div class="space-y-1.5 sm:space-y-2 text-[10px] sm:text-xs uppercase tracking-wider text-[#8C8275] self-end">
                             <div class="flex justify-between">
                                 <span>{{ t('subtotal') }}</span>
                                 <span class="font-bold text-[#2D3330]">RM {{ (parseFloat(order.total_price) - parseFloat(order.delivery_fee || 0) + parseFloat(order.discount_amount || 0)).toFixed(2) }}</span>
@@ -519,9 +519,9 @@ function getGroupedDishes(item) {
                                 <span>{{ t('remaining_balance_invoice') }}</span>
                                 <span>RM {{ balanceAmount.toFixed(2) }}</span>
                             </div>
-                            <div class="flex justify-between border-t border-[#E6E1DA] pt-3 text-sm font-bold text-[#2D3330] items-center">
-                                <span class="text-xs font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('grand_total') }}:</span>
-                                <span class="text-base font-black text-[#2D3330]">RM {{ parseFloat(order.total_price).toFixed(2) }}</span>
+                            <div class="flex justify-between border-t border-[#E6E1DA] pt-2.5 sm:pt-3 text-[10px] sm:text-xs font-bold text-[#2D3330] items-center">
+                                <span class="text-[9px] sm:text-[10px] font-semibold text-[#8C8275] uppercase tracking-wider">{{ t('grand_total') }}:</span>
+                                <span class="text-sm sm:text-base font-black text-[#2D3330]">RM {{ parseFloat(order.total_price).toFixed(2) }}</span>
                             </div>
                         </div>
                     </div>

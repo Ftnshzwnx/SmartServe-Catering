@@ -362,20 +362,33 @@ function copyAccountNumber() {
         .font-sans-modern { font-family: 'Plus Jakarta Sans', sans-serif; }
         .checkout-card {
             background: #ffffff;
-            border-radius: 24px;
-            padding: 30px;
+            border-radius: 8px;
+            padding: 12px;
             border: 1px solid #E6E1DA;
             box-shadow: 0 4px 25px -4px rgba(15, 23, 42, 0.02);
         }
+        @media (min-width: 640px) {
+            .checkout-card {
+                border-radius: 14px;
+                padding: 20px;
+            }
+        }
         .form-input {
             width: 100%;
-            border-radius: 12px;
+            border-radius: 8px;
             border: 1px solid #E6E1DA;
-            padding: 12px 16px;
-            font-size: 0.85rem;
+            padding: 8px 12px;
+            font-size: 0.8rem;
             color: #2D3330;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: #FCFAF7;
+        }
+        @media (min-width: 640px) {
+            .form-input {
+                border-radius: 12px;
+                padding: 12px 16px;
+                font-size: 0.85rem;
+            }
         }
         .form-input:focus {
             border-color: #4A6B5D;
@@ -412,13 +425,19 @@ function copyAccountNumber() {
         }
         .file-upload-area {
             border: 2px dashed #E6E1DA;
-            border-radius: 16px;
-            padding: 30px 20px;
+            border-radius: 10px;
+            padding: 16px 12px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             background: #FCFAF7;
+        }
+        @media (min-width: 640px) {
+            .file-upload-area {
+                border-radius: 12px;
+                padding: 24px 16px;
+            }
         }
         .file-upload-area:hover {
             border-color: #4A6B5D;
@@ -431,52 +450,69 @@ function copyAccountNumber() {
         .qr-card {
             background: #2D3330;
             border: 1px solid #C5A880;
-            border-radius: 20px;
+            border-radius: 10px;
             color: #FAF7F2;
             overflow: hidden;
             box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15);
         }
+        @media (min-width: 640px) {
+            .qr-card {
+                border-radius: 14px;
+            }
+        }
         .price-summary-box {
             background: #FAF6F0;
             border: 1px solid #E6E1DA;
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 12px;
+        }
+        @media (min-width: 640px) {
+            .price-summary-box {
+                border-radius: 12px;
+                padding: 16px;
+            }
         }
         .price-row {
             display: flex;
             justify-content: space-between;
-            font-size: 0.8rem;
-            padding: 8px 0;
+            font-size: 0.72rem;
+            padding: 6px 0;
             border-bottom: 1px solid #EBEFEF;
             color: #5C6460;
+        }
+        @media (min-width: 640px) {
+            .price-row {
+                font-size: 0.8rem;
+                padding: 8px 0;
+            }
         }
         .price-row:last-child {
             border: none;
         }
     </component>
-
+ 
     <AuthenticatedLayout
         header-title=""
         header-desc=""
     >
         <div class="font-sans-modern">
-            <div class="max-w-6xl mx-auto px-6">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
                 
                 <!-- Luxury Cover Banner -->
-                <div class="mb-8 overflow-hidden rounded-3xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] p-8 md:p-10 text-white border border-[#E6E1DA]/10 shadow-lg relative">
+                <div class="mb-4 sm:mb-8 overflow-hidden rounded-lg sm:rounded-3xl bg-gradient-to-r from-[#2D3330] via-[#3A4540] to-[#4A6B5D] p-4 sm:p-8 md:p-10 text-white border border-[#E6E1DA]/10 shadow-lg relative">
                     <!-- Decor blurs -->
                     <div class="absolute -right-16 -top-16 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
                     <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-[#C5A880]/10 rounded-full blur-2xl pointer-events-none"></div>
-
-                    <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                        <div class="space-y-3">
-                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#C5A880]/20 border border-[#C5A880]/30 rounded-full text-[10px] font-bold text-[#E6CBA3] uppercase tracking-widest">
+ 
+                    <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6">
+                        <div class="space-y-2 sm:space-y-3">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#C5A880]/20 border border-[#C5A880]/30 rounded-full text-[9px] sm:text-[10px] font-bold text-[#E6CBA3] uppercase tracking-widest">
                                 <i class="fas fa-shield-alt"></i> {{ t('secure_checkout') || 'Pembayaran Selamat' }}
                             </div>
-                            <h1 class="text-3xl md:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
+                            <h1 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-normal font-serif-luxury tracking-wide uppercase leading-tight">
                                 {{ t('secure_checkout') || 'Selesaikan Tempahan' }}
                             </h1>
-                            <p class="text-xs md:text-sm text-[#E6E1DA]/80 max-w-2xl font-light leading-relaxed">
+                            <p class="text-[10px] sm:text-xs md:text-sm text-[#E6E1DA]/80 max-w-2xl font-light leading-relaxed">
                                 {{ t('checkout_desc_banner') || 'Sahkan butiran majlis anda, muat naik resit bayaran deposit (30%), dan hantar tempahan untuk pengesahan pihak kami.' }}
                             </p>
                         </div>
@@ -488,35 +524,35 @@ function copyAccountNumber() {
                     <!-- Left: Details (8 cols) -->
                     <div class="lg:col-span-8">
                         <div class="checkout-card space-y-6">
-                            <h3 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#EBEFEF] pb-3 flex items-center gap-2">
-                                <i class="fas fa-calendar-check text-[#4A6B5D] text-sm"></i> {{ t('event_delivery_details') }}
+                            <h3 class="text-sm sm:text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#EBEFEF] pb-2 sm:pb-3 flex items-center gap-2">
+                                <i class="fas fa-calendar-check text-[#4A6B5D] text-xs sm:text-sm"></i> {{ t('event_delivery_details') }}
                             </h3>
-
+ 
                             <!-- Delivery/Pickup Segmented Control -->
                             <div class="flex bg-[#FCFAF7] border border-[#E6E1DA] rounded-xl p-1 font-sans-modern">
                                 <button 
                                     type="button"
                                     @click="setCheckoutMethod('delivery')"
-                                    class="flex-grow flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2"
+                                    class="flex-grow flex-1 py-2 sm:py-3 text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 sm:gap-2"
                                     :class="checkoutMethod === 'delivery' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#2D3330]'"
                                 >
-                                    <i class="fas fa-truck text-[10px]"></i> {{ t('delivery_tab') || 'Penghantaran' }}
+                                    <i class="fas fa-truck text-[9px] sm:text-[10px]"></i> {{ t('delivery_tab') || 'Penghantaran' }}
                                 </button>
                                 <button 
                                     type="button"
                                     @click="setCheckoutMethod('pickup')"
-                                    class="flex-grow flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2"
+                                    class="flex-grow flex-1 py-2 sm:py-3 text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 sm:gap-2"
                                     :class="checkoutMethod === 'pickup' ? 'bg-[#4A6B5D] text-white shadow-xs' : 'text-[#8C8275] hover:text-[#2D3330]'"
                                 >
-                                    <i class="fas fa-store text-[10px]"></i> {{ t('self_pickup_label') }}
+                                    <i class="fas fa-store text-[9px] sm:text-[10px]"></i> {{ t('self_pickup_label') }}
                                 </button>
                             </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+ 
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                                 <!-- Full Name -->
-                                <div class="space-y-2">
-                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                        <i class="fas fa-user text-[10px] text-[#4A6B5D]"></i>
+                                <div class="space-y-1.5">
+                                    <label class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                        <i class="fas fa-user text-[9px] sm:text-[10px] text-[#4A6B5D]"></i>
                                         {{ t('customer_name') }}
                                     </label>
                                     <input 
@@ -528,11 +564,11 @@ function copyAccountNumber() {
                                     />
                                     <span v-if="form.errors.name" class="text-xs text-red-500 font-semibold">{{ form.errors.name }}</span>
                                 </div>
-
+ 
                                 <!-- Phone Number -->
-                                <div class="space-y-2">
-                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                        <i class="fas fa-phone text-[10px] text-[#4A6B5D]"></i>
+                                <div class="space-y-1.5">
+                                    <label class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                        <i class="fas fa-phone text-[9px] sm:text-[10px] text-[#4A6B5D]"></i>
                                         {{ t('phone_number') }}
                                     </label>
                                     <input 
@@ -544,23 +580,23 @@ function copyAccountNumber() {
                                     />
                                     <span v-if="form.errors.phone" class="text-xs text-red-500 font-semibold">{{ form.errors.phone }}</span>
                                 </div>
-
+ 
                                 <!-- Delivery Date -->
-                                <div class="space-y-2">
-                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                        <i class="fas fa-calendar-alt text-[10px] text-[#4A6B5D]"></i>
+                                <div class="space-y-1.5">
+                                    <label class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                        <i class="fas fa-calendar-alt text-[9px] sm:text-[10px] text-[#4A6B5D]"></i>
                                         {{ t('delivery_event_date') }}
                                     </label>
                                     
                                     <div class="relative">
                                         <!-- Click-Outside Overlay -->
                                         <div v-if="showCalendar" class="fixed inset-0 z-40" @click="showCalendar = false"></div>
-
+ 
                                         <!-- Custom Trigger Button (Looks like an input field) -->
                                         <button 
                                             type="button"
                                             @click="showCalendar = !showCalendar"
-                                            class="form-input text-left flex justify-between items-center cursor-pointer h-11 relative z-10 w-full"
+                                            class="form-input text-left flex justify-between items-center cursor-pointer h-9 sm:h-11 relative z-10 w-full"
                                         >
                                             <span :class="form.delivery_date ? 'text-[#2D3330]' : 'text-gray-400'">
                                                 {{ formattedSelectedDate || t('select_date') }}
@@ -627,16 +663,16 @@ function copyAccountNumber() {
                                         </div>
                                     </div>
 
-                                    <span class="text-[9px] text-[#8C8275] font-semibold uppercase tracking-wider block mt-1">
+                                    <span class="text-[8px] sm:text-[9px] text-[#8C8275] font-semibold uppercase tracking-wider block mt-1">
                                         <i class="fas fa-info-circle"></i> {{ t('cancel_policy_info') }}
                                     </span>
                                     <span v-if="form.errors.delivery_date" class="text-xs text-red-500 font-semibold">{{ form.errors.delivery_date }}</span>
                                 </div>
-
+ 
                                 <!-- Delivery Time -->
-                                <div class="space-y-2">
-                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                        <i class="fas fa-clock text-[10px] text-[#4A6B5D]"></i>
+                                <div class="space-y-1.5">
+                                    <label class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                        <i class="fas fa-clock text-[9px] sm:text-[10px] text-[#4A6B5D]"></i>
                                         {{ checkoutMethod === 'pickup' ? (t('pickup_time') || 'Masa Pengambilan') : t('preferred_delivery_time') }}
                                     </label>
                                     <input 
@@ -647,103 +683,103 @@ function copyAccountNumber() {
                                     />
                                     <span v-if="form.errors.delivery_time" class="text-xs text-red-500 font-semibold">{{ form.errors.delivery_time }}</span>
                                 </div>
-                            </div>
-
-                            <!-- Delivery Zone -->
-                            <div v-if="checkoutMethod === 'delivery'" class="space-y-2">
-                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                    <i class="fas fa-truck text-[10px] text-[#4A6B5D]"></i>
-                                    Kawasan Penghantaran
-                                </label>
-                                <select 
-                                    v-model="form.delivery_zone" 
-                                    class="form-input cursor-pointer"
-                                    required
-                                >
-                                    <option v-for="zone in deliveryZones" :key="zone.value" :value="zone.value">
-                                        {{ zone.label }}
-                                    </option>
-                                </select>
-                                <span v-if="form.errors.delivery_zone" class="text-xs text-red-500 font-semibold block">{{ form.errors.delivery_zone }}</span>
-                            </div>
-
-                            <!-- Delivery Address -->
-                            <div v-if="checkoutMethod === 'delivery'" class="space-y-2">
-                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                    <i class="fas fa-map-marker-alt text-[10px] text-[#4A6B5D]"></i>
-                                    {{ t('event_venue_address') }}
-                                </label>
-                                <textarea 
-                                    v-model="form.address" 
-                                    rows="3" 
-                                    class="form-input"
-                                    placeholder="Enter the complete address for catering delivery"
-                                    required
-                                ></textarea>
-                                <span v-if="form.errors.address" class="text-xs text-red-500 font-semibold">{{ form.errors.address }}</span>
-                            </div>
-
-                            <!-- Pickup Location Info Card -->
-                            <div v-if="checkoutMethod === 'pickup'" class="p-5 bg-[#FAF6F0] border border-[#E6E1DA] rounded-2xl space-y-2.5 font-sans-modern">
-                                <span class="font-bold text-[#4A6B5D] text-xs uppercase tracking-widest block flex items-center gap-1.5">
-                                    <i class="fas fa-map-marked-alt text-xs"></i> Lokasi Pengambilan (Pickup Location):
-                                </span>
-                                <p class="text-xs text-[#2D3330] font-semibold leading-relaxed">
-                                    {{ page.props.settings?.business_address || 'SmartServe Catering, Gong Badak, Kuala Nerus, Terengganu, Malaysia' }}
-                                </p>
-                                
-                                <!-- Interactive Map -->
-                                <iframe 
-                                    class="w-full h-48 rounded-xl border border-[#E6E1DA] shadow-inner mt-2"
-                                    :src="'https://maps.google.com/maps?q=' + encodeURIComponent(page.props.settings?.business_address || 'SmartServe Catering, Gong Badak, Kuala Terengganu, Terengganu') + '&t=&z=15&ie=UTF8&iwloc=&output=embed'"
-                                    allowfullscreen="" 
-                                    loading="lazy"
-                                ></iframe>
-                                
-                                <span class="text-[9px] text-[#8C8275] uppercase tracking-wider block font-semibold pt-1">
-                                    <i class="fas fa-info-circle text-[#C5A880]"></i> {{ t('pickup_notice') }}
-                                </span>
-                            </div>
-
-                            <!-- Customer Notes -->
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
-                                    <i class="fas fa-sticky-note text-[10px] text-[#4A6B5D]"></i>
-                                    {{ t('customer_notes') }}
-                                </label>
-                                <textarea 
-                                    v-model="form.notes" 
-                                    rows="3" 
-                                    class="form-input"
-                                    :placeholder="t('customer_notes_placeholder')"
-                                ></textarea>
-                                <span v-if="form.errors.notes" class="text-xs text-red-500 font-semibold">{{ form.errors.notes }}</span>
-                            </div>
+                             </div>
+ 
+                             <!-- Delivery Zone -->
+                             <div v-if="checkoutMethod === 'delivery'" class="space-y-1.5">
+                                 <label class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                     <i class="fas fa-truck text-[9px] sm:text-[10px] text-[#4A6B5D]"></i>
+                                     Kawasan Penghantaran
+                                 </label>
+                                 <select 
+                                     v-model="form.delivery_zone" 
+                                     class="form-input cursor-pointer"
+                                     required
+                                 >
+                                     <option v-for="zone in deliveryZones" :key="zone.value" :value="zone.value">
+                                         {{ zone.label }}
+                                     </option>
+                                 </select>
+                                 <span v-if="form.errors.delivery_zone" class="text-xs text-red-500 font-semibold block">{{ form.errors.delivery_zone }}</span>
+                             </div>
+ 
+                             <!-- Delivery Address -->
+                             <div v-if="checkoutMethod === 'delivery'" class="space-y-1.5">
+                                 <label class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                     <i class="fas fa-map-marker-alt text-[9px] sm:text-[10px] text-[#4A6B5D]"></i>
+                                     {{ t('event_venue_address') }}
+                                 </label>
+                                 <textarea 
+                                     v-model="form.address" 
+                                     rows="2" 
+                                     class="form-input"
+                                     placeholder="Enter the complete address for catering delivery"
+                                     required
+                                 ></textarea>
+                                 <span v-if="form.errors.address" class="text-xs text-red-500 font-semibold">{{ form.errors.address }}</span>
+                             </div>
+ 
+                             <!-- Pickup Location Info Card -->
+                             <div v-if="checkoutMethod === 'pickup'" class="p-3.5 sm:p-5 bg-[#FAF6F0] border border-[#E6E1DA] rounded-xl sm:rounded-2xl space-y-2 font-sans-modern">
+                                 <span class="font-bold text-[#4A6B5D] text-[10px] sm:text-xs uppercase tracking-widest block flex items-center gap-1.5">
+                                     <i class="fas fa-map-marked-alt text-xs"></i> Lokasi Pengambilan (Pickup Location):
+                                 </span>
+                                 <p class="text-[11px] sm:text-xs text-[#2D3330] font-semibold leading-relaxed">
+                                     {{ page.props.settings?.business_address || 'SmartServe Catering, Gong Badak, Kuala Nerus, Terengganu, Malaysia' }}
+                                 </p>
+                                 
+                                 <!-- Interactive Map -->
+                                 <iframe 
+                                     class="w-full h-36 sm:h-48 rounded-lg sm:rounded-xl border border-[#E6E1DA] shadow-inner mt-1 sm:mt-2"
+                                     :src="'https://maps.google.com/maps?q=' + encodeURIComponent(page.props.settings?.business_address || 'SmartServe Catering, Gong Badak, Kuala Terengganu, Terengganu') + '&t=&z=15&ie=UTF8&iwloc=&output=embed'"
+                                     allowfullscreen="" 
+                                     loading="lazy"
+                                 ></iframe>
+                                 
+                                 <span class="text-[8px] sm:text-[9px] text-[#8C8275] uppercase tracking-wider block font-semibold pt-1">
+                                     <i class="fas fa-info-circle text-[#C5A880]"></i> {{ t('pickup_notice') }}
+                                 </span>
+                             </div>
+ 
+                             <!-- Customer Notes -->
+                             <div class="space-y-1.5">
+                                 <label class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest flex items-center gap-1.5">
+                                     <i class="fas fa-sticky-note text-[9px] sm:text-[10px] text-[#4A6B5D]"></i>
+                                     {{ t('customer_notes') }}
+                                 </label>
+                                 <textarea 
+                                     v-model="form.notes" 
+                                     rows="2" 
+                                     class="form-input"
+                                     :placeholder="t('customer_notes_placeholder')"
+                                 ></textarea>
+                                 <span v-if="form.errors.notes" class="text-xs text-red-500 font-semibold">{{ form.errors.notes }}</span>
+                             </div>
                         </div>
                     </div>
 
                     <!-- Middle (on mobile) / Right (on desktop): Summary (4 cols) -->
-                    <div class="lg:col-span-4 lg:row-span-2 lg:sticky lg:top-24 space-y-6 font-sans-modern">
-                        <div class="checkout-card space-y-6">
-                            <h3 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider border-b border-[#EBEFEF] pb-3">{{ t('selected_packages') }}</h3>
+                    <div class="lg:col-span-4 lg:row-span-2 lg:sticky lg:top-24 space-y-4 sm:space-y-6 font-sans-modern">
+                        <div class="checkout-card space-y-4 sm:space-y-6">
+                            <h3 class="text-sm sm:text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wider border-b border-[#EBEFEF] pb-2 sm:pb-3">{{ t('selected_packages') }}</h3>
 
                             <div class="divide-y divide-[#EBEFEF] max-h-80 overflow-y-auto pr-1">
-                                <div v-for="item in cartItems" :key="item.id" class="py-4 space-y-2.5 first:pt-0">
+                                <div v-for="item in cartItems" :key="item.id" class="py-3 sm:py-4 space-y-2 first:pt-0">
                                     <div class="flex justify-between items-start gap-2">
                                         <div>
-                                            <span class="font-normal text-[#2D3330] font-serif-luxury text-base uppercase tracking-wide block leading-tight">{{ item.package_name }}</span>
-                                            <span class="text-[10px] text-[#8C8275] font-semibold uppercase tracking-wider block mt-0.5">{{ item.quantity }} {{ t('pax') }}</span>
+                                            <span class="font-normal text-[#2D3330] font-serif-luxury text-xs sm:text-base uppercase tracking-wide block leading-tight">{{ item.package_name }}</span>
+                                            <span class="text-[9px] sm:text-[10px] text-[#8C8275] font-semibold uppercase tracking-wider block mt-0.5">{{ item.quantity }} {{ t('pax') }}</span>
                                         </div>
-                                        <span class="font-normal font-serif-luxury text-sm text-[#2D3330] whitespace-nowrap">
+                                        <span class="font-normal font-serif-luxury text-xs sm:text-sm text-[#2D3330] whitespace-nowrap">
                                             RM {{ (parseFloat(item.price) * parseInt(item.quantity)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                         </span>
                                     </div>
                                     <!-- Selected Add-ons -->
-                                    <div v-if="item.selected_addons && item.selected_addons.length > 0" class="flex flex-wrap gap-1.5">
+                                    <div v-if="item.selected_addons && item.selected_addons.length > 0" class="flex flex-wrap gap-1 sm:gap-1.5">
                                         <span 
                                             v-for="addon in item.selected_addons" 
                                             :key="addon"
-                                            class="bg-[#FAF8F5] text-[9px] text-[#D98A29] font-medium px-2 py-0.5 border border-[#F5E6CD]"
+                                            class="bg-[#FAF8F5] text-[8px] sm:text-[9px] text-[#D98A29] font-medium px-1.5 py-0.5 border border-[#F5E6CD]"
                                         >
                                             + {{ addon }}
                                         </span>
@@ -752,8 +788,8 @@ function copyAccountNumber() {
                             </div>
 
                             <!-- Promo Code Area -->
-                            <div class="border-t border-[#E6E1DA] pt-4 space-y-2.5 font-sans-modern">
-                                <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('promo_code') }}</label>
+                            <div class="border-t border-[#E6E1DA] pt-3.5 sm:pt-4 space-y-2 font-sans-modern">
+                                <label class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('promo_code') }}</label>
                                 <div class="flex gap-2">
                                     <input 
                                         type="text" 
@@ -766,32 +802,32 @@ function copyAccountNumber() {
                                     <button 
                                         type="button" 
                                         @click="verifyPromo" 
-                                        class="bg-[#2D3330] hover:bg-[#1C201E] text-white text-xs font-semibold px-4 rounded-xl transition-all uppercase tracking-wider cursor-pointer"
+                                        class="bg-[#2D3330] hover:bg-[#1C201E] text-white text-[10px] sm:text-xs font-semibold px-3 sm:px-4 h-9 sm:h-11 rounded-lg sm:rounded-xl transition-all uppercase tracking-wider cursor-pointer"
                                         :disabled="!promoCode || appliedPromo"
                                     >
                                         {{ t('apply_promo_btn') }}
                                     </button>
                                 </div>
-                                <div v-if="activePromos && activePromos.length > 0 && !appliedPromo" class="mt-1">
+                                <div v-if="activePromos && activePromos.length > 0 && !appliedPromo" class="mt-0.5">
                                     <button 
                                         type="button" 
                                         @click="showPromoModal = true"
-                                        class="inline-flex items-center gap-1.5 text-[10px] font-bold text-[#C5A880] hover:text-[#b89047] transition-colors cursor-pointer"
+                                        class="inline-flex items-center gap-1.5 text-[9px] sm:text-[10px] font-bold text-[#C5A880] hover:text-[#b89047] transition-colors cursor-pointer"
                                     >
-                                        <i class="fas fa-ticket-alt text-[9px]"></i> {{ t('view_available_promos') || 'Lihat Kod Promo Tersedia' }}
+                                        <i class="fas fa-ticket-alt text-[8px] sm:text-[9px]"></i> {{ t('view_available_promos') || 'Lihat Kod Promo Tersedia' }}
                                     </button>
                                 </div>
-                                <div v-if="promoMessage" class="text-[10px] font-bold mt-1" :class="appliedPromo ? 'text-emerald-700' : 'text-[#8C3A3A]'">
+                                <div v-if="promoMessage" class="text-[9px] sm:text-[10px] font-bold mt-0.5" :class="appliedPromo ? 'text-emerald-700' : 'text-[#8C3A3A]'">
                                     {{ promoMessage }}
                                 </div>
-                                <div v-if="appliedPromo" class="flex justify-between items-center text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-100 rounded px-2.5 py-1.5 mt-2">
+                                <div v-if="appliedPromo" class="flex justify-between items-center text-[9px] sm:text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-100 rounded px-2 py-1 mt-1.5">
                                     <span>Applied: <strong>{{ appliedPromo.code }}</strong></span>
-                                    <button type="button" @click="removePromo" class="text-red-500 hover:text-red-700 font-bold uppercase text-[9px] tracking-wider ml-2">Remove</button>
+                                    <button type="button" @click="removePromo" class="text-red-500 hover:text-red-700 font-bold uppercase text-[8px] sm:text-[9px] tracking-wider ml-2">Remove</button>
                                 </div>
                             </div>
 
                             <!-- Invoice Pricing breakdown -->
-                            <div class="price-summary-box space-y-1.5 font-sans-modern">
+                            <div class="price-summary-box space-y-1 sm:space-y-1.5 font-sans-modern">
                                 <div class="price-row">
                                     <span>{{ t('subtotal') || 'Subjumlah' }}</span>
                                     <span class="font-bold text-[#2D3330]">
@@ -808,9 +844,9 @@ function copyAccountNumber() {
                                     <span>{{ t('discount') || 'Diskaun' }}</span>
                                     <span>- RM {{ discountAmount.toFixed(2) }}</span>
                                 </div>
-                                <div class="price-row flex justify-between items-center py-1">
-                                    <span class="text-[10px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('grand_total') }}:</span>
-                                    <span class="text-xl font-normal text-[#4A6B5D] font-serif-luxury tracking-wide">
+                                <div class="price-row flex justify-between items-center py-0.5 sm:py-1">
+                                    <span class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-wider">{{ t('grand_total') }}:</span>
+                                    <span class="text-sm sm:text-xl font-normal text-[#4A6B5D] font-serif-luxury tracking-wide">
                                         RM {{ grandTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                     </span>
                                 </div>
@@ -828,27 +864,27 @@ function copyAccountNumber() {
 
                     <!-- Left: Payment (8 cols) -->
                     <div class="lg:col-span-8">
-                        <div class="checkout-card space-y-6">
-                            <h3 class="text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#EBEFEF] pb-3 flex items-center gap-2">
-                                <i class="fas fa-receipt text-[#4A6B5D] text-sm"></i> {{ t('payment_slip_deposit') }}
+                        <div class="checkout-card space-y-4 sm:space-y-6">
+                            <h3 class="text-sm sm:text-lg font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide border-b border-[#EBEFEF] pb-2 sm:pb-3 flex items-center gap-2">
+                                <i class="fas fa-receipt text-[#4A6B5D] text-xs sm:text-sm"></i> {{ t('payment_slip_deposit') }}
                             </h3>
 
-                            <div class="p-5 bg-rose-50 border border-rose-100 rounded-2xl space-y-2.5">
-                                <span class="font-bold text-[#8C3A3A] text-xs uppercase tracking-widest block flex items-center gap-1.5">
+                            <div class="p-3.5 sm:p-5 bg-rose-50 border border-rose-100 rounded-xl sm:rounded-2xl space-y-1.5 sm:space-y-2.5">
+                                <span class="font-bold text-[#8C3A3A] text-[10px] sm:text-xs uppercase tracking-widest block flex items-center gap-1.5">
                                     <i class="fas fa-exclamation-circle text-xs"></i> {{ t('deposit_required_label').replace('{percent}', depositPercent) }}
                                 </span>
-                                <p class="text-xs text-[#5C6460] leading-relaxed font-medium">
+                                <p class="text-[11px] sm:text-xs text-[#5C6460] leading-relaxed font-medium">
                                     {{ t('deposit_required_desc').replace('{percent}', depositPercent) }}
-                                    <strong class="text-[#8C3A3A] text-lg font-normal font-serif-luxury block mt-1 tracking-wide">RM {{ depositAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</strong>
+                                    <strong class="text-[#8C3A3A] text-sm sm:text-lg font-normal font-serif-luxury block mt-0.5 sm:mt-1 tracking-wide">RM {{ depositAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</strong>
                                 </p>
                             </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-stretch">
                                 <!-- QR Card (DuitNow & Maybank details) -->
-                                <div class="qr-card p-6 flex flex-col justify-between space-y-4">
-                                    <div class="flex justify-between items-center border-b border-white/10 pb-3">
-                                        <span class="text-[10px] font-bold text-[#C5A880] uppercase tracking-widest">{{ t('scan_to_pay') }}</span>
-                                        <span class="text-[9px] font-bold uppercase tracking-widest text-[#E6CBA3] bg-white/5 border border-white/10 px-2 py-0.5 rounded">DuitNow QR</span>
+                                <div class="qr-card p-4 sm:p-6 flex flex-col justify-between space-y-3 sm:space-y-4">
+                                    <div class="flex justify-between items-center border-b border-white/10 pb-2 sm:pb-3">
+                                        <span class="text-[9px] sm:text-[10px] font-bold text-[#C5A880] uppercase tracking-widest">{{ t('scan_to_pay') }}</span>
+                                        <span class="text-[8px] sm:text-[9px] font-bold uppercase tracking-widest text-[#E6CBA3] bg-white/5 border border-white/10 px-2 py-0.5 rounded">DuitNow QR</span>
                                     </div>
 
                                     <div class="p-3 bg-white rounded-xl flex flex-col items-center justify-center shadow-inner self-center cursor-pointer group hover:bg-zinc-50 border border-transparent hover:border-[#C5A880]/30 transition-all duration-300" @click="showQRModal = true">
@@ -857,33 +893,33 @@ function copyAccountNumber() {
                                             v-if="qrCodeFile" 
                                             :src="resolveQrPath(qrCodeFile)" 
                                             alt="QR Code" 
-                                            class="w-40 h-40 object-contain mx-auto transition-transform group-hover:scale-105 duration-300"
+                                            class="w-32 h-32 sm:w-40 sm:h-40 object-contain mx-auto transition-transform group-hover:scale-105 duration-300"
                                         />
-                                        <div v-else class="w-40 h-40 bg-[#FAF7F2] flex flex-col items-center justify-center text-[#8C8275]">
-                                            <i class="fas fa-qrcode text-4xl mb-2"></i>
-                                            <span class="text-[10px] font-bold uppercase tracking-widest">{{ t('qr_not_configured') }}</span>
+                                        <div v-else class="w-32 h-32 sm:w-40 sm:h-40 bg-[#FAF7F2] flex flex-col items-center justify-center text-[#8C8275]">
+                                            <i class="fas fa-qrcode text-3xl mb-1 sm:mb-2"></i>
+                                            <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest">{{ t('qr_not_configured') }}</span>
                                         </div>
                                         <!-- Magnifying glass / Click to enlarge indicator -->
-                                        <span v-if="qrCodeFile" class="text-[9px] text-[#8C8275] group-hover:text-[#4A6B5D] font-semibold uppercase tracking-wider mt-1.5 flex items-center gap-1 transition-colors">
+                                        <span v-if="qrCodeFile" class="text-[8px] sm:text-[9px] group-hover:text-[#4A6B5D] font-semibold uppercase tracking-wider mt-1 sm:mt-1.5 flex items-center gap-1 transition-colors">
                                             <i class="fas fa-search-plus text-[8px]"></i> {{ t('click_to_enlarge') || 'Klik untuk besarkan' }}
                                         </span>
                                     </div>
 
-                                    <div class="space-y-2 border-t border-white/10 pt-3">
-                                        <div class="text-[10px] text-[#E6E1DA] uppercase tracking-wider font-semibold">
+                                    <div class="space-y-1.5 border-t border-white/10 pt-2 sm:pt-3">
+                                        <div class="text-[9px] sm:text-[10px] text-[#E6E1DA] uppercase tracking-wider font-semibold">
                                             <span class="text-[#C5A880] block text-xs font-bold leading-tight mb-1">
                                                 {{ page.props.settings?.bank_account_name || 'SmartServe Catering Enterprise' }}
                                             </span>
                                             {{ page.props.settings?.bank_name || 'Maybank' }} Account:
                                         </div>
-                                        <div class="flex items-center justify-between bg-white/5 border border-white/10 rounded-lg p-2 text-xs">
+                                        <div class="flex items-center justify-between bg-white/5 border border-white/10 rounded-lg p-1.5 sm:p-2 text-xs">
                                             <span class="font-mono font-bold tracking-widest text-[#FAF7F2]">
                                                 {{ page.props.settings?.bank_account_no || '563064123456' }}
                                             </span>
                                             <button 
                                                 type="button" 
                                                 @click="copyAccountNumber" 
-                                                class="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md transition-all cursor-pointer"
+                                                class="text-[8px] sm:text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md transition-all cursor-pointer"
                                                 :class="copySuccess ? 'bg-emerald-600 text-white' : 'bg-[#C5A880] text-[#2D3330] hover:bg-[#b89047]'"
                                             >
                                                 <i class="fas" :class="copySuccess ? 'fa-check' : 'fa-copy'"></i> {{ copySuccess ? 'Copied' : 'Copy' }}
@@ -893,8 +929,8 @@ function copyAccountNumber() {
                                 </div>
 
                                 <!-- File Upload Form -->
-                                <div class="flex flex-col justify-center space-y-4">
-                                    <label class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('upload_payment_slip') }}</label>
+                                <div class="flex flex-col justify-center space-y-3 sm:space-y-4">
+                                    <label class="text-[9px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest block">{{ t('upload_payment_slip') }}</label>
                                     
                                     <div 
                                         class="file-upload-area"
@@ -907,15 +943,15 @@ function copyAccountNumber() {
                                             class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                             required
                                         />
-                                        <div class="space-y-3 pointer-events-none">
-                                            <div class="w-12 h-12 bg-white rounded-full text-[#4A6B5D] flex items-center justify-center mx-auto text-lg border border-[#E6E1DA] shadow-2xs">
+                                        <div class="space-y-2 sm:space-y-3 pointer-events-none">
+                                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full text-[#4A6B5D] flex items-center justify-center mx-auto text-base sm:text-lg border border-[#E6E1DA] shadow-2xs">
                                                 <i class="fas fa-cloud-upload-alt"></i>
                                             </div>
-                                            <div class="space-y-1">
-                                                <span class="text-xs font-bold text-[#2D3330] block uppercase tracking-wide">
+                                            <div class="space-y-0.5 sm:space-y-1">
+                                                <span class="text-[11px] sm:text-xs font-bold text-[#2D3330] block uppercase tracking-wide">
                                                     {{ form.receipt ? form.receipt.name : t('select_receipt_file') }}
                                                 </span>
-                                                <span class="text-[9px] text-[#8C8275] uppercase tracking-wider block font-medium">
+                                                <span class="text-[8px] sm:text-[9px] text-[#8C8275] uppercase tracking-wider block font-medium">
                                                     {{ t('accepted_formats_desc') }}
                                                 </span>
                                             </div>
@@ -926,16 +962,16 @@ function copyAccountNumber() {
                                 </div>
                             </div>
 
-                            <div class="border-t border-[#E6E1DA] pt-6 flex flex-col sm:flex-row items-center gap-3">
+                            <div class="border-t border-[#E6E1DA] pt-4 sm:pt-6 flex flex-col sm:flex-row items-center gap-3">
                                 <Link 
                                     :href="route('cart.index')" 
-                                    class="w-full sm:flex-1 inline-flex items-center justify-center gap-2 bg-white hover:bg-rose-50 border border-rose-200 text-rose-600 font-semibold py-4 px-6 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer"
+                                    class="w-full sm:flex-1 inline-flex items-center justify-center gap-2 bg-white hover:bg-rose-50 border border-rose-200 text-rose-600 font-semibold py-2.5 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors cursor-pointer"
                                 >
-                                    <i class="fas fa-times text-[10px]"></i> {{ t('cancel') || 'Batal' }}
+                                    <i class="fas fa-times text-[9px] sm:text-[10px]"></i> {{ t('cancel') || 'Batal' }}
                                 </Link>
                                 <button 
                                     type="submit" 
-                                    class="btn-premium-primary w-full sm:flex-1 inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-4 px-6 rounded-xl text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
+                                    class="btn-premium-primary w-full sm:flex-1 inline-flex items-center justify-center gap-2 bg-[#4A6B5D] hover:bg-[#3D574B] text-white font-semibold py-2.5 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl text-[10px] sm:text-xs uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
                                     :disabled="form.processing"
                                 >
                                     <i class="fas fa-shield-alt text-[10px]"></i> {{ t('confirm_booking_submit') }}
