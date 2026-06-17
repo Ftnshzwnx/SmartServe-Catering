@@ -621,16 +621,16 @@ onMounted(() => {
             <div class="max-w-7xl mx-auto px-4 sm:px-6">
                 
                 <!-- Gourmet Hero Banner Card -->
-                <div class="bg-[#2D3330] text-[#FAF7F2] rounded-lg sm:rounded-2xl p-3.5 sm:p-6 md:p-8 border border-[#E6E1DA] shadow-sm flex flex-col md:flex-row justify-between items-center gap-6 mb-4 sm:mb-8 overflow-hidden relative">
+                <div class="bg-[#2D3330] text-[#FAF7F2] rounded-lg sm:rounded-2xl px-3 py-2.5 sm:p-6 md:p-8 border border-[#E6E1DA] shadow-sm flex flex-row md:flex-row justify-between items-center gap-3 md:gap-6 mb-3 sm:mb-8 overflow-hidden relative">
                     <!-- Oatmeal blur decorative circle -->
                     <div class="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-white/5 blur-2xl"></div>
                     
-                    <div class="space-y-2.5 relative z-10 max-w-2xl">
-                        <span class="text-[9px] sm:text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#FAF9F6]/20 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full uppercase tracking-widest inline-block select-none">{{ t('budget_planner') }}</span>
-                        <h3 class="text-base sm:text-xl md:text-3xl lg:text-4xl font-light font-serif-luxury tracking-wide">
+                    <div class="space-y-1 sm:space-y-2.5 relative z-10 max-w-2xl">
+                        <span class="text-[7px] sm:text-[10px] font-bold text-[#4A6B5D] bg-[#FAF9F6] border border-[#FAF9F6]/20 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full uppercase tracking-widest inline-block select-none">{{ t('budget_planner') }}</span>
+                        <h3 class="text-sm sm:text-xl md:text-3xl lg:text-4xl font-light font-serif-luxury tracking-wide">
                             {{ t('live_estimate') }}
                         </h3>
-                        <p class="text-[10px] sm:text-xs text-[#E6E1DA]/80 font-light leading-relaxed">
+                        <p class="hidden sm:block text-xs text-[#E6E1DA]/80 font-light leading-relaxed">
                             {{ t('budget_planner_desc') }}
                         </p>
                     </div>
@@ -642,19 +642,19 @@ onMounted(() => {
                 </div>
  
                 <!-- Custom Proposal Toggle Banner -->
-                <div class="bg-[#FAF9F6] border border-[#E6E1DA] rounded-lg sm:rounded-2xl p-2.5 sm:p-4 flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-                    <div class="space-y-1 w-full sm:w-auto">
-                        <h4 class="font-serif-luxury text-sm sm:text-xl font-normal text-[#2D3330]">
+                <div class="bg-[#FAF9F6] border border-[#E6E1DA] rounded-lg sm:rounded-2xl px-2.5 py-2 sm:p-4 flex flex-row justify-between items-center gap-3 mb-4 sm:mb-6">
+                    <div class="space-y-0.5 sm:space-y-1 min-w-0">
+                        <h4 class="font-serif-luxury text-xs sm:text-xl font-normal text-[#2D3330] leading-tight">
                             {{ t('prefer_custom_budget') }}
                         </h4>
-                        <p class="text-[10px] sm:text-xs text-[#8C8275] font-light">
+                        <p class="hidden sm:block text-xs text-[#8C8275] font-light">
                             {{ t('prefer_custom_budget_desc') }}
                         </p>
                     </div>
                     <button 
                         type="button"
                         @click="showCustomForm = !showCustomForm"
-                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-4 py-2 rounded-lg text-[10px] sm:text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer w-full sm:w-auto text-center"
+                        class="bg-[#4A6B5D] hover:bg-[#3D574B] text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-[9px] sm:text-xs uppercase tracking-wider font-semibold transition-colors cursor-pointer shrink-0 text-center whitespace-nowrap"
                     >
                         {{ showCustomForm ? t('back_to_budget_calc') : t('request_custom_proposal_btn') }}
                     </button>
@@ -967,10 +967,10 @@ onMounted(() => {
                             </button>
                         </div>
 
-                        <h3 class="font-serif-luxury text-base sm:text-2xl text-[#2D3330] font-normal uppercase tracking-wide">
+                        <h3 class="font-serif-luxury text-xs sm:text-2xl text-[#2D3330] font-normal uppercase tracking-wide">
                             {{ t('request_custom_proposal_title') }}
                         </h3>
-                        <p class="text-xs text-[#8C8275] font-light mt-1">
+                        <p class="hidden sm:block text-xs text-[#8C8275] font-light mt-1">
                             {{ t('request_custom_proposal_subtitle') }}
                         </p>
                     </div>
