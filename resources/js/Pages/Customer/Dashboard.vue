@@ -747,30 +747,30 @@ function getTranslatedStatus(status) {
                     </div>
 
                     <!-- Right: Catering Guidelines FAQ (Takes 1 column on desktop) -->
-                    <div class="lg:col-span-1 bg-white rounded-lg sm:rounded-xl p-3.5 sm:p-5 border border-[#E6E1DA] shadow-sm flex flex-col justify-between">
+                    <div class="lg:col-span-1 bg-white rounded-lg sm:rounded-xl p-2.5 sm:p-5 border border-[#E6E1DA] shadow-sm flex flex-col justify-between">
                         <div>
-                            <div class="flex items-center gap-3 border-b border-[#FAF6F0] pb-4 mb-4">
-                                <div class="w-10 h-10 rounded-xl bg-[#FAF6F0] text-[#8C8275] flex items-center justify-center text-lg border border-[#E6E1DA] shrink-0">
+                            <div class="flex items-center gap-2 sm:gap-3 border-b border-[#FAF6F0] pb-2 sm:pb-4 mb-2.5 sm:mb-4">
+                                <div class="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#FAF6F0] text-[#8C8275] flex items-center justify-center text-xs sm:text-lg border border-[#E6E1DA] shrink-0">
                                     <i class="fas fa-lightbulb text-[#4A6B5D]"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-normal text-[#2D3330] text-sm sm:text-base font-serif-luxury tracking-wide">{{ t('catering_guidelines') }}</h4>
-                                    <p class="text-[9px] text-[#8C8275] uppercase tracking-widest font-semibold">SmartServe Catering</p>
+                                    <h4 class="font-normal text-[#2D3330] text-[11px] sm:text-base font-serif-luxury tracking-wide">{{ t('catering_guidelines') }}</h4>
+                                    <p class="text-[7.5px] sm:text-[9px] text-[#8C8275] uppercase tracking-widest font-semibold">SmartServe Catering</p>
                                 </div>
                             </div>
 
-                            <div class="space-y-4 text-xs text-[#2D3330] font-light leading-relaxed">
-                                <div class="space-y-1">
-                                    <h5 class="font-bold text-[#2D3330] text-xs uppercase tracking-wider">{{ t('guide_pax_title') }}</h5>
-                                    <p class="text-[#5C6460]">{{ t('guide_pax_desc') }}</p>
+                            <div class="space-y-2.5 sm:space-y-4 text-[9px] sm:text-xs text-[#2D3330] font-light leading-relaxed">
+                                <div class="space-y-0.5 sm:space-y-1">
+                                    <h5 class="font-bold text-[#2D3330] text-[9.5px] sm:text-xs uppercase tracking-wider">{{ t('guide_pax_title') }}</h5>
+                                    <p class="text-[#5C6460] text-[9px] sm:text-xs">{{ t('guide_pax_desc') }}</p>
                                 </div>
-                                <div class="space-y-1 border-t border-[#FAF6F0] pt-4">
-                                    <h5 class="font-bold text-[#2D3330] text-xs uppercase tracking-wider">{{ t('guide_halal_title') }}</h5>
-                                    <p class="text-[#5C6460]">{{ t('guide_halal_desc') }}</p>
+                                <div class="space-y-0.5 sm:space-y-1 border-t border-[#FAF6F0] pt-2 sm:pt-4">
+                                    <h5 class="font-bold text-[#2D3330] text-[9.5px] sm:text-xs uppercase tracking-wider">{{ t('guide_halal_title') }}</h5>
+                                    <p class="text-[#5C6460] text-[9px] sm:text-xs">{{ t('guide_halal_desc') }}</p>
                                 </div>
-                                <div class="space-y-1 border-t border-[#FAF6F0] pt-4">
-                                    <h5 class="font-bold text-[#2D3330] text-xs uppercase tracking-wider">{{ t('guide_changes_title') }}</h5>
-                                    <p class="text-[#5C6460]">{{ t('guide_changes_desc') }}</p>
+                                <div class="space-y-0.5 sm:space-y-1 border-t border-[#FAF6F0] pt-2 sm:pt-4">
+                                    <h5 class="font-bold text-[#2D3330] text-[9.5px] sm:text-xs uppercase tracking-wider">{{ t('guide_changes_title') }}</h5>
+                                    <p class="text-[#5C6460] text-[9px] sm:text-xs">{{ t('guide_changes_desc') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -778,54 +778,54 @@ function getTranslatedStatus(status) {
                 </div>
 
                 <!-- Recent Bookings Widget -->
-                <div class="bg-white rounded-lg sm:rounded-2xl p-3 sm:p-5 lg:p-6 border border-[#E6E1DA] shadow-sm space-y-6">
-                    <div class="flex items-center justify-between border-b border-[#FAF6F0] pb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-lg">
+                <div class="bg-white rounded-lg sm:rounded-2xl p-2.5 sm:p-5 lg:p-6 border border-[#E6E1DA] shadow-sm space-y-3 sm:space-y-6">
+                    <div class="flex items-center justify-between border-b border-[#FAF6F0] pb-2 sm:pb-4">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <div class="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#EBEFEF] text-[#4A6B5D] flex items-center justify-center text-xs sm:text-lg shrink-0">
                                 <i class="fas fa-history"></i>
                             </div>
                             <div>
-                                <h4 class="font-normal text-[#2D3330] text-lg font-serif-luxury tracking-wide">{{ t('recent_bookings') }}</h4>
-                                <p class="text-[9px] text-[#8C8275] uppercase tracking-widest font-semibold">{{ t('my_orders_desc') }}</p>
+                                <h4 class="font-normal text-[#2D3330] text-[11px] sm:text-lg font-serif-luxury tracking-wide">{{ t('recent_bookings') }}</h4>
+                                <p class="text-[7.5px] sm:text-[9px] text-[#8C8275] uppercase tracking-widest font-semibold max-w-[170px] xs:max-w-[220px] sm:max-w-none leading-tight">{{ t('my_orders_desc') }}</p>
                             </div>
                         </div>
                         <Link 
                             :href="route('orders.index')"
-                            class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#4A6B5D] hover:text-[#3D574B] flex items-center gap-0.5 font-sans-modern"
+                            class="text-[8px] sm:text-xs font-bold uppercase tracking-wider text-[#4A6B5D] hover:text-[#3D574B] flex items-center gap-0.5 font-sans-modern shrink-0"
                         >
-                            {{ t('track_orders') }} <i class="fas fa-chevron-right text-[10px]"></i>
+                            {{ t('track_orders') }} <i class="fas fa-chevron-right text-[7px] sm:text-[10px]"></i>
                         </Link>
                     </div>
 
                     <div v-if="recentOrders.length > 0" class="overflow-x-auto">
-                        <table class="w-full text-left text-xs text-[#2D3330] font-sans-modern">
+                        <table class="w-full text-left text-[8.5px] sm:text-xs text-[#2D3330] font-sans-modern">
                             <thead>
-                                <tr class="text-[10px] font-bold text-[#8C8275] uppercase tracking-widest border-b border-[#FAF6F0]">
-                                    <th class="py-3 px-2">{{ t('order_id') }}</th>
-                                    <th class="py-3 px-2">{{ t('package_name') }}</th>
-                                    <th class="py-3 px-2">{{ t('event_date') }}</th>
-                                    <th class="py-3 px-2">{{ t('grand_total_label') }}</th>
-                                    <th class="py-3 px-2">{{ t('status_label') }}</th>
-                                    <th class="py-3 px-2 text-right"></th>
+                                <tr class="text-[7.5px] sm:text-[10px] font-bold text-[#8C8275] uppercase tracking-widest border-b border-[#FAF6F0]">
+                                    <th class="py-2 px-1 sm:py-3 sm:px-2">{{ t('order_id') }}</th>
+                                    <th class="py-2 px-1 sm:py-3 sm:px-2">{{ t('package_name') }}</th>
+                                    <th class="py-2 px-1 sm:py-3 sm:px-2">{{ t('event_date') }}</th>
+                                    <th class="py-2 px-1 sm:py-3 sm:px-2">{{ t('grand_total_label') }}</th>
+                                    <th class="py-2 px-1 sm:py-3 sm:px-2">{{ t('status_label') }}</th>
+                                    <th class="py-2 px-1 sm:py-3 sm:px-2 text-right"></th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-[#FAF6F0]">
                                 <tr v-for="order in recentOrders" :key="order.id" class="hover:bg-[#FAF7F2]/50 transition-colors">
-                                    <td class="py-4 px-2 font-semibold font-serif-luxury text-xs sm:text-sm">#{{ order.id }}</td>
-                                    <td class="py-4 px-2 font-medium">{{ order.package_name }}</td>
-                                    <td class="py-4 px-2 text-[#5C6460]">
-                                        <i class="far fa-calendar mr-1 text-[#4A6B5D]"></i> {{ order.delivery_date }}
+                                    <td class="py-2 px-1 sm:py-4 sm:px-2 font-semibold font-serif-luxury text-[9px] sm:text-sm">#{{ order.id }}</td>
+                                    <td class="py-2 px-1 sm:py-4 sm:px-2 font-medium">{{ order.package_name }}</td>
+                                    <td class="py-2 px-1 sm:py-4 sm:px-2 text-[#5C6460] whitespace-nowrap">
+                                        <i class="far fa-calendar mr-0.5 text-[#4A6B5D]"></i> {{ order.delivery_date }}
                                     </td>
-                                    <td class="py-4 px-2 font-semibold text-[#4A6B5D]">RM {{ parseFloat(order.total_price).toFixed(2) }}</td>
-                                    <td class="py-4 px-2">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 text-[9px] font-semibold border rounded-full uppercase tracking-wider whitespace-nowrap" :class="getStatusBadge(order.status)">
+                                    <td class="py-2 px-1 sm:py-4 sm:px-2 font-semibold text-[#4A6B5D] whitespace-nowrap">RM {{ parseFloat(order.total_price).toFixed(2) }}</td>
+                                    <td class="py-2 px-1 sm:py-4 sm:px-2">
+                                        <span class="inline-flex items-center px-1 py-0.5 sm:px-2.5 sm:py-0.5 text-[6.5px] sm:text-[9px] font-semibold border rounded-full uppercase tracking-wider whitespace-nowrap" :class="getStatusBadge(order.status)">
                                             {{ getTranslatedStatus(order.status) }}
                                         </span>
                                     </td>
-                                    <td class="py-4 px-2 text-right">
+                                    <td class="py-2 px-1 sm:py-4 sm:px-2 text-right">
                                         <Link 
                                             :href="route('orders.show', { id: order.id })"
-                                            class="inline-flex items-center gap-1 border border-[#E6E1DA] hover:border-[#4A6B5D] hover:bg-[#EBEFEF]/30 px-2.5 py-1 rounded-md text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#5C6460] hover:text-[#4A6B5D] transition-all cursor-pointer"
+                                            class="inline-flex items-center gap-0.5 border border-[#E6E1DA] hover:border-[#4A6B5D] hover:bg-[#EBEFEF]/30 px-1 py-0.5 rounded-xs sm:px-2.5 sm:py-1 sm:rounded-md text-[7.5px] sm:text-[10px] font-bold uppercase tracking-wider text-[#5C6460] hover:text-[#4A6B5D] transition-all cursor-pointer whitespace-nowrap"
                                         >
                                             {{ t('view_details') }}
                                         </Link>
