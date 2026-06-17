@@ -249,20 +249,20 @@ const getDishIcon = (dishName) => {
                     </div>
                 </div>
  
-                <div v-if="variations.length > 0" class="grid grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-6 lg:gap-10">
+                <div v-if="variations.length > 0" class="flex flex-col gap-3 sm:gap-6 lg:gap-10">
                     <!-- Package Card -->
                     <div 
                         v-for="pkg in variations" 
                         :key="pkg.id || pkg.package_id"
                         class="bg-white p-2.5 sm:p-5 md:p-6 rounded-lg sm:rounded-2xl border border-[#E6E1DA] shadow-sm package-card flex flex-col"
                     >
-                        <!-- Mobile: stacked layout | lg: side-by-side 12-col grid -->
-                        <div class="flex flex-col lg:grid lg:grid-cols-12 gap-3 sm:gap-6 lg:gap-8 items-start flex-grow">
+                        <!-- Mobile: 2-col side-by-side | lg: 12-col grid -->
+                        <div class="grid grid-cols-2 lg:grid-cols-12 gap-2 sm:gap-6 lg:gap-8 items-start flex-grow">
                             
                             <!-- Left Info Section -->
-                            <div class="lg:col-span-7 space-y-2.5 sm:space-y-6">
+                            <div class="col-span-1 lg:col-span-7 space-y-2 sm:space-y-6 min-w-0">
                                 <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:flex-wrap sm:gap-4">
-                                    <h3 class="text-[10px] sm:text-xl md:text-2xl font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide leading-tight">
+                                    <h3 class="text-[10px] sm:text-xl md:text-2xl font-normal text-[#2D3330] font-serif-luxury uppercase tracking-wide leading-tight break-words">
                                         {{ pkg.package_name }}
                                     </h3>
                                     <!-- Price Badge -->
@@ -326,7 +326,7 @@ const getDishIcon = (dishName) => {
                             </div>
  
                             <!-- Right Calculator Section -->
-                            <div class="lg:col-span-5 bg-[#FAF8F5] p-2 sm:p-5 rounded-md sm:rounded-xl border border-[#E6E1DA] flex flex-col justify-between gap-2 sm:gap-5 shadow-xs">
+                            <div class="col-span-1 lg:col-span-5 bg-[#FAF8F5] p-2 sm:p-5 rounded-md sm:rounded-xl border border-[#E6E1DA] flex flex-col justify-between gap-2 sm:gap-5 shadow-xs">
                                 <div class="space-y-2 sm:space-y-5">
                                     <!-- Min req (hidden on mobile, shown above) -->
                                     <div class="hidden sm:flex items-center justify-between text-xs tracking-wide">
@@ -387,9 +387,9 @@ const getDishIcon = (dishName) => {
                                      </div>
  
                                      <!-- Live Total (compact on mobile) -->
-                                     <div class="bg-[#FAF7F2] p-2 sm:p-4 rounded-md sm:rounded-xl border border-[#E6E1DA] flex items-center justify-between shadow-2xs">
-                                         <span class="text-[8px] sm:text-xs font-bold text-[#4A6B5D] uppercase tracking-wider">{{ t('live_total') }}:</span>
-                                         <span class="text-sm sm:text-2xl font-normal text-[#4A6B5D] font-serif-luxury tracking-wide">
+                                     <div class="bg-[#FAF7F2] p-1.5 sm:p-4 rounded-md sm:rounded-xl border border-[#E6E1DA] flex flex-col sm:flex-row items-start sm:items-center justify-between shadow-2xs gap-0.5 sm:gap-0">
+                                         <span class="text-[7px] sm:text-xs font-bold text-[#4A6B5D] uppercase tracking-wider">{{ t('live_total') }}:</span>
+                                         <span class="text-[10px] sm:text-2xl font-normal text-[#4A6B5D] font-serif-luxury tracking-wide">
                                              RM {{ calculateTotal(pkg.price, quantities[pkg.id || pkg.package_id]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
                                          </span>
                                      </div>
